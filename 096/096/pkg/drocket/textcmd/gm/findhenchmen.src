@@ -1,0 +1,29 @@
+use uo;
+use os;
+
+program restart_AI (character, text)
+	var searchserial := CINT (text);
+	if (!searchserial)
+		SendSysMessage (character, "You must provide a serial number to search for.");
+		return;
+	endif
+
+	var number_found := 0;
+	var xmid, ymid;
+
+	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
+		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+				if (GetObjProperty (item, "master"))
+					if (GetObjProperty (item, "master") == searchserial)
+						number_found := number_found + 1;
+						SendSysMessage (character, "Found one at X=" + item.x + ", Y=" + item.y);
+					endif
+				endif
+			endforeach
+		endfor
+		sleepms (100);
+	endfor
+	SendSysMessage (character, "Done. Found " + number_found);
+
+endprogram

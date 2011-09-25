@@ -1,0 +1,25 @@
+use uo;
+use os;
+
+include "include/accounts";
+
+program guess_shadowpack_hides (character, text)
+	text := CINT (text);
+	if (!text)
+		SendSysMessage (character, "Use this dot command to guess the number of Shadowpack");
+		SendSysMessage (character, "hides turned in during the quest (the closest number without");
+		SendSysMessage (character, "going over wins.)");
+		SendSysMessage (character, "Usage:  '.guess (your guess)'");
+		return;
+	endif
+
+	SetAccountProperty (character.acctname, "shadowpack_guess", text);
+	var confirm_guess := GetAccountProperty (character.acctname, "shadowpack_guess");
+	if (!confirm_guess or confirm_guess != text)
+		SendSysMessage (character, "Error saving guess.  Try again, and please report this error.");
+		return;
+	endif
+	
+	SendSysMessage (character, "Your guess of " + text + " has been recorded.  Good luck!");
+	
+endprogram

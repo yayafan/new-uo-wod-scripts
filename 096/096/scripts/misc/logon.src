@@ -1,0 +1,338 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/clock";
+include "include/wodinc";
+include "include/accounts";
+include "../pkg/npcs/npc_util";
+include "../pkg/world/weather/weather";
+include "../pkg/character/virtue/virtue";
+
+program logon (character)
+	if (GetAccountProperty (character.acctname, "lbr_enabled"))
+		SendPacket (character, "B90003");
+	endif
+
+//	if (!GetObjProperty (character, "#testlagfix"))
+//		//some really icky packet stuff - change to yellow cursor, then to summer
+//		SendPacket(character, "BF0006000801");
+		SendPacket (character, "BC0101");
+		character.setlightlevel (0, 0);
+
+		//Now we have to move them to reset the items around them
+		if (GetObjProperty (character, "sailto"))
+			FinishSailing (character);
+//		else
+//			var oldx := character.x;
+//			var oldy := character.y;
+//			var oldz := character.z;
+//			MoveCharacterToLocation (character, 0, 0, 0, MOVECHAR_FORCELOCATION);
+//			MoveCharacterToLocation (character, oldx, oldy, oldz, MOVECHAR_FORCELOCATION);
+		endif
+//	else
+//		FinishSailing (character);
+//	endif
+
+	unclone (character);
+
+	SendSysMessage (character, "Welcome to the World of Dreams!");
+	SetObjProperty (character, "logontime", ReadGameClock() );
+
+	if (GetObjProperty (character, "follower_moved_to_inn"))
+		SendSysMessage (character, "Your pets and/or henchmen have been moved to the nearby inn");
+		EraseObjProperty (character, "follower_moved_to_inn");
+	endif
+
+	var humuc := GetObjProperty (character, "humuc");
+	if (humuc)
+		humuc := SystemFindObjectBySerial (humuc);
+		if (humuc) 
+			humuc.hidden := 0;
+			humuc.frozen := 0;
+			RestartScript (humuc);
+		else
+			EraseObjProperty (character, "humuc");
+		endif
+	endif
+
+	var NextPossibleVirtueLoss := GetObjProperty (character, "NextPossibleVirtueLoss");
+	if (!NextPossibleVirtueLoss or NextPossibleVirtueLoss < ReadGameClock() )
+		var amt := cint(GetVirtueAmount(character)/1000);
+		if (amt > 0)
+			AddVirtue(character, 0-amt, 1);
+			BonusHonor(character, amt);
+		elseif (amt < 0)
+			AddVirtue(character, amt, 1);
+		endif
+		SetObjProperty (character, "NextPossibleVirtueLoss", ReadGameClock()+86400);
+	endif
+
+	var acct := character.acct;
+	acct.SetProp ("lastlogon", ReadGameClock() );
+
+	//Players with less than 40 hours of playtime get a 'young' tag
+	var total_time := GetAccountProperty (character.acctname, "online_time");
+	if (!total_time)
+		total_time := 0;
+	endif
+
+	if (total_time < CINT (40*60*60) )
+		if (!character.cmdlevel)
+			character.title_guild := "young";
+		endif
+	elseif (character.title_guild == "young")
+		character.title_guild := "";
+		acct.EraseProp ("young");
+	endif
+
+	//Save the players IP address and logon time
+	RecordPlayerLogin (character);
+	SetWeatherForPlayer (character);
+	SetObjProperty (character, "#logon_noskillwin", 1);
+endprogram
+
+
+
+
+///////////////////
+//  Finds the player's NPC clone, if they have one, and kills it
+///////////////////
+
+function unclone(who)
+
+	set_critical(1);
+	var npc;
+	if ( getobjproperty(who,"clone") )
+		npc := SystemFindObjectBySerial(getobjproperty(who,"clone"));
+		if (npc)
+			KilLNPC (npc);
+		endif
+		EraseObjProperty(who,"clone");
+	endif
+	set_critical(0);
+
+endfunction
+
+
+
+
+///////////////////
+//  If the player logged off while sailing somewhere, take them to their destination
+///////////////////
+
+function FinishSailing (who)
+	if (getobjproperty (who, "sailto"))
+		var sailto := getobjproperty (who, "sailto");
+		MoveCharacterToLocation (who, sailto[1], sailto[2], sailto[3], MOVECHAR_FORCELOCATION);
+		EraseObjProperty (who, "sailto");
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  Records the player's last 10 logins and their associated IP addresses
+///////////////////
+
+function RecordPlayerLogin (character)
+	var logon_record := GetAccountProperty (character.acctname, "logon_record");
+	if (!logon_record)
+		logon_record := dictionary;
+	endif
+
+	//only record the last 10
+	var logon_keys := logon_record.keys();
+	if (logon_keys.size())
+		if (logon_keys.size() > 10)
+			logon_record.erase (logon_keys[1]);
+		endif
+	endif
+	
+	var newlogon := {};
+	newlogon[1] := Systime_GetReadableTimeString();
+	newlogon[2] := character.ip;
+	newlogon[3] := character.name;
+	
+	logon_record.insert (ReadGameClock(), newlogon);
+	SetAccountProperty (character.acctname, "logon_record", logon_record);
+endfunction
+
+
+
+
+function MakeChristmasGift (character)
+	if (GetAccountProperty (character.acctname, "christmas_present_2003"))
+		return;
+	endif
+
+	var bankbox := FindBankBox (character.acctname);
+	if (!bankbox)
+		Syslog ("Error finding bankbox of " + character.acctname);
+		return;
+	endif
+
+	var gift1 := CreateItemInContainer (bankbox, 0xB010, 1);
+	if (!gift1)
+		return 0;
+	endif
+	
+	gift1.graphic := 10290;
+	gift1.color := 272;
+	gift1.name := "A Christmas Gift";
+	gift1.usescript := ":giftwrapper:christmasgift";
+	gift1.movable := 0;
+	
+	var gift2 := CreateItemInContainer (bankbox, 0xB010, 1);
+	if (!gift1)
+		Syslog ("Christmas Error! player " + character.acctname + " did not get their second gift");
+	endif
+	gift2.graphic := 10294;
+	gift2.color := 38;
+	gift2.name := "A Christmas Gift";
+	gift2.usescript := ":giftwrapper:christmasgift";
+	gift2.movable := 0;
+	SetAccountProperty (character.acctname, "christmas_present_2003", 1);
+
+	SendSysMessage (character, "Merry Christmas!");
+	return;
+endfunction
+
+
+
+
+
+///////////////////
+//  For easter.  Its easier to leave it here than remake it every year...
+///////////////////
+
+function MakeEasterBasket (character)
+	if (GetAccountProperty (character.acctname, "easter_present_2004"))
+		return;
+	endif
+
+	var basket := CreateItemInContainer (character.backpack, 0x990, 1);
+	if (!basket)
+		SendSysMessage (character, "Error creating basket!");
+		return;
+	endif
+	
+	basket.graphic := 5344;
+	basket.name := "an Easter basket";
+	case (RandomInt (4))
+		0:
+			basket.color := 1419;
+		1:
+			basket.color := 1328;
+		2:
+			basket.color := 1650;
+		default:
+			basket.color := 621;
+	endcase
+	
+	var item := CreateItemInContainer (basket, 0x285a, 1);
+	MoveItemToContainer (item, basket, 67, 85);
+
+	//all the items have to be created first, otherwise crappy autostack stuff happens
+	var items := {};
+	for i := 1 to 14
+		items[i] := CreateItemInContainer (basket, 0xc951, 1);
+	endfor
+
+	//now we change graphics and rename items
+	items[1].graphic := 3378;
+	items[1].color := 273;
+	items[1].name := "bubblegum Easter grass";
+	MoveItemToContainer (items[1], basket, 50, 85);
+	
+	items[2].graphic := 3378;
+	items[2].color := 273;
+	items[2].name := "bubblegum Easter grass";
+	MoveItemToContainer (items[2], basket, 75, 85);
+
+	items[3].graphic := 3873;
+	items[3].color := 0;
+	items[3].name := "a jellybean";
+	MoveItemToContainer (items[3], basket, 55, 90);
+	
+	items[4].graphic := 3881;
+	items[4].color := 0;
+	items[4].name := "a jellybean";
+	MoveItemToContainer (items[4], basket, 50, 85);
+
+	items[5].graphic := 3882;
+	items[5].color := 0;
+	items[5].name := "a jellybean";
+	MoveItemToContainer (items[5], basket, 50, 90);
+
+	items[6].graphic := 3883;
+	items[6].color := 0;
+	items[6].name := "a jellybean";
+	MoveItemToContainer (items[6], basket, 80, 88);
+
+	items[7].graphic := 3884;
+	items[7].color := 0;
+	items[7].name := "a jellybean";
+	MoveItemToContainer (items[7], basket, 70, 90);
+
+	items[8].graphic := 3886;
+	items[8].color := 0;
+	items[8].name := "a jellybean";
+	MoveItemToContainer (items[8], basket, 75, 84);
+	
+	items[9].graphic := 3887;
+	items[9].color := 0;
+	items[9].name := "a jellybean";
+	MoveItemToContainer (items[9], basket, 65, 85);
+	
+	items[10].graphic := 3874;
+	items[10].color := 0;
+	items[10].name := "a jellybean";
+	MoveItemToContainer (items[10], basket, 65, 85);
+
+	items[11].graphic := 8474;
+	items[11].color := 53;
+	items[11].name := "a marshmallow peep";
+	MoveItemToContainer (items[11], basket, 80, 88);
+	
+	items[12].graphic := 8474;
+	items[12].color := 53;
+	items[12].name := "a marshmallow peep";
+	MoveItemToContainer (items[12], basket, 50, 90);
+
+	MoveItemToContainer (items[13], basket, 63, 85);
+	MoveItemToContainer (items[14], basket, 70, 95);
+
+	SetAccountProperty (character.acctname, "easter_present_2004", 1);
+endfunction
+
+
+
+
+///////////////////
+//  For easter
+///////////////////
+
+function MakeChristmasTreeDeed (character)
+	if (GetAccountProperty (character.acctname, "christmas_tree_deed_2003"))
+		return;
+	endif
+
+	var deed := CreateItemInContainer (character.backpack, 0xB010, 1);
+	if (!deed)
+		SendSysMessage (character, "Error creating Christmas Tree deed!");
+		SendSysMessage (character, "(Your backpack is probably full)");
+		return;
+	endif
+
+	SetAccountProperty (character.acctname, "christmas_tree_deed_2003", 1);
+endfunction
+
+
+
+
+
+
+

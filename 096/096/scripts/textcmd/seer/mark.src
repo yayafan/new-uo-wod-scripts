@@ -1,0 +1,28 @@
+use os;
+use uo;
+
+include "include/client";
+include "include/objtype";
+
+program make_a_tele( seer )
+
+	SendSysmessage( seer, "Select a rune to mark" );
+
+	var rune := Target( seer, TGTOPT_NOCHECK_LOS );
+	if (!rune)
+		SendSysmessage (seer, "Canceled.");
+		return;
+	endif
+	if (rune.objtype != UOBJ_RECALL_RUNE)
+		SendSysmessage(seer, "You can only use this on a rune!");
+		return;
+	endif
+
+	SetObjProperty( rune, "x", seer.x );
+	SetObjProperty( rune, "y", seer.y );
+	SetObjProperty( rune, "z", seer.z );
+	rune.newbie := 1;
+
+	SendSysmessage(seer, "Marked and newbiedied!");
+
+endprogram

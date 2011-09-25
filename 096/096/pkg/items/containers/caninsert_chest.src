@@ -1,0 +1,27 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/objtype";
+include "include/utility";
+include "../pkg/items/housing/house";
+
+program caninsert_chest (character, container, movetype, inserttype, item, existing_stack, amt_to_add)
+	if (movetype != MOVETYPE_PLAYER)
+		return 1;
+	endif
+
+	if (container.locked)
+		if (!GetObjProperty (container, "lostandfound"))
+			if (!GetObjProperty (container, "secured"))
+				PrintTextAbovePrivate (container, "*Locked!*", character);
+				return 0;
+			endif
+		endif
+	elseif (GetObjProperty (container, "displaycontainer"))
+		return 0;
+	endif
+
+	return 1;
+endprogram
