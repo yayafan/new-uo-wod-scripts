@@ -308,6 +308,7 @@ function ChangeHouseSign (character, sign)
 	AddMenuItem (itemmenu, 0x0c09, "sign");
 	AddMenuItem (itemmenu, 0x0c0b, "sign");
 	AddMenuItem (itemmenu, 0x0c0d, "sign");
+	AddMenuItem (itemmenu, 0x0c43, "sign");
 	var selection := SelectMenuItem2 (character, itemmenu);
 	if (!selection.objtype)
 		SendSysMessage (character, "Canceled.");
