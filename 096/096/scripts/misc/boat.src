@@ -1,5 +1,0 @@
-use os;
-
-program autostart_boat( param )
-	start_script( ":boat:boat", param );
-endprogram

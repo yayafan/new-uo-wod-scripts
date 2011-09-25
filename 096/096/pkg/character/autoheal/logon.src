@@ -1,8 +1,0 @@
-use os;
-use uo;
-
-program logon( who )
-
-	start_script( ":autoheal:autoheal", who );
-
-endprogram

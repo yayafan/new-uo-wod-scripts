@@ -1,2 +1,0 @@
-Type .prac to see how many skills you are currently practicing, and how much practice time is remaining.
-

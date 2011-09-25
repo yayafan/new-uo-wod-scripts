@@ -1,1 +1,0 @@
-Use .lastskill or setup a hotkey to "say .lastskill" to use the last skill that was invoked from the skillwindow.

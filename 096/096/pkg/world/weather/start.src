@@ -1,5 +1,0 @@
-use os;
-
-program weatherstart (who)
-	start_script (":weather:startweather");
-endprogram
