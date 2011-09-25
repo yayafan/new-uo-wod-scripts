@@ -1,0 +1,136 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+include "include/attributes";
+
+program use_blank_map (character, map)
+
+	var choice := SelectMenuItem2 (character, "Cartography");
+	if (!choice)
+		SendSysmessage (character, "Canceled.");
+		return;
+	endif
+	
+	var cart_skill := GetAttribute (character, ATTRIBUTEID_CARTOGRAPHY);
+	case (choice.index)
+		1:	if (cart_skill < 30)
+				SendSysMessage (character, "Your skill is not high enough to draw the map.");
+				return;
+			endif
+			if (CheckSkill (character, SKILLID_CARTOGRAPHY, 40, 0))
+				SendSysMessage (character, "You carefully scribe a detailed map and place it in your pack.");
+				MakeLocalMap (character);
+			else
+				SendSysMessage (character, "You are not familiar enough with the area to draw the map");
+			endif
+			SubtractAmount (map, 1);
+
+		2:	if (cart_skill < 50)
+				SendSysMessage (character, "Your skill is not high enough to draw the map.");
+				return;
+			endif
+			if (CheckSkill (character, SKILLID_CARTOGRAPHY, 60, 0))
+				SendSysMessage (character, "You carefully scribe a detailed map and place it in your pack.");
+				MakeRegionalMap (character);
+			else
+				SendSysMessage( character , "You are not familiar enough with the area to draw the map" );
+			endif
+			SubtractAmount (map, 1);
+
+		3:	if (cart_skill < 70)
+				SendSysMessage (character, "Your skill is not high enough to draw the map.");
+				return;
+			endif
+			if (CheckSkill (character, SKILLID_CARTOGRAPHY, 80, 0))
+				SendSysMessage (character, "You carefully scribe a detailed map and place it in your pack.");
+				MakeWorldMap (character);
+			else
+				SendSysMessage( character , "You are not familiar enough with the area to draw the map" );
+			endif
+			SubtractAmount (map, 1);
+
+		default:
+			SendSysmessage (character, "Whoops...");
+	endcase
+
+endprogram
+
+
+
+
+///////////////////
+//  makes a map of the local area
+///////////////////
+
+function MakeLocalMap (character)
+	var map := CreateItemInBackpack (character, UOBJ_MAP1);
+	map.name := "a completed local map";
+	if (character.x < 265)
+		map.xwest := 0;
+	else
+		map.xwest := character.x-265;
+	endif
+
+	if (character.y < 260)
+		map.ynorth := 0;
+	else
+		map.ynorth := character.y-260;
+	endif
+
+	map.xeast := character.x+265;
+	map.ysouth := character.y+260;
+
+	map.gumpwidth := 200;
+	map.gumpheight := 200;
+endfunction
+
+
+
+
+///////////////////
+//  makes a map of the region
+///////////////////
+
+function MakeRegionalMap (character)
+	var map := CreateItemInBackpack (character, UOBJ_MAP1);
+	map.name := "a completed regional map";
+	if (character.x < 850)
+		map.xwest := 0;
+	else
+		map.xwest := character.x-850;
+	endif
+
+	if (character.y < 800)
+		map.ynorth := 0;
+	else
+		map.ynorth := character.y-800;
+	endif
+
+	map.xeast := character.x+850;
+	map.ysouth := character.y+800;
+
+	map.gumpwidth := 400;
+	map.gumpheight := 300;
+endfunction
+
+
+
+
+///////////////////
+//  makes a map of the region
+///////////////////
+
+function MakeWorldMap (character)
+	var map := CreateItemInBackpack (character, UOBJ_MAP1);
+	map.name := "a completed world map";
+
+	map.xwest := 0;
+	map.ynorth := 0;
+	map.xeast := 5119;
+	map.ysouth := 4095;
+
+	map.gumpwidth := 500;
+	map.gumpheight := 400;
+endfunction

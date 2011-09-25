@@ -1,0 +1,45 @@
+use uo;
+use os;
+
+program SailToDestination(parms)
+
+	var you := parms[1];
+	var sailto := parms[2];
+
+	//sailto:
+	//[1] = x
+	//[2] = y
+	//[3] = z
+	//[4] = duration
+
+	MoveCharacterToLocation(you,5892, 3087, -2, MOVECHAR_FORCELOCATION);
+
+	for i := 1 to cint(sailto[4]);
+		sleep(2);
+		PlaySoundEffect(you,0x13);
+		sleep(2);
+		PlaySoundEffect(you,0x14);
+		if (!StillAboard(you) )
+			EraseObjProperty(you,"sailto");
+			return;
+		endif
+	endfor
+
+	sleep(3);
+
+	if ( StillAboard(you) )
+		MoveCharacterToLocation(you,sailto[1], sailto[2], sailto[3], MOVECHAR_FORCELOCATION);
+	endif
+	EraseObjProperty(you,"sailto");
+
+endprogram
+
+function StillAboard( me )
+
+	if ( (me.x >= 5885 and me.x <= 5895) and (me.y >= 3081 and me.y <= 3092 ) )
+		return 1;
+	else
+		return 0;
+	endif
+
+endfunction

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if ps -ef | grep pol | grep -v grep; then
+	echo "`date` : POL is running" >> /tmp/pol-status
+else 
+	echo "`date` : POL is down" >> /tmp/pol-status
+	sleep 120
+	rm -rf /tmp/window-status
+	cd /home/ultima/wod
+	./pol 2>&1 > /tmp/window-status
+fi

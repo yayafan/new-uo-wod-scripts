@@ -1,0 +1,9 @@
+use os;
+use uo;
+
+program caninsert_container (character, container, movetype, inserttype, item, existing_stack, amt_to_add)
+	if (container.locked)
+		return 0;
+	endif
+	return 1;
+endprogram

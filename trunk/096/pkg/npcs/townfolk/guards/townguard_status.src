@@ -1,0 +1,107 @@
+///////////////////
+//
+//  This script is called from the main townguard AI script when a player
+//  says 'status' to a guard.  It presents the player with a menu containing
+//  all the henchmen and pets that the player controls.  For a fee, the player
+//  can then have that NPC summoned to them.
+//
+///////////////////
+
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+
+CONST SUMMON_PRICE := 500;
+
+program townguard_status_command (parms)
+	var guard := parms [1];
+	var player := parms [2];
+	
+	if (!guard or !player)
+		return;
+	endif
+	
+	if (GetObjProperty (guard, "#searchpid"))
+		if (GetProcess (GetObjProperty (guard, "#searchpid")))
+			PrintTextAbovePrivate (guard, "I'm afraid I'm busy right now.", player);
+			return;
+		endif
+	endif
+	SetObjProperty (guard, "#searchpid", GetPID ());
+	
+	PrintTextAbovePrivate (guard, "One moment, please.", player);
+	var followers_found := {};
+
+	var xmid, ymid;
+	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
+		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+				if (GetObjProperty (item, "master"))
+					if (GetObjProperty (item, "master") == player.serial)
+						followers_found.append (item);
+					endif
+				endif
+			endforeach
+		endfor
+		sleepms (10);
+	endfor
+
+	if (!len (followers_found))
+		PrintTextAbovePrivate (guard, "I'm afraid I didn't find anyone.", player);
+		return;
+	endif	
+	
+	var followermenu := CreateMenu ("Summon a follower (" + SUMMON_PRICE + " gold)");
+	foreach follower in followers_found
+		var thestring := follower.name;
+		if (follower.script ["guard"])
+			thestring := thestring + " (Henchman)";
+		elseif (follower.script ["merchant"])
+			thestring := thestring + " (Merchant)";
+		elseif (follower.script ["humuc"])
+			thestring := thestring + " (Homunculus)";
+		else
+			thestring := thestring + " (Pet)";
+		endif
+
+		AddMenuItem (followermenu, 0, thestring);
+	endforeach
+	
+	var followerselect := SelectMenuItem2 (player, followermenu);
+	if (!followerselect)
+		PrintTextAbovePrivate (guard, "Ok, have a good day!", player);
+		return;
+	endif
+
+	if (!player.spendgold (SUMMON_PRICE))
+		PrintTextAbovePrivate (guard, "You don't have enough money!", player);
+		return;
+	endif
+	
+	var follower := followers_found [followerselect.index];
+	if (!follower)
+		PrintTextAbovePrivate (guard, "Oops, now where did he go?", player);
+		return;
+	endif
+
+	if (!MoveCharacterToLocation (follower, player.x - 1, player.y - 1, player.z, 0))
+		if (!MoveCharacterToLocation (follower, player.x + 1, player.y + 1, player.z, 0))
+			if (!MoveCharacterToLocation (follower, player.x, player.y, player.z, MOVECHAR_FORCELOCATION))
+				PrintTextAbovePrivate (guard, "Crap.  That's just not going to work!", player);
+				return;
+			endif
+		endif
+	endif
+
+	RestartScript (follower);
+	PrintTextAbovePrivate (guard, "There you go!", player);
+	return;
+	EraseObjProperty (guard, "#searchpid");
+endprogram
+
+
+
+
+

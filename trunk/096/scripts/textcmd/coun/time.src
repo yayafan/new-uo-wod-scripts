@@ -1,0 +1,10 @@
+use uo;
+
+Include "include/clock";
+
+program time (character)
+	SendSysMessage (character, "Gameclock: " + ReadGameClock());
+	SendSysMessage (character, "Server time: " + Systime_GetReadableTimeString ());
+	SendSysmessage (character, ("Time of Day: " + GetTimeofDay() ) );
+endprogram
+

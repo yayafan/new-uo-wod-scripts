@@ -1,0 +1,68 @@
+Tentative core development schedule
+
+Stuff to Fix
+============
+Linux version crashes
+container inside itself?
+Client linger problems
+walking in caves
+
+086
+=======
+    script access to dye window
+    Titles (pre,suff,guild)
+    Inherent Skills (see designdoc)
+
+087
+=======
+    Karma/Fame
+    Murder penalties (redname, murdercount)
+    Corpse Looter Flagging
+
+088
+=======
+    item moved event
+    boat navigation via maps
+    script access to map pins
+    books
+
+089
+=======
+    duplicate an item
+    Rework raw/base stat/skill curves
+    access to offline character information
+
+
+stuff to move up somewhere
+=========================
+    boats not getting close enough to shore
+    customizable number of characters per account
+    HP and mana regen rate access
+    customizable dyeable items
+    script access to tiledata.mul item flags
+    deletecharacter() function
+    Jailing/Banning (timed)
+
+
+design required
+===============
+    skill/stat caps & atrophy (tie in with specialization?)
+
+long-term
+=========
+    character name validation
+    regex functions
+    Pathfinding!
+
+ideas for polcore() data
+========================
+    max chars online
+    avg time online per player per day?
+    player-minutes
+
+ideas for Target() flags
+========================
+    items only
+    mobiles only
+      - I guess targetting the wrong kind would just cancel? or retarget?
+    landtile integration (so a GM-placed forge is the same as one in statics?)kage in pkg/combat/armor/

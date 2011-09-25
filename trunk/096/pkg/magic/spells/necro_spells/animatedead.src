@@ -1,0 +1,94 @@
+use uo;
+use os;
+use util;
+
+include "include/magic";
+var spell_circle := 2;
+
+program cast_raise_dead (parms)
+	var caster := GetSpellCaster (parms);
+	if (!caster)
+		return 0;
+	endif
+	if (!CheckSuccessfulSpellCast (parms))
+		return 0;
+	endif
+
+	var corpse := Target (caster);
+	if (!corpse)
+		SendSysMessage (caster, "Canceled.");
+		return 0;
+	endif
+
+	if (corpse.objtype != UOBJ_CORPSE)
+		SendSysMessage (caster, "You can only cast this spell on a corpse.");
+		return 0;
+	endif
+
+	if (!CheckSkill (caster, SKILLID_SPIRITSPEAK, -80, 0))
+		SendSysMessage (caster, "You fail to contact the nether realm");
+		return 0;
+	endif
+
+	var oldgraphic, oldscript, oldstr, AttackSpeed, AttackDamage, Tactics, Wrestling, AR;
+
+	if (GetObjProperty (corpse, "npctemplate"))
+		var oldtemplate := GetObjProperty (corpse, "npctemplate");
+		var oldtemplateelem := GetNpcTemplateElem(oldtemplate);
+		oldgraphic := oldtemplateelem.objtype;
+		if (oldgraphic == 400 or oldgraphic == 401)
+			oldgraphic := 3;
+		endif
+		oldstr := oldtemplateelem.STR;
+		AttackSpeed := oldtemplateelem.AttackSpeed;
+		AttackDamage := oldtemplateelem.AttackDamage;
+		AR := oldtemplateelem.AR;
+		Tactics := oldtemplateelem.Tactics;
+		Wrestling := oldtemplateelem.Wrestling;
+	endif
+
+	set_critical (1);
+	var summoned_creature := CreateNPCfromTemplate (":undead:zombie", corpse.x, corpse.y, corpse.z, 0);
+	if (!summoned_creature)
+		set_critical (0);
+		return;
+	endif
+	
+	summoned_creature.script := "::tamed";
+	summoned_creature.graphic := oldgraphic;
+	summoned_creature.color := 1805;
+	SetAttributeBaseValue (summoned_creature, "Strength", oldstr * 10);
+	RecalcVitals (summoned_creature);
+	
+	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics);
+	if (Wrestling)
+		SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_WRESTLING, Wrestling);
+	endif
+
+	SetVital (summoned_creature, "Life", GetVitalMaximumValue (summoned_creature, "Life"));
+	SetObjProperty (summoned_creature, "master", caster.serial);
+	PlaySoundEffect (caster, 0x022b);
+	SetObjProperty (summoned_creature, "summoned", 1);
+	SetObjProperty (summoned_creature, "freetime", ReadGameClock()+3800);
+	
+	if (oldscript["firebreather"])
+		SetObjProperty (summoned_creature, "firebreather", "1");
+	elseif (oldscript["poison"])
+		SetObjProperty (summoned_creature, "poison", "1");
+	elseif (oldscript["spellcaster"] or oldscript["healer"])
+		SetObjProperty (summoned_creature, "firebreather", "1");
+	endif
+	
+	if (oldscript["immobile"])
+		SetObjProperty (summoned_creature, "immobile", "1");
+	endif
+	
+	RestartScript (summoned_creature);
+
+	foreach item in ListRootItemsInContainer (corpse);
+		MoveItemToLocation( item, corpse.x, corpse.y, corpse.z, 0 );
+	endforeach
+	DestroyItem (corpse);
+	set_critical (0);
+	return 1;
+endprogram

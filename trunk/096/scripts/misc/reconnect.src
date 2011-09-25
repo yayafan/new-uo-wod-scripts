@@ -1,0 +1,52 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+include "include/wodinc";
+include "include/accounts";
+include "../pkg/npcs/npc_util";
+include "../pkg/world/weather/weather";
+include "../pkg/character/virtue/virtue";
+
+program reconnect (character)
+	if (GetAccountProperty (character.acctname, "lbr_enabled"))
+		SendPacket (character, "B90003");
+	endif
+
+//	if (!GetObjProperty (character, "#testlagfix"))
+//		//some really icky packet stuff - change to yellow cursor, then to summer
+//		SendPacket(character, "BF0006000801");
+		SendPacket (character, "BC0101");
+		character.setlightlevel (0, 0);
+//		
+//		//Now we have to move them to reset the items around them
+//		var oldx := character.x;
+//		var oldy := character.y;
+//		var oldz := character.z;
+//		MoveCharacterToLocation (character, 0, 0, 0, MOVECHAR_FORCELOCATION);
+//		MoveCharacterToLocation (character, oldx, oldy, oldz, MOVECHAR_FORCELOCATION);
+//	endif
+
+	unclone (character);
+	SendSysMessage (character, "Welcome back to the World of Dreams!" );
+	if (!character.concealed)
+		PrintTextAbove (character,"[ONLINE]");
+	endif
+	SetWeatherForPlayer (character);
+	SetObjProperty (character, "#logon_noskillwin", 1);
+endprogram
+
+function unclone(who)
+	set_critical(1);
+	var npc;
+	if ( getobjproperty(who,"clone") )
+		npc := SystemFindObjectBySerial(getobjproperty(who,"clone"));
+		if (npc)
+			KilLNPC (npc);
+		endif
+		EraseObjProperty(who,"clone");
+	endif
+	set_critical(0);
+
+endfunction
