@@ -1,0 +1,5 @@
+use os;
+
+start_script ("guardspawner");
+
+

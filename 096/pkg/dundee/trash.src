@@ -1,0 +1,46 @@
+use uo;
+use os;
+
+program trash(who, trashcan)
+	if (!ReserveItem(trashcan))
+		return;
+	endif
+
+	var trashitems := EnumerateItemsInContainer(trashcan);
+	if (len(trashitems))
+		if (len(trashitems) == 1 )
+			DoMsg(who,trashcan,"*One item trashed*", 0x226);
+		else
+			DoMsg(who,trashcan,"*"+len(trashitems)+" items trashed*", 0x226);
+		endif
+
+		foreach item in TrashItems
+			if (item)
+				if (item.container == trashcan)
+    					destroyitem (item);
+				endif
+			endif
+		endforeach
+	else
+		DoMsg(who,trashcan," This trash barrel is empty",0);
+	endif
+
+endprogram
+
+function DoMsg(who, what, msg, sound)
+	if (who.concealed or what.container)
+		if (msg)
+			PrintTextAbovePrivate(what, msg, who);
+		endif
+		if (sound)
+			PlaySoundEffectPrivate(who , sound, who );
+		endif
+	else
+		if (msg)
+			PrintTextAbove(what, msg);
+		endif
+		if (sound)
+			PlaySoundEffect(who , sound );
+		endif
+	endif
+endfunction

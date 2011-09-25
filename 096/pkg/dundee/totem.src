@@ -1,0 +1,71 @@
+use os;
+use uo;
+use cfgfile;
+
+include "include/client";
+include "include/objtype";
+include "include/utility";
+include "include/spawn";
+
+program totem (who, totem)
+	if (!ReserveItem (totem))
+		SendSysMessage (who, "You can't use this right now.");
+		return;
+	endif
+	
+	if (!totem.movable)
+		SendSysMessage (who, "You can't use this while its locked down!");
+		return;
+	endif
+
+	var npctemplate := GetObjProperty (totem, "critter");
+	if (!npctemplate)
+		SendSysMessage (who, "There's a problem with this totem.  Contact a GM.");
+		return;
+	endif
+
+	if (GetObjProperty (totem, "broken"))
+		SendSysMessage (who, "It seems to be broken.");
+		return;
+	endif
+
+	set_critical (1);
+		var it := SpawnNPCAtLocation (npctemplate, who.x - 1, who.y + 1, who.z);
+		if (!it)
+			it := SpawnNPCAtLocation (npctemplate, who.x + 1, who.y + 1, who.z);
+			if (!it)
+				SendSysMessage (who, "Error creating creature - try a different location.");
+				return;
+			endif
+		endif
+
+		SetObjProperty (it, "totem", totem.objtype );
+		SetObjProperty (it, "totemcolor", totem.color );
+		SetObjProperty (it, "master", who.serial );
+		
+		if (GetObjProperty (totem, "totemdeaths"))
+			SetObjProperty (it, "totemdeaths", GetObjProperty (totem, "totemdeaths"));
+		endif
+
+		if (GetObjProperty (totem, "ownerserial"))
+			SetObjProperty (it, "ownerserial", GetObjProperty (totem, "ownerserial"));
+			SetObjProperty (it, "ownername", GetObjProperty (totem, "ownername"));
+			SetObjProperty (it, "oldname", GetObjProperty (totem, "oldname"));
+		endif
+
+		it.setmaster (who);
+		it.script := "::tamed";
+		it.name := totem.name;
+		it.color := GetObjProperty (totem, "critcolor");
+  		it.graphic := GetObjProperty (totem, "critgraphic");
+		if ( GetObjProperty (totem, "totemhp"))
+			SetVital (it, "Life", CINT (GetObjProperty (totem, "totemhp") * 100));
+		endif
+
+		PlaySoundEffect (who, SFX_SPELL_DISPEL);
+		PlayStationaryEffect (it.x, it.y, it.z, FX_SMOKE, 0xA, 0xA );
+		DestroyItem (totem);
+		RestartScript (it);
+
+	set_critical (0);
+endprogram
