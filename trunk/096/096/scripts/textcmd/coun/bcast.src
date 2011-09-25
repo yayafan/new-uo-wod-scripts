@@ -1,5 +1,0 @@
-use uo;
-
-program textcmd_bcast (character, text)
-    Broadcast (character.name + ":" + text);
-endprogram

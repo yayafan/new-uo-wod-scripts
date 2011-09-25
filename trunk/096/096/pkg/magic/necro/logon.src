@@ -1,6 +1,0 @@
-use uo;
-use os;
-
-program login (character)
-	EraseObjProperty (character, "#necrobookopen");
-endprogram

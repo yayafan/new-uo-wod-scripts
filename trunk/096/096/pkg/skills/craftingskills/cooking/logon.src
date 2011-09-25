@@ -1,6 +1,0 @@
-use os;
-use uo;
-
-program logon ( who )
-	start_script( ":cooking:hunger", who );
-endprogram

@@ -1,8 +1,0 @@
-use uo;
-use os;
-
-program ChangeHouseOwner (who, title)
-
-	SendSysmessage (who, "You must demolish the house in order to change owners");
-
-endprogram

@@ -1,9 +1,0 @@
-use npc;
-use uo;
-
-include "../pkg/npcs/npc_util";
-
-program missingai ()
-	var me := self();
-	KillNPC (me);
-endprogram
