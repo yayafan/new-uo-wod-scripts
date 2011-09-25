@@ -192,12 +192,14 @@ function ChangeArcheryAmmo (character, thebow)
 	
 	case (thebow.objtype)
 		0x13B2:
+		0x26C2:
 			if (!(theammo.objtype in valid_arrows))
 				SendSysMessage (character, "Bows need arrows for ammo");
 				return;
 			endif
 		0x0f4f:
 		0x13fd:
+		0x26C3:
 			if (!(theammo.objtype in valid_bolts))
 				SendSysMessage (character, "Crossbows need bolts for ammo");
 				return;

@@ -20,6 +20,8 @@ exported function NewCombat (attacker, defender)
 			UOBJ_FIRE_BOW:
 			UOBJ_CROSSBOW:
 			UOBJ_HEAVY_CROSSBOW:
+			UOBJ_COMPOSITE_BOW:
+			UOBJ_REPEATING_CROSSBOW:
 				start_script (":weapons:combat_attack_script_archery", {attacker, defender});
 			UOBJ_FIST:
 				if (attacker.npctemplate)
