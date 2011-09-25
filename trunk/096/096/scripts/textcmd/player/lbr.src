@@ -1,0 +1,41 @@
+use uo;
+use os;
+
+include "include/wodinc";
+include "include/accounts";
+
+program toggle_lbr_enable (character, text)
+	text := lower (text);
+	case (text)
+		"on":
+			SetAccountProperty (character.acctname, "lbr_enabled", 1);
+			SendSysMessage (character, "LBR support enabled.  Please log out and back on for this to take effect.");
+			return;
+		"off":
+			EraseAccountProperty (character.acctname, "lbr_enabled");
+			SendSysMessage (character, "LBR support disabled.  Please log out and back on for this to take effect.");
+			return;
+		"target on":
+			if (!character.cmdlevel)
+				return;
+			endif
+			var targetted := target (character);
+			if (!targetted or !targetted.acctname)
+				return;
+			endif
+			SetAccountProperty (targetted.acctname, "lbr_enabled", 1);
+			return;
+		"target off":
+			if (!character.cmdlevel)
+				return;
+			endif
+			var targetted := target (character);
+			if (!targetted or !targetted.acctname)
+				return;
+			endif
+			EraseAccountProperty (character.acctname, "lbr_enabled");
+			return;
+	endcase
+	
+	SendSysMessage (character, "Usage is: .lbr <on/off>");
+endprogram

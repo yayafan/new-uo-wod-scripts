@@ -1,0 +1,148 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/wodinc";
+include "include/dotempmods";
+
+program poisonhit (parms)
+	var who := parms [1];
+	var plvl := CINT(parms [2]);
+	var msg := parms [3];
+	
+	if (!who or !plvl or plvl < 0)
+		return;
+	endif
+
+	//10 is the maximum poison level
+	if (plvl > 10)
+		plvl := 10;
+	endif
+
+	var poisoned := GetObjProperty (who, "#poisoninfo");
+	if (!poisoned)
+		poisoned := {0, 0, 0};
+	endif
+
+	//if they're already more poisoned and that poison is still going, quit
+	if (poisoned [1] > plvl)
+		if (poisoned [2] > ReadGameClock() + 2)
+			if (GetProcess (poisoned [3]))
+				RecalcVitals (who);
+				return;
+			endif
+		endif
+	endif
+
+	if (ProtectedFromPoison (who))
+		EraseObjProperty (who, "#poisoninfo");
+		RecalcVitals (who);
+		return;
+	endif
+	
+	var endtime := ReadGameClock () + 30;
+	poisoned := {};
+	poisoned [1] := plvl;
+	poisoned [2] := endtime;
+	poisoned [3] := GetPID ();
+	SetObjProperty (who, "#poisoninfo", poisoned);
+
+	var poison_damage := GetPoisonDamagePerTick (who, plvl);
+	who.SetPoisoned (plvl);
+	RecalcVitals (who);
+	if (msg)
+		PrintTextAbovePrivate (who, msg, who, FONT_NORMAL, 37);
+	endif
+	foreach player in EnumerateOnlineCharacters ()
+		if (player != who)
+			if (Distance (player, who) < 20)
+				PrintTextAbovePrivate (who, "*poisoned!*", player, FONT_NORMAL, 37);
+			endif
+		endif
+	endforeach
+
+	repeat
+		if (!who or who.dead)
+			RecalcVitals (who);
+			return;
+		endif
+		poisoned := GetObjProperty (who, "#poisoninfo");
+		if (!poisoned)
+			RecalcVitals (who);
+			return;
+		endif
+		if (poisoned [2] != endtime)
+			RecalcVitals (who);
+			return;
+		endif
+		DoDamageByType (0, who, poison_damage, DAMAGETYPE_PHYSICAL);
+		sleep (5);
+	until (ReadGameClock () > endtime);
+
+//	This crashes the server.  I don't know why.
+	SetScriptController (0);
+
+	who.SetPoisoned (0);
+	EraseObjProperty (who, "#poisoninfo");
+	RecalcVitals (who);
+endprogram
+
+
+
+
+///////////////////
+//  finds out if the target of the poison has an item equipped that protects them from poison
+///////////////////
+
+function ProtectedFromPoison (who)
+	var item;
+	foreach thing in ListEquippedItems (who)
+		if (GetObjProperty (thing, "protpoison"))
+			item := thing;
+			break;
+		endif
+	endforeach
+
+	if (!item)
+		return 0;
+	endif
+
+	var charges := GetObjProperty (item, "protpoison");
+	if (!charges or charges == 1)
+		PrintTextAbovePrivate (item, item.desc + " is out of charges!",who);
+		EraseObjProperty (item, "protpoison");
+		var itemname := Lower (item.desc);
+		itemname[" of poison protection"] := "";
+		itemname[" and poison protection"] := "";
+		item.name := itemname;
+		return 1;
+	else
+		charges := charges -1;
+		setobjproperty (item, "protpoison", charges);
+		PrintTextAbovePrivate (item, item.desc + " protects you from the poison!",who);
+		return 1;
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  Calculates how much damage should be done each poison tick based on the character and poison level
+///////////////////
+
+function GetPoisonDamagePerTick (who, plvl)
+//	if (GetAttributeBaseValue (who, "Strength") > 1750)
+//		plvl := plvl - 4;
+//	elseif (GetAttributeBaseValue (who, "Strength")  > 1250)
+//		plvl := plvl - 2;
+//	endif
+
+	if (plvl < 1)
+		plvl := 1;
+	elseif (plvl > 10)
+		plvl := 10;
+	endif
+
+	return (CINT (plvl * 1.5));
+endfunction

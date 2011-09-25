@@ -1,0 +1,16 @@
+use uo;
+use os;
+
+
+program make_item_quest_item (speaker)
+
+	var item := Target (speaker);
+	if (!item)
+		SendSysMessage (speaker, "Canceled.");
+		return;
+	endif
+
+	SetObjProperty (item, "questitem", 1);
+	SendSysMessage (speaker, "This item is now marked as a quest item.");
+
+endprogram

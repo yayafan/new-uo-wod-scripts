@@ -1,0 +1,68 @@
+use os;
+use uo;
+
+include "include/client";
+include "include/spawn";
+
+
+program textcmd_createnpc (character, parms)
+	if (!parms)
+		SendSysMessage (character, "usage: .npc [templatename] [number]");
+		return;
+	endif
+
+	var splitted := SplitWords (parms);
+	var npctemplate := splitted [1];
+	if (!npctemplate)
+		SendSysMessage (character, "usage: .npc [templatename] (number) or .npc group [groupname]");
+		return;
+	elseif (npctemplate == "group")
+		CreateNPCGroup (character, splitted[2]);
+		return;
+	endif
+	
+	var amount := CINT (splitted [2]);
+	if (!amount)
+		amount := 1;
+	endif
+	
+	for i := 1 to amount
+		var loc := TargetCoordinates (character);
+		if (!loc)
+			SendSysMessage (character, "Canceled");
+			return;
+		endif
+
+		var npc := SpawnNPCAtLocation (npctemplate, loc.x, loc.y, loc.z);
+		if (npc == "error")
+			SendSysMessage (character, "Can't create NPC!");
+			return;
+		endif
+	endfor
+endprogram
+
+
+function CreateNPCGroup (character, groupname)
+	case (groupname)
+		"shadowpack":
+			SpawnNPCAtLocation (":overlandmobs:shadowpack_leader", character.x, character.y, character.z);
+			for i := 1 to 10
+				var locx := character.x + 8 - RandomInt (16);
+				var locy := character.y + 8 - RandomInt (16);
+				var locz := GetMapInfo(locx,locy).z;
+				SpawnNPCAtLocation (":overlandmobs:shadowpack", locx, locy, locz);
+			endfor
+		default:
+			SendSysmessage (character, "Unknown group: " + groupname);
+			return;
+	endcase
+
+endfunction
+
+
+
+
+
+
+
+
