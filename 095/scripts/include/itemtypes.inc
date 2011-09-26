@@ -172,6 +172,14 @@ function IsBow (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x26CC and weapon.graphic <= 0x26CD)
 		return 1;
+	elseif (weapon.graphic >= 0x2D2A and weapon.graphic <= 0x2D2B)
+		return 1;
+	elseif (weapon.graphic >= 0x2D1E and weapon.graphic <= 0x2D1F)
+		return 1;
+	elseif (weapon.graphic == 0x27A5)
+		return 1;
+	elseif (weapon.graphic == 0x27F0)
+		return 1;
 	endif
 		return 0;
 endfunction
