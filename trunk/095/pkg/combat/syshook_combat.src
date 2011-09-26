@@ -10,28 +10,39 @@
 ///////////////////
 use os;
 
-include "include/objtype";
+include "include/itemtypes";
 
 
 exported function NewCombat (attacker, defender)
 	if (attacker.weapon)
-		case (attacker.weapon.objtype)
-			UOBJ_BOW:
-			UOBJ_FIRE_BOW:
-			UOBJ_CROSSBOW:
-			UOBJ_HEAVY_CROSSBOW:
-			UOBJ_COMPOSITE_BOW:
-			UOBJ_REPEATING_CROSSBOW:
-				start_script (":weapons:combat_attack_script_archery", {attacker, defender});
-			UOBJ_FIST:
-				if (attacker.npctemplate)
-					start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
-				else
-					start_script (":weapons:combat_attack_script_wrestling", {attacker, defender});
-				endif
-			default:
-				start_script (":weapons:combat_attack_script_melee", {attacker, defender});
-		endcase
+		if (IsBow(attacker.weapon))
+			start_script (":weapons:combat_attack_script_archery", {attacker, defender});
+		elseif (attacker.weapon.objtype == UOBJ_FIST)
+			if (attacker.npctemplate)
+				start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
+			else
+				start_script (":weapons:combat_attack_script_wrestling", {attacker, defender});
+			endif
+		else
+			start_script (":weapons:combat_attack_script_melee", {attacker, defender});
+		endif
+//		case (attacker.weapon.objtype)
+//			UOBJ_BOW:
+//			UOBJ_FIRE_BOW:
+//			UOBJ_CROSSBOW:
+//			UOBJ_HEAVY_CROSSBOW:
+//			UOBJ_COMPOSITE_BOW:
+//			UOBJ_REPEATING_CROSSBOW:
+//				start_script (":weapons:combat_attack_script_archery", {attacker, defender});
+//			UOBJ_FIST:
+//				if (attacker.npctemplate)
+//					start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
+//				else
+//					start_script (":weapons:combat_attack_script_wrestling", {attacker, defender});
+//				endif
+//			default:
+//				start_script (":weapons:combat_attack_script_melee", {attacker, defender});
+//		endcase
 	elseif (attacker.npctemplate)
 		start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
 	else
