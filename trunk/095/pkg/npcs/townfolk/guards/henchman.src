@@ -8,6 +8,7 @@ use npc;
 use util;
 use cfgfile;
 include "../pkg/npcs/townfolk/guards/henchman";
+include "include/itemtypes";
 
 const HALT_THRESHOLD			:= 10;
 
@@ -274,9 +275,14 @@ function HasBow ()
 	var ammotype := 0;
 	case (weapon.objtype)
 		UOBJ_BOW:
+		UOBJ_COMPOSITE_BOW:
+		UOBJ_YUMI:
+		UOBJ_LONGBOW:
+		UOBJ_SHORTBOW:
 			ammotype := UOBJ_ARROW;
 		UOBJ_CROSSBOW:
 		UOBJ_HEAVY_CROSSBOW:
+		UOBJ_REPEATING_CROSSBOW:
 			ammotype := UOBJ_BOLT;
 		UOBJ_FIRE_BOW:
 			ammotype := UOBJ_FIRE_ARROW;
@@ -1351,6 +1357,10 @@ function ChangeWeapons (equipoption := "any", quietmode := 0)
 	case (equipoption)
 		"bow":
 			if (weapon and IsBow (weapon))
+				Say ("But I'm already using a bow!");
+				return 0;
+			endif
+			if (shield and IsBow (shield))
 				Say ("But I'm already using a bow!");
 				return 0;
 			endif
