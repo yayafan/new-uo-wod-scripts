@@ -1,0 +1,38 @@
+use uo;
+use os;
+use util;
+
+include "include/magic";
+var spell_circle := 4;
+
+program cast_curse( parms )
+	var caster := GetSpellCaster (parms);
+	if (!caster)
+		return 0;
+	endif
+	if (!CheckSuccessfulSpellCast (parms))
+		return 0;
+	endif
+	var cast_on := GetSpellCastOn (caster, parms, TGTOPT_HARMFUL + TGTOPT_CHECK_LOS);
+	if (!cast_on)
+		return 0;
+	endif
+
+	cast_on := CheckMagicReflection (caster, cast_on);
+	if (!cast_on)
+		return 1;
+	endif
+
+	var duration := CalcModDuration ();
+	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
+	if (cast_on.npctemplate)
+		mod_amount := mod_amount * 2;
+	endif
+
+	mod_amount := Resisted (caster, cast_on, mod_amount);
+
+	PlaySoundEffect (cast_on, SFX_SPELL_CURSE);
+	PlayObjectCenteredEffect (cast_on, FX_CURSE_EFFECT, 7, 7);
+	DoMagicStatMod (cast_on, STATMOD_ALL, 0-mod_amount, duration, "Curse Spell");
+	return 1;
+endprogram

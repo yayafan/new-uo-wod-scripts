@@ -1,0 +1,32 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+include "include/wodinc";
+
+program dblclickself (character)
+
+	set_critical(1);
+
+	var results := 0;
+	var isMounted := ListEquippedItems( character );
+	foreach item in ( isMounted )
+		if ( item.objtype == 0xf021 )
+			results := 1;
+		endif
+	endforeach
+
+	if (!results)
+		OpenPaperdoll (character, character);
+		return;
+	endif
+
+	if (character.warmode)
+		OpenPaperdoll (character, character);
+		return;
+	endif
+
+	Dismount (character, 0);
+
+endprogram

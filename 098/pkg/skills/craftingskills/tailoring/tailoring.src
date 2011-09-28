@@ -1,0 +1,386 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+use math;
+
+include "include/client";
+include "include/objtype";
+include "include/itemtypes";
+include "include/gumps";
+include "include/utility";
+include "include/string";
+include "include/magicitems";
+include "include/crafting";
+include ":tailoring:tailoring";
+
+
+program use_sewing_kit (character, sewing_kit)
+	if (!ReserveItem (sewing_kit))
+		SendSysMessage (character, "You can't use this right now.");
+		return;
+	endif
+
+	SendSysmessage (character, "What do you want to use this on?");
+	var use_on := Target (character);
+	if (!use_on)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	if (!Accessible (character, use_on))
+		SendSysMessage (character, "You can't reach that.");
+		return;
+	endif
+
+	if (!ReserveItem (use_on) )
+		SendSysMessage (character, "You cannot use that right now.");
+		return;
+	endif
+
+	if (use_on.objtype >= UOBJ_BOLT_START and use_on.objtype <= UOBJ_BOLT_END)
+		TurnBoltsIntoCloth (character, use_on);
+	elseif (use_on.objtype >= UOBJ_CLOTH_START and use_on.objtype <= UOBJ_CLOTH_END)
+		MakeClothItems (character, use_on);
+	elseif (IsTypeOfHide (use_on) )
+		MakeLeatherItems (character, use_on);
+	elseif (IsLeatherArmor (use_on) or IsLeatherBoots (use_on) or IsClothItem (use_on) or IsAHat (use_on) )
+		RepairTailoringItem (character, sewing_kit, use_on, SKILLID_TAILORING);
+	else
+		SendSysMessage (character, "You don't know how to use those items together.");
+	endif
+endprogram
+
+
+
+
+///////////////////
+//  Turns bolts of cloth into usable cloth
+///////////////////
+
+function TurnBoltsIntoCloth (character, bolts)
+	PlaySoundEffect (character, SFX_TAILORING);
+	sleep (3);
+
+	if (bolts.amount > 100)
+		if (CreateItemInBackpack (character, UOBJ_CLOTH, 5000))
+			SubtractAmount (bolts, 100);
+		else
+			SendSysMessage (character, "Your backpack is full!");
+		endif
+	else
+		var amount_of_cloth := bolts.amount * 50;
+		CreateItemInbackPack (character, UOBJ_CLOTH, amount_of_cloth);
+		DestroyItem (bolts);
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  Allows the user to make cloth items
+///////////////////
+
+function MakeClothItems (character, cloth)
+	var cloth_cfg_file := ReadConfigFile ("cloth_items");
+	var selected_item := SelectWhatToMakeFromMenu (character, "clothmenu", cloth_cfg_file, GetAttribute (character, ATTRIBUTEID_TAILORING), cloth.amount, "Tailoring" );
+	if (!selected_item)
+		SendSysmessage (character, "Canceled.");
+		return;
+	endif
+
+	var elem := FindConfigElem (cloth_cfg_file, selected_item);
+	if (!elem)
+		SendSysMessage (character, "There was an error making that item.");
+		return;
+	endif
+
+	var item_name		:= elem.name;
+	var material_needed	:= elem.material;
+	var skill_needed	:= elem.skill;
+	var stackable		:= elem.stackable;
+	SendSysmessage (character, "(requires " + material_needed + " yards of cloth and " + skill_needed + " skill)");
+
+	var characterx := character.x;
+	var charactery := character.y;
+	var craftingbag := FindCraftingBag (character);
+	
+	var amax := Cint (cloth.amount/material_needed);
+	if (!amax)
+		SendSysMessage (character, "You don't have enough material to make that!");
+		return;
+	elseif (amax > 10)
+		amax := 10;
+	endif
+	var items_to_make := Cint (Sendtextentrygump (character, "How many do you want to make?:", 
+				TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Max: " + amax + ", 0 to cancel)"));
+	if (!items_to_make)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	var created_item;
+	SendSysMessage (character, "You begin tailoring...");
+	repeat
+		created_item := 0;
+		PlaySoundEffect (character, SFX_TAILORING);
+		sleep (3);
+
+		if (CheckSkill (character, SKILLID_TAILORING, skill_needed, 0 ) )
+
+			var amax := Cint (cloth.amount/material_needed);
+			if (!amax)
+				SendSysMessage (character, "You ran out of material!");
+				return;
+			elseif (amax > 10)
+				amax := 10;
+			endif
+
+			created_item := CreateItemInContainer (craftingbag, selected_item, 1);
+			if (!created_item)
+				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+				return;
+			endif
+			if (!stackable)
+				created_item.color := cloth.color;
+				created_item.name := "a " + item_name + " [crafted by " + character.name + "]";
+	
+				randommagicitem(character, created_item);
+
+   				//created_item.buyprice := 0;
+			endif
+
+			SendSysMessage (character, "You place the item in your backpack.");
+			SubtractAmount (cloth, material_needed);
+		else
+			SendSysmessage (character, "You failed, ruining some cloth.");
+			var ruined_amount := RandomInt (material_needed) + 1;
+			SubtractAmount (cloth, ruined_amount);
+		endif
+
+		if (cloth.amount < material_needed)
+			SendSysMessage (character, "You run out of cloth.");
+			return;
+		endif
+
+		if (characterx != character.x or charactery != character.y)
+			SendSysMessage (character, "You stop sewing.");
+			return;
+		endif
+	
+		if (created_item)
+			items_to_make := items_to_make - 1;
+		endif
+		sleep (2);
+	until (!items_to_make);
+	
+	SendSysmessage (character, "You stop tailoring.");
+endfunction
+
+function randommagicitem(character, item)
+
+	// First check to see if character meets requirements : to make magic is a special .spec setup not everyone can do it.
+
+	var tailoringSkill := GetAttributeBaseValue( character, "tailoring" )/10;
+	var magerySkill := GetAttributeBaseValue( character, "magery")/10;
+	var meditationSkill := GetAttributeBaseValue( character, "Meditation")/10;
+
+	var mastermage := 1;
+	var neededskill := "none";
+
+	// This is 100 or better skills
+	if ( tailoringSkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "tailoring";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( magerySkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "magery";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( meditationSkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "meditation";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( mastermage == 0 )
+		PrintTextAbove( character, "*thinks about " + neededskill + "*",
+			        font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR, journal_print := JOURNAL_PRINT_NAME);
+	endif
+
+	if ( mastermage == 1 )
+		// ok now we can try to make a magic quality item
+		var results := RandomDiceRoll("d100");
+		// 2% magic item possiblilty
+		if ( results > 98 )
+			var param := {};
+			param[1] := item;
+			Run_Script( ":loot:makeitemmagic", param );
+		endif
+	endif
+
+endfunction
+
+///////////////////
+//  Allows the user to make leather items
+///////////////////
+
+function MakeLeatherItems (character, material)
+	//calls the SelectWhatToMakeFromMenu function found in makemenu.inc, in /scripts/include
+	var leather_cfg_file := ReadConfigFile ("leather_items");
+	var selected_item := SelectWhatToMakeFromMenu (character, "leathermenu", leather_cfg_file, GetAttribute (character, ATTRIBUTEID_TAILORING), material.amount, "Tailoring" );
+	if (!selected_item)
+		SendSysmessage (character, "Canceled.");
+		return;
+	endif
+
+	var elem := FindConfigElem (leather_cfg_file, selected_item);
+	if (!elem)
+		SendSysMessage (character, "There was an error making that item.");
+		return;
+	endif
+
+	var material_needed	:= Cint (elem.material);
+	var item_skill		:= Cint (elem.skill);
+	var time_delay		:= Cint (elem.time);
+	var item_name		:= elem.name;
+	SendSysMessage (character, "(skill: " + item_skill + ", hides: " + material_needed + ")");
+
+	var craftingbag := FindCraftingBag (character);
+	var characterx := character.x;
+	var charactery := character.y;
+	
+	var amax := Cint (material.amount/material_needed);
+	if (!amax)
+		SendSysMessage (character, "You don't have enough material to make that!");
+		return;
+	elseif (amax > 10)
+		amax := 10;
+	endif
+	var items_to_make := Cint (Sendtextentrygump (character, "How many do you want to make?:", 
+				TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Max: " + amax + ", 0 to cancel)"));
+	if (!items_to_make)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	var found_material, autoupgrade := 0;
+	if (elem.has_quality)
+		autoupgrade := 1;
+		SendSysmessage (character, "Target the hides to use to upgrade:");
+		SendSysmessage (character, "(Press Esc. key to create item but not upgrade it)");
+		found_material := Target (character);
+		if (!found_material)
+			autoupgrade := 0;
+		else
+			if (!IsTypeOfHide (found_material) )
+				SendSysMessage (character, "That's not a hide!");
+				return;
+			endif
+			if (!ReserveItem (found_material) )
+				SendSysMessage (character, "You cannot use that right now.");
+				return;
+			endif
+			if (!Accessible (character, found_material) )
+				SendSysMessage (character, "You can't reach that.");
+				return;
+			endif
+			if (found_material.amount < material_needed)
+				SendSysMessage (character, "You need " + material_needed + " hides.  That's only " + found_material.amount + "!");
+				return;
+			endif
+		endif
+	endif
+
+	SendSysMessage (character, "You begin tailoring...");
+	var created_item;
+	repeat
+		created_item := 0;
+		for i := 1 to time_delay
+			PlaySoundEffect(character, SFX_TAILORING);
+			sleep (5);
+		endfor
+		PlaySoundEffect(character, SFX_TAILORING);
+		sleep (3);
+
+		if (!CheckSkill (character, SKILLID_TAILORING, item_skill, 0))
+			var lossamount := RandomInt (Cint ( material_needed/3) )+1;
+			SubtractAmount (material, lossamount);
+			SendSysmessage (character, "You fail, destroying some hides.");
+		else
+			var amax := Cint (material.amount/material_needed);
+			if (!amax)
+				SendSysMessage (character, "You ran out of materials!");
+				return;
+			elseif (amax > 10)
+				amax := 10;
+			endif
+
+			created_item := CreateItemInContainer (craftingbag, selected_item, 1);
+			if (!created_item)
+				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+				return;
+			endif
+
+			SendSysMessage (character, "You place the item in your backpack.");
+			//set the color
+			if (material.color)
+				created_item.color := material.color;
+			endif
+			SubtractAmount (material, material_needed);
+			//created_item.buyprice := 0;
+			
+			if (autoupgrade)
+				var upgrade_material := Cint (material_needed/2);
+				if (found_material.amount < upgrade_material)
+					SendSysMessage (character, "You don't have enough material to upgrade that item!");
+					return;
+				endif
+				
+				var upgrade_skill := item_skill + 15;
+				if (upgrade_skill > 110)
+					upgrade_skill := 110;
+				endif
+				if (upgrade_skill > GetAttribute (character, ATTRIBUTEID_TAILORING) + 20)
+					SendSysMessage (character, "Your skill is too low to upgrade that item.");
+					return;
+				endif
+				
+				var upgrade_timedelay := time_delay - 1;
+				if (!upgrade_timedelay or upgrade_timedelay < 0)
+					upgrade_timedelay := 1;
+				endif
+
+				if (characterx != character.x or charactery != character.y)
+					SendSysMessage (character, "You stop sewing.");
+					return;
+				endif
+
+				PerformTailoringItemUpgrade (character, created_item, found_material, upgrade_material,
+						SKILLID_TAILORING, upgrade_skill, upgrade_timedelay, item_name);
+			endif
+		endif
+		
+		if (characterx != character.x or charactery != character.y)
+			SendSysMessage (character, "You stop sewing.");
+			return;
+		endif
+		
+		if (created_item)
+			randommagicitem(character, created_item);
+
+			items_to_make := items_to_make - 1;
+		endif
+		sleep (2);
+	until (!items_to_make);
+	SendSysMessage (character, "You stop sewing.");
+endfunction
+

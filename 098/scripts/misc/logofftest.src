@@ -1,0 +1,139 @@
+use uo;
+use os;
+
+include "include/client";
+
+program logofftest( who )
+	if (!len(who.name))
+		who.name := "no one";
+	endif
+
+	if (who.dead) return 30; endif
+
+	DisarmBow( who );
+
+	if (!who.concealed)
+		PrintTextAbove(who,"[OFFLINE]");
+	endif
+
+        if ( who.cmdlevel < 1 )
+		broadcastsound();
+		broadcast(who.name + " has decided to leave the World of Dreams!", FONT_NORMAL, 48);
+	endif
+
+	if ( who.cmdlevel != 0 )
+		return 10;
+	elseif (!len(ListHostiles(who,20)))
+		return 30;
+	else
+		return 60;
+	endif
+
+	return 30;
+
+endprogram
+
+function DisarmBow( me )
+
+	var weapon := GetObjProperty(me,"weapon");
+	if (!weapon)
+		return;
+	endif
+
+	var ArmWhat := InInventory(me, weapon);
+	if (!ArmWhat)
+		return;
+	endif
+
+	var weaponone := GetEquipmentByLayer( me,  LAYER_HAND1 );
+	var weapontwo := GetEquipmentByLayer( me,  LAYER_HAND2 );
+
+	var mypack :=  me.backpack;
+	var BowWasArmed := 0;
+
+	if (weaponone)
+		if ( IsBow(weaponone) )
+			MoveItemToContainer(weaponone, mypack );
+			BowWasArmed := 1;
+		endif
+	endif
+	if (weapontwo)
+		if ( IsBow(weapontwo) )
+			MoveItemToContainer(weapontwo, mypack );
+			BowWasArmed := 1;
+		endif
+	endif
+
+	if ( (BowWasArmed) or ((!weaponone) and (!weapontwo)) )
+
+		var lefthand := FindInInventory( weapon[ArmWhat], me );
+		if ( lefthand )
+			EquipItem(me,lefthand);
+		endif
+		var righthand := FindInInventory( weapon[ArmWhat+1], me );
+		if ( righthand )
+			EquipItem(me,righthand);
+		endif
+	endif
+
+endfunction
+
+function IsBow( what )
+
+	case ( what.objtype )
+	0x13B2:
+	0x0f4f:
+	0x13fd:
+	0x6050:
+		return 1;
+	default:
+		return 0;
+	endcase
+
+endfunction
+
+function InInventory(me, weapon)
+
+	var lefthand := weapon[1];
+	var righthand := weapon[2];
+	if ( FindInInventory( lefthand, me ) or FindInInventory( righthand, me ) )
+		return 1;
+	endif
+
+	lefthand := weapon[3];
+	righthand := weapon[4];
+	if ( FindInInventory( lefthand, me ) or FindInInventory( righthand, me ) )
+		return 3;
+	endif
+
+	lefthand := weapon[5];
+	righthand := weapon[6];
+	if ( FindInInventory( lefthand, me ) or FindInInventory( righthand, me ) )
+		return 5;
+	endif
+
+	return 0;
+
+endfunction
+
+function FindInInventory(thing, me)
+
+	foreach item in enumerateitemsincontainer(me.backpack)
+		if ( item.serial == thing )
+			if (!IsBow(item))
+				return item;
+			else
+				return 0;
+			endif
+		endif
+	endforeach
+	return 0;
+
+endfunction
+
+function broadcastsound()
+	foreach char in enumerateonlinecharacters()
+		PlaySoundEffectPrivate( char, 0x101, char );
+	endforeach
+endfunction
+

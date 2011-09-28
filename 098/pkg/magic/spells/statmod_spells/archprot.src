@@ -1,0 +1,66 @@
+use uo;
+use os;
+use util;
+
+include "include/magic";
+var spell_circle := 4;
+
+program cast_archprot (parms)
+	var caster := GetSpellCaster (parms);
+	if (!caster)
+		return 0;
+	endif
+	if (!CheckSuccessfulSpellCast (parms))
+		return 0;
+	endif
+	var cast_loc := GetSpellCastOn (caster, parms, TGTOPT_HELPFUL + TGTOPT_CHECK_LOS);
+	if (!cast_loc)
+		return 0;
+	endif
+
+	var caster_animallore := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+	if (caster_animallore > caster_evalint)
+		caster_evalint := caster_animallore;
+	endif
+
+	var caster_spiritspeak:= GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
+	if (caster_spiritspeak > caster_evalint)
+		caster_evalint := caster_spiritspeak;
+	endif
+
+	var mod_amount := CINT(CalcModAmount()/2);
+	var duration := CalcModDuration () * 4;
+	if (caster_evalint > 90)
+		var new_mod_amount := CINT(CalcModAmount()/2);
+		if (new_mod_amount > mod_amount)
+			mod_amount := new_mod_amount;
+		endif
+	endif
+
+	PlaySoundEffect(caster, SFX_SPELL_PROTECTION);
+	var range := CINT (caster_magery/15);
+	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, range );
+		PlayObjectCenteredEffect (mobile, FX_BLESS_EFFECT, 7, 7);
+		var mobile_magery := GetAttribute (mobile, ATTRIBUTEID_MAGERY);
+		var mobile_evalint := GetAttribute (mobile, ATTRIBUTEID_INVOCATION);
+		var mobile_med := GetAttribute (mobile, ATTRIBUTEID_MEDITATION);
+
+		var mobile_animallore := GetAttribute (mobile, ATTRIBUTEID_ANIMALLORE);
+		if (mobile_animallore > mobile_evalint)
+			mobile_evalint := mobile_animallore;
+		endif
+
+		var mobile_spiritspeak:= GetAttribute (mobile, ATTRIBUTEID_NECROMANCY);
+		if (mobile_spiritspeak > mobile_evalint)
+			mobile_evalint := mobile_spiritspeak;
+		endif
+
+		if ( (mobile_magery + mobile_med + mobile_evalint) > (85 * 3) )
+			DoMagicStatMod (mobile, STATMOD_AR, CINT(mod_amount * 1.75), duration, "Protection Spell");
+		else
+			DoMagicStatMod (mobile, STATMOD_AR, mod_amount, duration, "Protection Spell");
+		endif
+	endforeach
+
+	return 1;
+endprogram

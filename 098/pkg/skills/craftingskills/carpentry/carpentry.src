@@ -1,0 +1,389 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+use math;
+
+include "include/client";
+include "include/objtype";
+include "include/itemtypes";
+include "include/gumps";
+include "include/string";
+include "include/magicitems";
+include "include/utility";
+include "include/attributes";
+include "include/crafting";
+include "../pkg/skills/craftingskills/carpentry/carpentry";
+
+program use_carpentry_tool ( character, tool )
+	if (!ReserveItem (tool) )
+		SendSysMessage (character, "You cannot use that right now.");
+		return;
+	endif
+
+	SendSysmessage (character, "What would you like to use that on?" );
+	var use_on := Target (character);
+	if (!use_on)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	if (!Accessible (character, use_on) )
+		SendSysMessage (character, "You can't reach that!");
+		return;
+	endif
+
+	if (!ReserveItem (use_on) )
+		SendSysMessage (character, "You can't use that right now.");
+		return;
+	endif
+
+	if (IsWoodenWeapon (use_on) )
+		RepairCarpentryItem (character, tool, use_on, SKILLID_CARPENTRY);
+		return;
+	elseif (IsWoodenShield (use_on) )
+		RepairCarpentryItem (character, tool, use_on, SKILLID_CARPENTRY);
+		return;
+	elseif (use_on.objtype == UOBJ_LOG)
+		MakeCarpentryItems (character, tool, use_on);
+		return;
+	else
+		SendSysMessage (character, "You don't know how to use those together.");
+		return;
+	endif
+endprogram
+
+
+
+
+///////////////////
+//  allows the user to make items out of logs
+///////////////////
+
+function MakeCarpentryItems (character, tool, logs)
+	//calls the SelectWhatToMakeFromMenu function found in makemenu.inc, in /scripts/include
+	var carpentry_cfg_file := ReadConfigFile ( "carpentry" );    
+	var chosen_item := SelectWhatToMakeFromMenu (character, "mainmenu", carpentry_cfg_file, GetAttribute (character, ATTRIBUTEID_CARPENTRY), logs.amount, "Carpentry:" );
+	if (!chosen_item)
+		SendSysmessage (character, "Canceled.");
+		return;
+	endif
+
+	if (chosen_item == UOBJ_SHAFT)
+		MakeShafts (character, logs);
+		return;
+	elseif (chosen_item == UOBJ_KINDLING)
+		MakeKindling (character, logs);
+		return;
+	endif
+
+	//find the item in carpentry.cfg file
+	var selection := FindConfigElem (carpentry_cfg_file, chosen_item);
+	if (!selection)
+		SendSysMessage (character, "That was an invalid selection");
+		return;
+	endif
+
+	var material_needed := cint (selection.material);
+	var item_skill := cint (selection.skill);
+	var time_delay := cint (selection.time);
+	var item_lockable := selection.lockable;
+	var item_stackable := selection.stackable;
+	var item_name := selection.name;
+	SendSysMessage(character, "(Skill: " + item_skill + ", Logs: " + material_needed + ")");
+
+	//save the character's position and ask them how many they want to make
+	var craftingbag := FindCraftingBag (character);
+	var characterx := character.x;
+	var charactery := character.y;
+	var amax := Cint (logs.amount/material_needed);
+	if (!amax)
+		SendSysMessage (character, "You don't have enough logs to make that!");
+		return;
+	elseif (amax > 10)
+		amax := 10;
+	endif
+	var items_to_make := Cint (Sendtextentrygump (character, "How many do you want to make?:", 
+				TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Max: " + amax + ", 0 to cancel)"));
+	if (!items_to_make)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	//save the character's position and ask them if they want to autoloop
+	var autoupgrade := 0;;
+	if (selection.has_quality)
+		autoupgrade := YesNo (character, "AutoUpgrade?");
+	endif
+
+	var created_item;
+	repeat
+		created_item := 0;
+		if (logs.amount < material_needed or !logs)
+			SendSysmessage (character, "You don't have enough logs to continue!");
+			return;
+		endif
+
+		PlaySoundEffect (character, SFX_CARPENTRY);
+		sleep (3);
+		for i := 1 to time_delay
+			if (RandomInt (4) == 0)
+				PlaySoundEffect (character, SFX_CARPENTRY);
+				sleep (3);
+			else
+				PlaySoundEffect(character, SFX_HAMMER);
+				sleepms (1500);
+				PlaySoundEffect(character, SFX_HAMMER);
+				sleepms (1500);
+			endif
+		endfor
+		PlaySoundEffect(character, SFX_HAMMER);
+
+		if (!CheckSkill (character, SKILLID_CARPENTRY, item_skill, 0))
+			var lossamount := RandomInt (Cint ( material_needed/3) )+1;
+			SubtractAmount (logs, lossamount);
+			SendSysmessage (character, "You fail, destroying some logs.");
+		else
+
+			var amax := Cint (logs.amount/material_needed);
+			if (!amax)
+				SendSysMessage (character, "You ran out of Materials!");
+				return;
+			elseif (amax > 10)
+				amax := 10;
+			endif
+
+			created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
+			if (!created_item)
+				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+				return;
+			endif
+
+			created_item.movable := 1;
+			//created_item.buyprice := 0;
+			SendSysMessage (character, "You place the item in your backpack.");
+			SubtractAmount (logs, material_needed);
+			if (!item_stackable)
+				created_item.name := item_name + " [crafted by " + character.name + "]";
+			endif
+
+			if (item_lockable)
+				if ( CheckSkill (character, SKILLID_TINKERING, 40, 0) )
+					PrintTextAbovePrivate (character, "Lockable!", character);
+					SetObjProperty (created_item, "lockable", "1");
+					var lockid := AllocLockId ();
+					var thekey := CreateItemInContainer (created_item, UOBJ_COPPER_KEY, 1); 
+					SetObjProperty (thekey, "lockid", lockid);
+					SetObjProperty (created_item, "lockid", lockid);
+					SetObjProperty (created_item, "thekey", thekey.serial);
+				endif
+			endif
+
+			if (autoupgrade)
+				var upgrade_material := Cint (material_needed/2);
+				if (logs.amount < upgrade_material)
+					SendSysMessage (character, "You don't have enough logs to upgrade that item!");
+					return;
+				endif
+				
+				var upgrade_skill := item_skill + 15;
+				if (upgrade_skill > 110)
+					upgrade_skill := 110;
+				endif
+				if (upgrade_skill >= GetAttribute (character, ATTRIBUTEID_CARPENTRY) + 20)
+					SendSysMessage (character, "Your skill is too low to upgrade that item.");
+					return;
+				endif
+
+				if (characterx != character.x or charactery != character.y)
+					SendSysMessage (character, "You stop crafting.");
+					return;
+				endif
+
+				PerformCarpentryItemUpgrade (character, created_item, logs, upgrade_material,
+						SKILLID_CARPENTRY, upgrade_skill, item_name);
+			endif
+		endif
+		
+		if (characterx != character.x or charactery != character.y)
+			SendSysMessage (character, "You stop crafting.");
+			return;
+		endif
+		
+		if (created_item)
+			randommagicitem(character, created_item, item_lockable);
+			items_to_make := items_to_make - 1;
+		endif
+		sleep (2);
+
+	until (!items_to_make);
+	SendSysMessage (character, "You stop crafting.");  
+endfunction
+
+function randommagicitem(character, item, item_lockable)
+
+	// First check to see if character meets requirements : to make magic is a special .spec setup not everyone can do it.
+
+	var carpentrySkill := GetAttributeBaseValue( character, "Carpentry" )/10;
+	var magerySkill := GetAttributeBaseValue( character, "magery")/10;
+	var meditationSkill := GetAttributeBaseValue( character, "Meditation")/10;
+
+	var mastermage := 1;
+	var neededskill := "none";
+
+	// This is 100 or better skills
+	if ( carpentrySkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "carpentry";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( magerySkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "magery";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( meditationSkill < 100 )
+		if ( neededskill == "none" )
+			neededskill := "meditation";
+		endif
+		mastermage := 0;
+	endif
+
+	if ( mastermage == 0 )
+		PrintTextAbove( character, "*thinks about " + neededskill + "*",
+			        font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR, journal_print := JOURNAL_PRINT_NAME);
+	endif
+
+	if (item_lockable)
+		if ( mastermage == 1 )
+			// ok now we can try to make a magic quality item
+			var results := RandomDiceRoll("d100");
+			// 2% magic item possiblilty
+			if ( results > 98 )
+
+				var keyserial := GetObjProperty(item, "thekey");
+				var thekey := SystemFindObjectBySerial( keyserial, sysfind_flags := 0 );
+				DestroyItem(thekey);
+				EraseObjProperty(item, "thekey");
+
+				var random_quality := CINT (((RandomInt (10)+1) * (RandomInt (10)+1))/10) + 1;
+
+				SetObjProperty (item, "mobchest_spawntime", ReadGameClock ());
+				SetObjProperty (item, "lockpicking", random_quality);
+				SetObjProperty (item, "questitem", 1);
+
+				item.locked := 1;
+				item.name := "a magical chest";
+
+				//make traps
+				if (RandomInt (3) == 1)
+					case (RandomInt (3))
+						0:
+							SetObjProperty (item, "trap", "explosion");
+						1:
+							SetObjProperty (item, "trap", "poison");
+						2:
+							SetObjProperty (item, "trap", "djinni");
+				endcase
+				endif
+
+				PrintTextAbovePrivate (character, "Oh, a magic chest!", character);
+			endif
+		endif
+	endif
+
+endfunction
+
+///////////////////
+//  makes arrow shafts
+///////////////////
+
+function MakeShafts (character, logs)
+
+	var sx := character.x;
+	var sy := character.y;
+
+	repeat
+		if (!logs)
+			SendSysMessage (character, "You run out of logs.");
+			return;
+		endif
+
+		PlaySoundEffect (character, SFX_56);
+		PerformAction ( character, ANIM_SALUTE );
+		sleep (2);
+
+		var logs_used := logs.amount;
+		if (logs_used > 5)
+			logs_used := 5;
+		endif
+
+		var shaft_amount := logs_used * 5;
+
+		if (CheckSkill (character, SKILLID_CARPENTRY, 20, 0) )
+			var shafts := CreateItemInBackpack (character, UOBJ_SHAFT, shaft_amount);
+			if (!shafts)
+				PrintTextAbovePrivate (character, "*Your backpack is full*", character);
+				return;
+			endif
+
+			SubtractAmount (logs, logs_used);
+		else
+			SendSysMessage (character, "You destroy some logs.");
+			SubtractAmount (logs, 1);
+		endif
+
+	until (sx != character.x or sy != character.y);
+
+	return;
+
+endfunction
+
+
+
+
+///////////////////
+//  makes kindling
+///////////////////
+
+function MakeKindling (character, logs)
+
+	var sx := character.x;
+	var sy := character.y;
+
+	repeat
+		if (!logs)
+			SendSysMessage (character, "You run out of logs.");
+			return;
+		endif
+
+		PlaySoundEffect (character, SFX_56);
+		PerformAction ( character, ANIM_SALUTE );
+		sleep (2);
+
+		if (CheckSkill (character, SKILLID_CARPENTRY, 5, 0) )
+			var kindling := CreateItemInBackpack (character, UOBJ_KINDLING, 5);
+			if (!kindling)
+				PrintTextAbovePrivate (character, "*Your backpack is full*", character);
+				return;
+			endif
+
+			SubtractAmount (logs, 1);
+		else
+			SendSysMessage (character, "You destroy some logs.");
+			SubtractAmount (logs, 1);
+		endif
+
+	until (sx != character.x or sy != character.y);
+
+	return;
+
+endfunction
+
+
+
+

@@ -1,0 +1,18 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+
+
+program unconcealme ( who, text )
+
+	if (text == "fire")
+		PlayObjectCenteredEffect (who, 0x3709, 0x0a, 0x1e);
+		PlaySoundEffect (who, SFX_SPELL_FLAME_STRIKE);
+		sleepms (1500);
+	endif
+
+
+    who.concealed := 0;
+endprogram

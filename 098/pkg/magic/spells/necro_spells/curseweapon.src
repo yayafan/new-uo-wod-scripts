@@ -1,0 +1,8 @@
+use uo;
+use os;
+
+program curseweapon (parms)
+// The curse weapon spell
+
+
+endprogram

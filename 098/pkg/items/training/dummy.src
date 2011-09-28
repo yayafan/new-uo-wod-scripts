@@ -1,0 +1,59 @@
+use uo;
+use os;
+use cfgfile;
+use attributes;
+
+include "include/client";
+include "include/objtype";
+
+program training_dummy (character, dummy)
+	var skillid := character.weapon.skillid;
+	if (!skillid)
+		//Must be wrestling
+		skillid := SKILLID_WRESTLING;
+	elseif (skillid == SKILLID_ARCHERY)
+		SendSysMessage (character, "You can't practice archery on this!");
+		return;
+	endif
+	
+	if (!ReserveItem (dummy) or dummy.movable)
+		SendSysMessage (character, "You can't use this right now!");
+		return;
+	endif
+
+	var itemdesc := ReadConfigFile (":weapons:itemdesc");
+	var elem := FindConfigElem (itemdesc, character.weapon.objtype);
+	var animation := GetConfigInt (elem, "anim");
+	if (!animation)
+		case (skillid)
+			SKILLID_MACEFIGHTING:
+				animation := ANIM_ATTACK_1HAND_DOWN;
+			SKILLID_FENCING: 
+				animation := ANIM_ATTACK_1HAND_JAB;
+			SKILLID_SWORDSMANSHIP: 
+				animation := ANIM_ATTACK_1HAND_WIDE;
+			default: 
+				animation := 0x9;
+		endcase
+	endif
+
+	PerformAction (character, animation);
+	sleep (1);
+	if (!CheckSkill (character, skillid, 10, 0) )
+		PlaySoundEffect (character, SFX_239);
+		sleep (2);
+		return;
+	endif
+
+	PlaySoundEffect (character, SFX_13C);
+	if (dummy.objtype == UOBJ_DUMMYFREEZE_NS)
+		dummy.graphic := UOBJ_DUMMYSWING_NS;
+		sleepms (3600);
+		dummy.graphic := UOBJ_DUMMYFREEZE_NS;
+	elseif ( dummy.objtype == UOBJ_DUMMYFREEZE_EW )
+		dummy.graphic := UOBJ_DUMMYSWING_EW;
+		sleepms (3600);
+		dummy.graphic := UOBJ_DUMMYFREEZE_EW;
+	endif
+endprogram
+

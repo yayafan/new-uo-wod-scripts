@@ -1,0 +1,78 @@
+use os;
+use uo;
+use npc;
+use util;
+use cfgfile;
+
+include "../pkg/npcs/main_ai/setup/setup";
+include "../pkg/npcs/main_ai/main/mainloop_killany_immobile";
+include "../pkg/npcs/main_ai/main/sleepmode_normal";
+include "../pkg/npcs/main_ai/combat/fightmode_immobile";
+include "../pkg/npcs/main_ai/combat/closedistance_default";
+include "../pkg/npcs/main_ai/combat/gethelp_default";
+
+const HALT_THRESHOLD := 2; // how close before he attacks?
+drop_anchor();
+
+program KillPlayers()
+	if (!me.backpack)
+		run_script_to_completion (":npcs:npc_setup", me);
+	endif
+	DoStartupSetup ();
+
+	if (getobjproperty (me, "frozen"))
+		me.frozen := 1;
+	endif
+
+	post_combat ();
+	main_AI_loop ();
+endprogram
+
+
+function process_combat_event (byref ev)
+endfunction
+
+
+function in_combat_event_loop (byref opponent)
+	var next_loop := GetObjProperty (me, "#last_event_loop");
+	if (next_loop and next_loop > ReadGameClock())
+		return;
+	endif
+	SetObjProperty (me, "#last_event_loop", ReadGameClock() + 2);
+	
+	var ev := array {};
+	ev.+type := EVID_DAMAGED;
+	ev.+source := 0;
+
+	//try to paralyze all the other creatures in the area
+	foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 1)
+		if (critter != me)
+			if (!CheckSkill (critter, SKILLID_MAGICRESISTANCE, 90, 0))
+				DoDamageByType (me, critter, RandomInt (10), DAMAGETYPE_PHYSICAL);
+				DoTempMod (critter, "p", 1, 5, "Grasping Roots");
+			elseif (RandomInt (10) == 1)
+				DoTempMod (critter, "p", 1, 5, "Grasping Roots");
+			endif
+			ev.source := critter;
+			SendEvent (me, ev);
+		endif
+	endforeach
+endfunction
+
+function post_combat()
+	ClearEventQueue ();
+	DisableCombatEvents();
+	EnableMainEvents();
+
+	SetWarMode ( 0 );
+	SetOpponent ( 0 );
+
+	sleep(1);
+	look_around();
+endfunction
+
+function prepare_for_fight (byref opponent)
+	ClearEventQueue ();
+	DisableMainEvents();
+	EnableCombatEvents();
+endfunction
