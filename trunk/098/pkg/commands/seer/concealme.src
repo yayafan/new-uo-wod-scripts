@@ -1,0 +1,81 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/objtype";
+
+
+program concealme ( character, text )
+	if (text == "fire")
+		PlayStationaryEffect (character.x, character.y, character.z, 0x3709, 0x0a, 0x1e);
+		PlaySoundEffect (character, SFX_SPELL_FLAME_STRIKE);
+		sleepms (1500);
+	elseif (text == "drop")
+		var targetted := Target (character);
+		if (!targetted)
+			SendSysMessage (character, "Canceled.");
+			return;
+		endif
+		
+		var originallocation := array {};
+		originallocation.+x := character.x;
+		originallocation.+y := character.y;
+		originallocation.+z := character.z;
+		
+		var firefields := {};
+		var item := CreateItemAtLocation (originallocation.x - 1, originallocation.y - 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x, originallocation.y - 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x + 1, originallocation.y - 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+		
+		item := CreateItemAtLocation (originallocation.x - 1, originallocation.y + 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x, originallocation.y + 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x + 1, originallocation.y + 1, originallocation.z, 0x398c, 1);
+		firefields.append (item);
+
+		item := CreateItemAtLocation (originallocation.x - 1, originallocation.y - 1, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x - 1, originallocation.y, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x - 1, originallocation.y + 1, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+
+		item := CreateItemAtLocation (originallocation.x + 1, originallocation.y - 1, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x + 1, originallocation.y, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+		item := CreateItemAtLocation (originallocation.x + 1, originallocation.y + 1, originallocation.z, 0x3996, 1);
+		firefields.append (item);
+
+		sleep (3);
+		
+		PlayStationaryEffect (originallocation.x, originallocation.y, originallocation.z, 0x3709, 0x0a, 0x1e);
+		PlaySoundEffect (character, SFX_SPELL_FLAME_STRIKE);
+		sleepms (1500);
+
+		character.concealed := 1;
+		var smallfire := CreateItemAtLocation (originallocation.x, originallocation.y, originallocation.z + 1, 0x398c, 1);
+		smallfire.graphic := 6571;
+
+		sleep (3);
+		foreach item in firefields
+			DestroyItem (item);
+		endforeach
+		
+		sleep (1);
+		var oldmovable := targetted.movable;
+		targetted.movable := 1;
+MoveObjectToLocation( targetted,originallocation.x,originallocation.y,originallocation.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		targetted.decayat := ReadGameClock() + 600;
+		targetted.movable := oldmovable;
+		DestroyItem (smallfire);
+		return;
+	endif
+
+
+    character.concealed := 1;
+endprogram

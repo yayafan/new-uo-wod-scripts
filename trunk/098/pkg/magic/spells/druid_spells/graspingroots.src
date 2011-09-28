@@ -1,0 +1,52 @@
+use uo;
+use os;
+use util;
+
+include "include/magic";
+var spell_circle := 4;
+
+program groots (parms)
+	var caster := GetSpellCaster (parms);
+	if (!caster)
+		return 0;
+	endif
+	if (!CheckSuccessfulSpellCast (parms))
+		EraseObjProperty (caster, "#castingdruidspell");
+		return 0;
+	endif
+	var cast_loc := GetSpellCastOn (caster, parms);
+	if (!cast_loc)
+		EraseObjProperty (caster, "#castingdruidspell");
+		return 0;
+	endif
+
+	//set the caster as the script controler and allow them to cast the next spell
+	SetScriptController (caster);
+	EraseObjProperty (caster, "#castingdruidspell");
+	detach ();
+
+	if (!CheckSkill (caster, SKILLID_ANIMALLORE, 80, 0))
+		SendSysMessage (caster, "Your spell fails.");
+		return;
+	endif
+
+	//create the summoned grasping roots
+	var graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x, cast_loc.y, cast_loc.z);
+	if (!graspingroots)
+		return;
+	endif
+	
+	SetObjProperty (graspingroots, "summoned", 1);
+
+	var casterskill := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+	var duration := casterskill;
+	sleep (duration);
+
+	if (graspingroots)
+		PlaySoundEffect( graspingroots , SFX_SPELL_MANA_VAMPIRE );
+		PlayStationaryEffect( graspingroots.x, graspingroots.y, graspingroots.z, FX_SMOKE, 0xA, 0xA );
+		KillNPC (graspingroots);
+	endif
+	return 1;
+endprogram
+

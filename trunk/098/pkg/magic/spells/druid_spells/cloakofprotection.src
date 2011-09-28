@@ -1,0 +1,39 @@
+use uo;
+use os;
+use util;
+
+include "include/magic";
+var spell_circle := 7;
+
+program summon_cloak (parms)
+	var caster := GetSpellCaster (parms);
+	if (!caster)
+		return 0;
+	endif
+	if (!CheckSuccessfulSpellCast (parms))
+		EraseObjProperty (caster, "#castingdruidspell");
+		return 0;
+	endif
+
+	//allow them to cast another spell now
+	SetScriptController (caster);
+	EraseObjProperty (caster, "#castingdruidspell");
+	detach ();
+
+	var casterskill := GetAttribute (caster, ATTRIBUTEID_MAGERY) + GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+	var duration := 3 * (casterskill + RandomInt (casterskill)) + 120;
+	var charges := CINT(casterskill/20) + 1;
+
+	//create the cloak
+	var cloak := CreateItemInBackpack (caster, 0x708d, 1);
+	if (!cloak)
+		SendSysMessage (caster, "Your backpack is full.");
+		return;
+	endif
+
+	//set it so that it's a protection from poison item
+	SetObjProperty (cloak, "protpoison", charges);
+	SetObjProperty (cloak, "duration", duration);
+	cloak.name := "a cloak of protection";
+	return 1;
+endprogram

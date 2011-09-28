@@ -1,0 +1,106 @@
+///////////////////
+//  this program is assigned to the chests that are dug up, so that the chest's guardians
+//  can be sprung
+///////////////////
+
+use os;
+use uo;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/spawn";
+
+program treasurechest (character,  chest)
+
+	if (!ReserveItem (chest))
+		return;
+	endif
+
+	foreach item in ListItemsNearLocationOfType (chest.x, chest.y, chest.z, 20, 0x0F6C)
+		DestroyItem (item);
+	endforeach
+
+	character.hidden := 0;
+	SendSysMessage (character, "You unleash the treasure's guardians!");
+
+	if (GetObjProperty (chest, "guardians"))
+		ReleasePresetGuardians (chest);
+	else
+		SpawnChestGuardians (character, chest);
+	endif
+
+	//destroys the chest after a while
+	set_critical (1);
+	setobjproperty (chest, "deleteme", 1);
+	var allchests := GetGlobalProperty ("unlockedchests");
+	if (!allchests)
+		allchests[1]:=chest.serial;
+	else
+		allchests.append (chest.serial);
+	endif
+	SetGlobalProperty ("unlockedchests", allchests);
+	set_critical (0);
+
+	chest.usescript := "";
+
+endprogram
+
+
+
+
+///////////////////
+//  for treasure chests buried by seers
+///////////////////
+
+function ReleasePresetGuardians (chest)
+
+	var guardians := GetObjProperty (chest, "guardians");
+	foreach template in guardians
+		SpawnNPCInArea (template, chest.x, chest.y, 4);
+	endforeach
+
+	var lvl := GetObjProperty (chest, "level");
+	if (lvl)
+		chest.locked := 1;
+		setobjproperty (chest, "lockpicking", lvl);
+	else
+		chest.locked := 0;
+	endif
+
+endfunction
+
+
+
+
+///////////////////
+// spawn monsters for normal maps
+///////////////////
+
+function SpawnChestGuardians (character, chest)
+
+	var lvl := GetObjProperty (chest, "level");
+	chest.locked := 0;
+	var cfgfile := ReadConfigFile (":treasuremap:guardians");
+	var spawn_group;
+	case (RandomInt (3))
+		0:
+			spawn_group := CSTR(lvl + "A");
+		1:
+			spawn_group := CSTR(lvl + "B");
+		2:
+			spawn_group := CSTR(lvl + "C");
+	endcase;
+
+	var elem := FindConfigElem (cfgfile, spawn_group);
+	var total := GetConfigString (elem, "total");
+	var guardian_array := GetConfigStringArray (elem, "creature");
+	var total_guardians := len (guardian_array);
+
+	for i := 1 to RandomDiceRoll (total)
+		var random_number := RandomInt (total_guardians) + 1;
+		var chosen_guardian := CSTR (guardian_array[random_number]);
+		SpawnNPCInArea (chosen_guardian, chest.x, chest.y, 4);
+	endfor
+
+endfunction

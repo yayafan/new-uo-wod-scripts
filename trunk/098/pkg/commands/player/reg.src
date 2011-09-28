@@ -1,0 +1,220 @@
+use uo;
+use os;
+use util;
+use basic;
+use cfgfile;
+
+program listregs( me )
+
+var layout2 := {
+"nodispose",
+"page 0",
+"gumppic 0 20 2620",
+"gumppic 20 20 2621",
+"gumppic 290 20 2622",
+"gumppic 0 38 2623",
+"gumppic 22 38 2624",
+"gumppic 288 38 2625",
+"gumppic 0 242 2623",
+"gumppic 22 242 2624",
+"gumppic 288 242 2625",
+"gumppic 0 446 2626",
+"gumppic 20 446 2627",
+"gumppic 290 446 2628",
+"text 20 32 1644 0"
+};
+
+var Data2 := {
+    "Reagents and Resources"
+};
+
+	var mycrap := dictionary;
+	foreach item in EnumerateItemsInContainer(me.backpack)
+		if ( mycrap.exists(item.objtype) )
+			mycrap[item.objtype] := mycrap[item.objtype] + item.amount;
+		else
+			mycrap[item.objtype] := item.amount;
+		endif
+	endforeach
+
+	Layout2.append("page 1");
+	Layout2.append("button 285 30 2648 2647 0 2");//button to page 2
+
+	var i, textline, indexcount, ni;
+	for ( i := 1; i <= 8; i := i + 1 )
+
+		indexcount := cstr(data2.size());
+		textline := "text 90 " + cstr(42+(20*i)) + " 1105 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentName(i));
+
+		indexcount := cstr(data2.size());
+		textline := "text 40 " + cstr(42+(20*i)) + " 1102 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentCount(mycrap, i));
+
+	endfor
+
+	Layout2.append("page 2");
+	Layout2.append("button 285 30 2648 2647 0 3");//button to page 3
+	Layout2.append("button 255 30 2650 2651 0 1");//button to page 1
+
+	for ( ni := 9; ni <= 21; ni := ni + 1 )
+
+		i := ni - 8;
+
+		indexcount := cstr(data2.size());
+		textline := "text 90 " + cstr(42+(20*i)) + " 1105 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentName(ni));
+
+		indexcount := cstr(data2.size());
+		textline := "text 40 " + cstr(42+(20*i)) + " 1102 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentCount(mycrap, ni));
+
+	endfor
+
+	Layout2.append("page 3");
+	Layout2.append("button 285 30 2648 2647 0 4");//button to page 4
+	Layout2.append("button 255 30 2650 2651 0 2");//button to page 2
+
+	for ( ni := 22; ni <= 33; ni := ni + 1 )
+
+		i := ni - 21;
+
+		indexcount := cstr(data2.size());
+		textline := "text 90 " + cstr(42+(20*i)) + " 1105 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentName(ni));
+
+		indexcount := cstr(data2.size());
+		textline := "text 40 " + cstr(42+(20*i)) + " 1102 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentCount(mycrap, ni));
+
+	endfor
+
+	Layout2.append("page 4");
+//	Layout2.append("button 285 30 2648 2647 0 5");//button to page 5
+	Layout2.append("button 255 30 2650 2651 0 3");//button to page 3
+
+	for ( ni := 34; ni <= 36; ni := ni + 1 )
+
+		i := ni - 33;
+
+		indexcount := cstr(data2.size());
+		textline := "text 90 " + cstr(42+(20*i)) + " 1105 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentName(ni));
+
+		indexcount := cstr(data2.size());
+		textline := "text 40 " + cstr(42+(20*i)) + " 1102 " + indexcount;
+		Layout2.append(textline);
+		data2.append(ReagentCount(mycrap, ni));
+
+	endfor
+
+	SendDialogGump( me, layout2, data2 );
+
+endprogram
+
+function ReagentName(regnum)
+
+	var regtype;
+	case (regnum)
+	1:	regtype := "Black Pearl";
+	2:	regtype := "Blood Moss";
+	3:	regtype := "Garlic";
+	4:	regtype := "Ginseng";
+	5:	regtype := "Spider Silk";
+	6:	regtype := "Sulphurous Ash";
+	7:	regtype := "Mandrake Root";
+	8:	regtype := "Nightshade";
+	9:	regtype := "Blackmoor";
+	10:	regtype := "Blood Spawn";
+	11:	regtype := "Vial Of Blood";
+	12:	regtype := "Bone";
+	13:	regtype := "Brimstone";
+	14:	regtype := "Daemon Bone";
+	15:	regtype := "Dragons Blood";
+	16:	regtype := "Executioners Cap";
+	17:	regtype := "Dead wood";
+	18:	regtype := "Serpents Scales";
+	19:	regtype := "Fertile Dirt";
+	20:	regtype := "Volcanic Ash";
+	21:	regtype := "Batwing";
+	22:	regtype := "Greater Heal Potion";
+	23:	regtype := "Greater Cure Potion";
+	24:	regtype := "Bandages";
+	25:	regtype := "Arrows";
+	26:	regtype := "Bolts";
+	27: 	regtype := "Gr. Strength";
+	28:	regtype := "Gr. Agility";
+	29:	regtype := "Gr. Poison";
+	30:	regtype := "Deadly Poison";
+	31:	regtype := "Gr. Explosion";
+	32:	regtype := "Gr. Refresh";
+	33:	regtype := "Nightsight"; 
+	34:	regtype := "Bees Wax";
+	35:	regtype := "Raw Rib";
+	36:	regtype := "Feathers";
+//	37:	regtype := "Amber";
+//	38:	regtype := "Cloth";
+	endcase
+
+	return regtype;
+
+endfunction
+
+function ReagentCount(mycrap, regnum)
+
+	var regtype;
+	case (regnum)
+	1:	regtype := cint(0x0F7A);//BlackPearl
+	2:	regtype := cint(0x0F7B);//BloodMoss
+	3:	regtype := cint(0x0F84);//Garlic
+	4:	regtype := cint(0x0F85);//Ginseng
+	5:	regtype := cint(0x0F8D);//SpiderSilk
+	6:	regtype := cint(0x0F8C);//SulphurousAsh
+	7:	regtype := cint(0x0F86);//MandrakeRoot
+	8:	regtype := cint(0x0F88);//NightShade
+	9:	regtype := cint(0x0F79);//BlackMoor
+	10:	regtype := cint(0x0F7C);//BloodSpawn
+	11:	regtype := cint(0x0F7D);//VialOfBlood
+	12:	regtype := cint(0x0F7E);//Bone
+	13:	regtype := cint(0x0F7F);//Brimstone
+	14:	regtype := cint(0x0F80);//DaemonBone
+	15:	regtype := cint(0x0F82);//DragonsBlood
+	16:	regtype := cint(0x0F83);//ExecutionersCap
+	17:	regtype := cint(0x0F90);//Deadwood
+	18:	regtype := cint(0x0F8E);//SerpentsScales
+	19:	regtype := cint(0x0F81);//FerileDirt
+	20:	regtype := cint(0x0F8F);//Volcanic Ash
+	21:	regtype := cint(0x0F78);//BatWing
+	22:	regtype := cint(0xDC03);//GreaterHealPotion
+	23:	regtype := cint(0xDC16);//Greatercurepotion
+	24:	regtype := cint(0x0E21);//bandages
+	25:	regtype := cint(0x0F3F);//arrows
+	26:	regtype := cint(0x1BFB);//bolts
+	27: 	regtype := cint(0xDC12);//Gr. Strength
+	28:	regtype := cint(0xDC0D);//Gr. Agility
+	29:	regtype := cint(0xDC06);//Gr. Poison
+	30:	regtype := cint(0xDC17);//Deadly Poison
+	31:	regtype := cint(0xDC07);//Gr. Explosion
+	32:	regtype := cint(0xdc0f);//Gr. Refresh
+	33:	regtype := cint(0xdce6);//Nightsight
+	34:	regtype := cint(0x1422);//wax
+	35:	regtype := cint(0x09f1);//raw rib
+	36:	regtype := cint(0x1bd1);//feathers
+//	37:	regtype := cint(0x0F25);//amber
+//	38:	regtype := cint(0x1765);//cloth
+	endcase
+
+	if ( mycrap.exists(regtype) )
+		return mycrap[regtype];
+	else
+		return " 0";
+	endif
+
+endfunction

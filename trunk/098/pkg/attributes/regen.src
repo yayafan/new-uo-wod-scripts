@@ -1,0 +1,197 @@
+use uo;
+
+include "include/dotempmods";
+
+exported function GetLifeRegenRate (character)
+	// 1 point per 5 seconds
+	// ... is 12 points per minute
+	// ... is 1200 hundredths per minute
+
+	//No regen if poisoned
+	if (character.poisoned)
+		return 0;
+	endif
+
+	//NPCs regenerate faster if they have more HP
+	if (!character.acctname)
+		if (GetAttributeBaseValue (character, "Strength") < 1500)
+			return 1200;
+		endif
+		return (CINT (GetAttributeBaseValue (character, "Strength")/10) * 12);
+	endif
+
+	//If they're hungry, don't regenerate HP as fast or at all
+	var hunger := CINT (GetObjProperty (character, "hunger"));
+	if (!hunger)
+		hunger := 0;
+	endif
+
+	if (hunger >= 9)
+		return 0;
+	elseif (hunger >= 7)
+		return 600;
+	elseif (hunger > 5)
+		return 1000;
+	endif
+	return 1200; 
+endfunction
+
+exported function GetLifeMaximumValue(character)
+	//Do a stat cap on players
+	if (character.acctname)
+		if (!character.cmdlevel)
+			var maxstr := GetObjProperty (character, "maxstr");
+			if (!maxstr)
+				maxstr := 75;
+			endif
+			if (GetAttributeBaseValue (character, "Strength") > maxstr * 10);
+				SetAttributeBaseValue (character, "Strength", maxstr*10);
+			endif
+		endif		
+	endif
+
+	//possible bonus MaxHP from spell effects
+	if (GetObjProperty (character, "longtermmods"))
+		var bonusmaxhp := 0;
+		var tempmods := GetObjProperty (character, "longtermmods");
+		foreach submod in tempmods
+			if (submod[1] == "BonusMaxHP" or submod[1] == "cBonusMaxHP")
+				bonusmaxhp := bonusmaxhp + submod[2];
+			endif
+		endforeach
+		if (bonusmaxhp)
+			return (GetAttribute (character, "Strength") + bonusmaxhp) * 100;
+		endif
+	endif
+
+    return GetAttribute (character, "Strength") * 100;
+endfunction
+
+
+exported function GetStaminaRegenRate (character)
+	//(Almost) no regen if poisoned
+	if (character.poisoned)
+		return 100;
+	endif
+	
+	//Ignore all this for NPCs
+	if (!character.acctname)
+		return 1200;
+	endif
+
+	//If they're hungry, don't regenerate stamina as fast or at all
+	var hunger := CINT (GetObjProperty (character, "hunger"));
+	if (!hunger)
+		hunger := 0;
+	endif
+	
+	if (hunger >= 9)
+		return 100;
+	elseif (hunger >= 7)
+		return 600;
+	endif
+	
+	//If the last thing they ate was a high food value item, they regenerate stamina faster
+	var foodregen := GetObjProperty (character, "#dotempmod_stamina_regen_rate");
+	if (!foodregen)
+		return 1200;
+	endif
+
+	return foodregen;
+endfunction
+
+exported function GetStaminaMaximumValue(character)
+	//Do a stat cap on players
+	if (character.acctname)
+		if (!character.cmdlevel)
+			var maxdex := GetObjProperty (character, "maxdex");
+			if (!maxdex)
+				maxdex := 75;
+			endif
+			if (GetAttributeBaseValue (character, "Dexterity") > maxdex * 10);
+				SetAttributeBaseValue (character, "Dexterity", maxdex*10);
+			endif
+		endif
+	endif
+
+	//possible bonus MaxStamina from spell effects
+	if (GetObjProperty (character, "longtermmods"))
+		var bonusmaxstam := 0;
+		var tempmods := GetObjProperty (character, "longtermmods");
+		foreach submod in tempmods
+			if (submod[1] == "BonusMaxStam" or submod[1] == "cBonusMaxStam")
+				bonusmaxstam := bonusmaxstam + submod[2];
+			endif
+		endforeach
+		if (bonusmaxstam)
+			return (GetAttribute (character, "Dexterity") + bonusmaxstam) * 100;
+		endif
+	endif
+
+    return GetAttribute (character, "Dexterity") * 100;
+endfunction
+
+
+exported function GetManaRegenRate(character)
+	//No regen if poisoned
+	if (character.poisoned)
+		return 0;
+	endif
+		
+	//Ignore all this for NPCs
+	if (!character.acctname)
+		return 1200;
+	endif
+
+	//If they're hungry, don't regenerate mana as fast or at all
+	var hunger := CINT (GetObjProperty (character, "hunger"));
+	if (!hunger)
+		hunger := 0;
+	endif
+
+	if (hunger >= 9)
+		return 0;
+	elseif (hunger >= 7)
+		return 600;
+	elseif (hunger > 5)
+		return 1000;
+	endif
+
+	return 1200;
+endfunction
+
+exported function GetManaMaximumValue(character)
+	//Do a stat cap on players
+	if (character.acctname)
+		if (!character.cmdlevel)
+			var maxint := GetObjProperty (character, "maxint");
+			if (!maxint)
+				maxint := 75;
+			endif
+			if (GetAttributeBaseValue (character, "Intelligence") > maxint * 10);
+				SetAttributeBaseValue (character, "Intelligence", maxint*10);
+			endif
+		endif
+	endif
+
+	//possible bonus MaxMana from spell effects
+	if (GetObjProperty (character, "longtermmods"))
+		var bonusmaxmana := 0;
+		var tempmods := GetObjProperty (character, "longtermmods");
+		foreach submod in tempmods
+			if (submod[1] == "BonusMaxMana" or submod[1] == "cBonusMaxMana")
+				bonusmaxmana := bonusmaxmana + submod[2];
+			endif
+		endforeach
+		if (bonusmaxmana)
+			return (GetAttribute (character, "Intelligence") + bonusmaxmana) * 100;
+		endif
+	endif
+
+    return GetAttribute (character, "Intelligence") * 100;
+endfunction
+
+
+program regen()
+	return 1;
+endprogram

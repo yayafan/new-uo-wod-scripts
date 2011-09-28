@@ -1,0 +1,68 @@
+//
+// oncreate.src: Runs on character creation
+//
+//	Notes:
+//	runs critical (may be changed to just run to completion)
+//	parameters are (character, skillids)
+//		character: character created
+//		skillids: array of skillid integers
+//    
+
+use os;
+use uo;
+use util;
+
+include "include/skills";
+include "../pkg/combat/loot/loot";
+include "../pkg/skills/skillpick";
+
+program oncreate (character, skillids)
+	Print ("Character created: " + character.name);
+	CreateStartingEquipment (character, skillids);
+	SendSysMessage (character, "Set your specializations before you do anything else!", FONT_BOLD, MESSAGE_COLOR_WARNING);
+	SendSysMessage (character, "Type .spec to set your spec's!", FONT_NORMAL, MESSAGE_COLOR_WARNING);
+	
+	//Used by the name checker (once character names are validated, this gets erased and the name
+	//doesn't get checked again)
+	SetObjProperty (character, "newcharacter", 1);
+endprogram
+
+
+
+
+///////////////////
+//  create the character's starting equipment
+///////////////////
+
+var starteqp_cfg := ReadConfigFile ("::starteqp");
+
+function CreateStartingEquipment (character, skillids);
+	foreach skillid in skillids
+		var skillname := GetSkillName (CInt (skillid) );
+		CreateFromGroup (character.backpack, skillname);
+	endforeach
+	CreateFromGroup(character.backpack, "all");
+	
+	foreach item in EnumerateItemsInContainer (character.backpack)
+		item.newbie := 1;
+	endforeach
+endfunction
+
+
+
+function CreateFromGroup (container, skillname)
+	var elem := FindConfigElem (starteqp_cfg, skillname);
+	if (!elem)
+		Syslog ("Can't find staring equipment element for " + skillname);
+		return;
+	endif
+
+	foreach str in GetConfigStringArray (elem, "item")
+		MakeSpecifiedLootItem (container, str);
+	endforeach
+
+	foreach str in GetConfigStringArray (elem, "random")
+		MakeItemsOutOfGroup (container, str);
+	endforeach
+endfunction
+

@@ -1,0 +1,324 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/objtype";
+include "include/utility";
+include "include/npcbackpacks";
+include "include/dotempmods";
+include "include/skills";
+include "include/possess";
+include "include/poison";
+include "include/wodinc";
+include "../pkg/npcs/npc_util";
+include "../pkg/character/virtue/virtue";
+include "include/spawn";
+
+program chrdeath (corpse, ghost)
+	SendInstaResDialog (ghost);
+	EraseAllSkillBonuses (ghost);
+	CurePoison (ghost);
+
+	var newgraphic := 402 + ghost.gender;
+	if (ghost.graphic != newgraphic)
+		ghost.graphic := newgraphic;
+	endif
+
+	if (ghost.cmdlevel < 1)
+		RevokePrivilege (ghost, "hearghosts");
+		RevokePrivilege (ghost, "seeghosts");
+	endif
+
+	var corpsename := ghost.name;
+	SetObjProperty (corpse, "ghost_serial", ghost.serial);
+
+	DismountGhost (ghost, corpse);
+
+	//The arena
+	if (ghost.x >= 1385 and ghost.x <= 1414 and ghost.y >= 3729 and ghost.y <= 3758)
+		AutoRes (ghost, corpse);
+		foreach reportable in (ghost.reportables)
+			ghost.RemoveReportable (reportable.serial, reportable.gameclock);
+		endforeach
+		return;
+	elseif (ghost.x >= 4413 and ghost.x <= 4428 and ghost.y >= 1152 and ghost.y <= 1162)
+		return;
+	endif
+
+	//possess a humuc
+	foreach mob in listmobilesnearlocation(ghost.x,ghost.y,ghost.z,15);
+		if (mob.npctemplate["humuc"] and GetObjProperty (mob, "master") == ghost.serial)
+			set_critical (1);
+			MoveObjectToLocation( ghost, mob.x, mob.y, mob.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( mob, 5288, 1176, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			Resurrect (ghost);
+
+			DoPersistedMod (ghost, "color", mob.color, ghost.color, 2400, "Humunculus");
+			DoPersistedMod (ghost, "graphic", mob.objtype, ghost.graphic, 2400, "Humunculus");
+
+			var mobpack := FindMyPack (mob.serial);
+			foreach item in ListRootItemsInContainer (mobpack)
+				MoveItemToContainer (item, ghost.backpack);
+			endforeach
+			foreach item in ListRootItemsInContainer (mob.backpack)
+				MoveItemToContainer (item, ghost.backpack);
+			endforeach
+
+			SetVital (ghost, "Life", GetVitalMaximumValue (ghost, "Life"));
+			SetVital (ghost, "Mana", GetVitalMaximumValue (ghost, "Mana"));
+			SetVital (ghost, "Stamina", GetVitalMaximumValue (ghost, "Stamina"));
+			KillNPC (mob);
+			return;
+		endif
+	endforeach
+
+	if (ghost.cmdlevel)
+		if ( GetObjProperty (ghost, "possess") )
+			unpossesscorpse (ghost, corpse);
+		endif
+		return;
+	endif
+
+	SkillLoss (ghost);
+	broadcastsound();
+	broadcast(corpsename + "'s death cry is heard throughout the land!", FONT_NORMAL, 48);
+
+        // adds corpse decay
+        Run_Script( "misc/corpsedecay", param := {corpse} );
+
+endprogram
+
+
+
+function SkillLoss ( ghost )
+	set_critical(1);
+
+	if (!GetObjProperty (ghost, "death"))
+		SetObjProperty (ghost, "death", ReadGameClock() + 3600);
+	endif
+
+	var lastdeath := GetObjProperty(ghost,"death");
+	if (lastdeath < ReadGameClock())
+		AddVirtue (ghost, RandomInt(5)+1);
+
+		SetObjProperty (ghost, "death", ReadGameClock() + 3600);
+		SetObjProperty (ghost, "skillloss",1);
+
+		for i := 0 to 48
+			if (RandomInt (2))
+				var attribute := GetAttributeIDBySkillID (i);
+				var ghostskill := GetAttributeBaseValue (ghost, attribute);
+				ghostskill := CINT (ghostskill * 0.99);
+				SetAttributeBaseValue (ghost, attribute, ghostskill);
+			endif
+		endfor
+	else
+		EraseObjProperty (ghost, "skillloss");
+	endif
+	set_critical(0);
+endfunction
+
+
+
+
+///////////////////
+//  checks the corpse for horses and dismounts them
+///////////////////
+
+function DismountGhost (ghost, corpse)
+
+	var mountserial := GetObjProperty(corpse, "saddle");
+	if (mountserial)
+
+		// find the mount
+		var mount := SystemFindObjectBySerial( mountserial, sysfind_flags := 0 );
+
+		// create the horse		
+		docreatemount(corpse, mount);
+
+		var mounted := GetEquipmentByLayer( ghost, LAYER_MOUNT );
+		DestroyItem(mounted);
+
+		EraseObjProperty(ghost, "saddle");
+	endif
+
+endfunction
+
+function docreatemount(character, mount)
+
+	if (!GetObjProperty (mount, "npctemplate"))
+		SendGMErrorMessage ("Dismount: Doing old dismount thing for " + character.name, 1);
+		return DoOldDismount (character, mount);
+	endif
+
+	set_critical (1);
+	var npctemplate := GetObjProperty (mount, "npctemplate");
+	var animal := SpawnNPCAtLocation (npctemplate, character.x, character.y, character.z);
+	if (!animal)
+		animal := SpawnNPCAtLocation (npctemplate, character.x+1, character.y, character.z);
+		if (!animal)
+			animal := SpawnNPCAtLocation (npctemplate, character.x, character.y+1, character.z);
+			if (!animal)
+				animal := SpawnNPCAtLocation (npctemplate, character.x-1, character.y, character.z);
+				if (!animal)
+					animal := SpawnNPCAtLocation (npctemplate, character.x, character.y-1, character.z);
+					if (!animal)
+						SendGMErrorMessage ("Dismount:  Can't spawn a " + npctemplate + " for " + character.name, 1);
+						SendGMErrorMessage ("Dismount:  Location: " + character.x + ", " + character.y + ", " + character.z, 1);
+						return DoOldDismount (character, mount);
+					endif
+				endif
+			endif
+		endif
+	endif
+	animal.color := mount.color;
+	SetObjProperty (animal, "color", mount.color);
+
+	foreach property in GetObjPropertyNames (mount)
+		if (property != "master")
+			var value := GetObjProperty (mount, property);
+			SetObjProperty (animal, property, value);
+		endif
+	endforeach
+
+	if (GetObjProperty (mount, "petname"))
+		animal.name := GetObjProperty (mount, "petname");
+	endif
+	if (Getobjproperty (mount, "pethp"))
+		SetVital (animal, "Life", GetObjProperty (mount, "pethp")*100);
+	endif
+	if (Getobjproperty (mount, "petmana"))
+		SetVital (animal, "Mana", GetObjProperty (mount, "petmana")*100);
+	endif
+	if (Getobjproperty (mount, "petgraphic"))
+		animal.graphic := GetObjProperty (mount, "petgraphic");
+	endif
+
+	animal.facing := character.facing;
+	//if its a player, retame the creature
+	if (character.acctname)
+		var freetime := GetObjProperty (mount, "freetime");
+
+		freetime := "not used right now";
+
+		SetObjProperty (animal, "master", character.serial);
+		animal.script := "::tamed";
+		RestartScript (animal);
+	elseif (character.npctemplate or character.objtype == UOBJ_CORPSE)
+		//if its a follower, try to transfer it to their master
+		if (GetObjProperty (character, "master"))
+			SetObjProperty (animal, "master", GetObjProperty (character, "master"));
+			SetObjProperty (animal, "freetime", ReadGameClock() + 600);
+
+			animal.script := "::tamed";
+			RestartScript (animal);
+		endif
+	endif
+
+	DestroyItem (mount);
+	set_critical (0);
+
+endfunction
+
+
+///////////////////
+//  old dismount without the npctemplate of what we're creating, so people can dismount old creatures
+///////////////////
+
+function DoOldDismount (me, mount)
+
+	if (!mount)
+		return 0;
+	endif
+
+	var critter := "";
+	case (mount.graphic)
+		0x3ea2:	critter := ":domestic_animals:horse";
+		0x3e9f:	critter := ":domestic_animals:horse2";
+		0x3ea0:	critter := ":domestic_animals:horse3";
+		0x3ea1:	critter := ":domestic_animals:horse4";
+		0x3ea6:	critter := ":domestic_animals:llama";
+		0x3ea3:	critter := ":wild_animals:desertostard";
+		0x3ea4:	critter := ":wild_animals:frenziedostard";
+		0x3ea5:	critter := ":wild_animals:forestostard";
+	endcase
+	if (mount.color == 1109)
+		critter := ":diablo:nightmare";
+	endif
+
+	set_critical(1);
+	var animal := CreateNPCFromTemplate (critter, me.x, me.y, me.z);
+	if (!animal)
+		SendGMErrorMessage ("Dismount:  Can't create animal with old dismount!", 1);
+		return 0;
+	endif
+
+	animal.color := mount.color;
+	SetObjProperty (animal, "color", mount.color);
+
+	if (GetObjProperty (mount, "petname"))
+		animal.name := GetObjProperty (mount, "petname");
+	endif
+	if (Getobjproperty(mount,"pethp"))
+		SetVital (animal, "Life", GetObjProperty (mount, "pethp")*100);
+	endif
+	if (Getobjproperty (mount, "petmana"))
+		SetVital (animal, "Mana", GetObjProperty (mount, "petmana")*100);
+	endif
+
+	if (me)
+		if (!me.corpsetype)
+			SetObjProperty (animal, "master", me.serial );
+			animal.script := "::tamed";
+			animal.facing := me.facing;
+			RestartScript (animal);
+		elseif (me.npctemplate)
+			SetObjProperty (animal, "master", GetObjProperty (me, "master"));
+			animal.script := "::tamed";
+			animal.facing := me.facing;
+			RestartScript (animal);
+		endif
+	else
+		SetObjProperty(animal,"killme",1);
+	endif
+
+	if (DestroyItem (mount))
+		return animal;
+	else
+		return 0;
+	endif
+
+endfunction
+
+///////////////////
+//  Used in the arena, where players automatically come back to life with no skill loss
+///////////////////
+
+function AutoRes ( ghost, corpse )
+	set_script_option (SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES, 1);
+	sleep (5);
+	MoveObjectToLocation( ghost, 1379, 3744, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	Resurrect (ghost);
+	ghost.hp := CINT (ghost.maxhp/2);
+	ghost.stamina := CINT (ghost.maxstamina/2);
+	ghost.mana := CINT (ghost.maxmana/2);
+	var robe := GetEquipmentByLayer (ghost, LAYER_ROBE);
+	if (robe)
+		DestroyItem (robe);
+	endif
+	foreach item in ListRootItemsInContainer (corpse)
+		if (!EquipItem (ghost, item))
+			MoveItemToContainer (item, ghost.backpack);
+		endif
+	endforeach
+	DestroyItem (corpse);
+endfunction
+
+
+
+function broadcastsound()
+	foreach char in enumerateonlinecharacters()
+		PlaySoundEffectPrivate( char, 0x101, char );
+	endforeach
+endfunction

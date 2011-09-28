@@ -1,0 +1,13 @@
+use os;
+use uo;
+use cfgfile;
+
+program namecheckatlogon( who )
+
+	start_script ("logonmessage", who );
+	start_script ("namecheck", who );
+	start_script ("checkjail", who );
+	start_script ("bankcheck", who );
+	start_script ("player_listener", who );
+
+endprogram
