@@ -164,7 +164,7 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z )
 
 	sendsysmessage (character, "All aboard!");
 	var sh := GetStandingHeight (ship.x, ship.y, ship.z);
-	MoveObjectToLocation( character, ship.x, ship.y, ship.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, ship.x, ship.y, sh.z, character.realm, flags := MOVEOBJECT_FORCELOCATION );
 	return result;
 
 endfunction
