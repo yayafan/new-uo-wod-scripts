@@ -1,4 +1,5 @@
 #summary This page will list the current tasks
+#labels Featured
 
 = Introduction =
 
