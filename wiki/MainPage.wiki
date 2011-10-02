@@ -6,4 +6,4 @@ This is the Main Page. Before you can start working, you need to set up a POL 09
 
 After that, you delete the pkg and scripts from that, and add the WoD scripts for POL 098 from the SVN repository. 
 
-If you need more help, contact me and I will guide you.
+If you need more help, contact Sheng or Natalia and they will guide you.
