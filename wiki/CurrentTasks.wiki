@@ -11,6 +11,8 @@ The tasks follow
 
   * Also verify the functionality of each entry in the pkg folder, make sure everything is realm aware. Currently it uses {{{_DEFAULT_REALM}}}; this should be replaced with the _realm_ property of the character, npc or object in question to permit us to expand to the other realms in the future.
 
+  * Watch out for removed items. I have found and added some back, you may find more.
+
 Each one of us should pick one by one the folders inside 095\pkg and compare them with 098\pkg, and do the necesary work to accomplish the tasks mentioned above.
 
 Here is the package list and those assigned to them in parenthesis:
