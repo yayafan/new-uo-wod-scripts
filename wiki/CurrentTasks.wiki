@@ -1,0 +1,28 @@
+This page will list the current tasks
+
+= Introduction =
+
+The tasks follow
+
+
+= Details =
+
+  * Restore the old package structure as much as possible. This would not be necesary if we were to start a new server, but is *ABSOLUTELY NECESARY* for migrating from the live WoD server, as great part of the saved data makes reference to package names, script names and package structure.
+
+  * Also verify the functionality of each entry in the pkg folder, make sure everything is realm aware. Currently it uses {{{_DEFAULT_REALM}}}; this should be replaced with the _realm_ property of the character, npc or object in question to permit us to expand to the other realms in the future.
+
+Each one of us should pick one by one the folders inside 095\pkg and compare them with 098\pkg, and do the necesary work to accomplish the tasks mentioned above.
+
+Here is the package list and those assigned to them in parenthesis:
+  * character
+  * combat
+  * drocket
+  * dundee
+  * guilds
+  * items
+  * magic
+  * merchants_database
+  * npcs (Agata)
+  * quests
+  * skills
+  * world
