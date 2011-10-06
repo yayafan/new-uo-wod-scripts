@@ -182,7 +182,7 @@ function MakeAMess(me, stonelevel)
 			0: stuff := 0x0F8F;		//VolcanicAsh
 			1: stuff := 0x0F79;		//BlackMoor
 			2: stuff := 0x0F7E;		//Bone
-			3: stuff := 0x0F8E;		//SerpentsScales
+			3: stuff := 0x0F8E;		//SerpentScales
 			4: stuff := 0x0F7D;		//VialOfBlood
 			5: stuff := 0x0F7C;		//BloodSpawn
 			6: stuff := 0x0F7F;		//Brimstone
