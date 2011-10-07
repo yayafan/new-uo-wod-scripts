@@ -60,9 +60,9 @@ program cast_raise_dead (parms)
 	SetAttributeBaseValue (summoned_creature, "Strength", oldstr * 10);
 	RecalcVitals (summoned_creature);
 	
-	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics);
+	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics * 10);
 	if (Wrestling)
-		SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_WRESTLING, Wrestling);
+		SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_WRESTLING, Wrestling * 10);
 	endif
 
 	SetVital (summoned_creature, "Life", GetVitalMaximumValue (summoned_creature, "Life"));
