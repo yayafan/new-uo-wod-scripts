@@ -39,7 +39,7 @@ program player_merchant_sort (parms)
 	endif
 
 	var inv_pb := find_or_create_item (storage, merchant.serial + " PB", 0xE7C);
-	var inv_fs := find_or_create_item (storage, merchant.serial + " 1C", 0xE7C);
+	var inv_fs := find_or_create_item (storage, merchant.serial + " FS", 0xE7C);
 	if (!inv_fs or !inv_pb or !inv_fs)
 		SendSysMessage (player, "Critical error:  can't find merchant forsale!");
 		Syslog ("Critical error:  can't find merchant forsale!");

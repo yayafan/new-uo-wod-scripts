@@ -2,7 +2,6 @@ use os;
 use uo;
 use npc;
 use util;
-use cfgfile;
 
 include "include/client";
 include "include/objtype";
@@ -13,18 +12,13 @@ include "include/sysevent";
 include "../pkg/npcs/npc_util";
 include "../pkg/items/housing/house";
 
-var storage, inv_fs, inv_pb;
+var inv_fs, inv_pb;
 var me := Self();
-var masterserial := CINT (GetObjProperty (me, "master"));
-var masteracctname := GetObjProperty (me, "masteracctname");
-var mastername := getobjproperty (me, "mn");
-var cont := getobjproperty (me, "cont");
+
+//variables relating to their master
+var masterserial, masteracctname;
 
 program merchant ()
-	if (!me.backpack)
-		DoMerchantOnCreationSetup ();
-	endif
-
 	//If they don't have a master yet, wait to see if they get one (creation setup stuff)
 	if (!masterserial)
 		var waitcounter := 0;
@@ -37,33 +31,23 @@ program merchant ()
 
 	//If they dont have a master yet, commit suicide.  Otherwise, log me
 	if (!masterserial)
+		RevokePrivilege (me, "invul");
 		KillMe ();
 		return;
 	endif
 	AddToAccountMerchants (masterserial);
 
-	me.graphic := 400 + me.gender;
-	me.hidden := 0;
-	if (getobjproperty (me, "frozen"))
-		me.frozen := 1;
+	//make sure they have a backpack and all that
+	if (!me.backpack)
+		DoMerchantOnCreationSetup ();
 	endif
+	
+	//Assorted stuff that needs to be done every restart
+	DoMerchantRestartStuff ();
 
-	storage := FindStorageArea ("Merchant Storage");
-	if (!storage)
-		exit;
-	endif
-
-	inv_fs := find_or_create_item (storage, me.serial + " FS", 0xE7C);
-	inv_pb := find_or_create_item (storage, me.serial + " PB", 0xE7C);
-	inv_fs := find_or_create_item (storage, me.serial + " 1C", 0xE7C);
-	if (!inv_fs or !inv_pb or !inv_fs)
-    		exit;
-	endif
-
-	setobjproperty (me, "serial", me.serial);
+	//enable events
 	EnableEvents (SYSEVENT_ENGAGED + SYSEVENT_DAMAGED, 20);
 	EnableEvents (SYSEVENT_SPEECH + SYSEVENT_ITEM_GIVEN, 1);
-	LogMyStuff ();
 
 	var ev;
 	while (me)
@@ -82,7 +66,9 @@ program merchant ()
 					until (hidetime + 120 < ReadGameClock());
 					me.hidden := 0;
 				EVID_SPEECH:
-					ProcessSpeech (ev);
+					if (ev.source.acctname)
+						ProcessSpeech (ev.source, ev.text);
+					endif
 				EVID_MERCHANT_SOLD:
 					if (ev.source)
 						if (ev.amount)
@@ -113,50 +99,21 @@ endprogram
 
 
 ///////////////////
-//  called when the merchant is first created
-///////////////////
-
-function DoMerchantOnCreationSetup ()
-	sleep (1);
-	me.graphic := 400 + me.gender;
-	if ( me.name ["<random>"] )
-		me.name := RandomName (me) + ", " + mastername + "'s Merchant";
-	endif
-
-	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
-		EquipItem (me, newbackpack);
-	endif
-
-	var parms := {};
-	parms[1]:= me;
-	parms[2]:= "rich";
-	say ("Ooh, I better get dressed!");
-	run_script_to_completion ("::/misc/dressme", parms);
-	foreach item in ListEquippedItems (me)
-		SetObjProperty (item, "mine", 1);
-	endforeach
-endfunction
-
-
-
-
-///////////////////
 //  when someone says something in range of the merchant, this function takes care of it
 ///////////////////
 
-function ProcessSpeech (byref ev);
-	var evtext := Lower (ev.text);
+function ProcessSpeech (player, evtext);
+	evtext := Lower (evtext);
 	if (!evtext)
 		return;
 	endif
 
 	if (evtext["buy"]) 
-		TurnToward (ev.source);
+		TurnToward (player);
 		if (CanSellAtThisLocation () )
 			var stuffforsale := EnumerateItemsInContainer (inv_fs);
 			if (stuffforsale.size())
-				SendBuyWindow (ev.source, inv_fs, self(), inv_pb);
+				SendBuyWindow (player, inv_fs, self(), inv_pb);
 			else
 				Say ("I'm sorry, but I have nothing for sale.");
 			endif
@@ -165,110 +122,99 @@ function ProcessSpeech (byref ev);
 		endif
 
 	elseif (evtext["purchase"])
-		if (ev.source.acctname == masteracctname)
-			TurnToward (ev.source);
-			AddThingsToBuy (ev.source);
+		if (player.acctname == masteracctname)
+			TurnToward (player);
+			AddThingsToBuy (player);
 		endif
 
 	elseif (evtext["release"])
-		TurnToward (ev.source);
-		if (ev.source.serial == masterserial)
-			Fireme (ev.source);
+		TurnToward (player);
+		if (player.serial == masterserial)
+			Fireme (player);
 		else
 			Say ("I don't even work for you!");
 		endif
 
 	elseif (evtext["sell"])
-		TurnToward (ev.source);
-		SpoutBuyList (ev.source);
+		TurnToward (player);
+		SpoutBuyList (player);
 
 	elseif (evtext["contact"])
-		TurnToward (ev.source);
-		if (ev.source.acctname == masteracctname)
-			SetNewContactInformation (ev.source);
-		elseif (cont)
-			say ("You may contact my employer: " + cont);
+		TurnToward (player);
+		if (player.acctname == masteracctname)
+			SetNewContactInformation (player);
 		else
-			Say ("I wish I could help you, but my master hasn't told me how to reach him.");
+			var cont := getobjproperty (me, "cont");
+			if (cont)
+				say ("You may contact my employer: " + cont);
+			else
+				Say ("I wish I could help you, but my master hasn't told me how to reach him.");
+			endif
 		endif
 
-	elseif (ev.text["collect"] and ev.source.acctname == masteracctname)
-		TurnToward (ev.source);
-		if (ev.text["collect gold"])
-			CashOut (ev.source, "gold");
-		elseif (ev.text["collect items"])
-			CashOut (ev.source, "items");
+	elseif (evtext["collect"] and player.acctname == masteracctname)
+		TurnToward (player);
+		if (evtext["collect gold"])
+			CashOut (player, "gold");
+		elseif (evtext["collect items"])
+			CashOut (player, "items");
 		else
-			CashOut (ev.source, "all");
+			CashOut (player, "all");
 		endif
 
-	elseif (evtext["status"] and ev.source.acctname == masteracctname)
-		TurnToward (ev.source);
-		StatusCheck (ev.source);
+	elseif (evtext["status"] and player.acctname == masteracctname)
+		TurnToward (player);
+		StatusCheck (player);
 
-	elseif (evtext["wear"] and ev.source.acctname == masteracctname)
-		TurnToward (ev.source);
+	elseif (evtext["wear"] and player.acctname == masteracctname)
+		TurnToward (player);
 		say ("What shall I wear?");
-		var this := target (ev.source);
-		wear_item (this, ev.source);
+		var this := target (player);
+		wear_item (this, player);
 
-	elseif (evtext["strip"] and ev.source.acctname == masteracctname)
-		TurnToward( ev.source );
+	elseif (evtext["strip"] and player.acctname == masteracctname)
+		TurnToward( player );
 		say ("Ooh, I think I feel a draft!");
-		strip_items (ev.source);
+		strip_items (player);
 
-	elseif (evtext["undress"] and ev.source.acctname == masteracctname)
-		TurnToward (ev.source);
+	elseif (evtext["undress"] and player.acctname == masteracctname)
+		TurnToward (player);
 		say ("This is so humiliating.");
-		undress_items(ev.source);
+		undress_items (player);
 
-	elseif (evtext["follow"] and ev.source.acctname == masteracctname)
+	elseif (evtext["follow"] and player.acctname == masteracctname)
 		var myfullname := Lower (me.name);
 		var myname := myfullname [1, find (myfullname, ",", 2)];
 		myname [","] := "";
-		var evtext := Lower (ev.text);
 
 		if (myname and evtext [myname])
 			say ("Lead the way!");
-			Follow (ev.source);
+			Follow (player);
 		else
 			Say ("If you're talking to me, say " + myname + " follow me.");
 		endif
 
-	elseif (evtext["log"] and ev.source.acctname == masteracctname)
-		TurnToward (ev.source);
-		ViewMessageLog (ev.source);
+	elseif (evtext["log"] and player.acctname == masteracctname)
+		TurnToward (player);
+		ViewMessageLog (player);
 
 	elseif (evtext["help"])
-		TurnToward (ev.source);
-		say ("I will obey the following orders:");
-		sleep(1);
-		say ("release, buy, sell, contact, collect,");
-		sleep(2);
-		say ("wear, undress, strip, follow, stop, status, log and purchase");
-
-
-
-		var myfullname := Lower (me.name);
-		var myname := myfullname [1, find (myfullname, ",", 2)];
-		myname [","] := "";
+		start_script (":player_merchants:playermerchant_help", player);
 	elseif (evtext["sort"])
-		if (ev.source.acctname == masteracctname)
+		if (player.acctname == masteracctname)
 			var myfullname := Lower (me.name);
 			var myname := myfullname [1, find (myfullname, ",", 2)];
 			myname [","] := "";
-			var evtext := Lower (ev.text);
 			if (myname and evtext[myname])
 				var parms := Array {};
 				parms [1] := me;
-				parms[2] := ev.source;
-				start_script (":merchants:playermerchant_sort", parms);
+				parms[2] := player;
+				start_script (":player_merchants:playermerchant_sort", parms);
 			else
 				Say ("If you're talking to me, say " + myname + " sort");
 			endif
 		endif
 	endif
-
 endfunction
 
 
@@ -287,7 +233,7 @@ function follow (byref mmaster)
 		d:= distance (mmaster, me);
 		if (d > 20)
 			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, speed:=0xA, loop:=0xA);
-	MoveObjectToLocation( me, mmaster.x, mmaster.y, mmaster.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation (me, mmaster.x, mmaster.y, mmaster.z, mmaster.realm, MOVEOBJECT_FORCELOCATION);
 			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, speed:=0xA, loop:=0xA);
 			PlaySoundEffect (mmaster, SFX_SPELL_TELEPORT);
 		elseif (d > 1)
@@ -327,7 +273,7 @@ endfunction
 //  called when the vendor's owner gives them another item to sell
 ///////////////////
 
-function stockitem (byref item, byref seller)
+function stockitem (item, seller)
 	if (item.objtype == UOBJ_GOLD_COIN)
 		TakeGold (item);
 		return;
@@ -343,7 +289,7 @@ function stockitem (byref item, byref seller)
 			return;
 		endif
 	endif
-	
+
 	if (GetObjProperty (item, "ownerserial") )
 		Say ("That item has an owners mark!  Should I sell it anyway?");
 		if (!YesNo (seller, "Sell anyway?"))
@@ -476,6 +422,7 @@ endfunction
 ///////////////////
 
 function SetNewContactInformation (byref who)
+	var cont := getobjproperty (me, "cont");
 	var oldcont := cont;
 	if (!oldcont)
 		oldcont := "Not set";
@@ -517,7 +464,7 @@ function wear_item (byref item, byref you)
 			if (GetObjProperty (thingie, "mine"))
 				DestroyItem (thingie);
 			else
-	MoveObjectToLocation( thingie, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		        	MoveObjectToLocation (thingie, me.x, me.y, me.z, me.realm, MOVEOBJECT_FORCELOCATION);
 			endif
 		endif
 	endforeach
@@ -597,7 +544,7 @@ function fireme (mmaster)
 	sleep (2);
 	PlaySoundEffect (me, SFX_SPELL_RECALL);
 	RevokePrivilege (me, "invul");
-	KillMe ();
+	PlayerMerchantSuicide ();
 endfunction
 
 
@@ -608,7 +555,6 @@ endfunction
 ///////////////////
 
 function addthingstobuy (master)
-
 	var buylist := {};
 	var buyprice := { };
 	var buyobj := { };
@@ -690,7 +636,6 @@ function addthingstobuy (master)
 endfunction
 
 function SpoutBuyList (byref you)
-
 	var buylist := {};
 	var buyprice := {};
 	var i;
@@ -960,11 +905,79 @@ endfunction
 
 
 ///////////////////
-//  called at merchant AI startup, this function writes all the items the vendor is carrying to 
-//  a config file, which can then be used to make a webpage
+//  called when the merchant is first created
 ///////////////////
 
-function LogMyStuff ()
+function DoMerchantOnCreationSetup ()
+	if (!me)
+		return;
+	endif
+
+	sleep (1);
+	me.graphic := 400 + me.gender;
+	if (me.name ["<random>"])
+		var mymaster := SystemFindObjectBySerial (masterserial);
+		if (!mymaster)
+			mymaster := SystemFindObjectBySerial (masterserial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+		endif
+		if (mymaster)
+			me.name := RandomName (me) + ", " + mymaster.name + "'s Merchant";
+		else
+			me.name := RandomName (me) + ", Someone's Merchant";
+		endif
+	endif
+
+	if (!me.backpack)
+		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+		if (!EquipItem (me, newbackpack))
+			DestroyItem (newbackpack);
+		endif
+	endif
+
+	var parms := {};
+	parms[1]:= me;
+	parms[2]:= "rich";
+	say ("Ooh, I better get dressed!");
+	run_script_to_completion ("::/misc/dressme", parms);
+	foreach item in ListEquippedItems (me)
+		SetObjProperty (item, "mine", 1);
+	endforeach
+endfunction
+
+
+
+
+///////////////////
+//  Assorted things that need to be done every time the merchant is restarted
+///////////////////
+
+function DoMerchantRestartStuff ()
+	if (!me)
+		return;
+	endif
+
+	me.graphic := 400 + me.gender;
+	me.hidden := 0;
+	if (GetObjProperty (me, "frozen"))
+		me.frozen := 1;
+	endif
+
+	var storage := FindStorageArea ("Merchant Storage");
+	if (!storage)
+		exit;
+	endif
+
+	inv_fs := find_or_create_item (storage, me.serial + " FS", 0xE7C);
+	inv_pb := find_or_create_item (storage, me.serial + " PB", 0xE7C);
+	if (!inv_fs or !inv_pb)
+    		exit;
+	endif
+
+	//save the serial so storage can be deleted later
+	SetObjProperty (me, "serial", me.serial);
+	
+	//Add them to the global merchant list
+	
 	set_critical (1);
 	var playermerchantlist := GetGlobalProperty ("#playermerchantlist");
 	if (!playermerchantlist)
@@ -976,13 +989,24 @@ function LogMyStuff ()
 		SetGlobalProperty ("#playermerchantlist", playermerchantlist);
 	endif
 	set_critical (0);
+	
+	//If we're not allowed to sell at this location, commit suicide
+	if (!CanSellAtThisLocation ())
+		var mymaster := SystemFindObjectBySerial (masterserial);
+		if (!mymaster or !mymaster.ip)
+			PlayerMerchantSuicide ();
+			return;
+		else
+			PrintTextAbovePrivate (me, "I don't like this location, but since you're here, I guess its ok...", mymaster);
+		endif
+	endif
 endfunction
 
 
 
 
 ///////////////////
-//  counts how many henchmen a particular account has
+//  This function keeps track of how many merchants an account has
 ///////////////////
 
 function AddToAccountMerchants (masterserial)
@@ -994,7 +1018,7 @@ function AddToAccountMerchants (masterserial)
 
 	if (!mymaster)
 		set_critical (0);
-		KillMe ();
+		PlayerMerchantSuicide ();
 		return;
 	endif
 
@@ -1010,12 +1034,90 @@ function AddToAccountMerchants (masterserial)
 		merchants := {};
 	endif
 
-	if (me.serial in merchants)
-		set_critical (0);
-		return 1;
+	if (! (me.serial in merchants))
+		merchants.append (me.serial);
+		SetGlobalProperty ("#merchants_of_" + masteracctname, merchants);
 	endif
-	merchants.append (me.serial);
-	SetGlobalProperty ("#merchants_of_" + masteracctname, merchants);
 	set_critical (0);
-	return 1;
+
 endfunction
+
+
+
+
+///////////////////
+//  When a merchant tries to commit suicide, they try to place their items in their master's bankbox
+///////////////////
+
+function PlayerMerchantSuicide ()
+	RevokePrivilege (me, "invul");
+	if (!masteracctname)
+		KillMe ();
+		return;
+	endif
+
+	var master_bankbox := FindBankBox (masteracctname, 1);
+	if (!master_bankbox)
+		KillMe ();
+		return;
+	endif
+
+	var dump_backpack := CreateItemInContainer (master_bankbox, UOBJ_BACKPACK, 1);
+	if (!dump_backpack)
+		KillMe ();
+		return;
+	endif
+	
+	dump_backpack.name := "remains of " + me.name;
+
+	var mygold := CINT (GetObjProperty (me, "g"));
+	if (mygold > 0)
+		while (mygold > 60000)
+			CreateItemInContainer (dump_backpack, UOBJ_GOLD_COIN, 60000);
+			mygold := mygold - 60000;
+		endwhile;
+		CreateItemInContainer (dump_backpack, UOBJ_GOLD_COIN, mygold);
+	endif
+	EraseObjProperty (me, "g");
+
+	foreach item in ListRootItemsInContainer (me.backpack)
+		MoveItemToContainer (item, dump_backpack);
+	endforeach
+
+	foreach item in ListRootItemsInContainer (inv_fs)
+		MoveItemToContainer (item, dump_backpack);
+	endforeach
+
+	foreach item in ListRootItemsInContainer (inv_pb)
+		MoveItemToContainer (item, dump_backpack);
+	endforeach
+	
+	foreach thing in ListEquippedItems (me)
+		if ((thing.objtype < STARTHAIR or thing.objtype > ENDHAIR) and thing != me.backpack)
+			if (GetObjProperty (thing, "mine"))
+				DestroyItem (thing);
+			else
+		        	MoveItemToContainer (thing, dump_backpack);
+			endif
+		endif
+	endforeach
+	
+	//if there's no items in the backpack, just nuke it
+	var dump_backpack_items := EnumerateItemsInContainer (dump_backpack);
+	if (dump_backpack_items.size() < 1)
+		DestroyItem (dump_backpack);
+	endif
+	
+	KillMe ();
+endfunction
+
+
+
+
+
+
+
+
+
+
+

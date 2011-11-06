@@ -226,7 +226,7 @@ function DropAllItems (byref pet)
 	var mypack := FindMyPack(pet.serial);
 	foreach myitems in enumerateitemsincontainer(mypack)
 		if (myitems.container == mypack)
-	MoveObjectToLocation( myitems, pet.x, pet.y, pet.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( myitems, pet.x, pet.y, pet.z, pet.realm, flags := MOVEOBJECT_FORCELOCATION );
 			sleepms(100);
 		endif
 	endforeach
@@ -235,7 +235,7 @@ function DropAllItems (byref pet)
 		mypack := pet.backpack;
 		foreach item in enumerateitemsincontainer(mypack)
 			if (item.container == mypack)
-			MoveObjectToLocation( item, pet.x, pet.y, pet.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( item, pet.x, pet.y, pet.z, pet.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 		endforeach
 	endif

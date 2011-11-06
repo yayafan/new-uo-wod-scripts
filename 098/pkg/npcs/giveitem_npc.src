@@ -19,17 +19,17 @@ program use_questitem (parms)
 		if (questitem)
 			if (player)
 				if (!MoveItemToContainer (questitem, player.backpack))
-MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 				endif
 			elseif (npc)
-MoveObjectToLocation( questitem, npc.x, npc.y, npc.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, npc.x, npc.y, npc.z, npc.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 		endif
 		return;
 	endif
 
 	if (!MoveItemToContainer (questitem, npc.backpack))
-MoveObjectToLocation( questitem, npc.x, npc.y, npc.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, npc.x, npc.y, npc.z, npc.realm, flags := MOVEOBJECT_FORCELOCATION );
 		ReserveItem (questitem);
 	endif
 
@@ -37,7 +37,7 @@ MoveObjectToLocation( questitem, npc.x, npc.y, npc.z, realm := _DEFAULT_REALM, f
 	if (!deliverto)
 		PrintTextAbove (npc, "Sorry, I don't need that.");
 		if (!MoveItemToContainer (questitem, player.backpack))
-MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -45,7 +45,7 @@ MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT
 	if (deliverto != npc.serial)
 		GiveQuestDirections (player, npc, questitem);
 		if (!MoveItemToContainer (questitem, player.backpack))
-MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -93,7 +93,7 @@ MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT
 			foreach item in ListRootItemsInContainer (npc.backpack)
 				if (item.serial == returnitem_serial)
 					if (!MoveItemToContainer (item, player.backpack))
-MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 					endif
 					SendSysMessage (player, npc.name + " gives you " + item.desc);
 					delivery_handled := 1;
@@ -113,7 +113,7 @@ MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REAL
 	else
 		PrintTextAbove (npc, "Thanks, but no thanks.");
 		if (!MoveItemToContainer (questitem, player.backpack))
-MoveObjectToLocation( questitem, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 	endif
 	return;

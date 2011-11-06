@@ -73,6 +73,13 @@ program job (parms)
 		EraseObjProperty (player, "#workingonajob");
 		return;
 	endif
+	
+	//Special orders
+	if (jobtype == SKILLID_BLACKSMITHY)
+		if (GivePlayerBlacksmithySpecialOrder (merchant, player))
+			return 1;
+		endif
+	endif
 
 	var itemtype := GetItemTypeByJobType (jobtype);
 	if (!itemtype)
@@ -84,14 +91,21 @@ program job (parms)
 	var itemname := GetItemNameByItemType (itemtype);
 	var amount := RandomInt(10)+10;
 	var endtime := ReadGameClock() + 300;
+   	PrintTextAbovePrivate (merchant, "If you will make " + amount + " " + itemname + ", I will pay you for them.", player);
 
-	PrintTextAbovePrivate (merchant, "If you will make " + amount + " " + itemname + ", I will pay you for them.", player);
-	if (!YesNo (player,"Accept?") )
-		PrintTextAbovePrivate (merchant, "Very well.", player);
-		EraseObjProperty (player, "#workingonajob");
-		return;
+	//check auto-accept
+	var account := player.acct;
+	var job_options := account.GetProp("job_options");
+	if (job_options)
+		if (!job_options[1])
+			if (!YesNo (player,"Accept?") )
+				PrintTextAbovePrivate (merchant, "Very well.", player);
+				EraseObjProperty (player, "#workingonajob");
+				return;
+			endif
+		endif
 	endif
-	
+
 	merchantjobs.insert (ReadGameClock(), 1);
 	SetObjProperty (merchant, "#jobsgiven", merchantjobs);
 
@@ -476,3 +490,54 @@ function GetWorkAction( jobtype )
 	endcase
 
 endfunction
+
+
+
+
+///////////////////
+//  The merchant sometimes gives special orders (bulk order deeds)
+///////////////////
+
+function GivePlayerBlacksmithySpecialOrder (merchant, player)
+	if (GetAttributeBaseValue (player, ATTRIBUTEID_BLACKSMITHY) < 90)
+		return 0;
+	endif
+	
+	if (RandomInt (4))
+		return 0;
+	endif
+	
+	//The player can only get one deed every 6 hours, unless they finish the previous one
+	if (GetObjProperty (player, "#bulk_order_deed"))
+		var bulk_order_deed := GetObjProperty (player, "#bulk_order_deed");
+		if (bulk_order_deed[1] >= ReadGameClock())
+			return 0;
+		endif
+	endif
+	
+	var deed := CreateItemInContainer (player.backpack, 0x70d0, 1);
+	if (!deed)
+		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
+		return 0;
+	endif
+	
+	SetObjProperty (player, "#bulk_order_deed", {(ReadGameClock() + 21600), deed.serial});
+	SetObjProperty (deed, "start_time", ReadGameClock());
+	SetObjProperty (deed, "merchant_serial", merchant.serial);
+	SetObjProperty (deed, "merchant_name", merchant.name);
+	SetObjProperty (deed, "merchant_location", {merchant.x, merchant.y, merchant.z});
+	SetObjProperty (deed, "player_serial", player.serial);
+	
+	PrintTextAbovePrivate (merchant, "I could use some of these items, if you have the time.", player);
+	PrintTextAbovePrivate (merchant, "If you're not interested, though, don't worry about it.", player);
+
+	SendSysMessage (player, "You recieve a special commission!");
+	SendSysMessage (player, "(If you make the item(s) requested, add them to the deed,");
+	SendSysMessage (player, "and return it to the merchant, you will be paid.");
+	SendSysMessage (player, "You will not get another deed for 6 hours, or until that one is complete.)");
+
+	return 1;
+endfunction
+
+
+

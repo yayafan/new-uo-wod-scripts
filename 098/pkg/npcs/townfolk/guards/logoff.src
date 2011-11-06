@@ -35,7 +35,7 @@ function clone (byref character)
 	props.+gender := character.gender;
 	props.+script := "clone";
 	
-	var npc := CreateNpcFromTemplate ("pcclone", character.x, character.y, character.z, props);
+	var npc := CreateNpcFromTemplate ("pcclone", character.x, character.y, character.z, props, character.realm);
 	if (!npc)
 		return;
 	endif

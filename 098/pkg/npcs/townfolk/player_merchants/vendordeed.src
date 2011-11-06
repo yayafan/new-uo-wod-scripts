@@ -28,7 +28,7 @@ program use_vendor_deed ( character, deed )
 	AddMenuItem (gendermenu, 0, "Random");
 	var gender := SelectMenuItem2 (character, gendermenu);
 
-	var parms := {};
+	var parms := struct;
 	if (!gender)
 		SendSysMessage (character, "Canceled.");
 		return;
@@ -40,9 +40,9 @@ program use_vendor_deed ( character, deed )
 		parms.+gender := RandomInt (2);
 		parms.+name := "<random>";
 		set_critical (1);
-		var merchant := CreateNpcFromTemplate (":merchants:playervendor", where.x, where.y, where.z, parms, where.realm);
+		var merchant := CreateNpcFromTemplate (":player_merchants:playermerchant", where.x, where.y, where.z, parms, where.realm);
 		if (!merchant)
-			SendSysMessage (character, "Can't place there.");
+			SendSysMessage (character, "Can't place there. "+merchant);
 			return;
 		endif
 
@@ -79,9 +79,9 @@ program use_vendor_deed ( character, deed )
 	endif
 
 	set_critical (1);
-	var merchant := CreateNpcFromTemplate (":merchants:playervendor", where.x, where.y, where.z, parms, where.realm);
+	var merchant := CreateNpcFromTemplate (":player_merchants:playermerchant", where.x, where.y, where.z, parms, where.realm);
 	if (!merchant)
-		SendSysMessage (character, "Can't place there.");
+		SendSysMessage (character, "Can't place there. "+merchant);
 		return;
 	endif
 

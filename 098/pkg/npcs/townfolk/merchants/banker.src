@@ -48,13 +48,21 @@ program banker_AI();
 				endif
 			elseif (evtext["withdraw"])
 				var splitted := SplitWords (evtext);
-				if (len (splitted) == 2 and splitted[1] == "withdraw" and CINT (splitted[2]) )
-					WithdrawFromBank (ev.source, CINT (splitted[2]) );
+				if (len (splitted) == 2 and splitted[1] == "withdraw")
+					if (splitted[2] == "all")
+						WithdrawFromBank (ev.source, CountGoldInBankbox(ev.source) );
+					elseif (CINT (splitted[2]))
+						WithdrawFromBank (ev.source, CINT (splitted[2]) );
+					endif
 				endif
 			elseif (evtext["deposit"])
 				var splitted := SplitWords (evtext);
-				if (len (splitted) == 2 and splitted[1] == "deposit" and CINT (splitted[2]) )
-					DepositIntoBank (ev.source, CINT (splitted[2]) );
+				if (len (splitted) == 2 and splitted[1] == "deposit")
+					if (splitted[2] == "all")
+						DepositIntoBank (ev.source, ev.source.gold);
+					elseif ( CINT (splitted[2]) )
+						DepositIntoBank (ev.source, CINT (splitted[2]) );
+					endif
 				endif
 			else
 				check_speech (ev.text, ev.source);

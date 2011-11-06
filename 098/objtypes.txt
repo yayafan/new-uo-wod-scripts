@@ -1633,7 +1633,32 @@
 0x40a0 SmallStoneShop housing
 # 0x40a1 unused
 0x40a2 SmallMarbleShop housing
-# 0x40a3 - 0x5014 unused
+# 0x40a3 - 0x4257 unused
+0x4258 HornStyle1 barber
+0x4259 HornStyle2 barber
+0x425a HornStyle3 barber
+0x425b HornStyle4 barber
+0x425c HornStyle5 barber
+0x425d HornStyle6 barber
+0x425e HornStyle7 barber
+0x425f HornStyle8 barber
+# 0x4260 unused
+0x4261 HornStyle9 barber
+0x4262 HornStyle10 barber
+# 0x4263 - 0x4272 unused
+0x4273 HornStyle11 barber
+0x4274 HornStyle12 barber
+0x4275 HornStyle13 barber
+# 0x4276 - 0x42a9 unused
+0x42aa HornStyle14 barber
+0x42ab HornStyle15 barber
+# 0x42ac unused
+0x42ad FacialHornStyle1 barber
+0x42ae FacialHornStyle2 barber
+0x42af FacialHornStyle3 barber
+0x42b0 FacialHornStyle4 barber
+0x42b1 HornStyle16 barber
+# 0x42b2 - 0x5014 unused
 0x5015 wristwatch tinkering
 # 0x5016 - 0x6000 unused
 0x6001 blankmap cartography
@@ -1702,7 +1727,7 @@
 0x622d largemarblepatiohousedeed housing
 0x622e ranchhousedeed housing
 # 0x622f - 0x7007 unused
-0x7008 playervendordeed merchants
+0x7008 employmentcontract player_merchants
 0x7009 publicmallsign merchants
 # 0x700a - 0x701f unused
 0x7020 book books
@@ -2012,4 +2037,6 @@
 # 0xf022 - 0xff00 unused
 0xff01 SecureTradeContainer
 0xff02 WornItemsContainer
-# 0xff03 - 0xffff unused
+# 0xff03 - 0x12344 unused
+0x12345 mowongarawr
+# 0x12346 - 0x1ffff unused

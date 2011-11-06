@@ -62,7 +62,7 @@ function Fight (byref opponent)
 					if ( (steps > 4) and (oldd <= distance (me, opponent)) )
 						//see if they're on a boat, and if they are, teleport to them
 						if ((opponent.multi).isa(POLCLASS_BOAT) and oldd < 3)
-MoveObjectToLocation( me, opponent.x, opponent.y, opponent.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( me, opponent.x, opponent.y, opponent.z, opponent.realm, flags := MOVEOBJECT_FORCELOCATION );
 						//if all else fails, just try to run around randomly, or else flee
 						else
 							randomruns := randomruns + 1;

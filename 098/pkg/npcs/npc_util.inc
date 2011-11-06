@@ -235,7 +235,7 @@ function KillMe ()
 		if (item.container and item.container == me.backpack)
 			if (!item.newbie and item.movable)
 				if ((item.objtype < UOBJ_STARTHAIR or item.objtype > UOBJ_ENDHAIR))
-		MoveObjectToLocation( item, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 					if (item.decayat)
 						item.decayat := ReadGameClock() + 600;
 					endif
@@ -244,7 +244,7 @@ function KillMe ()
 		endif
 	endforeach
 
-	MoveObjectToLocation( me, 5288, 1176, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, 5288, 1176, 0, realm := REALM_BRITANNIA, flags := MOVEOBJECT_FORCELOCATION );
 	SetObjProperty (me, "guardkill", 1);
 	ApplyRawDamage (me, CINT (GetVital (me, "Life")/100) + 100);
 endfunction
@@ -268,7 +268,7 @@ function KillNPC (npc)
 		if (item.container and item.container == npc.backpack)
 			if (!item.newbie and item.movable)
 				if ((item.objtype < UOBJ_STARTHAIR or item.objtype > UOBJ_ENDHAIR))
-	MoveObjectToLocation( item, npc.x, npc.y, npc.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, npc.x, npc.y, npc.z, npc.realm, flags := MOVEOBJECT_FORCELOCATION );
 					if (item.decayat)
 						item.decayat := ReadGameClock() + 600;
 					endif
@@ -277,7 +277,7 @@ function KillNPC (npc)
 		endif
 	endforeach
 
-	MoveObjectToLocation( npc, 5288, 1176, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( npc, 5288, 1176, 0, realm := REALM_BRITANNIA, flags := MOVEOBJECT_FORCELOCATION );
 	SetObjProperty (npc, "guardkill", 1);
 	RevokePrivilege (npc, "invul");
 	ApplyRawDamage (npc, CINT (GetVital (npc, "Life")/100) + 100);
@@ -381,6 +381,7 @@ function WalkHome()
 		myhome[1] := me.x;
 		myhome[2] := me.y;
 		myhome[3] := me.z;
+		myhome[4] := me.realm;
 		SetObjProperty (me, "myhome", myhome);
 	else
 		myhome := GetObjProperty (me, "myhome");
@@ -398,7 +399,7 @@ function WalkHome()
 			return;
 		endif
 	endfor
-	MoveObjectToLocation( me, myhome[1], myhome[2], myhome[3], realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, myhome[1], myhome[2], myhome[3], myhome[4], flags := MOVEOBJECT_FORCELOCATION );
 	SetAnchor (myhome[1], myhome[2], 3, 80);
 endfunction
 
