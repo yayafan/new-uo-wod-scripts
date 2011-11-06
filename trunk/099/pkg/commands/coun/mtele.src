@@ -16,7 +16,7 @@ program textcmd_tele( who )
     while (1)
         var where := TargetCoordinates( who );
         if (where)
-	    var result := MoveObjectToLocation( who, where.x, where.y, where.z, who.realm, flags := MOVEOBJECT_FORCELOCATION );
+	    var result := MoveObjectToLocation( who, where.x, where.y, where.z, where.realm, flags := MOVEOBJECT_FORCELOCATION );
             if (!result)
                 SendSysMessage( who, result.errortext );
             endif
