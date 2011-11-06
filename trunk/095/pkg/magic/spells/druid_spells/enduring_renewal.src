@@ -5,7 +5,7 @@ use util;
 include "include/magic";
 include "include/skills";
 include "include/effects";
-var spell_circle := 6;
+var spell_circle := 8;
 
 
 program enduring_renewal (parms)
