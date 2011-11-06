@@ -3,10 +3,7 @@
 
 = Introduction =
 
-This is the Main Page. Before you can start working, you need to set up a POL 098 environment. You will need to download a POL 097 distro and the POL 098 binaries. They include documentation on how to generate the realms and set things up.
+This is the Main Page. Before you can start working, you need to set up a POL 099 environment. Just PM Agata in the WoD forum for instructions on how to set this up.
 
-Make sure you are using the Mondain's Legacy client available here: ftp://largedownloads.ea.com/pub/uo/setup-1.46.0.3.exe
-
-After that, you delete the pkg and scripts from that, and add the WoD scripts for POL 098 from the SVN repository. 
-
-If you need more help, contact Sheng or Natalia and they will guide you.
+Make sure you are using the Stygian Abyss Classic Client available here: 
+http://games.on.net/file/36130/Ultima_Online_Stygian_Abyss_-_Classic_Client_v7.0.7.1
