@@ -3,22 +3,25 @@
 
 = Introduction =
 
-The tasks follow
+Someone else has made a conversion of the World of Dreams scripts to POL 098. This conversion was done with an old version of the scripts, and it's not working 100% either.
 
+What we are doing is converting all of these scripts to POL 099 and update them to work like the 095 scripts. 
 
 = Details =
 
-  * Restore the old package structure as much as possible. This would not be necesary if we were to start a new server, but is *ABSOLUTELY NECESARY* for migrating from the live WoD server, as great part of the saved data makes reference to package names, script names and package structure.
+  * Verify the functionality of each entry in the pkg folder. It should work as in the 095 version. Several scripts are outdated and need deletion, full replacement, and patching to replace deprecated POL functions with the new ones.
 
-  * Also verify the functionality of each entry in the pkg folder, make sure everything is realm aware. Currently it uses {{{_DEFAULT_REALM}}}; this should be replaced with the _realm_ property of the character, npc or object in question to permit us to expand to the other realms in the future.
+  * Make sure everything is realm aware. Currently it uses {{{_DEFAULT_REALM}}}; this should be replaced with the _realm_ property of the character, npc or object in question to permit us to expand to the other realms in the future.
 
-  * Watch out for removed items. I have found and added some back, you may find more.
+  * Watch out for removed items. I have found and added some, you may find more.
 
 Each one of us should pick one by one the folders inside 095\pkg and compare them with 098\pkg, and do the necesary work to accomplish the tasks mentioned above.
 
 Here is the package list and those assigned to them in parenthesis:
+  * attributes
   * character
   * combat
+  * commands
   * drocket
   * dundee
   * guilds
