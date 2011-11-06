@@ -9,6 +9,8 @@ What we are doing is converting all of these scripts to POL 099 and update them 
 
 = Details =
 
+  * Remove all those credits wrongfully placed in the pkg.cfg files. The 098/099 scripts weren't done by JaceAce, they were done by Drocket and Dundee, JaceAce would count as a maintainer at most. But now WE are the maintainers.
+
   * Verify the functionality of each entry in the pkg folder. It should work as in the 095 version. Several scripts are outdated and need deletion, full replacement, and patching to replace deprecated POL functions with the new ones.
 
   * Make sure everything is realm aware. Currently it uses {{{_DEFAULT_REALM}}}; this should be replaced with the _realm_ property of the character, npc or object in question to permit us to expand to the other realms in the future.
