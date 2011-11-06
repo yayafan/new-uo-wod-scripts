@@ -7,7 +7,6 @@ include "include/client";
 include "include/objtype";
 include "include/eventid";
 include "include/utility";
-include "../pkg/npcs/npc_util";
 
 var inv_fs, inv_pb;
 var me := Self();
@@ -19,10 +18,9 @@ program merchant ()
 	//these merchants are obsolete.  all this AI script does is replace the merchant with the 'real' one
 	//in the new playermerchant package
 	
-	var newmerchant := CreateNpcFromTemplate (":player_merchants:playermerchant", me.x, me.y, me.z, 0, me.realm);
+	var newmerchant := CreateNpcFromTemplate (":playermerchants:playermerchant", me.x, me.y, me.x, 0, me.realm);
 	if (!newmerchant)
 		Syslog ("Error:  Unable to create new NPC");
-		Syslog ("Message: " + newmerchant.errortext);
 		return;
 	endif
 	
@@ -45,8 +43,9 @@ program merchant ()
   		exit;
 	endif
 
-	var newmerchant_inv_fs := find_or_create_item (storage, newmerchant.serial + " FS", 0xE7C);
-	var newmerchant_inv_pb := find_or_create_item (storage, newmerchant.serial + " PB", 0xE7C);
+	var newmerchant_inv_fs := find_or_create_item (storage, me.serial + " FS", 0xE7C);
+	var newmerchant_inv_pb := find_or_create_item (storage, me.serial + " PB", 0xE7C);
+	newmerchant_inv_fs := find_or_create_item (storage, me.serial + " 1C", 0xE7C);
 	if (!newmerchant_inv_fs or !newmerchant_inv_pb or !newmerchant_inv_fs)
   		Syslog ("Error:  Unable to create new merchant storage areas!");
   		return;
@@ -69,30 +68,15 @@ program merchant ()
 		SetObjProperty (newmerchant, "g", mygold);
 	endif
 	
-	if (GetObjProperty (me, "cont"))
-		SetObjProperty (newmerchant, "cont", GetObjProperty (me, "cont"));
-	endif
-	
-	if (GetObjProperty (me, "buylist"))
-		SetObjProperty (newmerchant, "buylist", GetObjProperty (me, "buylist"));
-	endif
-	
-	if (GetObjProperty (me, "buyprice"))
-		SetObjProperty (newmerchant, "buyprice", GetObjProperty (me, "buyprice"));
-	endif
-	
-	if (GetObjProperty (me, "buyobj"))
-		SetObjProperty (newmerchant, "buyobj", GetObjProperty (me, "buyobj"));
-	endif
-
-	if (GetObjProperty (me, "messagelog"))
-		SetObjProperty (newmerchant, "messagelog", GetObjProperty (me, "messagelog"));
-	endif
-
-
+	SetObjProperty (newmerchant, "cont", GetObjProperty (me, "cont"));
+	SetObjProperty (newmerchant, "buylist", GetObjProperty (me, "buylist"));
+	SetObjProperty (newmerchant, "buyprice", GetObjProperty (me, "buyprice"));
+	SetObjProperty (newmerchant, "buyobj", GetObjProperty (me, "buyobj"));
+	SetObjProperty (newmerchant, "messagelog", GetObjProperty (me, "messagelog"));
 	SetObjProperty (newmerchant, "master", GetObjProperty (me, "master"));
+	
 	RevokePrivilege (me, "invul");
-	KillMe ();
+	
 	
 endprogram
 

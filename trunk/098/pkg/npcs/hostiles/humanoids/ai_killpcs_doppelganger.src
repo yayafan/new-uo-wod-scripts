@@ -36,11 +36,14 @@ function process_combat_event (ev)
 		spellattack (ev.source);
 	endif
 	if (ev.type == EVID_DAMAGED)
-		if (GetVital (me, "Life") < CINT (GetVitalMaximumValue (me, "Life")/2))
+		if ((2 * GetVital (me, "Life")) < GetVitalMaximumValue (me, "Life"))
 			CastSpell(me,me,"gheal");
 			if (me.poisoned)
 				CastSpell (me, me, "cure");
-				CastSpell (me, ev.source, "poison");
+				if (RandomInt (2))
+					sleep (1);
+					CastSpell (me, ev.source, "poison");
+				endif
 			endif
 		endif
 		if (GetVital (me, "Life") < CINT (GetVitalMaximumValue (me, "Life")/10))
@@ -52,17 +55,14 @@ function process_combat_event (ev)
 endfunction
 
 function in_combat_event_loop (opponent)
-
 	DoMorph ();
 
 	if (spellcast)
 		spellattack (opponent);
 	endif
-
 endfunction
 
-function spellattack(opponent)
-
+function spellattack (opponent)
 	if (!GetObjProperty(me,"#lastbreath"))
 		SetObjProperty(me,"#lastbreath",ReadGameClock() + 5);
 	endif
@@ -98,7 +98,6 @@ function spellattack(opponent)
 	endif
 
 	SetObjProperty(me,"#lastbreath",ReadGameClock() + 5);
-
 endfunction
 
 function post_combat()

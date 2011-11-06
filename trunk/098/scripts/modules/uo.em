@@ -28,6 +28,8 @@ const FP_IGNORE_DOORS           := 0x02;    // ignore Doors (you've to open door
 // Send*Window flags
 const VENDOR_SEND_AOS_TOOLTIP   := 0x01;    // send Item Description using AoS Tooltips
 
+const SENDDIALOGMENU_FORCE_OLD  := 0x01;    // send UnCompressed Gump
+
 // RegisterForSpeechEvents flags
 const LISTENPT_HEAR_GHOSTS      := 0x01;    // hear ghost speech in addition to living speech
 
@@ -71,7 +73,7 @@ const TILEDATA_FLAG_CONTAINER   := 0x00200000; //Container
 const TILEDATA_FLAG_WEARABLE    := 0x00400000; //Wearable
 const TILEDATA_FLAG_LIGHTSOURCE := 0x00800000; //LightSource
 const TILEDATA_FLAG_ANIMATED    := 0x01000000; //Animated
-const TILEDATA_FLAG_NODIAGONAL  := 0x02000000; //No Diagonal
+const TILEDATA_FLAG_HOVEROVER   := 0x02000000; //HoverOver (gargoyle flying tiles)
 const TILEDATA_FLAG_UNK2        := 0x04000000; //Unknown 2
 const TILEDATA_FLAG_ARMOR       := 0x08000000; //Armor
 const TILEDATA_FLAG_ROOF        := 0x10000000; //Roof
@@ -84,7 +86,7 @@ const MAPDATA_FLAG_NONE         := 0x0000;     // Nothing
 const MAPDATA_FLAG_MOVELAND     := 0x0001;     // Move Land
 const MAPDATA_FLAG_MOVESEA      := 0x0002;     // Move Sea
 const MAPDATA_FLAG_BLOCKSIGHT   := 0x0004;     // Block Sight
-const MAPDATA_FLAG_OVERFLIGHT   := 0x0008;     // Over Flight
+const MAPDATA_FLAG_OVERFLIGHT   := 0x0008;     // Over Flight (gargoyle flying)
 const MAPDATA_FLAG_ALLOWDROPON  := 0x0010;     // Allow DropOn
 const MAPDATA_FLAG_GRADUAL      := 0x0020;     // Gradual
 const MAPDATA_FLAG_BLOCKING     := 0x0040;     // Blocking
@@ -178,8 +180,9 @@ const POLCLASS_ARMOR        := 15;
 const POLCLASS_WEAPON       := 16;
 
 // mobile.race constants
-const RACE_HUMAN := 0;
-const RACE_ELF   := 1;
+const RACE_HUMAN    := 0;
+const RACE_ELF      := 1;
+const RACE_GARGOYLE := 2;
 
 // Don't use these outside this file, use FONT_* from client.inc
 //  (and I don't know what for color)
@@ -192,12 +195,30 @@ const REALM_BRITANNIA := _DEFAULT_REALM;
 const REALM_ILSHENAR  := "ilshenar";
 const REALM_MALAS     := "malas";
 const REALM_TOKUNO    := "tokuno";
+const REALM_TERMUR    := "termur";
 
 //PerformAction
 const ACTION_DIR_FORWARD  := 0;
 const ACTION_DIR_BACKWARD := 1;
 const ACTION_NOREPEAT     := 0;
 const ACTION_REPEAT       := 1;
+
+//CanWalk
+const CANWALK_DIR := -1;
+
+//UpdateMobile
+const UPDATEMOBILE_RECREATE := 1;
+const UPDATEMOBILE_UPDATE   := 0;
+
+//CloseWindow
+const CLOSE_PAPERDOLL := 1;
+const CLOSE_STATUS    := 2;
+const CLOSE_PROFILE   := 8;
+const CLOSE_CONTAINER := 12;
+
+//SendCharProfile
+const CHARPROFILE_NO_UNEDITABLE_TEXT := array;
+const CHARPROFILE_NO_EDITABLE_TEXT := array;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -213,14 +234,17 @@ AssignRectToWeatherRegion( region, xwest, ynorth, xeast, ysouth );
 Attach( character );
 Broadcast( text, font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR );
 CancelTarget( of_whom );
+CanWalk(movemode, x1, y1, z1, x2_or_dir, y2 := CANWALK_DIR, realm := _DEFAULT_REALM);
 CheckLineOfSight( object1, object2 );
 CheckLosAt( character, x, y, z );
 CheckLosBetween( x1, y1, z1, x2, y2, z2, realm := _DEFAULT_REALM );
 CloseGump( character, pid, response := 0 );
 CloseTradeWindow( character );
+CloseWindow( character, type, object );
 ConsumeReagents( who, spellid );
 ConsumeSubstance( container, objtype, amount );
 CoordinateDistance(x1, y1, x2, y2);
+CoordinateDistanceEuclidean(x1, y1, x2, y2);
 CreateAccount( acctname, password, enabled );
 CreateItemAtLocation( x, y, z, objtype, amount := 1, realm := _DEFAULT_REALM );
 CreateItemCopyAtLocation(x, y, z, item, realm := _DEFAULT_REALM);
@@ -236,6 +260,7 @@ Detach();
 DisableEvents( eventtype );     // eventtype combination of constants from SYSEVENT.INC
 DisconnectClient( character );
 Distance( obj1, obj2 );
+DistanceEuclidean( obj1, obj2 );
 EnableEvents( eventtype, range := -1);  // eventtype combination of constants from SYSEVENT.INC
 EnumerateItemsInContainer( container, flags := 0 );
 EnumerateOnlineCharacters();
@@ -262,6 +287,7 @@ GetObjProperty( object, property_name );
 GetObjPropertyNames( object );
 GetObjType( object );
 GetObjtypeByName( name );
+GetRegionLightLevelAtLocation( x, y, realm := _DEFAULT_REALM );
 GetRegionName( object );
 GetRegionNameAtLocation( x, y, realm := _DEFAULT_REALM );
 GetRegionString( resource, x, y, propertyname, realm := _DEFAULT_REALM );
@@ -321,12 +347,15 @@ SecureTradeWin( character, character2 );
 SelectColor( character, item );
 SelectMenuItem2( character, menuname );
 SendBuyWindow( character, container, vendor, items, flags := 0 );
+SendCharProfile( character, of_who, title, uneditable_text := CHARPROFILE_NO_UNEDITABLE_TEXT, editable_text := CHARPROFILE_NO_EDITABLE_TEXT );
 SendCharacterRaceChanger( character );
-SendDialogGump( who, layout, textlines, x := 0, y := 0 );
+SendDialogGump( who, layout, textlines, x := 0, y := 0, flags := 0 );
 SendEvent( npc, event );
+SendHousingTool( who, house );
 SendInstaResDialog( character );
 SendOpenBook( character, book );
 SendOpenSpecialContainer( character, container );
+SendOverallSeason( season_id, playsound := 1 );
 SendPacket( to_whom, packet_hex_string );
 SendQuestArrow( to_whom, x := -1, y := -1); // no params (-1x,-1y) turns the arrow off
 SendSellWindow( character, vendor, i1, i2, i3, flags := 0 );
@@ -343,13 +372,13 @@ SetRegionLightLevel( regionname, lightlevel );
 SetRegionWeatherLevel( region, type, severity, aux := 0, lightoverride := -1);
 SetScriptController( who );
 Shutdown();
-SpeakPowerWords( who, spellid );
+SpeakPowerWords( who, spellid, font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR );
 StartSpellEffect( who, spellid );
 SubtractAmount( item, amount );
 SystemFindObjectBySerial( serial, sysfind_flags := 0 );
 Target( by_character, options := TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
 TargetCoordinates( by_character );
 TargetMultiPlacement( character, objtype, flags := 0, xoffset := 0, yoffset := 0 );
-UpdateMobile( mobile );
+UpdateMobile( mobile, recreate := UPDATEMOBILE_UPDATE );
 UseItem(item, character);
 POLCore();

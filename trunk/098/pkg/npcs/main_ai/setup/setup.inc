@@ -59,6 +59,7 @@ function DoOnCreationSetup ()
 	var myx := me.x;
 	var myy := me.y;
 	var myz := me.z;
+	var myr := me.realm;
 
 	if (!me.frozen and !me.paralyzed)
 		var old_runto_speed := me.run_speed;
@@ -86,6 +87,6 @@ function DoOnCreationSetup ()
 			endif
 		endif
 		me.run_speed := old_runto_speed;
-		MoveObjectToLocation( me, myx, myy, myz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( me, myx, myy, myz, myr, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 endfunction

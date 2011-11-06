@@ -88,16 +88,6 @@ program merchantai()
 			endif
 			next_restock := ReadGameClock() + RESTOCK_TIME_SECONDS;
 		endif
-
-		if ( GetObjProperty(me, "restocknow") )
-
-			Say( "Oh, that tickles!", text_type:=SAY_TEXTTYPE_DEFAULT, do_event:=SAY_DOEVENT_DISABLE );
-
-			RestockInventory(merchant_type, inv_fs);
-			EraseObjProperty(me, "restocknow");
-			EraseObjproperty(me, "restock");
-			next_restock := ReadGameClock() + RESTOCK_TIME_SECONDS;
-		endif
 	endwhile
 endprogram
 
@@ -156,13 +146,21 @@ function ProcessEvent (byref ev)
 						PrintTextAbovePrivate (me, "I'm sorry, but you need a mage.", ev.source);
 				endcase
 			elseif (evtext["buy"])
-				SendBuyWindow ( ev.source, inv_fs, me, inv_pb,VENDOR_SEND_AOS_TOOLTIP);
+				SendBuyWindow ( ev.source, inv_fs, me, inv_pb );
 			elseif (evtext["sell all"])
-				BuyAll(ev.source);
+				var parms := { };
+				parms[1] := me;
+				parms[2] := ev.source;
+				parms[3] := "sell all";
+				var start_return := start_script (":merchants:merchant_sell_bag", parms);
 			elseif (evtext["sell bag"])
-				BuyBag(ev.source);
+				var parms := { };
+				parms[1] := me;
+				parms[2] := ev.source;
+				parms[3] := "sell bag";
+				var start_return := start_script (":merchants:merchant_sell_bag", parms);
 			elseif (evtext["sell"])
-				SendSellWindow ( ev.source, me, inv_fs, inv_pb, inv_1c,VENDOR_SEND_AOS_TOOLTIP);
+				SendSellWindow ( ev.source, me, inv_fs, inv_pb, inv_1c );
 				PrintTextAbovePrivate ( me, "Can I help you?", ev.source );
 			elseif ( evtext["train"] or ev.text["teach"] )
 				TurnToward (ev.source);
@@ -187,18 +185,19 @@ function ProcessEvent (byref ev)
 
 		EVID_ITEM_GIVEN:
 			TurnToward (ev.source);
-			if ( GetObjProperty ( ev.item, "merchant") )
-				MoveItemToContainer (ev.item, me.backpack);
-				PayForJobCompleted ( ev );
+			MoveItemToContainer (ev.item, me.backpack);
+
+			if (GetObjProperty (ev.item, "merchant"))
+				PayForJobCompleted (ev);
+			elseif (ev.item.objtype == 0x70d0)	//blacksmithy special order deed
+				start_script (":blacksmithy:merchant_take_bulk_order_deed", {ev.source, me, ev.item});
 			elseif (GetObjProperty (ev.item, "deliverto") and GetObjProperty (ev.item, "deliverto") == me.serial)
 				if (GetObjProperty (ev.item, "sentfromname"))
-					MoveItemToContainer (ev.item, me.backpack);
 					PayForItemDelivery (ev);
 				else
 					TakeItem (ev.source, ev.item);
 				endif
 			elseif ( ev.item.objtype == UOBJ_GOLD_COIN )
-				MoveItemToContainer (ev.item, me.backpack);
 				TrainSkill (ev.source , ev.item);
 			else
 				TakeItem(ev.source, ev.item);
@@ -305,164 +304,6 @@ function PayForItemDelivery (byref ev)
 	parms[2] := ev.source;
 	parms[3] := ev.item;
 	start_script (":merchants:merchant_quest", parms);
-endfunction
-
-
-
-
-///////////////////
-//  called by 'sell bag'
-///////////////////
-
-function BuyBag (byref you)
-	PrintTextAbovePrivate ( me, "What bag of stuff would you like to sell me?", you );
-	var bag := Target (you);
-	if (!bag)
-		PrintTextAbovePrivate (me, "OK, never mind then.", you);
-		return;
-	endif
-
-	if (!bag.isa (POLCLASS_CONTAINER))
-		PrintTextAbovePrivate (me, "But that's not even a bag!", you);
-		return;
-	endif
-	
-	if (bag != you.backpack)
-		if (!InInventory (you.backpack, bag) )
-			PrintTextAbovePrivate (me, "That bag isn't in your inventory.", you);
-			return;
-		endif
-	endif
-
-	if (!len (EnumerateItemsInContainer (bag)))
-		PrintTextAbovePrivate (me, "But that bag is empty!", you);
-		return;
-	endif
-
-	var elem, itemprice, itemamount;
-	var itemdesc := ReadConfigFile (":*:itemdesc");
-	var totalsale := 0;
-
-	foreach item in ListRootItemsInContainer (bag)
-		if (IsBuyableItem (you, item, 1))
-			elem := FindConfigElem (itemdesc, item.objtype);
-			if (elem)
-				itemprice := GetConfigInt (elem, "vendorbuysfor");
-				if (itemprice)
-					totalsale := totalsale + (itemprice * item.amount);
-					DestroyItem (item);
-					sleepms (100);
-
-					if (totalsale > 50000)
-						break;
-					endif
-				endif
-			endif				
-		endif
-	endforeach
-	
-	if (!totalsale)
-		PrintTextAbovePrivate (me, "I'm afraid I don't want any of those items.", you);
-		return;
-	endif
-
-	PrintTextAbovePrivate (me, "The total of your sale is " + totalsale, you );
-	PlaySoundEffect (me, 0x38);
-	if (totalsale > 60000)
-		repeat
-			var thegold := CreateItemInContainer (you.backpack, UOBJ_GOLD_COIN, 60000);
-			if (!thegold)
-				PrintTextAbovePrivate (you, "*Your backpack is full!*", you);
-				CreateItemAtLocation (you.x, you.y, you.z, UOBJ_GOLD_COIN, 60000);
-			endif
-			totalsale := totalsale - 60000;
-		until (totalsale <= 60000);
-	endif
-	CreateItemInContainer (you.backpack, UOBJ_GOLD_COIN, totalsale);
-endfunction
-
-
-
-
-///////////////////
-//  called by 'sell all'
-///////////////////
-
-function BuyAll (byref you)
-
-	PrintTextAbovePrivate (me, "What would you like me to buy all of?", you );
-	var items := Target (you);
-	if ( !items or !Accessible (you, items) )
-		PrintTextAbovePrivate (me, "OK, never mind them.", you);
-		return;
-	endif
-
-	var itemdesc := ReadConfigFile (":*:itemdesc");
-	var elem := FindConfigElem (itemdesc, items.objtype);
-	if (!elem)
-		PrintTextAbovePrivate (me, "Sorry, but I don't want that.", you);
-		return;
-	endif
-
-	var itemprice := GetConfigInt (elem, "vendorbuysfor");
-	//crude hack because the sell window can't handle prices > 60000
-	if (!itemprice)
-		itemprice := GetConfigInt (elem, "BuyPrice");
-	endif
-
-	if (!itemprice)
-		PrintTextAbovePrivate (me, "Sorry, but I don't want that.", you);
-		return;
-	endif
-
-	if ( itemprice > 30000 )
-		if (!ReserveItem(items))
-			return;
-		endif
-		say("Ooh, an expensive one!");
-		while (itemprice > 60000)
-			CreateItemInContainer (you.backpack, "goldcoin", 60000);
-			itemprice := itemprice - 60000;
-		endwhile
-		CreateItemInContainer (you.backpack, "goldcoin", itemprice);
-		DestroyItem (items);
-		return;
-	endif
-
-	var thecolor := items.color;
-	var totalsale := 0;
-	var itemamount := 0;
-
-	foreach item in ListRootItemsInContainerOfObjtype (items.container, items.objtype)
-		if (item.color == thecolor and IsBuyableItem (you, item, 0))
-			totalsale := totalsale + (itemprice * item.amount);
-			DestroyItem (item);
-			sleepms (100);
-
-			if (totalsale > 50000)
-				break;
-			endif
-		endif
-	endforeach
-
-	if (!totalsale)
-		PrintTextAbovePrivate (me, "I'm afraid I don't want that.", you);
-		return;
-	endif
-
-	PrintTextAbovePrivate (me, "The total of your sale is " + totalsale, you );
-	PlaySoundEffect (me, 0x38);
-	if (totalsale > 60000)
-		repeat
-			var thegold := CreateItemInContainer (you.backpack, UOBJ_GOLD_COIN, 60000);
-			if (!thegold)
-				PrintTextAbovePrivate (you, "*Your backpack is full!*", you);
-				CreateItemAtLocation (you.x, you.y, you.z, UOBJ_GOLD_COIN, 60000);
-			endif
-			totalsale := totalsale - 60000;
-		until (totalsale <= 60000);
-	endif
-	CreateItemInContainer (you.backpack, UOBJ_GOLD_COIN, totalsale);
 endfunction
 
 
