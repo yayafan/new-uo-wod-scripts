@@ -1,4 +1,4 @@
 #summary Table of Contents
 
-[MainPage Main Page]
-[CurrentTasks Current Tasks]
+* [MainPage Main Page]
+* [CurrentTasks Current Tasks]
