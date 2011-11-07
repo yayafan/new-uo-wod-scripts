@@ -23,27 +23,44 @@ program spiritspeak (me)
 
 	me.hidden := 0;
 
-	//first see if they are "already under the influence"
-	if (!CanMod (me, "spiritspeak", 1))
-		SendSysMessage (me, "You are already in contact with the netherworld.");
-		return;
-	endif
-
+//	//first see if they are "already under the influence"
+//	if (!CanMod (me, "spiritspeak", 1))
+//		SendSysMessage (me, "You are already in contact with the netherworld.");
+//		return;
+//	endif
+//
+//	if (!CheckSkill (me, SKILLID_SPIRITSPEAK, -1, 0 ))
+//		SendSysMessage (me, "You fail to communicate with the netherworld.");
+//		return;
+//	endif
+//
+//	SendSysMessage (me, "You contact the netherworld." );
+//	PlaySoundEffect (me, SFX_SKILL_SPIRITSPEAK );
+//
+//	DoPersistedMod(me, "spiritspeak", 1, me.enabled( "hearghosts" ), 120, "Spiritspeak");
+//========================
+	PerformAction (me, ANIM_CAST_AREA);
+	PlaySoundEffect (me, SFX_SKILL_SPIRITSPEAK );
 	if (!CheckSkill (me, SKILLID_SPIRITSPEAK, -1, 0 ))
 		SendSysMessage (me, "You fail to communicate with the netherworld.");
+		detach();
+		sleep (5);
+		EraseObjProperty (me, "#useskill");
 		return;
 	endif
+	DrainVitae(me);
 
-	SendSysMessage (me, "You contact the netherworld." );
-	PlaySoundEffect (me, SFX_SKILL_SPIRITSPEAK );
-
-	DoPersistedMod(me, "spiritspeak", 1, me.enabled( "hearghosts" ), 120, "Spiritspeak");
+//========================
 
 	//now see if they are near a necro gravestone:
 	var stonelevel := FindNecroGravestone(me);
 	if (stonelevel)
 		ContactUndead(me, stonelevel);
 	endif
+	
+	detach();
+	sleep (5);
+	EraseObjProperty (me, "#useskill");
 
 endprogram
 
@@ -200,4 +217,59 @@ function MakeAMess(me, stonelevel)
 		CreateItemAtLocation (me.x, me.y, me.z, stuff, randomint(maxamt));
 	endfor
 
+endfunction
+
+function FindFreshCorpse(me)
+	foreach freshcorpse in ListItemsNearLocationOfType(me.x, me.y, me.z, 3, 0x2006 );
+		if (!GetObjProperty (freshcorpse, "drainedvitae"))
+			return freshcorpse;
+		endif
+	endforeach
+
+	return 0;
+
+endfunction
+
+function DrainVitae(me)
+	var necromancyskill := GetAttribute(me, ATTRIBUTEID_NECROMANCY);
+	var maxhealamount := (necromancyskill/10) + 4;
+	var minhealamount := 1 + (maxhealamount/2);
+	var healamount := 0;
+	foreach freshcorpse in ListItemsNearLocationOfType(me.x, me.y, me.z, 3, 0x2006 );
+		if (!GetObjProperty (freshcorpse, "drainedvitae"))
+			SetObjProperty (freshcorpse, "drainedvitae", 1);
+			freshcorpse.set_member("color", COLOR_GRAY);
+			var npctemplate := TrimTemplate (GetObjProperty (freshcorpse, "npctemplate"));
+			var NPCTemplateElem := GetNpcTemplateElem (npctemplate);
+			var corpsevirtue := NPCTemplateElem.virtue;
+			if (corpsevirtue < 1)
+				corpsevirtue := 1;
+			endif
+			maxhealamount := (necromancyskill / 2);
+			minhealamount := (1 + corpsevirtue) * 6;
+			if (minhealamount > maxhealamount)
+				minhealamount := maxhealamount;
+				healamount := maxhealamount;
+			else
+				healamount := minhealamount + RandomInt(maxhealamount - minhealamount);
+			endif 			
+			SendSysMessage (me, "You channel energy from a nearby corpse to heal your wounds.");
+			break;
+		endif
+	endforeach
+	if (!healamount)
+		var currentmana := CINT (GetVital(me, "Mana"))/100;
+		if (currentmana < 10)
+			SendSysMessage (me, "You do not have enough mana.");
+			return 0;
+		endif
+		healamount := 1 + (maxhealamount/2) + RandomInt(maxhealamount/2);
+		SetVital(me, "Mana", (currentmana - 10) * 100);
+		SendSysMessage (me, "You channel your own spiritual energy to heal your wounds.");
+	endif
+	PlayObjectCenteredEffect (me, FX_SPARK_EFFECT, 10, 10);
+	var currentlife := CINT (GetVital(me, "Life"))/100;
+	SetVital(me, "Life", (currentlife + healamount)*100);
+	DoPersistedMod(me, "spiritspeak", 1, me.enabled( "hearghosts" ), 120, "Spiritspeak");
+	return 0;
 endfunction
