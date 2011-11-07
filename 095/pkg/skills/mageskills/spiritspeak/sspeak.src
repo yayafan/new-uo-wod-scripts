@@ -48,7 +48,9 @@ program spiritspeak (me)
 		EraseObjProperty (me, "#useskill");
 		return;
 	endif
-	DrainVitae(me);
+	If (DrainVitae(me))
+		DoPersistedMod(me, "spiritspeak", 1, me.enabled( "hearghosts" ), 120, "Spiritspeak");
+	endif
 
 //========================
 
@@ -258,18 +260,15 @@ function DrainVitae(me)
 		endif
 	endforeach
 	if (!healamount)
-		var currentmana := CINT (GetVital(me, "Mana"))/100;
-		if (currentmana < 10)
+		if (!ConsumeVital(me, "Mana", 1000))
 			SendSysMessage (me, "You do not have enough mana.");
 			return 0;
 		endif
 		healamount := 1 + (maxhealamount/2) + RandomInt(maxhealamount/2);
-		SetVital(me, "Mana", (currentmana - 10) * 100);
 		SendSysMessage (me, "You channel your own spiritual energy to heal your wounds.");
 	endif
 	PlayObjectCenteredEffect (me, FX_SPARK_EFFECT, 10, 10);
-	var currentlife := CINT (GetVital(me, "Life"))/100;
-	SetVital(me, "Life", (currentlife + healamount)*100);
-	DoPersistedMod(me, "spiritspeak", 1, me.enabled( "hearghosts" ), 120, "Spiritspeak");
-	return 0;
+	HealDamage(me, healamount);
+	SendSysMessage (me, "You healed " + healamount + " damage.");
+	return 1;
 endfunction
