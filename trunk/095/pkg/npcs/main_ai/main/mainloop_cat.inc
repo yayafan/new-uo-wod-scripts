@@ -154,7 +154,7 @@ function GetAnimalNoise ()
 				3:	return 0xA7;
 				4:	return 0xA8;
 			endcase
-		CID_GORILLA:
+		CID_APE:
 			case (randomint(3))
 				0:	return 0x9F;
 				1:	return 0xA0;
