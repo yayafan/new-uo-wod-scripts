@@ -19,7 +19,7 @@ program display_forsale_items (parms)
 	if (!MoveItemToContainer (item, magic_dealer.backpack))
 		PrintTextAbovePrivate (magic_dealer, "Ack, I'm having problems!", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -27,7 +27,7 @@ program display_forsale_items (parms)
 	if (GetObjProperty (item, "ownerserial"))
 		PrintTextAbovePrivate (magic_dealer, "I'm sorry, but that has an owner's mark on it.", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -35,7 +35,7 @@ program display_forsale_items (parms)
 	if (!ReserveItem (item))
 		PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -43,7 +43,7 @@ program display_forsale_items (parms)
 	if (GetObjProperty (player, "#magic_dealerwindow"))
 		if (GetProcess (GetObjProperty (player, "#magic_dealerwindow")))
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			return;
 		endif
@@ -53,7 +53,7 @@ program display_forsale_items (parms)
 	if (GetObjProperty (item, "flavortext") or GetObjProperty (item, "etherial"))
 		PrintTextAbovePrivate (magic_dealer, "That looks too important to mess up", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		EraseObjProperty (player, "#magic_dealerwindow");
 		return;
@@ -61,7 +61,7 @@ program display_forsale_items (parms)
 	if (GetObjProperty (item, "tname") or GetObjProperty (item, "prefix") or GetObjProperty (item, "suffix"))
 		PrintTextAbovePrivate (magic_dealer, "That hasn't been identified!", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		EraseObjProperty (player, "#magic_dealerwindow");
 		return;
@@ -78,7 +78,7 @@ program display_forsale_items (parms)
 		if (!selected_item)
 			SendSysMessage (player, "Canceled.");
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -88,7 +88,7 @@ program display_forsale_items (parms)
 		if (!gift)
 			SendSysMessage (player, "Your backpack is full!");
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -100,7 +100,7 @@ program display_forsale_items (parms)
 		if (!gift)
 			SendSysMessage (player, "Your backpack is full!");
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -118,19 +118,21 @@ program display_forsale_items (parms)
 	if (!IsMagicalItem (item))
 		PrintTextAbovePrivate (magic_dealer, "What do you expect me to do with this!?", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		EraseObjProperty (player, "#magic_dealerwindow");
 		return;
 	endif
 
 	if (!GetObjProperty (item, "skilladv"))
-		PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
-		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		if (GetObjProperty (item, "skilladv") != 0)
+			PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
+			if (!MoveItemToContainer (item, player.backpack))
+				MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
+			endif
+			EraseObjProperty (player, "#magic_dealerwindow");
+			return;
 		endif
-		EraseObjProperty (player, "#magic_dealerwindow");
-		return;
 	endif
 
 	var possible_items := {};
@@ -177,7 +179,7 @@ program display_forsale_items (parms)
 		default:
 			PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -200,7 +202,7 @@ program display_forsale_items (parms)
 		default:
 			PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -249,7 +251,7 @@ program display_forsale_items (parms)
 		default:
 			PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -264,7 +266,7 @@ program display_forsale_items (parms)
 	if (!selected_item)
 		SendSysMessage (player, "Canceled.");
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		EraseObjProperty (player, "#magic_dealerwindow");
 		return;
@@ -281,7 +283,7 @@ program display_forsale_items (parms)
 		if (!player.spendgold (10000))
 			PrintTextAbovePrivate (magic_dealer, "But I'm afraid you don't have that much.", player);
 			if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 			EraseObjProperty (player, "#magic_dealerwindow");
 			return;
@@ -296,7 +298,7 @@ program display_forsale_items (parms)
 	if (!gift)
 		SendSysMessage (player, "Your backpack is full!");
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		EraseObjProperty (player, "#magic_dealerwindow");
 		return;

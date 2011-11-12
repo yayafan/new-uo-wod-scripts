@@ -50,15 +50,15 @@ function Fight (opponent)
 				RunToLocation (thegate.x, thegate.y, 10);
 				waittime := 1;
 				wasmoving := 1;
-			elseif (me.x < 12)
-				if (opponent.x > 5090)
+			elseif (me.x < 12 AND me.realm == REALM_BRITANNIA)
+				if (opponent.x > 5090 AND opponent.realm == REALM_BRITANNIA)
 MoveObjectToLocation( me, 5100, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 				else
 					post_combat ();
 					return;
 				endif
-			elseif (me.x > 5090)
-				if (opponent.x < 12)
+			elseif (me.x > 5090 AND me.realm == REALM_BRITANNIA)
+				if (opponent.x < 12 AND opponent.realm == REALM_BRITANNIA)
 MoveObjectToLocation( me, 10, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 				else
 					post_combat ();
@@ -151,7 +151,7 @@ MoveObjectToLocation( me, 10, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOC
 							steps := 0;
 						//Then see if they're on a boat, and if they are, teleport to them
 						elseif ((opponent.multi).isa(POLCLASS_BOAT) and oldd < 3)
-							MoveObjectToLocation( me, opponent.x, opponent.y, opponent.z, opponent.realm, flags := MOVEOBJECT_FORCELOCATION );
+MoveObjectToLocation( me, opponent.x, opponent.y, opponent.z, opponent.realm, flags := MOVEOBJECT_FORCELOCATION );
 						//if all else fails, just try to run around randomly, or else flee
 						else
 							randomruns := randomruns + 1;

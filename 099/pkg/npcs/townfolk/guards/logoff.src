@@ -76,6 +76,7 @@ function clone (byref character)
 		if (it)
 			it.color := thing.color;
 			it.graphic := thing.graphic;
+			it.newbie := 1;
 			if (thing.name)
 				it.name := thing.name;
 			endif
@@ -86,7 +87,7 @@ function clone (byref character)
 	endforeach
 
 	foreach attribute in ListSkillAttributes ()
-		SetAttributeBaseValue (npc, attribute, GetAttribute (character, attribute*10));
+		SetAttributeBaseValue (npc, attribute, GetAttribute (character, attribute)*10);
 	endforeach
 	SetAttributeBaseValue (npc, ATTRIBUTEID_HIDING, 0);
 endfunction

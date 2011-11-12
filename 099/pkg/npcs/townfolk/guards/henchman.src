@@ -8,6 +8,7 @@ use npc;
 use util;
 use cfgfile;
 include "../pkg/npcs/townfolk/guards/henchman";
+include "include/itemtypes";
 
 const HALT_THRESHOLD			:= 10;
 
@@ -192,7 +193,7 @@ function Follow ()
 		//just in case
 	elseif (d > 10 or chaseloop > 50)
 		SetObjProperty (me, "#justgated", 1);
-	MoveObjectToLocation( me, following.x, following.y, following.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, flags := MOVEOBJECT_FORCELOCATION );
 		chaseloop := 0;
 		sleepms (100);
   		SetAnchor (me.x, me.y, 20, 0);
@@ -274,9 +275,14 @@ function HasBow ()
 	var ammotype := 0;
 	case (weapon.objtype)
 		UOBJ_BOW:
+		UOBJ_COMPOSITE_BOW:
+		UOBJ_YUMI:
+		UOBJ_LONGBOW:
+		UOBJ_SHORTBOW:
 			ammotype := UOBJ_ARROW;
 		UOBJ_CROSSBOW:
 		UOBJ_HEAVY_CROSSBOW:
+		UOBJ_REPEATING_CROSSBOW:
 			ammotype := UOBJ_BOLT;
 		UOBJ_FIRE_BOW:
 			ammotype := UOBJ_FIRE_ARROW;
@@ -436,7 +442,7 @@ function ObeyCommand (byref ev)
 		endwhile
 		if (evtext["to me"])
 			SetObjProperty (me, "#justgated", 1);
-	MoveObjectToLocation( me, master.x, master.y, master.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, master.x, master.y, master.z, master.realm, flags := MOVEOBJECT_FORCELOCATION );
 			sleep (1);
     			EraseObjProperty (me, "#justgated");
 		endif
@@ -603,7 +609,10 @@ function ObeyCommand (byref ev)
 			DoTraining ();
 		endif
 	elseif (evtext[mename+" status"])
-		DisplayHenchmanStatus (master);
+		var parms := {};
+		parms[1] := ev.source;
+		parms[2] := me;
+		start_script (":guards:henchman_status", parms);
 	else
 		return 0;
 	endif
@@ -649,7 +658,7 @@ function MountHorse (byref horse)
 			say ("Well how am I supposed to ride THAT?");
 			return;
 	endcase
-if(MoveObjectToLocation( me, horse.x, horse.y, horse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
+if(MoveObjectToLocation( me, horse.x, horse.y, horse.z, horse.realm, flags := MOVEOBJECT_FORCELOCATION ))
 		set_critical (1);
 		me.facing := horse.facing;
 		var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1);
@@ -1018,7 +1027,7 @@ function CloseDistance (byref opponent)
 
 	if ( gd > 15 )
 		guarding := 0;
-	elseif ( gd > 8 )
+	elseif ( gd > 10 )
 		RunToward (guarding);
 		return 2;
 	elseif (gd > 4)
@@ -1095,7 +1104,7 @@ endfunction
 
 function Release ()
 	foreach item in ListRootItemsInContainer (me.backpack)
-	MoveObjectToLocation( item, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endforeach
 
 	foreach thing in ListEquippedItems (me)
@@ -1103,7 +1112,7 @@ function Release ()
 			if (GetObjProperty (thing, "mine"))
 				DestroyItem (thing);
 			else
-	MoveObjectToLocation( thing, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( thing, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 		endif
 	endforeach
@@ -1328,7 +1337,7 @@ endfunction
 
 function DropEverything()
 	foreach item in ListRootItemsInContainer (me.backpack)
-	MoveObjectToLocation( item, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endforeach
 endfunction
 
@@ -1347,6 +1356,10 @@ function ChangeWeapons (equipoption := "any", quietmode := 0)
 	case (equipoption)
 		"bow":
 			if (weapon and IsBow (weapon))
+				Say ("But I'm already using a bow!");
+				return 0;
+			endif
+			if (shield and IsBow (shield))
 				Say ("But I'm already using a bow!");
 				return 0;
 			endif
@@ -1424,10 +1437,10 @@ function ChangeWeapons (equipoption := "any", quietmode := 0)
 	endcase
 
 	if (weapon)
-	MoveObjectToLocation( weapon, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	if (shield)
-	MoveObjectToLocation( shield, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	foreach item in ListRootItemsInContainer (me.backpack)
 		EquipItem (me, item);
@@ -1457,10 +1470,10 @@ function Rearm (byref oldweapon_one, byref oldweapon_two)
 	endif
 
 	if (weapon)
-	MoveObjectToLocation( weapon, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	if (shield)
-	MoveObjectToLocation( shield, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 
 	EquipItem (me, oldweapon_one);
@@ -1715,114 +1728,6 @@ endfunction
 
 
 ///////////////////
-//  Displays a gump showing how the henchman is doing
-///////////////////
-
-function DisplayHenchmanStatus (master)
-	var gump_layout := array {
-		"nodispose",
-		"page 0",
-		"resizepic 20 20 2520 340 420",
-		"text 60 60 1310 0",
-		"text 60 80 0 1",		//
-		"text 60 100 0 2",		//
-		"text 60 120 0 3",		//
-		"text 60 140 0 4",		//
-		"text 60 160 0 5",		//	All the skill names
-		"text 60 180 0 6",		//
-		"text 60 200 0 7",		//
-		"text 60 220 0 8",		//
-		"text 60 240 0 9",		//
-		"text 60 260 0 10",		//
-
-		"text 220 80 40 11",	//
-		"text 220 100 40 12",	//
-		"text 220 120 40 13",	//
-		"text 220 140 40 14",	//
-		"text 220 160 40 15",	//	All the skill levels
-		"text 220 180 40 16",	//
-		"text 220 200 40 17",	//
-		"text 220 220 40 18",	//
-		"text 220 240 40 19",	//
-		"text 220 260 40 20",	//
-
-		"text 60 300 1310 21",
-		"text 60 320 0 22",		//
-		"text 60 340 0 23",		//
-		"text 60 360 0 24",		//	Stats
-		"text 220 320 40 25",	//
-		"text 220 340 40 26",	//
-		"text 220 360 40 27",	//
-		"text 260 320 0 28",	//
-		"text 260 340 0 29",	//
-		"text 260 360 0 30"		//
-	};
-
-	var gump_data := array {
-		"Skills:",
-		"Wrestling",
-		"Archery",
-		"Swordsmanship",
-		"Mace Fighting",
-		"Fencing",
-		"Tactics",
-		"Parry",
-		"Anatomy",
-		"Healing",
-		"Magic Resistance",
-		GetSkillLevelName ("Wrestling"),
-		GetSkillLevelName ("Archery"),
-		GetSkillLevelName ("Swordsmanship"),
-		GetSkillLevelName ("Macefighting"),
-		GetSkillLevelName ("Fencing"),
-		GetSkillLevelName ("Tactics"),
-		GetSkillLevelName ("Parry"),
-		GetSkillLevelName ("Anatomy"),
-		GetSkillLevelName ("Healing"),
-		GetSkillLevelName ("MagicResistance"),
-		"Stats:",
-		"Strength",
-		"Intelligence",
-		"Dexterity",
-		GetAttribute (me, "Strength"),
-		GetAttribute (me, "Intelligence"),
-		GetAttribute (me, "Dexterity"),
-		"(" + CSTR (GetAttributeBaseValue(me, "Strength")/10) + ")",
-		"(" + CSTR (GetAttributeBaseValue(me, "Intelligence")/10) + ")",
-		"(" + CSTR (GetAttributeBaseValue(me, "Dexterity")/10) + ")"
-	};
-
-	SendDialogGump (master, gump_layout, gump_data);
-endfunction
-
-
-
-
-///////////////////
-//  Gets a description of the skilllevel in the given skill
-///////////////////
-
-function GetSkillLevelName (attribute)
-	var skilllevel := GetAttribute (me, attribute);
-	if ( skilllevel  > 95 )
-		return "Master";
-	elseif ( skilllevel > 85 )
-		return "Adept";
-	elseif ( skilllevel > 75 )
-		return "Expert";
-	elseif ( skilllevel > 65 )
-		return "Journeyman";
-	elseif ( skilllevel > 55 )
-		return "Novice";
-	else
-		return "Neophyte";
-	endif
-endfunction
-
-
-
-
-///////////////////
 //  Limits the henchman's skills
 ///////////////////
 
@@ -1844,7 +1749,7 @@ endfunction
 ///////////////////
 
 function GetHenchmanSkillCap (master, skillid)
-	var skillcap := GetAttributeBaseValue (master, ATTRIBUTEID_LEADERSHIP) + 100;
+	var skillcap := GetAttributeBaseValue (master, ATTRIBUTEID_LEADERSHIP) + 200;
 	foreach item in ListEquippedItems (me)
 		if (GetObjProperty (item, "skilladv") and GetObjProperty (item, "skilladv") == skillid)
 			skillcap := skillcap + 10 * GetObjProperty (item, "skill"+skillid);

@@ -268,7 +268,7 @@ Const UOBJ_STANDING_HARP		:= 0x0eb1;
 ///////////////////
 
 Const UOBJ_LEATHER_GORGET	:= 0x13C7;
-Const UBOJ_LEATHER_SLEEVES	:= 0x13C5;
+Const UOBJ_LEATHER_SLEEVES	:= 0x13C5;
 Const UOBJ_LEATHER_SLEEVES2	:= 0x13CD;
 Const UOBJ_LEATHER_GLOVES	:= 0x13C6;
 Const UOBJ_LEATHER_CAP		:= 0x1DB9;
@@ -468,6 +468,15 @@ const UOBJ_SHAFT			:= 0x1BD4;
 Const UOBJ_ARROW			:= 0x0f3f;
 Const UOBJ_BOLT			:= 0x1bfb;
 Const UOBJ_FIRE_ARROW		:= 0x6051;
+Const UOBJ_FROST_ARROW		:= 0x6052;
+Const UOBJ_FIRE_BOLT		:= 0x6053;
+Const UOBJ_FROST_BOLT		:= 0x6054;
+
+Const UOBJ_COMPOSITE_BOW		:= 0x26C2;
+Const UOBJ_REPEATING_CROSSBOW	:= 0x26C3;
+Const UOBJ_YUMI					:= 0x27F0;
+Const UOBJ_LONGBOW				:= 0x2D2A;
+Const UOBJ_SHORTBOW				:= 0x2D2B;
 const UOBJ_HEAVY_XBOW   := 0x13fd;
 
 
@@ -532,6 +541,21 @@ const UOBJ_AZURITE_SHOVEL	:= 0x07098;
 const UOBJ_RUBYSTEEL_SHOVEL	:= 0x07099;
 const UOBJ_BLUESTEEL_SHOVEL	:= 0x0709a;
 
+
+
+
+
+///////////////////
+//  Maps
+///////////////////
+
+const UOBJ_DECODED_MAP		:= 0x14EB;
+const UOBJ_LEVEL_1_MAP		:= 0x6003;
+const UOBJ_LEVEL_2_MAP		:= 0x6004;
+const UOBJ_LEVEL_3_MAP		:= 0x6005;
+const UOBJ_LEVEL_4_MAP		:= 0x6006;
+const UOBJ_LEVEL_5_MAP		:= 0x6007;
+const UOBJ_SEER_MAP			:= 0x6008;
 
 
 
@@ -642,6 +666,7 @@ const UOBJ_LOCKPICKS    := 0x14fb;
 const UOBJ_BLUE_MOONGATE    := 0x0F6C;
 Const UOBJ_SPIDERWEB := 0xbf01;
 
+const UOBJ_CONTRACT_BLACKSMITHY := 0x70d0;
 
 
 

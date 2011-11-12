@@ -1,12 +1,11 @@
 use uo;
 use os;
 use util;
-use math;
 
 include "include/client";
 include "include/objtype";
 include "include/utility";
-include "include/wodmath";
+include "include/math";
 include "../pkg/npcs/townfolk/auctioneer/auctioneer";
 
 program display_forsale_items (character, text)

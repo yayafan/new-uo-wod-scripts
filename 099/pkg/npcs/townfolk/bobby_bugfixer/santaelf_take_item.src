@@ -19,7 +19,7 @@ program display_forsale_items (parms)
 	if (!MoveItemToContainer (item, magic_dealer.backpack))
 		PrintTextAbovePrivate (magic_dealer, "Ack, I'm having problems!", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -27,7 +27,7 @@ program display_forsale_items (parms)
 	if (GetObjProperty (item, "ownerserial"))
 		PrintTextAbovePrivate (magic_dealer, "I'm sorry, but that has an owner's mark on it.", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -35,7 +35,7 @@ program display_forsale_items (parms)
 	if (!ReserveItem (item))
 		PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 		if (!MoveItemToContainer (item, player.backpack))
-		MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
