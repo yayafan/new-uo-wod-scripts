@@ -142,7 +142,7 @@ function PlayAnimalSoundEffects ()
 				3:	PlaySoundEffect (me, 0xA7);
 				4:	PlaySoundEffect (me, 0xA8);
 			endcase
-		CID_GORILLA:
+		CID_APE:
 			case (randomint(3))
 				0:	PlaySoundEffect (me, 0x9F);
 				1:	PlaySoundEffect (me, 0xA0);

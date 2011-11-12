@@ -89,6 +89,8 @@ function IsWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x1438 and weapon.graphic <= 0x1443)
 		return 1;
+	elseif (weapon.graphic >= 0x26BA and weapon.graphic <= 0x26CF)
+		return 1;
 	endif
 		return 0;
 endfunction
@@ -114,6 +116,10 @@ function IsWoodenWeapon (byref weapon)
 	elseif (weapon.graphic == 0x7068 or weapon.graphic == 0x706a)
 		return 1;
 	elseif (weapon.graphic == 0x7065)
+		return 1;
+	elseif (weapon.graphic == 0x26C2 or weapon.graphic == 0x26C3)
+		return 1;
+	elseif (weapon.graphic == 0x26CC or weapon.graphic == 0x26CD)
 		return 1;
 	endif
 		return 0;
@@ -147,6 +153,10 @@ function IsMetalWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x1438 and weapon.graphic <= 0x1443)
 		return 1;
+	elseif (weapon.graphic >= 0x26BA and weapon.graphic <= 0x26C1)
+		return 1;
+	elseif (weapon.graphic >= 0x26C4 and weapon.graphic <= 0x26CB)
+		return 1;
 	endif
 		return 0;
 endfunction
@@ -157,6 +167,18 @@ function IsBow (byref weapon)
 	elseif (weapon.graphic >= 0x13B1 and weapon.graphic <= 0x13B2)
 		return 1;
 	elseif (weapon.graphic >= 0x13FC and weapon.graphic <= 0x13FD)
+		return 1;
+	elseif (weapon.graphic >= 0x26C2 and weapon.graphic <= 0x26C3)
+		return 1;
+	elseif (weapon.graphic >= 0x26CC and weapon.graphic <= 0x26CD)
+		return 1;
+	elseif (weapon.graphic >= 0x2D2A and weapon.graphic <= 0x2D2B)
+		return 1;
+	elseif (weapon.graphic >= 0x2D1E and weapon.graphic <= 0x2D1F)
+		return 1;
+	elseif (weapon.graphic == 0x27A5)
+		return 1;
+	elseif (weapon.graphic == 0x27F0)
 		return 1;
 	endif
 		return 0;

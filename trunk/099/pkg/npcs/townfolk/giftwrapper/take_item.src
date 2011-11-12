@@ -13,7 +13,7 @@ program giftwrap (parms)
 	if (!MoveItemToContainer (item, merchant.backpack))
 		PrintTextAbovePrivate (merchant, "Ack, I'm having problems!", player);
 		if (!MoveItemToContainer (item, player.backpack))
-	MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -31,7 +31,7 @@ program giftwrap (parms)
 	if (!bow_selection or !bow_selection.index)
 		SendSysMessage (player, "Canceled");
 		if (!MoveItemToContainer (item, player.backpack))
-	MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -72,7 +72,7 @@ program giftwrap (parms)
 	if (!package_selection or !package_selection.index)
 		SendSysMessage (player, "Canceled");
 		if (!MoveItemToContainer (item, player.backpack))
-	MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -105,7 +105,7 @@ program giftwrap (parms)
 	if (!player.spendgold (50))
 		PrintTextAbovePrivate (merchant, "I'm sorry, but you can't afford it...", player);
 		if (!MoveItemToContainer (item, player.backpack))
-	MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif
@@ -114,7 +114,7 @@ program giftwrap (parms)
 	if (!giftbox)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
 		if (!MoveItemToContainer (item, player.backpack))
-	MoveObjectToLocation( item, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		return;
 	endif

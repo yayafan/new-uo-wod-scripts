@@ -73,7 +73,7 @@ program display_forsale_items (player, potion)
 	var parms := {};
 	parms[1] := new_item;
 	parms[2] := 10;
-	parms[2] := 0;
+	parms[3] := 0;
 
 	if (!run_script_to_completion (":loot:makeitemmagic", parms))
 		SendSysMessage (player, "You cannot make that item magical!");

@@ -85,9 +85,9 @@ program townguard_status_command (parms)
 		PrintTextAbovePrivate (guard, "Oops, now where did he go?", player);
 		return;
 	endif
-if(!MoveObjectToLocation( follower, player.x - 1, player.y - 1, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
-if(MoveObjectToLocation( follower, player.x + 1, player.y + 1, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
-if(MoveObjectToLocation( follower, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
+	if(!MoveObjectToLocation( follower, player.x - 1, player.y - 1, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION ))
+		if(MoveObjectToLocation( follower, player.x + 1, player.y + 1, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION ))
+			if(MoveObjectToLocation( follower, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION ))
 				PrintTextAbovePrivate (guard, "Crap.  That's just not going to work!", player);
 				return;
 			endif

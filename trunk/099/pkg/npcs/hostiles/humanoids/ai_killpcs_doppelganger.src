@@ -195,11 +195,11 @@ function DoMorph ()
 				newitem.name := item.name;
 			endif
 			if (newitem.objtype == UOBJ_MOUNT)
-				var mounttype := GetObjProperty (item, "npctemplate");
-				if (mounttype)
-					SetObjProperty (newitem, "npctemplate", mounttype);
-					SetObjProperty (newitem, "notame", 1);
-				endif
+				SetObjProperty (newitem, "npctemplate", me.npctemplate);
+				SetObjProperty (newitem, "petname", GetObjProperty (item, "petname"));
+				SetObjProperty (newitem, "pethp", 50);
+				SetObjProperty (newitem, "petgraphic", GetObjProperty (item, "petgraphic"));
+				SetObjProperty (newitem, "notame", 1);
 			else
 				newitem.newbie := 1;
 			endif

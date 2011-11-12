@@ -50,9 +50,9 @@ program banker_AI();
 				var splitted := SplitWords (evtext);
 				if (len (splitted) == 2 and splitted[1] == "withdraw")
 					if (splitted[2] == "all")
-						WithdrawFromBank (ev.source, CountGoldInBankbox(ev.source) );
+						WithdrawFromBank (ev.source, CountGoldInBankbox(ev.source));
 					elseif (CINT (splitted[2]))
-						WithdrawFromBank (ev.source, CINT (splitted[2]) );
+						WithdrawFromBank (ev.source, CINT (splitted[2]));
 					endif
 				endif
 			elseif (evtext["deposit"])
@@ -60,8 +60,8 @@ program banker_AI();
 				if (len (splitted) == 2 and splitted[1] == "deposit")
 					if (splitted[2] == "all")
 						DepositIntoBank (ev.source, ev.source.gold);
-					elseif ( CINT (splitted[2]) )
-						DepositIntoBank (ev.source, CINT (splitted[2]) );
+					elseif ( CINT (splitted[2]))
+						DepositIntoBank (ev.source, CINT (splitted[2]));
 					endif
 				endif
 			else
@@ -141,22 +141,6 @@ function CountGoldInBankbox (byref you)
 	return gold_count;
 endfunction
 
-
-
-
-///////////////////
-//  counts all the gold the player has in his backpack
-///////////////////
-
-function CountGoldInBackpack (byref you)
-	var gold_count := 0;
-	foreach item in EnumerateItemsInContainer (you.backpack)
-		if (item.objtype == UOBJ_GOLD_COIN)
-			gold_count := gold_count + item.amount;
-		endif
-	endforeach
-	return gold_count;
-endfunction
 
 
 

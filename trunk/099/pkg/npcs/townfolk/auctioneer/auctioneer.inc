@@ -12,6 +12,12 @@ Const MAX_AUCTIONS_PER_CATEGORY := 3;
 Const BUTTON_LAST_ITEM		:= 1000;
 Const BUTTON_NEXT_ITEM		:= 1001;
 Const BUTTON_EVALUATE_ITEM	:= 1002;
+Const BUTTON_MOVE_GUMP_UP	:= 1003;
+Const BUTTON_MOVE_GUMP_DOWN	:= 1004;
+Const BUTTON_MOVE_GUMP_LEFT	:= 1005;
+Const BUTTON_MOVE_GUMP_RIGHT	:= 1006;
+Const BUTTON_MOVE_GUMP_SIZE	:= 1007;
+Const BUTTON_HELP			:= 1010;
 
 var storage := find_or_create_storage ( "Auction Storage" );
 if (!storage)
@@ -160,47 +166,373 @@ endfunction
 
 
 ///////////////////
+//  Displays the pages for the auction items in the list provided
+///////////////////
+
+function DisplayAuctionItems (player, auctioneer, byref items, current_item_num := 1)
+	if (!items.size())
+		SendSysMessage (player, "Error:  no items to display");
+		return;
+	endif
+	if (current_item_num > items.size())
+		current_item_num := 1;
+	endif
+
+	repeat
+		players_gold_held := DetermineGoldHeld (player.acctname);
+		players_gold_available := DetermineGoldAvailable (player.acctname);
+		current_item := items[current_item_num];
+		BuildAuctionDisplayGump (current_item, player);
+
+		var gump_return := SendDialogGump (player, gump_layout, gump_data);
+		if (gump_return == error)
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "Please close other gumps first.", player);
+			else
+				SendSysMessage (player, "Please close other gumps first");
+			endif
+			return;
+		elseif (!gump_return or !gump_return[0])
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "Maybe next time.", player);
+			else
+				SendSysMessage (player, "Maybe next time.");
+			endif
+			return;
+		endif
+		
+		if (gump_return[0] == BUTTON_NEXT_ITEM)
+			current_item_num := current_item_num + 1;
+			if (current_item_num > len (items))
+				current_item_num := 1;
+			endif
+			SetObjProperty (player, "#auction_item_num", current_item_num);
+		elseif (gump_return[0] == BUTTON_LAST_ITEM)
+			current_item_num := current_item_num - 1;
+			if (current_item_num < 1)
+				current_item_num := len (items);
+			endif
+			SetObjProperty (player, "#auction_item_num", current_item_num);
+		elseif (gump_return[0] == BUTTON_EVALUATE_ITEM)
+			start_script (":auctioneer:evaluate_item", {player, current_item});
+		elseif (gump_return[0] == BUTTON_MOVE_GUMP_UP)
+			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
+			if (!auction_gump_location)
+				auction_gump_location := {100, 100};
+			endif
+			
+			auction_gump_location[2] := auction_gump_location[2] - 50;
+			if (auction_gump_location[2] < 0)
+				auction_gump_location[2] := 0;
+			endif
+			SetObjProperty (player, "#auction_gump_location", auction_gump_location);
+		elseif (gump_return[0] == BUTTON_MOVE_GUMP_DOWN)
+			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
+			if (!auction_gump_location)
+				auction_gump_location := {100, 100};
+			endif
+			
+			auction_gump_location[2] := auction_gump_location[2] + 50;
+			SetObjProperty (player, "#auction_gump_location", auction_gump_location);
+		elseif (gump_return[0] == BUTTON_MOVE_GUMP_LEFT)
+			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
+			if (!auction_gump_location)
+				auction_gump_location := {100, 100};
+			endif
+			
+			auction_gump_location[1] := auction_gump_location[1] - 50;
+			if (auction_gump_location[1] < 0)
+				auction_gump_location[1] := 0;
+			endif
+			SetObjProperty (player, "#auction_gump_location", auction_gump_location);
+		elseif (gump_return[0] == BUTTON_MOVE_GUMP_RIGHT)
+			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
+			if (!auction_gump_location)
+				auction_gump_location := {100, 100};
+			endif
+			
+			auction_gump_location[1] := auction_gump_location[1] + 50;
+			SetObjProperty (player, "#auction_gump_location", auction_gump_location);
+		else
+			var item := current_item;
+
+			//check the timer to see if it expired when they were browsing
+			if (!GetObjProperty (item, "endtime") or GetObjProperty (item, "endtime") < ReadGameClock())
+				if (auctioneer)
+					PrintTextAbovePrivate (auctioneer, "Too late!  Bidding is already closed on that item", player);
+				else
+					SendSysMessage (player, "Too late!  Bidding is already closed on that item");
+				endif
+				return;
+			endif
+
+			if (BidOnItem (player, auctioneer, item))
+				return;
+			endif
+		endif
+	until (!player);
+endfunction
+
+
+
+
+///////////////////
+//  Handles bids on items
+///////////////////
+
+function BidOnItem (player, auctioneer, item)
+	// set up a couple of variables
+	var current_high_bid := GetObjProperty (item, "current_high_bid");
+	var current_high_bidder := GetObjProperty (item, "current_high_bidder");
+	var minbid := GetObjProperty (item, "minbid");
+	players_gold_held := DetermineGoldHeld (player.acctname);
+	players_gold_available := DetermineGoldAvailable (player.acctname);
+
+	//If its the player's own item and theres no bidders, they can remove it from auction if there's no bidders
+	if (GetObjProperty (item, "selleracctname") == player.acctname)
+		if (!current_high_bid)
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "Well, since no one has bid on that item yet, I guess we can do that.", player);
+			else
+				SendSysMessage (player, "Well, since no one has bid on that item yet, I guess we can do that.");
+			endif
+			MoveItemToContainer (item, player.backpack);
+			EraseAllProperties (item);
+			return 1;
+		else
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "You can't bid on your own items!", player);
+			else
+				SendSysMessage (player, "You can't bid on your own items!");
+			endif
+			return 0;
+		endif
+	endif
+
+	if (current_high_bid)
+		minbid := minbid + GetMinimumBidIncrement (minbid);
+	endif
+
+	//Let them know if they're the current high bidder
+	if (current_high_bidder and current_high_bidder == player.acctname)
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "You're already the highest bidder!", player);
+			sleep (1);
+			PrintTextAbovePrivate (auctioneer, "Your old bid was " + current_high_bid, player);
+		else
+			SendSysMessage (player, "You're already the highest bidder!");
+			sleep (1);
+			SendSysMessage (player, "Your old bid was " + current_high_bid);
+		endif
+	endif
+
+	//Make sure they have enough gold available to pay for the minimum bid
+	if (players_gold_available < minbid)
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "The minimum bid is " + minbid + " gold.", player);
+			sleep (1);
+			PrintTextAbovePrivate (auctioneer, "You don't have that much available!", player);
+		else
+			SendSysMessage (player, "The minimum bid is " + minbid + " gold.");
+			sleep (1);
+			SendSysMessage (player, "You don't have that much available!");
+		endif
+		return;
+	endif
+
+	var players_bid := SendTextEntryGump (player, "Enter your bid:", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Must be at least " + minbid + " gold)");
+	players_bid := CINT (players_bid);
+	if (!players_bid)
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "Maybe next time, then.", player);
+		else
+			SendSysMessage (player, "Maybe next time, then.");
+		endif
+		return;
+	endif
+
+	//check the timer again to see if it expired when they were entering a price, or if it was
+	//just about to expire, extend it a bit
+	if (!GetObjProperty (item, "endtime") or GetObjProperty (item, "endtime") < ReadGameClock())
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "Too late!  Bidding is already closed on that item", player);
+		else
+			SendSysMessage (player, "Too late!  Bidding is already closed on that item");
+		endif
+		return;
+	elseif (GetObjProperty (item, "endtime") + 600 < ReadGameClock() )
+		SetObjProperty (item, "endtime", ReadGameClock() + 600);
+	endif
+
+	//Reload some of the data in case someone else bid on the item while we
+	// were entering our bid
+	current_high_bid := GetObjProperty (item, "current_high_bid");
+	current_high_bidder := GetObjProperty (item, "current_high_bidder");
+	minbid := GetObjProperty (item, "minbid");
+	players_gold_held := DetermineGoldHeld (player.acctname);
+	players_gold_available := DetermineGoldAvailable (player.acctname);
+
+	//add them to the list of bidders
+	var bidder_list := GetObjProperty (item, "bidder_list");
+	if (!bidder_list)
+		bidder_list := Array {player.acctname};
+		SetObjProperty (item, "bidder_list", bidder_list);
+	elseif (!(player.acctname in bidder_list))
+		bidder_list.append (player.acctname);
+		SetObjProperty (item, "bidder_list", bidder_list);
+	endif
+
+	//Make sure they have enough to pay for their bid
+	if (players_bid > players_gold_available)
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "You don't have that much available!", player);
+		else
+			SendSysMessage (player, "You don't have that much available!");
+		endif
+		return;
+	endif
+
+	//if no one else bid, they get it for the minimum bid
+	if (!current_high_bidder)
+		if (players_bid < minbid)
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "That's less than the current bid!", player);
+			else
+				SendSysMessage (player, "That's less than the current bid!");
+			endif
+			return;
+		endif
+
+		SetObjProperty (item, "current_high_bidder", player.acctname);
+		SetObjProperty (item, "current_high_bid", players_bid);
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "Congratulations!  You're the current high bidder at " + minbid + " gold!", player);
+		else
+			SendSysMessage (player, "Congratulations!  You're the current high bidder at " + minbid + " gold!");
+		endif
+		return;
+	endif
+
+
+	//if they're already the highest bidder, make sure they outbid themselves and
+	// replace their old bid with the new one
+	if (current_high_bidder == player.acctname)
+		if (players_bid < GetObjProperty (item, "current_high_bid"))
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "You must bid higher than your old bid of " + GetObjProperty (item, "current_high_bid"), player);
+			else
+				SendSysMessage (player, "You must bid higher than your old bid of " + GetObjProperty (item, "current_high_bid"));
+			endif
+		else
+			SetObjProperty (item, "current_high_bid", players_bid);
+			if (auctioneer)
+				PrintTextAbovePrivate (auctioneer, "You replace your old bid with the new one of " + players_bid, player);
+			else
+				SendSysMessage (player, "You replace your old bid with the new one of " + players_bid);
+			endif
+		endif
+		return;
+	endif
+
+	//otherwise we already have a bidder, so increment it by the min. bid inc.
+	minbid := minbid + GetMinimumBidIncrement (minbid);
+	if (players_bid < minbid)
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "That's less than the current bid!", player);
+		else
+			SendSysMessage (player, "That's less than the current bid!");
+		endif
+		return;
+	endif
+	
+	//if there's already a higher bid, outbid them
+	if (current_high_bid >= players_bid)
+		minbid := players_bid + GetMinimumBidIncrement (minbid);
+		if (minbid > current_high_bid)
+			minbid := current_high_bid;
+		endif
+		SetObjProperty (item, "minbid", minbid);
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "I'm sorry, but there's an existing higher bid.", player);
+		else
+			SendSysMessage (player, "I'm sorry, but there's an existing higher bid.");
+		endif
+		return;
+
+	//otherwise, increase the min bid to the preview bid
+	else
+		minbid := current_high_bid + GetMinimumBidIncrement (minbid);
+		if (minbid > players_bid)
+			minbid := players_bid;
+		endif
+		SetObjProperty (item, "current_high_bidder", player.acctname);
+		SetObjProperty (item, "current_high_bid", players_bid);
+		SetObjProperty (item, "minbid", minbid);
+		if (auctioneer)
+			PrintTextAbovePrivate (auctioneer, "Congratulations!  You're the current high bidder at " + minbid + " gold!", player);
+		else
+			SendSysMessage (player, "Congratulations!  You're the current high bidder at " + minbid + " gold!");
+		endif
+	endif
+endfunction
+
+
+
+
+///////////////////
 //  does thw grunt work of building the gump
 ///////////////////
 
 function BuildAuctionDisplayGump (byref item, byref player)
+	var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
+	if (!auction_gump_location)
+		auction_gump_location := {100, 100};
+	endif
+
 	gump_layout := array {
 		"nodispose",
+		"nomove",
 		"page 0",
-		"resizepic 20 20 2600 500 380",
-		"resizepic 60 60 5120 60 60",
-		"tilepic 70 70 " + item.graphic,
+		"resizepic " + auction_gump_location[1] + " " + auction_gump_location[2] + " 2600 500 380",
+		"resizepic " + (auction_gump_location[1]+380) + " " + (auction_gump_location[2]+50) + " 5120 60 60",
+		"tilepic " + (auction_gump_location[1]+380) + " " + (auction_gump_location[2]+55) + " " + item.graphic,
 
-		"text 140 70 1327 0",			//"Item:"
-		"text 200 70 0 1",				//First line of item name
-		"text 220 85 0 2",				//Second line of item name
+		"text " + (auction_gump_location[1]+60) + " " + (auction_gump_location[2]+30) + " 1327 0",			//"Item:"
+		"text " + (auction_gump_location[1]+140) + " " + (auction_gump_location[2]+30) + " 0 1",				//First line of item name
+		"text " + (auction_gump_location[1]+140) + " " + (auction_gump_location[2]+50) + " 0 2",				//Second line of item name
 		
-		"text 140 110 1327 3",			//"Seller:"
-		"text 200 110 0 4",				//Seller name
+		"text " + (auction_gump_location[1]+60) + " " + (auction_gump_location[2]+75) + " 1327 3",			//"Seller:"
+		"text " + (auction_gump_location[1]+140) + " " + (auction_gump_location[2]+75) + " 0 4",				//Seller name
 
-		"text 100 135 1327 5",			//"Current Bid:"
-		"text 200 135 0 6",				//the current bid
+		"text " + (auction_gump_location[1]+60) + " " + (auction_gump_location[2]+100) + " 1327 5",			//"Current Bid:"
+		"text " + (auction_gump_location[1]+140) + " " + (auction_gump_location[2]+100) + " 0 6",				//the current bid
 
-		"text 100 160 1327 7",			//"Ends in:"
-		"text 200 160 0 8",				//Time left
+		"text " + (auction_gump_location[1]+60) + " " + (auction_gump_location[2]+125) + " 1327 7",			//"Ends in:"
+		"text " + (auction_gump_location[1]+140) + " " + (auction_gump_location[2]+125) + " 0 8",				//Time left
 
-		"croppedtext 100 190 350 20 0 9",				//First line of description
-		"croppedtext 100 210 350 20 0 10",			//Second line of description
-		"croppedtext 100 230 350 20 0 11",			//Third line of description
-		"croppedtext 100 250 350 20 0 12",			//Fourth line of description
+		"croppedtext " + (auction_gump_location[1]+90) + " " + (auction_gump_location[2]+170) + " 350 20 0 9",	//First line of description
+		"croppedtext " + (auction_gump_location[1]+90) + " " + (auction_gump_location[2]+190) + " 350 20 0 10",	//Second line of description
+		"croppedtext " + (auction_gump_location[1]+90) + " " + (auction_gump_location[2]+210) + " 350 20 0 11",	//Third line of description
+		"croppedtext " + (auction_gump_location[1]+90) + " " + (auction_gump_location[2]+230) + " 350 20 0 12",	//Fourth line of description
 
-		"text 150 330 1327 13",			//Gold held string
-		"text 300 330 0 14",			//Gold held amount
-		"text 150 350 1327 15",			//Gold available string
-		"text 300 350 0 16",			//Gold available amount
+		"text " + (auction_gump_location[1]+70) + " " + (auction_gump_location[2]+310) + " 1327 13",			//Gold held string
+		"text " + (auction_gump_location[1]+180) + " " + (auction_gump_location[2]+310) + " 0 14",			//Gold held amount
+		"text " + (auction_gump_location[1]+70) + " " + (auction_gump_location[2]+335) + " 1327 15",			//Gold available string
+		"text " + (auction_gump_location[1]+180) + " " + (auction_gump_location[2]+335) + " 0 16",			//Gold available amount
 
-		"text 120 280 0 17",			//"Bid on item"
-		"text 320 280 0 18",			//"Evalute item"
-		"button 60 200 5603 5607 1 0 " + BUTTON_LAST_ITEM,
-		"button 480 200 5601 5605 1 0 " + BUTTON_NEXT_ITEM,
-		"button 300 285 2104 2103 1 0 " + BUTTON_EVALUATE_ITEM
+		"text " + (auction_gump_location[1]+100) + " " + (auction_gump_location[2]+260) + " 0 17",			//"Bid on item"
+		"text " + (auction_gump_location[1]+300) + " " + (auction_gump_location[2]+260) + " 0 18",			//"Evalute item"
+
+		"button " + (auction_gump_location[1]+400) + " " + (auction_gump_location[2]+302) + " 5600 5604 1 0 " + BUTTON_MOVE_GUMP_UP,
+		"button " + (auction_gump_location[1]+400) + " " + (auction_gump_location[2]+340) + " 5602 5606 1 0 " + BUTTON_MOVE_GUMP_DOWN,
+		"button " + (auction_gump_location[1]+420) + " " + (auction_gump_location[2]+320) + " 5601 5605 1 0 " + BUTTON_MOVE_GUMP_RIGHT,
+		"button " + (auction_gump_location[1]+380) + " " + (auction_gump_location[2]+320) + " 5603 5607 1 0 " + BUTTON_MOVE_GUMP_LEFT,
+
+		"button " + (auction_gump_location[1]+20) + " " + (auction_gump_location[2]+180) + " 5603 5607 1 0 " + BUTTON_LAST_ITEM,
+		"button " + (auction_gump_location[1]+460) + " " + (auction_gump_location[2]+180) + " 5601 5605 1 0 " + BUTTON_NEXT_ITEM,
+		"button " + (auction_gump_location[1]+280) + " " + (auction_gump_location[2]+265) + " 2104 2103 1 0 " + BUTTON_EVALUATE_ITEM
 	};
-	
+
 	gump_data := array {
 		"Item:",						//0
 		item.desc,
@@ -271,9 +603,9 @@ function BuildAuctionDisplayGump (byref item, byref player)
 	
 	//Add the buy button
 	if (player.acctname != GetObjProperty (item, "selleracctname"))
-		gump_layout.append ("button 100 285 2104 2103 1 0 " + (current_item_num));
+		gump_layout.append ("button " + (auction_gump_location[1]+80) + " " + (auction_gump_location[2]+265) + " 2104 2103 1 0 " + (current_item_num));
 	elseif (!GetObjProperty (item, "current_high_bidder"))
-		gump_layout.append ("button 100 285 2104 2103 1 0 " + (current_item_num));
+		gump_layout.append ("button " + (auction_gump_location[1]+80) + " " + (auction_gump_location[2]+265) + " 2104 2103 1 0 " + (current_item_num));
 		gump_data[18] := "Remove item from auction";
 	else
 		gump_data[18] := "This item has already been bid on.";
@@ -296,6 +628,7 @@ function EraseAllProperties (item)
 	EraseObjProperty (item, "current_high_bidder");
 	EraseObjProperty (item, "current_high_bid");
 	EraseObjProperty (item, "auctiondescription");
+	EraseObjProperty (item, "bidder_list");
 endfunction
 
 
@@ -404,6 +737,24 @@ function CalculateCommision (price)
 	return commission;
 endfunction
 
+
+
+
+///////////////////
+//  The minimum bid increment depends on the going value
+///////////////////
+
+function GetMinimumBidIncrement (amount)
+	if (amount < 100)
+		return 1;
+	elseif (amount < 1000)
+		return 10;
+	elseif (amount < 10000)
+		return 100;
+	else
+		return 1000;
+	endif
+endfunction
 
 
 

@@ -260,7 +260,7 @@ function ResurrectHenchman (byref corpse)
 	SetObjProperty (new_npc, "gender", new_npc.gender);
 	SetObjProperty (new_npc, "color", new_npc.color);
 	if (GetObjProperty (corpse, "virtue") )
-		var virtue := CINT (0.9 * GetObjProperty (corpse, "virtue"));
+		var virtue := CINT (0.95 * GetObjProperty (corpse, "virtue"));
 		SetObjProperty (new_npc, "virtue", virtue);
 	endif
 
@@ -290,7 +290,7 @@ function ResurrectHenchman (byref corpse)
 		endif
 		
 		if (skill > leadership + 20)
-			skill := leadership;
+			skill := leadership + 20;
 		endif
 		SetAttributeBaseValue (new_npc, GetAttributeIDBySkillID(i), skill*10);
 	endfor

@@ -1,12 +1,11 @@
 use uo;
 use os;
 use util;
-use math;
 
 include "include/client";
 include "include/objtype";
 include "include/utility";
-include "include/wodmath";
+include "include/math";
 include "include/gumps";
 include "../pkg/npcs/townfolk/auctioneer/auctioneer";
 
@@ -26,8 +25,12 @@ program display_forsale_items (player, text)
 	endif
 	SetObjProperty (player, "#auctioneerwindow", GetPid());
 
-	var category := SelectCategory (player);
+	var category := SelectAuctionBuyCategory (player);
 	if (!category)
+		EraseObjProperty (player, "#auctioneerwindow");
+		return;
+	elseif (category == "auction_search")
+		DoAuctionSearch (player);
 		EraseObjProperty (player, "#auctioneerwindow");
 		return;
 	endif
@@ -45,52 +48,7 @@ program display_forsale_items (player, text)
 		current_item_num := 1;
 	endif
 	
-	repeat
-		players_gold_held := DetermineGoldHeld (player.acctname);
-		players_gold_available := DetermineGoldAvailable (player.acctname);
-		current_item := items[current_item_num];
-		BuildAuctionDisplayGump (current_item, player);
-
-		var gump_return := SendDialogGump (player, gump_layout, gump_data);
-		if (!gump_return and gump_return[0] != 0)
-			SendSysMessage (player, "Please close other gumps first.");
-			EraseObjProperty (player, "#auctioneerwindow");
-			return;
-		elseif (gump_return[0]==0)
-			EraseObjProperty (player, "#auctioneerwindow");
-			return;
-		endif
-		
-		if (gump_return[0] == BUTTON_NEXT_ITEM)
-			current_item_num := current_item_num + 1;
-			if (current_item_num > len (items))
-				current_item_num := 1;
-			endif
-			SetObjProperty (player, "#auction_item_num", current_item_num);
-		elseif (gump_return[0] == BUTTON_LAST_ITEM)
-			current_item_num := current_item_num - 1;
-			if (current_item_num < 1)
-				current_item_num := len (items);
-			endif
-			SetObjProperty (player, "#auction_item_num", current_item_num);
-		elseif (gump_return[0] == BUTTON_EVALUATE_ITEM)
-			start_script (":auctioneer:evaluate_item", {player, current_item});
-		else
-			var item := current_item;
-
-			//check the timer to see if it expired when they were browsing
-			if (!GetObjProperty (item, "endtime") or GetObjProperty (item, "endtime") < ReadGameClock())
-				SendSysMessage (player, "Too late!  Bidding is already closed on that item");
-				EraseObjProperty (player, "#auctioneerwindow");
-				return;
-			endif
-			
-			if (BidOnItem (player, item))
-				EraseObjProperty (player, "#auctioneerwindow");
-				return;
-			endif
-		endif
-	until (!player);
+	DisplayAuctionItems (player, 0, items, current_item_num);
 	EraseObjProperty (player, "#auctioneerwindow");
 endprogram
 
@@ -98,150 +56,69 @@ endprogram
 
 
 ///////////////////
-//  Handles bids on items
+//  Lets the player search for items
 ///////////////////
 
-function BidOnItem (player, item)
-	// set up a couple of variables
-	var current_high_bid := GetObjProperty (item, "current_high_bid");
-	var current_high_bidder := GetObjProperty (item, "current_high_bidder");
-	var minbid := GetObjProperty (item, "minbid");
-	players_gold_held := DetermineGoldHeld (player.acctname);
-	players_gold_available := DetermineGoldAvailable (player.acctname);
-
-	//If its the player's own item and theres no bidders, they can remove it from auction if there's no bidders
-	if (GetObjProperty (item, "selleracctname") == player.acctname)
-		if (!current_high_bid)
-			SendSysMessage (player, "Well, since no one has bid on that item yet, I guess we can do that.");
-			MoveItemToContainer (item, player.backpack);
-			EraseAllProperties (item);
-			return 1;
-		else
-			SendSysMessage (player, "You can't bid on your own items!");
-			return 0;
-		endif
-	endif
-
-	if (current_high_bid)
-		minbid := minbid + GetMinimumBidIncrement (minbid);
-	endif
-
-	//Let them know if they're the current high bidder
-	if (current_high_bidder and current_high_bidder == player.acctname)
-		SendSysMessage (player, "You're already the highest bidder!");
-		sleep (1);
-		SendSysMessage (player, "Your old bid was " + current_high_bid);
-	endif
-
-	//Make sure they have enough gold available to pay for the minimum bid
-	if (players_gold_available < minbid)
-		SendSysMessage (player, "The minimum bid is " + minbid + " gold.");
-		sleep (1);
-		SendSysMessage (player, "You don't have that much available!");
+function DoAuctionSearch (player)
+	var search_term := SendTextEntryGump (player, "Search for:", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 20, "");
+	search_term := Lower (search_term);
+	if (!search_term)
+		SendSysMessage (player, "Canceled.");
 		return;
 	endif
 
-	var players_bid := SendTextEntryGump (player, "Enter your bid:", TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Must be at least " + minbid + " gold)");
-	players_bid := CINT (players_bid);
-	if (!players_bid)
-		SendSysMessage (player, "Maybe next time, then.");
-		return;
-	endif
-
-	//check the timer again to see if it expired when they were entering a price, or if it was
-	//just about to expire, extend it a bit
-	if (!GetObjProperty (item, "endtime") or GetObjProperty (item, "endtime") < ReadGameClock())
-		SendSysMessage (player, "Too late!  Bidding is already closed on that item");
-		return;
-	elseif (GetObjProperty (item, "endtime") + 600 < ReadGameClock() )
-		SetObjProperty (item, "endtime", ReadGameClock() + 600);
-	endif
-
-	//Reload some of the data in case someone else bid on the item while we
-	// were entering our bid
-	current_high_bid := GetObjProperty (item, "current_high_bid");
-	current_high_bidder := GetObjProperty (item, "current_high_bidder");
-	minbid := GetObjProperty (item, "minbid");
-	players_gold_held := DetermineGoldHeld (player.acctname);
-	players_gold_available := DetermineGoldAvailable (player.acctname);
-
-	//Make sure they have enough to pay for their bid
-	if (players_bid > players_gold_available)
-		SendSysMessage (player, "You don't have that much available!");
-		return;
-	endif
-
-	//if no one else bid, they get it for the minimum bid
-	if (!current_high_bidder)
-		if (players_bid < minbid)
-			SendSysMessage (player, "That's less than the current bid!");
+	var items := {};
+	var item_name;
+	foreach category in ListCategoryNames ()
+		itembox := find_or_create_item (storage, category, UOBJ_BANKBOX);
+		if (!itembox)
+			SendSysMessage (player, "Ack!  Bad!");
 			return;
 		endif
+		
+		foreach item in EnumerateItemsInContainer (itembox)
+			if (item.container == itembox)
+				item_name := Lower (item.desc);
+				if (item_name[search_term])
+					items.append (item);
+				endif
+			endif
+		endforeach
+	endforeach
 
-		SetObjProperty (item, "current_high_bidder", player.acctname);
-		SetObjProperty (item, "current_high_bid", players_bid);
-		SendSysMessage (player, "Congratulations!  You're the current high bidder at " + (current_high_bid+1) + " gold!");
-		return;
-	endif
-
-
-	//if they're already the highest bidder, make sure they outbid themselves and
-	// replace their old bid with the new one
-	if (current_high_bidder == player.acctname)
-		if (players_bid < GetObjProperty (item, "current_high_bid"))
-			SendSysMessage (player, "You must bid higher than your old bid of " + GetObjProperty (item, "current_high_bid"));
-		else
-			SetObjProperty (item, "current_high_bid", players_bid);
-			SendSysMessage (player, "You replace your old bid with the new one of " + players_bid);
-		endif
-		return;
-	endif
-
-	//otherwise we already have a bidder, so increment it by the min. bid inc.
-	minbid := minbid + GetMinimumBidIncrement (minbid);
-	if (players_bid < minbid)
-		SendSysMessage (player, "That's less than the current bid!");
+	if (!len (items))
+		SendSysMessage (player, "No items match that search.");
+		EraseObjProperty (player, "#auctioneerwindow");
 		return;
 	endif
 	
-	//if there's already a higher bid, outbid them
-	if (current_high_bid >= players_bid)
-		minbid := players_bid + GetMinimumBidIncrement (minbid);
-		if (minbid > current_high_bid)
-			minbid := current_high_bid;
-		endif
-		SetObjProperty (item, "minbid", minbid);
-		SendSysMessage (player, "I'm sorry, but there's an existing higher bid.");
-		return;
-
-	//otherwise, increase the min bid to the preview bid
-	else
-		minbid := current_high_bid + GetMinimumBidIncrement (minbid);
-		if (minbid > players_bid)
-			minbid := players_bid;
-		endif
-		SetObjProperty (item, "current_high_bidder", player.acctname);
-		SetObjProperty (item, "current_high_bid", players_bid);
-		SetObjProperty (item, "minbid", minbid);
-		SendSysMessage (player, "Congratulations!  You're the current high bidder at " + minbid + " gold!");
+	current_item_num := GetObjProperty (player, "#auction_item_num");
+	if (!current_item_num or current_item_num > len (items))
+		current_item_num := 1;
 	endif
+
+	DisplayAuctionItems (player, 0, items, current_item_num);
+	EraseObjProperty (player, "#auctioneerwindow");
 endfunction
 
 
 
 
 ///////////////////
-//  The minimum bid increment depends on the going value
+//  builds the gump for the category selection menu
 ///////////////////
 
-function GetMinimumBidIncrement (amount)
-	if (amount < 100)
-		return 1;
-	elseif (amount < 1000)
-		return 10;
-	elseif (amount < 10000)
-		return 100;
-	else
-		return 1000;
+function SelectAuctionBuyCategory (player, message := "Select a category:")
+	var cat_list := ListCategoryDescriptions ();
+	cat_list.append ("Search Auctions");
+
+	var cat_select := DisplayMenuSelectionGump (player, message, cat_list);
+	if (!cat_select)
+		return 0;
+	elseif (cat_select == cat_list.size())
+		return "auction_search";
 	endif
+
+	var category_names := ListCategoryNames ();
+	return category_names[cat_select];
 endfunction
