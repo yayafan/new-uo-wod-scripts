@@ -143,7 +143,7 @@ function QuickAwardRawAttributePoints (character, attributeid, rawpoints)
 	var to_increase := GetNeededRawPointsToIncrease (current);
 	if (RandomInt (to_increase) < rawpoints)
 		var skillcap := GetBaseSkillCap (character, GetSkillIDByAttributeID (attributeid));
-		if (skillcap)
+		if (skillcap and !character.cmdlevel)
 			if (current == skillcap)
 				return;
 			elseif (current+1 > skillcap)
@@ -154,3 +154,112 @@ function QuickAwardRawAttributePoints (character, attributeid, rawpoints)
 	endif
 endfunction
 
+
+///////////////////
+//  Some effects can add bonus damage, which can be either fire, electric or cold.
+//  These are set as a dictionary on the player with the keys 'fire', 'electrical', and 'cold'
+//  Each of these is an array:  {bonus amount, end time, name (for .status)}
+///////////////////
+
+function DoHitSpecialDamage (attacker, defender, attacker_weapon);
+	set_critical (1);
+	var damage_bonus_dict := GetObjProperty (attacker, "#combat_damage_bonus");
+	if (damage_bonus_dict)
+		var damage_bonus := damage_bonus_dict["fire"];
+		if (damage_bonus)
+			var endtime := damage_bonus[2];
+			if (endtime and endtime < ReadGameClock())
+				damage_bonus_dict.erase ("fire");
+				if (len (damage_bonus_dict.keys()))
+					SetObjProperty (attacker, "#combat_damage_bonus", damage_bonus_dict);
+				else
+					EraseObjProperty (attacker, "#combat_damage_bonus");
+				endif
+			else
+				DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_FIRE);
+			endif
+		endif
+		
+		damage_bonus := damage_bonus_dict["electrical"];
+		if (damage_bonus)
+			var endtime := damage_bonus[2];
+			if (endtime and endtime < ReadGameClock())
+				damage_bonus_dict.erase ("electrical");
+				if (len (damage_bonus_dict.keys()))
+					SetObjProperty (attacker, "#combat_damage_bonus", damage_bonus_dict);
+				else
+					EraseObjProperty (attacker, "#combat_damage_bonus");
+				endif
+			else
+				DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_ELECTRICAL);
+			endif
+		endif
+		
+		damage_bonus := damage_bonus_dict["cold"];
+		if (damage_bonus)
+			var endtime := damage_bonus[2];
+			if (endtime and endtime < ReadGameClock())
+				damage_bonus_dict.erase ("cold");
+				if (len (damage_bonus_dict.keys()))
+					SetObjProperty (attacker, "#combat_damage_bonus", damage_bonus_dict);
+				else
+					EraseObjProperty (attacker, "#combat_damage_bonus");
+				endif
+			else
+				DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_COLD);
+			endif
+		endif
+	endif
+	
+	if (attacker_weapon)
+		damage_bonus_dict := GetObjProperty (attacker_weapon, "#combat_damage_bonus");
+		if (damage_bonus_dict)
+			var damage_bonus := damage_bonus_dict["fire"];
+			if (damage_bonus)
+				var endtime := damage_bonus[2];
+				if (endtime and endtime < ReadGameClock())
+					damage_bonus_dict.erase ("fire");
+					if (len (damage_bonus_dict.keys()))
+						SetObjProperty (attacker_weapon, "#combat_damage_bonus", damage_bonus_dict);
+					else
+						EraseObjProperty (attacker_weapon, "#combat_damage_bonus");
+					endif
+				else
+					DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_FIRE);
+				endif
+			endif
+			
+			damage_bonus := damage_bonus_dict["electrical"];
+			if (damage_bonus)
+				var endtime := damage_bonus[2];
+				if (endtime and endtime < ReadGameClock())
+					damage_bonus_dict.erase ("electrical");
+					if (len (damage_bonus_dict.keys()))
+						SetObjProperty (attacker_weapon, "#combat_damage_bonus", damage_bonus_dict);
+					else
+						EraseObjProperty (attacker_weapon, "#combat_damage_bonus");
+					endif
+				else
+					DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_ELECTRICAL);
+				endif
+			endif
+			
+			damage_bonus := damage_bonus_dict["cold"];
+			if (damage_bonus)
+				var endtime := damage_bonus[2];
+				if (endtime and endtime < ReadGameClock())
+					damage_bonus_dict.erase ("cold");
+					if (len (damage_bonus_dict.keys()))
+						SetObjProperty (attacker_weapon, "#combat_damage_bonus", damage_bonus_dict);
+					else
+						EraseObjProperty (attacker_weapon, "#combat_damage_bonus");
+					endif
+				else
+					DoDamageByType (defender, attacker, damage_bonus[1], DAMAGETYPE_COLD);
+				endif
+			endif
+		endif
+	endif
+	set_critical (0);	
+
+endfunction

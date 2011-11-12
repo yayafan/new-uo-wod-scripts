@@ -4,6 +4,8 @@ use util;
 use cfgfile;
 
 include "include/client";
+include "include/objtype";
+include "include/utility";
 
 Const DAMAGETYPE_PHYSICAL	:= 0;
 Const DAMAGETYPE_FIRE		:= 1;
@@ -80,7 +82,6 @@ function SendGMErrorMessage (text, syslogit := 0, mincmdlevel := 1)
 		syslog (text);
 	endif
 
-	syslog (text);
 	foreach player in EnumerateOnlineCharacters ()
 		if (player.cmdlevel)
 			if (player.cmdlevel >= mincmdlevel)
@@ -90,6 +91,32 @@ function SendGMErrorMessage (text, syslogit := 0, mincmdlevel := 1)
 	endforeach
 endfunction
 
+
+
+
+///////////////////
+//  This function returns an error object with the errortext member set to the given text
+///////////////////
+
+function CreateError (text, syslogit := 0, mincmdlevel := 0)
+	if (syslogit)
+		syslog (text);
+	endif
+
+	if (mincmdlevel)
+		foreach player in EnumerateOnlineCharacters ()
+			if (player.cmdlevel)
+				if (player.cmdlevel >= mincmdlevel)
+				SendSysMessage (player, text);
+				endif
+			endif
+		endforeach
+	endif
+	
+	var returnval := error;
+	returnval.errortext := text;
+	return returnval;
+endfunction
 
 
 
@@ -122,6 +149,34 @@ function AddToHitList (attacker, damaged_mobile)
 	SetObjProperty (damaged_mobile, "#hitlist", hitlist);
 endfunction
 
+
+
+
+///////////////////
+//  Should return a copy of the item given, inside of the container specified.
+//  If the given item is a container, also recurses to copy all items inside
+///////////////////
+
+function CopyItemInContainer (item, container)
+	var newitem := CreateItemCopyAtLocation (5288, 1176, 0, item);
+	if (!newitem)
+		return CreateError ("Item copy failed");
+	endif
+	
+	if (!MoveItemToContainer (newitem, container))
+		DestroyItem (newitem);
+		return CreateError ("Container is full or locked");
+	endif
+
+	//recurse to copy subitems
+	if (newitem.isa (POLCLASS_CONTAINER) or newitem.objtype == UOBJ_SPELLBOOK)
+		foreach subitem in ListRootItemsInContainer (item)
+			CopyItemInContainer (subitem, newitem);
+		endforeach
+	endif
+
+	return newitem;
+endfunction
 
 
 

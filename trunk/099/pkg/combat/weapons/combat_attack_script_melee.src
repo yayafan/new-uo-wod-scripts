@@ -169,8 +169,10 @@ program combat_attack_script (parms)
 		endif
 	endif
 
+	//Do the damage
 	DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
 
+	//Check for critical hit
 	if (GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
 		if (RandomInt (1000) < GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
 			SendSysMessage (attacker, "Critical hit!");
@@ -192,6 +194,8 @@ program combat_attack_script (parms)
 
 	if (GetObjProperty (attacker_weapon, "specialweaponeffect") ) 
 		DoEtherialEffect (attacker, defender, attacker_weapon, modified_damage);
+	elseif (GetObjProperty (attacker_weapon, "#specialweaponeffect") ) 
+		DoTemporaryWeaponBonusEffect (attacker, defender, attacker_weapon, modified_damage);
 	endif
 	
 	DoHitSpell (attacker, defender, attacker_weapon);
@@ -354,6 +358,17 @@ function CalculateToHitChance ()
 	if (GetObjProperty (attacker_weapon, "silver") ) 
 		if (IsAnUndeadCreature (defender.npctemplate))
 			chance_to_hit := chance_to_hit + 5;
+		endif
+	endif
+
+	//Special bonus to hit from some spells.  Set up as an array - {amount, endtime, name (for .status)}
+	if (GetObjProperty (attacker_weapon, "#combat_to_hit_bonus"))
+		var bonus_to_hit := GetObjProperty (attacker_weapon, "#combat_to_hit_bonus");
+		var endtime := bonus_to_hit[2];
+		if (endtime and endtime < ReadGameClock())
+			EraseObjProperty (attacker_weapon, "#combat_to_hit_bonus");
+		else
+			chance_to_hit := chance_to_hit + bonus_to_hit[1];
 		endif
 	endif
 
@@ -727,3 +742,33 @@ function GetNewSpellName( spellname )
 	endcase
 
 endfunction
+
+
+
+
+///////////////////
+//  Druid spell 'Gaea's Fury' adds lightning damage on strike, but this is written to be
+//  general purpose.  Property is an array of the type {effectname, endtime, spell name (for .status)}
+///////////////////
+
+function DoTemporaryWeaponBonusEffect (attacker, defender, attacker_weapon, modified_damage)
+	var tempbonus := GetObjProperty (attacker_weapon, "#specialweaponeffect");
+	if (tempbonus [2])
+		if (ReadGameClock() > tempbonus[2])
+			EraseObjProperty (attacker_weapon, "#specialweaponeffect");
+			return;
+		endif
+	endif
+	case (tempbonus[1])
+		"lightning":
+			if (RandomInt (4) == 1)
+				var spellparms := { };
+				spellparms[1] := "#SPECIALNONE";
+				spellparms[2] := defender;
+				start_script (":damage_spells:lightning", spellparms);		
+			endif
+	endcase
+endfunction
+
+
+

@@ -290,6 +290,17 @@ function CalculateToHitChance ()
 		endif
 	endif
 
+	//Special bonus to hit from some spells.  Set up as an array - {amount, endtime, name (for .status)}
+	if (GetObjProperty (attacker, "#combat_to_hit_bonus"))
+		var bonus_to_hit := GetObjProperty (attacker, "#combat_to_hit_bonus");
+		var endtime := bonus_to_hit[2];
+		if (endtime and endtime < ReadGameClock())
+			EraseObjProperty (attacker, "#combat_to_hit_bonus");
+		else
+			chance_to_hit := chance_to_hit + bonus_to_hit[1];
+		endif
+	endif
+
 	return chance_to_hit;
 endfunction
 
