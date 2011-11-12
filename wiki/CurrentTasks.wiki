@@ -32,5 +32,5 @@ Here is the package list and those assigned to them in parenthesis:
   * merchants_database
   * npcs (*finished by Agata*)
   * quests
-  * skills
+  * skills (Agata)
   * world
