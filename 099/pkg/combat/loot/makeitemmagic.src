@@ -253,7 +253,7 @@ function MakeArmorMagical (item, magic_quality_chance)
 			DoArmorSkillModifier (item, item_hp_mod);
 		endif
 	else
-		item_hp_mod := RandomInt (4) + RandomInt (3) + 1;
+		item_hp_mod := item_hp_mod + RandomInt (2);
 		if (!item_hp_mod)
 			item_hp_mod := 1;
 		elseif (item_hp_mod > 5)

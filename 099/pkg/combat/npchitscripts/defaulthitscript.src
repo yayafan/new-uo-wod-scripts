@@ -32,7 +32,7 @@ program mainhit (attacker, defender, weapon, armor, basedamage, rawdamage)
 		endif
 	endif
 	
-	Broadcast( "npchitscript ran", font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR );
+//	Broadcast( "npchitscript ran", font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR );
 	
 	if (defender.npctemplate and defender.npctemplate != "warrior")
 		rawdamage := rawdamage*2;

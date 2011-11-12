@@ -266,7 +266,7 @@ function CreateChristmasPresent (corpse)
 	present.graphic := 10290 + RandomInt (8);
 	
         //this variable not used right now
-	//var npcnamegroup := 0;
+	var npcnamegroup := 0;
         
 
 	case (RandomInt (20))

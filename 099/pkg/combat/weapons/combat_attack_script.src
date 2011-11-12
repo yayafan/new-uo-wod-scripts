@@ -3,16 +3,27 @@ use os;
 use util;
 use cfgfile;
 
-include "include/packets";
-include "../pkg/combat/weapons/combat_attack_script";
+include "include/client";
+include "include/objtype";
+include "include/wodinc";
+include "include/magic";
+include "include/poison";
+include "include/utility";
+include "include/dotempmods";
+include "include/attributes";
+include "include/itemtypes";
+include "../pkg/npcs/npcinfo";
+include "../pkg/npcs/npc_util";
+include "../pkg/character/virtue/virtue";
+
 
 var attacker, defender;
 var weaponcfgfile := ReadConfigFile (":weapons:itemdesc");
+var secondweaponcfgfile := ReadConfigFile ("::wepndesc");
 var armorcfgfile := ReadConfigFile (":armor:itemdesc");
 var attacker_npcdesc_elem, defender_npcdesc_elem;
 var attacker_weapon_elem;
 var attacker_weapon, defender_armor;
-var ammo_objtype;
 
 program combat_attack_script (parms)
 	attacker := parms [1];
@@ -31,7 +42,7 @@ program combat_attack_script (parms)
 	endif
 
 	//Make sure that these files exist
-	if (!weaponcfgfile or !armorcfgfile)
+	if (!weaponcfgfile or !secondweaponcfgfile or !armorcfgfile)
 		SendSysMessage (attacker, "Unable to load itemdesc.cfg file(s)!");
 		SendSysMessage (defender, "Unable to load itemdesc.cfg file(s)!");
 		SendSysMessage (attacker, "Please notify a GM so that this problem can be fixed.");
@@ -64,6 +75,8 @@ program combat_attack_script (parms)
 					endif
 				endif
 			endif
+		elseif (!attacker.npctemplate)
+			attacker_weapon_elem := FindConfigElem (secondweaponcfgfile, UOBJ_FIST);
 		endif
 	endif
 
@@ -75,18 +88,14 @@ program combat_attack_script (parms)
 	endif
 
 	//Make sure they have ammo if they're using a bow and perform the attack animation.
-	//henchmen use a special function
-	if (attacker.npctemplate and attacker.npctemplate == ":guards:warrior")
-		if (!HenchmanCheckForAmmo ())
+	if (IsBow (attacker_weapon))
+		if (!CheckForAmmo ())
+			SendSysMessage (attacker, "You're out of ammo!");
 			return 1;
 		endif
-	elseif (!CheckForAmmo ())
-		SendSysMessage (attacker, "You're out of ammo!");
-		return 1;
+		PerformArrowAttackAnim ();
 	endif
 	PerformAttackAnimation ();
-	sleepms (100);
-	PerformArrowAttackAnim ();
 
 	//Calc chance to hit and check for success
 	var chance_to_hit := CalculateToHitChance ();
@@ -147,7 +156,7 @@ program combat_attack_script (parms)
 	if (defender.acctname)
 		modified_damage := CINT (modified_damage/2);
 	endif
-
+	
 	//Combat advancement for weapon skills
 	var weaponattributeid := attacker_weapon.attribute;
 	if (!attacker_weapon or !weaponattributeid)
@@ -158,44 +167,8 @@ program combat_attack_script (parms)
 	QuickAwardRawAttributePoints (attacker, ATTRIBUTEID_TACTICS, 15);
 	QuickAwardRawAttributePoints (defender, ATTRIBUTEID_TACTICS, 15);
 	
-	//fake hitscript stuff
-	//different arrows do different damage types
-	case (ammo_objtype)
-			0x6051:	//firearrow
-			0x6053:	//firebolt
-				var half_damage := CINT (modified_damage/2);
-				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
-				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_FIRE);
-			0x6052:	//frostarrow
-			0x6054:	//frostbolt
-				var half_damage := CINT (modified_damage/2);
-				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
-				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_COLD);
-		default:	//normal arrows and bolts
-			DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
-	endcase
-
-	if (GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
-		if (RandomInt (1000) < GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
-			SendSysMessage (attacker, "Critical hit!");
-			if (CheckSkill (attacker, SKILLID_ANATOMY, 80, 0) )
-				DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
-			else
-				DoDamageByType (attacker, defender, CINT (modified_damage/2), DAMAGETYPE_PHYSICAL);
-			endif
-		endif
-	endif
-
-	if (GetObjProperty (attacker_weapon, "silver") ) 
-		DoSilverHit (attacker, defender, modified_damage);
-	endif
-
-	if (GetObjProperty (attacker_weapon, "specialweaponeffect") ) 
-		DoEtherialEffect (attacker, defender, attacker_weapon, modified_damage);
-	endif
-
-	DoHitSpell (attacker, defender, attacker_weapon);
-
+	//call the fake hitscript
+	mainhit (attacker, defender, attacker_weapon, defender_armor, raw_damage, modified_damage);
 	return 1;
 endprogram
 
@@ -240,9 +213,26 @@ function PerformAttackAnimation ()
 		return;
 	endif
 
+	//Wrestling animations for humans
+	var mount := GetEquipmentByLayer (attacker, LAYER_MOUNT);
+	if (!attacker_weapon or attacker_weapon.objtype == UOBJ_FIST)
+		if (mount)
+			PerformAction (attacker, 0x09);
+			return;
+		else
+			if (RandomInt (2))
+				PerformAction (attacker, 0x0A);
+				return;
+			else
+				PerformAction (attacker, 0x0B);
+				return;
+			endif
+		endif
+	endif
+
 	//If the player is mounted, use special mount animations, if they're defined in
 	//the weapon's itemdesc.cfg entry, or a default animation if not
-	if (GetEquipmentByLayer (attacker, LAYER_MOUNT))
+	if (mount)
 		var anim := CINT (attacker_weapon_elem.MountedAnim);
 		if (anim)
 			PerformAction (attacker, anim);
@@ -272,175 +262,37 @@ endfunction
 ///////////////////
 
 function CheckForAmmo ()
-	//try to read the set ammo from the item
-	ammo_objtype := GetObjProperty (attacker_weapon, "archery_ammo");
-	
-	//find the default ammo
-	var default_ammotype := CINT (attacker_weapon_elem.ProjectileType);
-	if (!default_ammotype)
+	var ammotype := CINT (attacker_weapon_elem.ProjectileType);
+	if (!ammotype)
 		return 0;
 	endif
 	
-	//if we don't have ammo set, use the default ammo
-	if (!ammo_objtype)
-		ammo_objtype := default_ammotype;
-	endif
-
-	//Now search for the ammo
 	foreach item in EnumerateItemsInContainer (attacker.backpack)
-		if (item.objtype == ammo_objtype)
+		if (item.objtype == ammotype)
 			if (SubtractAmount (item, 1))
-				//sometimes the ammo shows up on the monster (reclaimed on corpse)
-				if (defender.npctemplate and !GetObjProperty (defender, "master"))
-					if (RandomInt (2))
-						CreateItemInContainer (defender.backpack, ammo_objtype, 1);
-					endif
-				endif
 				return 1;
 			endif
 		endif
 	endforeach
-	
-	//Ok, we didn't find any ammo.  If they were using special ammo, try switching back to normal ammo
-	if (ammo_objtype == default_ammotype)
-		return 0;
-	endif
-	
-	ammo_objtype := default_ammotype;
-	EraseObjProperty (attacker_weapon, "archery_ammo");
-
-	//Now search for the ammo AGAIN
-	foreach item in EnumerateItemsInContainer (attacker.backpack)
-		if (item.objtype == ammo_objtype)
-			if (SubtractAmount (item, 1))
-				//sometimes the ammo shows up on the monster (reclaimed on corpse)
-				if (defender.npctemplate and !GetObjProperty (defender, "master"))
-					if (RandomInt (2))
-						CreateItemInContainer (defender.backpack, ammo_objtype, 1);
-					endif
-				endif
-				return 1;
-			endif
-		endif
-	endforeach	
-
 	return 0;
 endfunction
-
-
-
-
-///////////////////
-//  The ammo check function for henchmen.  They automatically use special ammo (if they have it)
-//  against appropriate enemy types
-///////////////////
-
-function HenchmanCheckForAmmo ()
-	//find the default ammo
-	var default_ammotype := CINT (attacker_weapon_elem.ProjectileType);
-	if (!default_ammotype)
-		return 0;
-	endif
-
-	ammo_objtype := default_ammotype;
-
-	//figure out if the opponent is vulnerable to fire or ice, then check to see if
-	//we have the right type of ammo for that
-	if (defender_npcdesc_elem)
-		if (defender_npcdesc_elem.fire and defender_npcdesc_elem.fire == "weak")
-			if (ammo_objtype == UOBJ_ARROW)
-				ammo_objtype := UOBJ_FIRE_ARROW;
-			else
-				ammo_objtype := UOBJ_FROST_BOLT;
-			endif
-		elseif (defender_npcdesc_elem.cold and defender_npcdesc_elem.cold == "weak")
-			if (ammo_objtype == UOBJ_ARROW)
-				ammo_objtype := UOBJ_FROST_ARROW;
-			else
-				ammo_objtype := UOBJ_FROST_BOLT;
-			endif
-		endif
-	endif
-
-	//Now search for the ammo
-	foreach item in EnumerateItemsInContainer (attacker.backpack)
-		if (item.objtype == ammo_objtype)
-			if (SubtractAmount (item, 1))
-				//sometimes the ammo shows up on the monster (reclaimed on corpse)
-				if (defender.npctemplate and !GetObjProperty (defender, "master"))
-					if (RandomInt (2))
-						CreateItemInContainer (defender.backpack, ammo_objtype, 1);
-					endif
-				endif
-				return 1;
-			endif
-		endif
-	endforeach
-	
-	//Ok, we didn't find any ammo.  If they were using special ammo, try switching back to normal ammo
-	if (ammo_objtype == default_ammotype)
-		return 0;
-	endif
-	
-	ammo_objtype := default_ammotype;
-	EraseObjProperty (attacker_weapon, "archery_ammo");
-
-	//Now search for the ammo AGAIN
-	foreach item in EnumerateItemsInContainer (attacker.backpack)
-		if (item.objtype == ammo_objtype)
-			if (SubtractAmount (item, 1))
-				//sometimes the ammo shows up on the monster (reclaimed on corpse)
-				if (defender.npctemplate and !GetObjProperty (defender, "master"))
-					if (RandomInt (2))
-						CreateItemInContainer (defender.backpack, ammo_objtype, 1);
-					endif
-				endif
-				return 1;
-			endif
-		endif
-	endforeach	
-
-	return 0;
-endfunction
-
-
-
 
 ///////////////////
 //  Display the arrow (or bolt) flying to target animation
 ///////////////////
 
 function PerformArrowAttackAnim ()
-	//try to figure out the anim based on the ammo used
-	if (ammo_objtype)
-		case (ammo_objtype)
-			0x6051:	//firearrow
-			0x6053:	//firebolt
-				sleepms (500);
-				PlayMovingEffect (attacker, defender, 0x36D4, 0xa, 0x1e);
-				PlaySoundEffect (attacker, 0x15F);
-				sleepms (40*Distance(attacker,defender));
-				return;
-			0x6052:	//frostarrow
-			0x6054:	//frostbolt
-				sleepms (500);
-				PlayMovingEffect (attacker, defender, 0x1bfe, 0xa, 0x1e);
-				PlaySoundEffect (attacker, 0x2b3);
-				sleepms (40*Distance(attacker,defender));
-				return;
-		endcase;
-	endif
-
-	//Ok, we're doing something else.  Try to load the defaults
 	var animtype := CINT (attacker_weapon_elem.ProjectileAnim);
 	if (!animtype)
 		animtype := 0xf42;
 	endif
-
+	
 	var bowsoundfx := CINT (attacker_weapon_elem.ProjectileSound);
 	if (!bowsoundfx)
 		bowsoundfx := 0x235;
 	endif
+	
+	
 
 	sleepms (500);
 	PlayMovingEffect (attacker, defender, animtype, 0xa, 0x1e);
@@ -466,9 +318,7 @@ function CalculateToHitChance ()
 		endif
 
 		//Increased chance to hit for players
-		if (attacker_weaponskill > 95)
-			attacker_weaponskill := CINT (attacker_weaponskill * 1.4);
-		elseif (attacker_weaponskill > 75)
+		if (attacker_weaponskill > 70)
 			attacker_weaponskill := CINT (attacker_weaponskill * 1.25);
 		endif
 	else
@@ -482,16 +332,34 @@ function CalculateToHitChance ()
 		endif
 	endif
 
-	var defender_weaponskill := CINT (GetAttribute (defender, "Dexterity")/2);
+	var defender_weaponskill := 0;
 	if (defender.acctname)
-		defender_weaponskill := CINT (defender_weaponskill * 1.2);
+		if (defender.weapon)
+			defender_weaponskill := GetAttribute (defender, (defender.weapon.attribute));
+		else
+			defender_weaponskill := GetAttribute (defender, ATTRIBUTEID_WRESTLING);
+		endif
+
+		//Increased chance of being missed for players
+		if (defender_weaponskill > 70)
+			defender_weaponskill := CINT (defender_weaponskill * 1.2);
+		endif
+	else
+		if (defender.weapon)
+			defender_weaponskill := GetAttribute (defender, (defender.weapon.attribute));
+		else
+			defender_weaponskill := GetAttribute (defender, defender_npcdesc_elem.AttackAttribute);
+		endif
+		if (!defender_weaponskill)
+			defender_weaponskill := GetAttribute (defender, ATTRIBUTEID_WRESTLING);
+		endif
 	endif
 
 	var chance_to_hit := CINT (((attacker_weaponskill + 50)*50)/(defender_weaponskill + 50));
 
 	//There's always a small chance to hit
 	if (!chance_to_hit)
-		chance_to_hit := 5;
+		chance_to_hit := 1;
 	endif
 
 	//Player made exceptional items have a slightly higher chance to hit
@@ -506,17 +374,6 @@ function CalculateToHitChance ()
 	if (GetObjProperty (attacker_weapon, "silver") ) 
 		if (IsAnUndeadCreature (defender.npctemplate))
 			chance_to_hit := chance_to_hit + 5;
-		endif
-	endif
-
-	//Special bonus to hit from some spells.  Set up as an array - {amount, endtime, name (for .status)}
-	if (GetObjProperty (attacker, "#combat_to_hit_bonus"))
-		var bonus_to_hit := GetObjProperty (attacker, "#combat_to_hit_bonus");
-		var endtime := bonus_to_hit[2];
-		if (endtime and endtime < ReadGameClock())
-			EraseObjProperty (attacker, "#combat_to_hit_bonus");
-		else
-			chance_to_hit := chance_to_hit + bonus_to_hit[1];
 		endif
 	endif
 
@@ -573,7 +430,7 @@ endfunction
 ///////////////////
 
 function PlayMissSoundEffect ()
-	if (attacker_weapon)
+	if (attacker.weapon)
 		var sound_effect := attacker_weapon_elem.MissSound;
 		if (!sound_effect)
 			sound_effect := 0x239;
@@ -599,8 +456,303 @@ endfunction
 ///////////////////
 
 function PlayHitSoundEffect ()
-	PlaySoundEffect (defender, 0x3a3 + RandomInt (22));
+	if (attacker_weapon and attacker_weapon.objtype != UOBJ_FIST)
+		var sound_effect := attacker_weapon_elem.HitSound;
+		if (!sound_effect)
+			sound_effect := 0x23c;
+		endif
+		PlaySoundEffect (defender, sound_effect);
+	elseif (attacker.npctemplate)
+		var sound_effect := attacker_npcdesc_elem.AttackHitSound;
+		if (!sound_effect)
+			sound_effect := 0x13E;
+		endif
+		PlaySoundEffect (defender, sound_effect);
+	else
+		PlaySoundEffect (defender, 0x13E);
+	endif
 	return 1;
+endfunction
+
+
+
+///////////////////
+//  Figures out the defender's AR rating.  For players, this is done by randomly choosing a zone in which
+//  they get hit.  For NPCs, its a combination of any armor they have equipped (if any) and their
+//  entry in npcdesc.cfg
+///////////////////
+
+function GetDefendersAR (defender)
+
+	//Figure out which zone got hit
+	var hitzone := "";
+	var therandomnumber := RandomInt (100);
+	if (therandomnumber < 7)
+		hitzone := "Hands";
+	elseif (therandomnumber < 14)
+		hitzone := "Neck";
+	elseif (therandomnumber < 28)
+		hitzone := "Legs/feet";
+	elseif (therandomnumber < 42)
+		hitzone := "Head";
+	elseif (therandomnumber < 56)
+		hitzone := "Arms";
+	else
+		hitzone := "Body";
+	endif
+
+	var zone_ar_rating := 0;
+	var coverage_array;
+	foreach item in ListEquippedItems (defender)
+		coverage_array := GetArmorCoverageArray (item);
+		if (len (coverage_array))
+			if (hitzone in coverage_array)
+				//Do some damage to the armor
+				if (item.hp or item.hp == 0)
+					if (RandomInt (1000) == 1)
+						defender_armor.hp := defender_armor.hp - 1;
+						if (defender_armor.hp < 1)
+							if (defender_armor.desc)
+								SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
+							endif
+							DestroyItem (defender_armor);
+						endif
+					endif
+				endif
+				if (item.ar > zone_ar_rating)
+					zone_ar_rating := item.ar;
+					defender_armor := item;
+				endif
+			endif
+		endif
+	endforeach
+
+	//Do some damage to the chosen armor, on top of the minor amount of damage already done to all
+	//armor covering the zone
+	if (defender_armor)
+		if (defender_armor.hp or defender_armor.hp == 0)
+			if (RandomInt (150) == 1)
+				defender_armor.hp := defender_armor.hp - 1;
+				if (defender_armor.hp < 1)
+					if (defender_armor.desc)
+						SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
+					endif
+					DestroyItem (defender_armor);
+				endif
+			endif
+		endif
+	endif
+
+	//Add in the bonus from AR modifiers from spells and the like
+	if (defender.ar_mod)
+		zone_ar_rating := zone_ar_rating + defender.ar_mod;
+	endif
+
+	//For NPCs, use the higher AR rating of what they have equipped and their entry in NPCdesc.cfg
+	if (defender.npctemplate)
+		var base_ar := defender_npcdesc_elem.AR;
+		//Add in the bonus from AR modifiers from spells and the like
+		if (defender.ar_mod)
+			base_ar := base_ar + defender.ar_mod;
+		endif
+		if (base_ar > zone_ar_rating)
+			return base_ar;
+		endif
+	endif
+
+	return zone_ar_rating;
+endfunction
+
+
+
+
+///////////////////
+//  Read an array of Coverage elements from the item's itemdesc.cfg entry
+///////////////////
+
+function GetArmorCoverageArray (item)
+	case (item.objtype)
+		UOBJ_BACKPACK:
+		UOBJ_MOUNT:
+			return 0;
+	endcase
+
+	var armor_itemdesc_elem := FindConfigElem (armorcfgfile, item.objtype);
+	if (armor_itemdesc_elem)
+		var coverage_array := GetConfigStringArray (armor_itemdesc_elem, "Coverage");
+		if (len (coverage_array))
+			return coverage_array;
+		endif
+	endif
+	return 0;
+endfunction
+
+
+
+
+
+
+
+
+function mainhit (attacker, defender, weapon, armor, basedamage, rawdamage)
+	if (weapon.hp <= 0 or weapon.hp > (weapon.maxhp*2))
+		DestroyItem (weapon);
+		SendSysMessage (attacker, "Your weapon breaks!");
+		if (attacker.npctemplate and attacker.npctemplate[":guards:"])
+			PrintTextAbove (attacker, "My weapon broke!");
+		endif
+	endif
+	if (rawdamage < 1)
+		rawdamage := 1;
+	endif
+
+	SetScriptController (attacker);
+
+	if (GetObjProperty (defender, "#reactive_armor"))
+		if (Distance (attacker, defender) <= 1)
+			var evalintskill := GetAttribute (defender, ATTRIBUTEID_INVOCATION);
+			var reactive_damage := CINT ( (evalintskill*rawdamage)/200);
+			PlaySoundEffect (attacker, SFX_SPELL_EXPLOSION);
+			PlayObjectCenteredEffect (attacker, FX_EXPLODE_3, 7, 0x10);
+			DoDamageByType (defender, attacker, reactive_damage, DAMAGETYPE_MAGIC);
+			EraseObjProperty (defender, "#reactive_armor");
+		endif
+	endif
+
+	if (GetObjProperty (defender, "special_reactive_armor") and RandomInt (2))
+		if (Distance (attacker, defender) <= 1)
+			var reactive_damage := CINT (rawdamage/2);
+			PlaySoundEffect (attacker, SFX_SPELL_EXPLOSION);
+			PlayObjectCenteredEffect (attacker, FX_EXPLODE_3, 7, 0x10);
+			DoDamageByType (defender, attacker, reactive_damage, DAMAGETYPE_MAGIC);
+		endif
+	endif
+
+	DoDamageByType (attacker, defender, rawdamage, DAMAGETYPE_PHYSICAL);
+
+	if (GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
+		if (RandomInt (1000) < GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
+			SendSysMessage (attacker, "Critical hit!");
+			if (CheckSkill (attacker, SKILLID_ANATOMY, 80, 0) )
+				DoDamageByType (attacker, defender, rawdamage, DAMAGETYPE_PHYSICAL);
+			else
+				DoDamageByType (attacker, defender, CINT (rawdamage/2), DAMAGETYPE_PHYSICAL);
+			endif
+		endif
+	endif
+
+	if (GetObjProperty (weapon, "poison_level"))
+		DoWeaponPoisonHit (attacker, defender, weapon);
+	elseif (!weapon and attacker.npctemplate)
+		if (GetAttribute (attacker, ATTRIBUTEID_POISONING))
+			DoNPCPoisonHit (attacker, defender);
+		endif
+	endif
+
+	if (GetObjProperty (weapon, "silver") ) 
+		DoSilverHit (attacker, defender, rawdamage);
+	endif
+
+	if (GetObjProperty (weapon, "specialweaponeffect") ) 
+		DoEtherialEffect (attacker, defender, weapon, rawdamage);
+	endif
+	
+	DoHitSpell (attacker, defender, weapon);
+
+	//Questie thing
+	if (defender.npctemplate["void"])
+		if (weapon.attribute == ATTRIBUTEID_FENCING or weapon.attribute == ATTRIBUTEID_SWORDSMANSHIP)
+			SendSysmessage (attacker, "The void eats away at your blade!");
+		else
+			SendSysmessage (attacker, "The void eats away at your weapon!");
+		endif
+		weapon.hp := weapon.hp - 5 - RandomInt (5);
+		if (weapon.hp <= 0 or weapon.hp > weapon.maxhp)
+			DestroyItem (weapon);
+			SendSysMessage (attacker, "The void has consumed your weapon!");
+		endif
+	endif
+endfunction
+
+
+
+
+///////////////////
+//  This function is called if the weapon is poisoned
+///////////////////
+
+function DoWeaponPoisonHit (byref attacker, byref defender, byref weapon);
+	var poison_strength := CINT (GetObjProperty (weapon, "poison_level"));
+	var effective_strength := poison_strength;
+	var character_skill := GetAttribute (attacker, ATTRIBUTEID_POISONING);
+	if (character_skill < 50 and effective_strength > 2)
+		effective_strength := 2;
+	elseif (character_skill < 70 and effective_strength > 4)
+		effective_strength := 4;
+	elseif (character_skill < 90 and effective_strength > 7)
+		effective_strength := 7;
+	endif
+
+	if (!effective_strength)
+		return;
+	endif
+
+	if (defender.poisoned and (RandomInt (10) < effective_strength))
+		return;
+	endif
+
+	var skill := 90;
+	case (effective_strength)
+		1:
+		2:	skill := 20;
+		3:
+		4:	skill := 40;
+		5:
+		6:	skill := 60;
+		7:
+		8:	skill := 80;
+		9:
+		10:	skill := 100;
+	endcase
+
+	if (CheckSkill (attacker, SKILLID_POISONING, skill, 0))
+		SetPoison (defender, effective_strength, "You have been poisoned by " + attacker.name);
+		AddVirtue (attacker, -1);
+	endif
+
+	if (RandomInt(10) == 1)
+		poison_strength := poison_strength - 1;
+		SendSysMessage (attacker, "The poison on your weapon seems to have rubbed off some.");
+	else
+		return;
+	endif
+
+	if (poison_strength and poison_strength > 0)
+		SetObjProperty (weapon, "poison_level", poison_strength);
+	else
+		SendSysMessage (attacker, "The poison on your weapon seems to have worn off.");
+		EraseObjProperty (weapon, "poison_level");
+	endif
+endfunction
+
+
+//For poisonous NPCs that don't use a weapon.  Snakes for example
+function DoNPCPoisonHit (byref attacker, byref defender)
+	if (GetAttribute (attacker, ATTRIBUTEID_POISONING) and Distance (attacker, defender) <= 1)
+		if (RandomInt (4) == 1)
+			if (CheckSkill (attacker, SKILLID_POISONING, 100, 0) and RandomInt (2))
+				SetPoison (defender, 10, "You have been poisoned by " + attacker.name);
+			elseif (CheckSkill (attacker, SKILLID_POISONING, 80, 0) and RandomInt (2))
+				SetPoison (defender, 8, "You have been poisoned by " + attacker.name);
+			elseif (CheckSkill (attacker, SKILLID_POISONING, 60, 0) and RandomInt (2))
+				SetPoison (defender, 6, "You have been poisoned by " + attacker.name);
+			elseif (CheckSkill (attacker, SKILLID_POISONING, 40, 0) and RandomInt (2))
+				SetPoison (defender, 4, "You have been poisoned by " + attacker.name);
+			elseif (CheckSkill (attacker, SKILLID_POISONING, 20, 0) and RandomInt (2))
+				SetPoison (defender, 2, "You have been poisoned by " + attacker.name);
+			endif
+		endif
+	endif	
 endfunction
 
 
@@ -853,4 +1005,29 @@ function GetNewSpellName( spellname )
 
 endfunction
 
+
+
+
+
+///////////////////
+//  This function is slightly less accurate than the general-purpose AwardRawAttributePoints,
+//  but is quite a bit faster (by about 40%).  Since the combat advancement systemhook
+//  is called so often, this function is used.
+///////////////////
+
+function QuickAwardRawAttributePoints (character, attributeid, rawpoints)
+	var current := GetAttributeBaseValue (character, attributeid);
+	var to_increase := GetNeededRawPointsToIncrease (current);
+	if (RandomInt (to_increase) < rawpoints)
+		var skillcap := GetBaseSkillCap (character, GetSkillIDByAttributeID (attributeid));
+		if (skillcap)
+			if (current == skillcap)
+				return;
+			elseif (current+1 > skillcap)
+				current := skillcap-1;
+			endif
+		endif
+		SetAttributeBaseValue (character, attributeid, current+1);
+	endif
+endfunction
 

@@ -241,7 +241,7 @@ function JoinPlayer (byref player)
 
 	foreach attributeid in ListSkillAttributes ()
 		var skill := GetAttribute (player, attributeid);
-		if (skill > leadership + 20)
+		if (skill > (leadership + 20))
 			skill := leadership + 20;
 		endif
 		SetAttributeBaseValue (me, attributeid, skill*10);

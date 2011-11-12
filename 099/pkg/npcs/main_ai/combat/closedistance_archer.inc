@@ -100,7 +100,10 @@ function ChangeWeapons ()
 	foreach item in ListRootItemsInContainer (me.backpack)
 		if (item.isa (POLCLASS_WEAPON) )
 			if (item.objtype != 0x13B2 and item.objtype != 0x0f4f
-					and item.objtype != 0x13fd and item.objtype != 0x6050)
+					and item.objtype != 0x13fd and item.objtype != 0x6050
+					and item.objtype != 0x26c2 and item.objtype != 0x27f0
+					and item.objtype != 0x2d2a and item.objtype != 0x2d2b
+					and item.objtype != 0x26c3)
 				EquipItem (me, item);
 			endif
 		endif

@@ -193,7 +193,7 @@ function Follow ()
 		//just in case
 	elseif (d > 10 or chaseloop > 50)
 		SetObjProperty (me, "#justgated", 1);
-	MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, flags := MOVEOBJECT_FORCELOCATION );
 		chaseloop := 0;
 		sleepms (100);
   		SetAnchor (me.x, me.y, 20, 0);
@@ -442,7 +442,7 @@ function ObeyCommand (byref ev)
 		endwhile
 		if (evtext["to me"])
 			SetObjProperty (me, "#justgated", 1);
-	MoveObjectToLocation( me, master.x, master.y, master.z, master.realm, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( me, master.x, master.y, master.z, master.realm, flags := MOVEOBJECT_FORCELOCATION );
 			sleep (1);
     			EraseObjProperty (me, "#justgated");
 		endif
@@ -658,7 +658,7 @@ function MountHorse (byref horse)
 			say ("Well how am I supposed to ride THAT?");
 			return;
 	endcase
-if(MoveObjectToLocation( me, horse.x, horse.y, horse.z, horse.realm, flags := MOVEOBJECT_FORCELOCATION ))
+	if(MoveObjectToLocation( me, horse.x, horse.y, horse.z, horse.realm, flags := MOVEOBJECT_FORCELOCATION ))
 		set_critical (1);
 		me.facing := horse.facing;
 		var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1);
@@ -1104,7 +1104,7 @@ endfunction
 
 function Release ()
 	foreach item in ListRootItemsInContainer (me.backpack)
-	MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endforeach
 
 	foreach thing in ListEquippedItems (me)
@@ -1112,7 +1112,7 @@ function Release ()
 			if (GetObjProperty (thing, "mine"))
 				DestroyItem (thing);
 			else
-	MoveObjectToLocation( thing, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+				MoveObjectToLocation( thing, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 		endif
 	endforeach
@@ -1337,7 +1337,7 @@ endfunction
 
 function DropEverything()
 	foreach item in ListRootItemsInContainer (me.backpack)
-	MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endforeach
 endfunction
 
@@ -1437,10 +1437,10 @@ function ChangeWeapons (equipoption := "any", quietmode := 0)
 	endcase
 
 	if (weapon)
-	MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	if (shield)
-	MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	foreach item in ListRootItemsInContainer (me.backpack)
 		EquipItem (me, item);
@@ -1470,10 +1470,10 @@ function Rearm (byref oldweapon_one, byref oldweapon_two)
 	endif
 
 	if (weapon)
-	MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( weapon, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 	if (shield)
-	MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( shield, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOCATION );
 	endif
 
 	EquipItem (me, oldweapon_one);
