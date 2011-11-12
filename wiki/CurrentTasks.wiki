@@ -22,7 +22,7 @@ Each one of us should pick one by one the folders inside 095\pkg and compare the
 Here is the package list and those assigned to them in parenthesis:
   * attributes
   * character
-  * combat (Agata)
+  * combat (*finished by Agata*)
   * commands
   * drocket
   * dundee
