@@ -17,7 +17,7 @@ What we are doing is converting all of these scripts to POL 099 and update them 
 
   * Watch out for removed items. I have found and added some, you may find more.
 
-Each one of us should pick one by one the folders inside 095\pkg and compare them with 098\pkg, and do the necesary work to accomplish the tasks mentioned above.
+Each one of us should pick one by one the folders inside 095\pkg and compare them with 099\pkg, and do the necesary work to accomplish the tasks mentioned above.
 
 Here is the package list and those assigned to them in parenthesis:
   * attributes
