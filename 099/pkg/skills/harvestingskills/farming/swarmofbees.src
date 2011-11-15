@@ -77,7 +77,7 @@ program angry_bees (bees)
 			if (bees.x != mainvictim.x or bees.y != mainvictim.y)
 				set_critical (1);
 				bees.movable := 1;
-MoveObjectToLocation( bees, mainvictim.x, mainvictim.y, mainvictim.z+1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+				MoveObjectToLocation( bees, mainvictim.x, mainvictim.y, mainvictim.z+1, mainvictim.realm, flags := MOVEOBJECT_FORCELOCATION );
 				bees.movable := 0;
 				set_critical (0);
 			endif

@@ -2,14 +2,13 @@ use cfgfile;
 use basic;
 use os;
 use uo;
-use math;
 
 include "include/eventid";
 include "include/client";
 include "include/utility";
 include "include/sysevent";
 include "../pkg/magic/necro/necro";
-include "include/wodmath";
+include "include/math";
 
 program necrostaff (parms)
 	var character := parms[1];

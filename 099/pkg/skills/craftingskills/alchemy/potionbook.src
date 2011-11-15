@@ -77,8 +77,10 @@ endfunction
 
 function BuildBookGump (character)
 	var current_potion;
-	var max_page_number := CInt (GetConfigMaxIntKey (alchemy_cfg_file)/2) + 1;
-
+	var cfgkeys := GetConfigIntKeys (alchemy_cfg_file);
+	
+	
+	var max_page_number := CInt (len (cfgkeys)/2) + 1;
 	for current_page_number := 1 to max_page_number
 		book_layout.append ("page " + current_page_number);
 		//add a previous page button if we're not on the first page
@@ -90,11 +92,11 @@ function BuildBookGump (character)
 			book_layout.append (cstr ("button 294 5 2206 2206 0 " + CStr(current_page_number+1) ) );
 		endif
 
-		current_potion := alchemy_cfg_file [current_page_number*2-1];
+		current_potion := alchemy_cfg_file [cfgkeys[current_page_number*2-1]];
 		if (current_potion.book_name_1)
 			AddInfoAboutCurrentPotion (current_potion, 30);
 		endif
-		current_potion := alchemy_cfg_file [current_page_number*2];
+		current_potion := alchemy_cfg_file [cfgkeys[current_page_number*2]];
 		if (current_potion.book_name_1)
 			AddInfoAboutCurrentPotion (current_potion, 190);
 		endif
@@ -110,7 +112,6 @@ endfunction
 ///////////////////
 
 function AddInfoAboutCurrentPotion (byref current_potion, xpos)
-
 	var temp_string;
 	var temp_string_pos := 80;
 

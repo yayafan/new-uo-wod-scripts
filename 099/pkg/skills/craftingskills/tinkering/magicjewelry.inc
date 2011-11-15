@@ -60,7 +60,7 @@ function MakeMagicItem (character, item)
 	PlaySoundEffect (character, SFX_GLASSBREAK4);
 	sleep(1);
 
-	if ( (!CheckSkill (character, SKILLID_MAGERY, diffi, 0)) or (!CheckSkill (character, SKILLID_MAGERY, diffi, 0) ) )
+	if ( (!CheckSkill (character, SKILLID_MAGERY, diffi, 0)) or (!CheckSkill (character, SKILLID_TINKERING, diffi, 0) ) )
 		SendSysMessage (character, "You fail to make anything useful.");
 		SubtractAmount (found_obsidian, RandomInt (CINT (required_obsidian/2))+10);
 		DestroyItem (item);
@@ -136,7 +136,7 @@ function UpgradeStatJewelry (character, item, obsidian)
 	PlaySoundEffect (character, SFX_GLASSBREAK4);
 	sleep(1);
 
-	if ( (!CheckSkill (character, SKILLID_MAGERY, diffi, 0)) or (!CheckSkill (character, SKILLID_MAGERY, diffi, 0) ) )
+	if ( (!CheckSkill (character, SKILLID_MAGERY, diffi, 0)) or (!CheckSkill (character, SKILLID_TINKERING, diffi, 0) ) )
 		SendSysMessage (character, "You fail, destroying the item.");
 		SubtractAmount (obsidian, RandomInt (CINT (required_obsidian/2))+10);
 		DestroyItem (item);

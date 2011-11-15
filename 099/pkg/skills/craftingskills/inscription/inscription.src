@@ -3,20 +3,21 @@ use basic;
 use cfgfile;
 use util;
 use os;
-use math;
 
-include "include/wodmath";
+include "include/math";
 include "include/client";
 include "include/objtype";
 include "include/gumps";
 include "include/crafting";
 include "include/attributes";
+include "../pkg/character/virtue/virtue";
 
 Const SOUND_EFFECT_INSCRIPTION := 0x50;
 Const SOUND_EFFECT_SPARKLE := 0x1e8;
 Const EFFECT_SPARKLE :=  0x373a;
 
-var config_file := ReadConfigFile ("inscription");;
+var config_file := ReadConfigFile ("inscription");
+var quick_scribe_mode := 0;
 
 program do_inscription (character, targetted_item)
 	if (GetObjProperty (character, "#useskill"))
@@ -59,6 +60,8 @@ program do_inscription (character, targetted_item)
 		CopyBook (character, targetted_item);
 	elseif (targetted_item.usescript == ":fishing:readnote")
 		CopyNote (character, targetted_item);
+	elseif (targetted_item.objtype == UOBJ_CONTRACT_BLACKSMITHY)
+		ModifySpecialOrderContract (character, targetted_item);
 	else
 		SendSysMessage(character, "You can't inscribe that!");
 	endif
@@ -145,7 +148,7 @@ function EnchantWand (character, wand)
 	var chargedby := GetObjProperty (focus, "chargedby");
 	var chargename := GetObjProperty (focus, "chargename");
 
-	var elem :=config_file [focus.objtype];
+	var elem := config_file [focus.objtype];
 	var skill := elem.base_skill;
 	var skill_increment := elem.skill_increment;
 	var spellname := elem.spellname;
@@ -210,6 +213,19 @@ endfunction
 ///////////////////
 
 function ScribeScroll (character, scroll)
+	var crafting_options := GetObjProperty (character, "crafting_options");
+	if (!crafting_options or len (crafting_options) < 2)
+		crafting_options := {1, 0, 0};
+	elseif (len (crafting_options) < 2)
+		repeat
+			crafting_options.append (0);
+		until (len (crafting_options) >= 3);
+	endif
+	
+	if (crafting_options[3])
+		quick_scribe_mode := 1;
+	endif
+	
 	var selected_spell := SelectSpellToInscribe (character);
 	if (! selected_spell)
 		return;
@@ -218,28 +234,34 @@ function ScribeScroll (character, scroll)
 	var elem := FindConfigElem (config_file, selected_spell);
 	var skill := GetConfigInt (elem, "skill");
 	var product := GetConfigInt(elem, "scroll");
-
-	SendSysMessage (character,"(" + elem.name + " - skill: "+ skill + ")" );
 	var manacost := CINT(skill/3);
 
+	//things are more difficult when in quick-scribe mode
+	if (quick_scribe_mode)
+		skill := skill + 20;
+		if (skill > 120)
+			skill := 120;
+		endif
+	endif
+
+	SendSysMessage (character,"(" + elem.name + " - skill: "+ skill + ")" );
 	var cx := character.x;
 	var cy := character.y;
 	
-	var crafting_options := GetObjProperty (character, "crafting_options");
-	if (!crafting_options or len (crafting_options) < 2)
-		crafting_options := {1, 0};
-	endif
 	
 	var craftingbag := FindCraftingBag (character);
-
 	repeat
 		if (CINT (GetVital (character, "Mana")/100) < manacost)
 			SendSysMessage(character, "You dont have enough mana and stop scribing.");
 			return;
 		endif
-
+		
 		PlaySoundEffect (character, 0x24a);
-		sleep (5);
+		if (quick_scribe_mode)
+			sleep (2);
+		else
+			sleep (5);
+		endif
 
 		if (CINT (GetVital (character, "Mana")/100) < manacost)
 			SendSysMessage(character, "You dont have enough mana and stop scribing.");
@@ -247,20 +269,39 @@ function ScribeScroll (character, scroll)
 		endif
 
 		if (!SubtractAmount (scroll, 1))
-			SendSysMessage (character, "Unable to delete blank scroll");
+			SendSysMessage (character, "Error: Unable to delete blank scroll");
 			return;
 		endif
 
 		if (CheckSkill (character, SKILLID_INSCRIPTION, skill, 0))
-			SetVital (character, "Mana", GetVital (character, "Mana") - manacost*100);
-			var thescroll := CreateItemInContainer (craftingbag, product);
-			if (!thescroll)
-				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
-				return;
-			endif
-
-			if (!crafting_options[2] or !crafting_options[1])
-				SendSysmessage (character, "You create the scroll and put it in your backpack");
+			//occasional random failure in quick-scribe mode, just for fun
+			if (quick_scribe_mode)
+				if (RandomInt (20) == 1)
+					SetVital (character, "Mana", GetVital (character, "Mana") - manacost*50);
+					SendSysmessage (character, "You fail and destroy the scroll");
+				else
+					SetVital (character, "Mana", GetVital (character, "Mana") - manacost*100);
+					var thescroll := CreateItemInContainer (craftingbag, product);
+					if (!thescroll)
+						PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+						return;
+					endif
+		
+					if (!crafting_options[2] or !crafting_options[1])
+						SendSysmessage (character, "You create the scroll and put it in your backpack");
+					endif
+				endif
+			else
+				SetVital (character, "Mana", GetVital (character, "Mana") - manacost*100);
+				var thescroll := CreateItemInContainer (craftingbag, product);
+				if (!thescroll)
+					PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+					return;
+				endif
+	
+				if (!crafting_options[2] or !crafting_options[1])
+					SendSysmessage (character, "You create the scroll and put it in your backpack");
+				endif
 			endif
 		else
 			SetVital (character, "Mana", GetVital (character, "Mana") - manacost*50);
@@ -297,37 +338,32 @@ endfunction
 ///////////////////
 
 Function SelectSpellToInscribe (character)
-	var spellbooks := array;
+	var scrolls := dictionary;
+	var circles := {};
 	foreach item in EnumerateItemsInContainer (character.backpack)
-		if (item.objtype == UOBJ_SPELLBOOK)
-			spellbooks.append (item);
+		if (item.container.objtype == UOBJ_SPELLBOOK)
+			if (!scrolls.exists (item.objtype))
+				scrolls.insert (item.objtype, 1);
+				var elem := FindConfigElem (config_file, item.objtype);
+				var thecircle := GetConfigInt (elem, "circle");
+				circles[thecircle] := 1;
+			endif
 		endif
 	endforeach
 	
-	if (!len (spellbooks))
+	if (!scrolls.keys())
 		SendSysMessage (character, "You don't have a spellbook!");
 		return;
 	endif
 	
-	var scrolls := dictionary;
-	var circles := {};
-	foreach spellbook in spellbooks
-		foreach scroll in EnumerateItemsInContainer (spellbook)
-			if (!scrolls.exists (scroll.objtype))
-				scrolls.insert (scroll.objtype, 1);
-			endif
-			var elem := FindConfigElem (config_file, scroll.objtype);
-			var thecircle := GetConfigInt (elem, "circle");
-			circles[thecircle] := 1;
-		endforeach
-	endforeach
-
 	var gump_layout := array {
 		"nodispose",
 		"page 0",
 		"resizepic 20 20 5170 400 320",
 		"text 110 50 0 0",
-		"button 190 280 242 242 1 0 0",
+		"button 100 285 2104 2103 1 0 99",	//quick-scribe
+		"text 115 280 0 9",
+		"button 290 280 242 242 1 0 0",	//cancel button
 		"page 1"
 	};
 	var gump_data := array {
@@ -339,7 +375,8 @@ Function SelectSpellToInscribe (character)
 		"Circle 5",
 		"Circle 6",
 		"Circle 7",
-		"Circle 8"
+		"Circle 8",
+		"Quick-scribe (Off)"
 	};
 	if (circles[1])
 		gump_layout.append ("button 80 80 2240 2240 1 0 1");
@@ -381,17 +418,37 @@ Function SelectSpellToInscribe (character)
 		gump_layout.append ("tilepic 320 180 8391");
 		gump_layout.append ("text 315 230 0 8");
 	endif
-	
-	var gump_return := SendDialogGump (character, gump_layout, gump_data);
-	if (!gump_return and gump_return[0] != 0)
-		SendSysMessage (character, "You must close other gumps before you can use this.");
-		return;
-	elseif (gump_return[0] == 0)
-		SendSysMessage (character, "Canceled.");
-		return;
-	endif
 
-	var startingscroll := 7981 + ( (gump_return[0]-1)*8);
+	var selected_circle := 0;
+	repeat
+		if (quick_scribe_mode)
+			gump_data[10] := "Quick-scribe (On)";
+		else
+			gump_data[10] := "Quick-scribe (Off)";
+		endif
+	
+		var gump_return := SendDialogGump (character, gump_layout, gump_data);
+		if (!gump_return and gump_return[0] != 0)
+			SendSysMessage (character, "You must close other gumps before you can use this.");
+			return;
+		elseif (gump_return[0] == 0)
+			SendSysMessage (character, "Canceled.");
+			return;
+		elseif (gump_return[0] == 99)
+			if (quick_scribe_mode)
+				SendSysMessage (character, "Quick-scribe mode is now turned off.");
+				quick_scribe_mode := 0;
+			else
+				SendSysMessage (character, "Quick-scribe mode is now turned on.");
+				SendSysMessage (character, "Scroll creation is faster, but tends to fail much more often.");
+				quick_scribe_mode := 1;
+			endif
+		else
+			selected_circle := gump_return[0];
+		endif
+	until (selected_circle);
+
+	var startingscroll := 7981 + ( (selected_circle-1)*8);
 	gump_layout := array {
 		"nodispose",
 		"page 0",
@@ -526,7 +583,7 @@ Function SelectSpellToInscribe (character)
 		endif
 	endif	
 	
-	gump_return := SendDialogGump (character, gump_layout, gump_data);
+	var gump_return := SendDialogGump (character, gump_layout, gump_data);
 	if (!gump_return and gump_return[0] != 0)
 		SendSysMessage (character, "You must close other gumps before you can use this.");
 		return;
@@ -607,6 +664,61 @@ function InscribeNecroSpell(character, the_item)
 		SubtractAmount(the_item,1);
 	endif
 endfunction
+
+
+
+
+///////////////////
+//  Players are able to modify contracts to get more money
+///////////////////
+
+function ModifySpecialOrderContract (character, contract)
+	var required_items := GetObjProperty (contract, "required_items");
+	if (!required_items)
+		SendSysMessage (character, "Error:  That bulk order deed seems to be broken...");
+		return;
+	elseif (required_items.size() < 8)
+		SendSysMessage (character, "Error:  That bulk order deed seems to be broken...");
+		return;
+	endif
+
+	if (required_items[9])
+		SendSysMessage (character, "That contract has already been modified.");
+		return;
+	endif
+	
+	//This is an evil action
+	AddVirtue (character, (0-(3+RandomInt(4))));
+
+	var contract_value := required_items[7];
+	if (!contract_value)
+		SendSysMessage (character, "Error:  Unknown contract value.");
+		return;
+	endif
+	
+	if (!CheckSkill (character, SKILLID_INSCRIPTION, -1, 0))
+		SendSysMessage (character, "You fail, destroying the contract in the process.");
+		DestroyItem (contract);
+		return;
+	elseif (!CheckSkill (character, SKILLID_STEALING, -1, 0))
+		SendSysMessage (character, "You fail, destroying the contract in the process.");
+		DestroyItem (contract);
+		return;
+	endif
+	
+	var bonus_percentage := CINT (GetAttribute (character, ATTRIBUTEID_INSCRIPTION)/10) + CINT (GetAttribute (character, ATTRIBUTEID_STEALING)/8);
+	if (bonus_percentage < 10.)
+		bonus_percentage := 10;
+	endif
+
+	var new_contract_value := CINT ((contract_value * bonus_percentage) / 100 ) + contract_value;
+	required_items[9] := new_contract_value;
+	SetObjProperty (contract, "required_items", required_items);
+
+	SendSysMessage (character, "You successfully modify the contract");
+endfunction
+
+
 
 
 

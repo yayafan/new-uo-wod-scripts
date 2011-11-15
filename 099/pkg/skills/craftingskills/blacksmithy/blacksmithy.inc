@@ -247,7 +247,7 @@ endfunction
 //  this function does the actual item upgrade
 ///////////////////
 
-function PerformBlacksmithyItemUpgrade (byref character, byref item, byref found_ingots, material_needed, repair_skill, item_skill, time_delay, item_name)
+function PerformBlacksmithyItemUpgrade (byref character, byref item, byref found_ingots, material_needed, repair_skill, item_skill, time_delay, item_name, only_upgrade_to_quality := 0)
 	var sx := character.x;
 	var sy := character.y;
 
@@ -273,6 +273,10 @@ function PerformBlacksmithyItemUpgrade (byref character, byref item, byref found
 				item.quality := 1.0;
 				item.hp := item.maxhp;
 				item.buyprice := 0;
+				
+				if (only_upgrade_to_quality)
+					return;
+				endif
 
 				item_skill := item_skill + 10;
 				if (item_skill > 110)

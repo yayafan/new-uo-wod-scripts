@@ -1,14 +1,13 @@
 use uo;
 use os;
 use cfgfile;
-use math;
 
 include "include/client";
 include "include/objtype";
 include "include/gumps";
 include "include/magic";
 include "include/attributes";
-include "include/wodmath";
+include "include/math";
 
 Const OBJTYPE_RUNE := 0x1F14;
 Const SPELL_CIRCLE := 7;

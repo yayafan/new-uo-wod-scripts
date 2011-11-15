@@ -61,8 +61,8 @@ program useshipdeed( character, deed )
 
 	set_critical( 1 );
 
-	if (where.x < character.x-4 or where.y < character.y-4 or
-			where.x > character.x+4 or where.y > character.y+4)
+	if (where.x < character.x-7 or where.y < character.y-7 or
+			where.x > character.x+7 or where.y > character.y+7)
 		SendSysMessage (character, "That's too far away!");
 		if ( deed.graphic == 5363 )
 			deed.graphic := 5364;

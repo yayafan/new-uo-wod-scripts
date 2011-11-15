@@ -21,7 +21,7 @@ program dismount_from_horse (parms)
 		var results := 0;
 		var isMounted := ListEquippedItems( character );
 		foreach item in ( isMounted )
-			if ( item.objtype == 0xf021 )
+			if ( item.objtype == 0x1f021 )
 				results := 1;
 			endif
 		endforeach
@@ -40,7 +40,7 @@ program dismount_from_horse (parms)
 			return 0;
 		endif
 
-		// actually destroy the mounted item 0xf021
+		// actually destroy the mounted item 0x1f021
 		var mounted := GetEquipmentByLayer( character, LAYER_MOUNT );
 		DestroyItem(mounted);
 

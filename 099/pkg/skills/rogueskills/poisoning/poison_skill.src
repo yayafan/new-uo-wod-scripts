@@ -63,13 +63,22 @@ function ApplyPoisonToItem (byref character, byref the_poison)
 		SendSysmessage (character, "You can't reach that!");
 		return;
 	endif
-
-	var acfgfile := ReadConfigFile ("poisoning_items");
-	var theitem := FindConfigElem (acfgfile, cint(the_item.objtype));   
-	if (!theitem)
-		SendSysmessage (character, "You can't put poison on that!");
+	
+	var poisonable := 0;
+	if (the_item.isa (POLCLASS_WEAPON))
+		poisonable := 1;
+	else
+		var poison_cfgfile := ReadConfigFile ("poisoning_items");
+		var item_cfgfile_elem := FindConfigElem (poison_cfgfile, cint(the_item.objtype));
+		if (item_cfgfile_elem)
+			poisonable := 1;
+		endif
+	endif
+	
+	if (!poisonable)
+		SendSysmessage (character, "You can't apply poison to that!");
 		return;
-	endif    
+	endif
    
 	var strength:= PoisonStr (the_poison);
 	if (strength == 0)
@@ -80,7 +89,7 @@ function ApplyPoisonToItem (byref character, byref the_poison)
 	AddVirtue (character, -2);
 
 	if (CheckSkill( character, SKILLID_POISONING, skill, 0 ))
-		SetObjProperty (the_item, "poison_level", cstr(strength));
+		SetObjProperty (the_item, "poison_level", strength);
 		SendSysmessage (character, "You succeed in poisoning the item.");
 		the_item.hitscript := ":weapons:mainhit";
 	else
@@ -149,8 +158,10 @@ function CheckForPoisonOnItem (byref character, byref item)
 		SendSysMessage (character, "It doesn't appear to be poisoned.");
 		return;
 	endif
+	
+	var poison_level := CINT (GetObjProperty (item, "poison_level"));
 
-	case (GetObjProperty (item, "poison_level"))
+	case (poison_level)
 		1:
 		2:	SendSysMessage (character, "It appears to be slightly poisonous.");
 		3:

@@ -17,6 +17,10 @@ program use_essense_potion (character, potion)
 	endif
 
 	if (targetted.objtype == UOBJ_BOW)
+		SendSysMessage (character, "I'm sorry, but you can't make firebows anymore.");
+		return;
+	
+		//old code
 		if (IsMagicalItem (targetted) )
 			SendSysMessage (character, "You can't use the potion on that bow.");
 			return;
@@ -52,7 +56,45 @@ program use_essense_potion (character, potion)
 			endif
 		endif
 	elseif (targetted.objtype == UOBJ_ARROW)
+		if (GetAttribute (character, ATTRIBUTEID_ALCHEMY) < 40 )
+			SendSysMessage (character, "You have no chance of applying this potion to that.");
+			return;
+		endif
+ 
+		var arrow_amount := targetted.amount;
+		if (arrow_amount > 100)
+			arrow_amount := 100;
+		endif
 
+		PlaySoundEffect (character, 0x241);
+		sleep (2);
+
+		If (CheckSkill (character, SKILLID_ALCHEMY, 50, 0) )
+		
+			//either fire or frost arrows
+			if (potion.objtype == 0x709b)
+				SendSysMessage (character, "You put some fire arrows into your backpack");
+				CreateItemInBackpack (character, UOBJ_FIRE_ARROW, arrow_amount);
+			elseif (potion.objtype == 0x709d)
+				SendSysMessage (character, "You put some frost arrows into your backpack");
+				CreateItemInBackpack (character, UOBJ_FROST_ARROW, arrow_amount);
+			else
+				SendSysMessage (character, "What sort of potion is THIS?");
+				return;
+			endif
+
+			PlaySoundEffect (character, 0x1fb);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, arrow_amount);
+			SubtractAmount (potion, 1);
+		else
+			SendSysMessage (character, "You fail to apply the potion to the arrows.");
+			PlaySoundEffect (character, 0x48);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, RandomInt (10));
+			SubtractAmount (potion, 1);
+		endif
+	elseif (targetted.objtype == UOBJ_BOLT)
 		if (GetAttribute (character, ATTRIBUTEID_ALCHEMY) < 40 )
 			SendSysMessage (character, "You have no chance of applying this potion to that.");
 			return;
@@ -67,9 +109,18 @@ program use_essense_potion (character, potion)
 		sleep (2);
 
 		If (CheckSkill (character, SKILLID_ALCHEMY, 50, 0) )
-			SendSysMessage (character, "You put some fire arrows into your backpack");
+			//either fire or frost bolts
+			if (potion.objtype == 0x709b)
+				SendSysMessage (character, "You put some fire bolts into your backpack");
+				CreateItemInBackpack (character, UOBJ_FIRE_BOLT, arrow_amount);
+			elseif (potion.objtype == 0x709d)
+				SendSysMessage (character, "You put some frost bolts into your backpack");
+				CreateItemInBackpack (character, UOBJ_FROST_BOLT, arrow_amount);
+			else
+				SendSysMessage (character, "What sort of potion is THIS?");
+				return;
+			endif
 			PlaySoundEffect (character, 0x1fb);
-			CreateItemInBackpack (character, UOBJ_FIRE_ARROW, arrow_amount);
 			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
 			SubtractAmount (targetted, arrow_amount);
 			SubtractAmount (potion, 1);

@@ -485,7 +485,7 @@ const UOBJ_HEAVY_XBOW   := 0x13fd;
 // Some weapons
 ///////////////////
 
-Const UOBJ_FIST			:= 0xF020;
+Const UOBJ_FIST			:= 0x1F020;
 Const UOBJ_DAGGER			:= 0x0f51;
 Const UOBJ_SKINNING_KNIFE	:= 0x0ec4;
 
@@ -568,7 +568,7 @@ const UOBJ_SEER_MAP			:= 0x6008;
 
 const UOBJ_LOOM_START   := 0x105F;
 const UOBJ_LOOM_END     := 0x1066;
-Const UOBJ_MOUNT	:= 0xf021;
+Const UOBJ_MOUNT	:= 0x1f021;
 
 const UOBJ_DUMMYSWING_NS     := 0x1071;
 const UOBJ_DUMMYFREEZE_NS    := 0x1070;
@@ -680,8 +680,8 @@ const UOBJ_CONTRACT_BLACKSMITHY := 0x70d0;
 	//
 	// Ship Components
 	//
-const EXTOBJ_TILLERMAN       := 0xF010;
-const EXTOBJ_PORT_PLANK      := 0xF011;
-const EXTOBJ_STARBOARD_PLANK := 0xF012;
-const EXTOBJ_HOLD            := 0xF013;
+const EXTOBJ_TILLERMAN       := 0x1F010;
+const EXTOBJ_PORT_PLANK      := 0x1F011;
+const EXTOBJ_STARBOARD_PLANK := 0x1F012;
+const EXTOBJ_HOLD            := 0x1F013;
 

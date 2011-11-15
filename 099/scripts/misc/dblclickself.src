@@ -12,7 +12,7 @@ program dblclickself (character)
 	var results := 0;
 	var isMounted := ListEquippedItems( character );
 	foreach item in ( isMounted )
-		if ( item.objtype == 0xf021 )
+		if ( item.objtype == 0x1f021 )
 			results := 1;
 		endif
 	endforeach

@@ -44,7 +44,7 @@ endforeach
 SendSysMessage( who, "Second Look:", font := _DEFAULT_TEXT_FONT, color := 40 );
 var anothertest := ListEquippedItems( who );
 foreach item in ( anothertest )
-	if ( item.objtype == 0xf021 )
+	if ( item.objtype == 0x1f021 )
 		SendSysMessage( who, "A mount was found!", font := _DEFAULT_TEXT_FONT, color := 40 );
 	endif
 endforeach
@@ -53,7 +53,7 @@ if (action)
 	if ( action == "remove" )
 		var results := GetEquipmentByLayer( who, LAYER_MOUNT );
 
-		var success := MoveObjectToLocation( results,who.x,who.y,who.z,realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION );
+		var success := MoveObjectToLocation( results,who.x,who.y,who.z,who.realm,flags := MOVEOBJECT_FORCELOCATION );
 
 		if ( success )
 			SendSysMessage( who, "Item: " + results.desc + " successfully removed." , font := _DEFAULT_TEXT_FONT, color := 40 );
@@ -64,7 +64,7 @@ if (action)
 		var results := GetEquipmentByLayer( who, LAYER_MOUNT );
 		if ( !results )
 
-			var item := CreateItemInBackpack( who, 0xf021, amount := 1 );
+			var item := CreateItemInBackpack( who, 0x1f021, amount := 1 );
 
 			var success := EquipItem( who, item );
 			if ( success )

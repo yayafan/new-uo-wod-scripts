@@ -5,7 +5,7 @@ use cfgfile;
 include "include/client";
 include "include/skills";
 include "include/string";
-include ":skills:skillpick";
+include "../pkg/skills/skillpick";
 
 var gumplayout := array { };
 var gumpdata := array { };
@@ -22,7 +22,6 @@ program Specialize (character)
 		SetMaxStats (character, 0);
 		LoadGumpLayout (character);
 		done := ListSkills (character);
-		sleepms(10);
 	until (done or !character);
 endprogram
 

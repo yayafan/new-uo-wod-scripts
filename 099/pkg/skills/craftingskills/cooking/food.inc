@@ -43,9 +43,9 @@ function define_food_dictionary ()
 
 	//These items are special.  If they're called for in a recipe, it will call a special function that will
 	//permit multiple forms of that item
-	food [ "ITEM_GENERAL_WATER" ]		:= 0x1f9e;
-	food [ "ITEM_GENERAL_MILK" ]		:= 0x09ad;
-	food [ "ITEM_GENERAL_CHEESE" ]	:= 0x097d;
+	food [ "ITEM_GENERAL_WATER" ]		:= "water";
+	food [ "ITEM_GENERAL_MILK" ]		:= "milk";
+	food [ "ITEM_GENERAL_CHEESE" ]	:= "cheese";
 
 	//primary food ingredients
 	food [ "ITEM_FLOUR" ]			:= 0x1045;
@@ -209,254 +209,6 @@ function define_food_name_dictionary ()
 
 	return food;
 endfunction
-///////////////////
-//  This function searches for water in the player's backpack.  It starts by looking for a glass of water.  If that's
-//  not found, it then looks for a pitcher of water
-///////////////////
-
-function special_find_water (byref character, amount)
-	var found_ingredient;
-
-	//first check to see if amount is a positive number
-	if (amount < 0)
-		return 0;
-
-	//then check to see if only 1 unit of water is needed.  If so, we can check for it a much faster way
-	elseif (amount == 1 or amount == 0)
-		//first try searching for a glass of water
-		found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_GLASS_OF_WATER"] );
-		if (found_ingredient)
-			reserveitem (found_ingredient);
-			return 1;
-		endif
-
-		//otherwise try looking for a pitcher of water
-		found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_PITCHER_OF_WATER"] );
-		if (found_ingredient)
-			reserveitem (found_ingredient);
-			return 1;
-		endif
-
-	//if more than 1 unit of water is needed, we'll have to do it a slower way
-	else
-		var water_count := 0;
-		foreach item in enumerateitemsincontainer(character.backpack)
-			if (item.objtype == food_dictionary ["ITEM_GLASS_OF_WATER"])
-				water_count := water_count + 1;
-			 	ReserveItem (item);
-			elseif (item.objtype == food_dictionary ["ITEM_PITCHER_OF_WATER"])
-				if ( GetObjProperty (item, "fullness") )
-					water_count := water_count + GetObjProperty (item, "fullness");
-				else
-					water_count := water_count + 4;
-				endif
-			 	ReserveItem (item);
-			endif
-			if (water_count >= amount)
-				return 1;
-			endif
-		endforeach
-	endif
-
-	//if we still haven't found what we're looking for, fail
-	return 0;
-
-endfunction
-
-
-
-
-///////////////////
-//  similar to the previous function, this does pretty much the same thing with milk (doesn't yet do multiples)
-///////////////////
-
-function special_find_milk (byref character)
-
-	//first try searching for a glass of milk
-	var found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_GLASS_OF_MILK"] );
-	if (found_ingredient)
-		reserveitem (found_ingredient);
-		return 1;
-	endif
-
-	//otherwise try looking for a pitcher of water
-	found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_PITCHER_OF_MILK"] );
-	if (found_ingredient)
-		reserveitem (found_ingredient);
-		return 1;
-	endif
-
-	//otherwise fail
-	return 0;
-
-endfunction
-
-
-
-
-///////////////////
-//  again for cheese
-///////////////////
-
-function special_find_cheese (byref character, amount)
-
-	//count of all cheese found;
-	var cheese_count := 0;
-
-	//search for a wheel of cheese
-	var found_ingredient := FindObjtypeInContainer (character.backpack, 0x97e );
-	if (found_ingredient)
-		ReserveItem (found_ingredient);
-		cheese_count := found_ingredient.amount * 3;
-	endif
-
-	//then look for a large wedge of cheese
-	found_ingredient := FindObjtypeInContainer (character.backpack, 0x97d );
-	if (found_ingredient)
-		ReserveItem (found_ingredient);
-		cheese_count := cheese_count + found_ingredient.amount * 2;
-	endif
-
-	//then look for a small wedge of cheese
-	found_ingredient := FindObjtypeInContainer (character.backpack, 0x97c );
-	if (found_ingredient)
-		reserveitem (found_ingredient);
-		cheese_count := cheese_count + found_ingredient.amount;
-	endif
-
-	//now check to see if enough cheese was found
-	if (cheese_count >= amount)
-		return 1;
-	else
-		return 0;
-	endif
-
-endfunction
-
-
-
-
-///////////////////
-//  This function searches the player's backpack for water and destroys it.
-///////////////////
-
-function special_destroy_water (byref character, amount)
-	var found_ingredient;
-	var i := 0;
-
-	//check to make sure amount is at least 1
-	if (amount <= 0)
-		return;
-	endif
-
-	repeat
-		//first see if they have a glass of water
-		found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_GLASS_OF_WATER"] );
-		if (found_ingredient)
-			//if so, create an empty glass
-			var the_glass := CreateItemInBackpack (character, food_dictionary ["ITEM_EMPTY_GLASS"] );
-
-			//if the full glass has a saved name, rename the new glass
-			if (GetObjProperty (found_ingredient, "EmptyName") )
-				the_glass.name := GetObjProperty (found_ingredient, "EmptyName");
-			endif
-
-			//destroy the drink
-			SubtractAmount( found_ingredient, 1 );
-
-			i :=  i + 1;
-
-		else
-			//otherwise try looking for a pitcher of water
-			found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_PITCHER_OF_WATER"] );
-			if (found_ingredient)
-
-				//if we found one, reduce the amount of water in the pitcher by 1
-				reduce_container_fullness (character, found_ingredient);
-
-				i :=  i + 1;
-
-			//emergency escape exit.  if it couldn't find a pitcher or a glass of water and it still needed more.
-			//this should prevent an infinite loop.  Since the water items were already found and reserved, 
-			//this really shouldn't happen.  Better safe than sorry...
-			else
-				return;
-			endif
-
-		endif
-	until (i >= amount);
-endfunction
-
-
-
-
-///////////////////
-//  Once again similar to the previous function, this one used up milk
-///////////////////
-
-function special_destroy_milk (byref character)
-
-	//first see if they have a glass of milk
-	var found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_GLASS_OF_MILK"] );
-	if (found_ingredient)
-		//if so, create an empty glass
-		var the_glass := CreateItemInBackpack (character, food_dictionary ["ITEM_EMPTY_GLASS"] );
-
-		//if the full glass has a saved name, rename the new glass
-		if (GetObjProperty (found_ingredient, "EmptyName") )
-			the_glass.name := GetObjProperty (found_ingredient, "EmptyName");
-		endif
-
-		//destroy the drink
-		SubtractAmount( found_ingredient, 1 );
-		return;
-
-	endif
-
-	//otherwise try looking for a pitcher of milk
-	found_ingredient := FindObjtypeInContainer (character.backpack, food_dictionary ["ITEM_PITCHER_OF_MILK"]);
-	if (found_ingredient)
-		//if we found one, reduce the amount of water in the pitcher by 1
-		reduce_container_fullness (character, found_ingredient);
-	endif
-endfunction
-
-
-
-
-///////////////////
-//  again for cheese
-///////////////////
-
-function special_destroy_cheese (byref character, amount)
-
-	repeat
-		//start with a small wedge of cheese
-		var found_ingredient := FindObjtypeInContainer (character.backpack, 0x97c );
-		if (found_ingredient)
-			SubtractAmount (found_ingredient, 1);
-			amount := amount - 1;
-
-		//search for a large wedge of cheese
-		else
-			found_ingredient := FindObjtypeInContainer (character.backpack, 0x97d );
-			if (found_ingredient)
-				SubtractAmount (found_ingredient, 1);
-				CreateItemInBackpack (character, 0x97c);
-				amount := amount - 1;
-
-			//then look for a wheel of cheese
-			else
-				found_ingredient := FindObjtypeInContainer (character.backpack, 0x97e );
-				if (found_ingredient)
-					SubtractAmount (found_ingredient, 1);
-					CreateItemInBackpack (character, 0x97d);
-					amount := amount - 1;
-				endif
-			endif
-		endif
-	until (amount <= 0);
-endfunction
 
 
 
@@ -467,45 +219,55 @@ endfunction
 //  then created
 ///////////////////
 
-function reduce_container_fullness (byref character, byref container)
-	//get how full the container is
+function reduce_container_fullness (character, container, reduce_amount := 1)
+	//make sure we got a valid reduce_amount
+	if (reduce_amount < 1)
+		SendSysMessage (character, "Invalid reduce_amount!");
+		return;
+	endif
+
+	//get how full the container is.  If its not set, the container is full, which is a 4
 	var fullness := GetObjProperty (container, "fullness");
-
-	//load some data about the container from itemdesc
-	var cfgfile := ReadConfigFile( "itemdesc" );
-	var elem := FindConfigElem( cfgfile, container.objtype );
-	var return_type := GetConfigInt (elem, "return_type");
-
-	//if the container has no fullness, that means its new.  Give it 3 more uses and rename it
-	if (! fullness)
-		SetObjProperty (container, "fullness", 3);
+	if (!fullness)
+		fullness := 4;
+	endif
+	
+	//reduce the fullness
+	fullness := fullness - reduce_amount;
+	
+	//now rename the item, based on how much is left
+	if (fullness == 3)
 		var tempstring := container.desc;
 		tempstring := TruncateArticle (tempstring);
 		container.name := "a mostly full " + tempstring;
-
-	//otherwise, reduce it's fullness
-	elseif (fullness == 3)
-		SetObjProperty (container, "fullness", 2);
-		var tempstring := container.desc;
-		if (tempstring ["a mostly full"])
-			tempstring ["a mostly full"] := "half a";
-		elseif (tempstring ["mostly full"])
-			tempstring ["mostly full"] := "half a";
-		endif
-		container.name := tempstring;
+		SetObjProperty (container, "fullness", 3);
 	elseif (fullness == 2)
-		SetObjProperty (container, "fullness", 1);
 		var tempstring := container.desc;
-		if (tempstring ["half a"])
-			tempstring ["half a"] := "an almost empty";
+		tempstring := TruncateArticle (tempstring);
+		if (tempstring ["mostly full "])
+			tempstring ["mostly full "] := "";
 		endif
-		container.name := tempstring;
+		container.name := "half a " + tempstring;
+		SetObjProperty (container, "fullness", 2);
+	elseif (fullness == 1)
+		var tempstring := container.desc;
+		tempstring := TruncateArticle (tempstring);
+		if (tempstring ["mostly full "])
+			tempstring ["mostly full "] := "";
+		endif
+		if (tempstring ["half a "])
+			tempstring ["half a "] := "";
+		endif
+		container.name := "an almost empty " + tempstring;
+		SetObjProperty (container, "fullness", 1);
+	else	//if it has no more uses left, return something,  if applicable, and destroy the item
+		//load some data about the container from itemdesc
+		var cfgfile := ReadConfigFile( "itemdesc" );
+		var elem := FindConfigElem( cfgfile, container.objtype );
+		var return_type := GetConfigInt (elem, "return_type");
 
-	//if it has no more uses left, return something,  if applicable, and destroy the item
-	else
 		if (return_type)
 			var empty_container := CreateItemInBackpack (character, return_type );
-
 			//if the full container has a saved name, rename the new container
 			if (GetObjProperty (container, "EmptyName") )
 				empty_container.name := GetObjProperty (container, "EmptyName");

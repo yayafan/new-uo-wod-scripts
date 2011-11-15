@@ -1,7 +1,6 @@
 use uo;
 use os;
 use cfgfile;
-use vitals;
 
 include "include/client";
 include "include/attributes";
@@ -104,8 +103,16 @@ program meditate (character)
 				EraseObjProperty (character, "#useskill");
 				return;
 			endif
+
 			sleep (1);
-		until (character.x != x or character.y !=y or GetVital (character, "Life") < hp);
+
+			//check to see if we were hit
+			if (GetVital (character, "Life") < hp or character.warmode)
+				SendSysMessage (character, "Your meditation is interrupted!");
+				EraseObjProperty (character, "#useskill");
+				return;
+			endif
+		until (character.x != x or character.y !=y);
 
 		if (GetVital (character, "Mana") > GetVitalMaximumValue (character, "Mana"))
 			SetVital (character, "Mana", GetVital (character, "Mana"));
