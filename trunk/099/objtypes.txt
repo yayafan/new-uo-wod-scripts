@@ -612,7 +612,8 @@
 0xdea campfire3 camping
 # 0xdeb - 0xdef unused
 0xdf0 BlackStaff weapons
-# 0xdf1 - 0xdf2 unused
+# 0xdf1 unused
+0xdf2 wand1 weapons
 0xdf3 wand2 weapons
 0xdf4 wand3 weapons
 0xdf5 wand4 weapons
@@ -1006,7 +1007,7 @@
 0x13db StuddedTunic armor
 0x13dc StuddedSleeves2 armor
 # 0x13dd - 0x13e2 unused
-0x13e3 smithshammer blacksmithy
+0x13e3 SmithyHammer weapons
 # 0x13e4 - 0x13ea unused
 0x13eb RingmailGloves2 armor
 0x13ec RingmailTunic armor
@@ -1503,13 +1504,23 @@
 0x25fa dashatoy
 0x25fb dawntoy
 0x25fc kaburtoy
-# 0x25fd - 0x26c1 unused
+# 0x25fd - 0x26b9 unused
+0x26ba Scythe weapons
+0x26bb BoneHarvester weapons
+0x26bc Scepter weapons
+0x26bd BladedStaff weapons
+0x26be Pike weapons
+0x26bf DoubleBladedStaff weapons
+0x26c0 Lance weapons
+0x26c1 CrescentBlade weapons
 0x26c2 CompositeBow weapons
 0x26c3 RepeatingCrossbow weapons
-# 0x26c4 - 0x278a unused
+# 0x26c4 - 0x26cd unused
+0x26ce PaladinSword weapons
+# 0x26cf - 0x278a unused
 0x278b stocking containers
 # 0x278c - 0x27ef unused
-0x27f0 yumi weapons
+0x27f0 Yumi weapons
 # 0x27f1 - 0x2831 unused
 0x2832 present_red_bow giftwrapper
 0x2833 present_yellow_bow giftwrapper
@@ -1532,7 +1543,10 @@
 # 0x28a1 - 0x29cc unused
 0x29cd candycane cooking
 0x29ce gingerbreadman cooking
-# 0x29cf - 0x2dda unused
+# 0x29cf - 0x2d29 unused
+0x2d2a longbow weapons
+0x2d2b shortbow weapons
+# 0x2d2c - 0x2dda unused
 0x2ddb elvenoven cooking
 # 0x2ddc - 0x2ee0 unused
 0x2ee1 lemontree farming
@@ -1560,80 +1574,7 @@
 0x398c firefield1 magiceffects
 # 0x398d - 0x3995 unused
 0x3996 firefield2 magiceffects
-# 0x3997 - 0x3fff unused
-0x4000 SmallBoat boat
-# 0x4001 converts to 0x4000
-# 0x4002 converts to 0x4000
-# 0x4003 converts to 0x4000
-0x4004 SmallDragonBoat boat
-# 0x4005 converts to 0x4004
-# 0x4006 converts to 0x4004
-# 0x4007 converts to 0x4004
-0x4008 MediumBoat boat
-# 0x4009 converts to 0x4008
-# 0x400a converts to 0x4008
-# 0x400b converts to 0x4008
-0x400c MediumDragonBoat boat
-# 0x400d converts to 0x400c
-# 0x400e converts to 0x400c
-# 0x400f converts to 0x400c
-0x4010 LargeBoat boat
-# 0x4011 converts to 0x4010
-# 0x4012 converts to 0x4010
-# 0x4013 converts to 0x4010
-0x4014 LargeDragonBoat boat
-# 0x4015 converts to 0x4014
-# 0x4016 converts to 0x4014
-# 0x4017 converts to 0x4014
-# 0x4018 - 0x4063 unused
-0x4064 SmallStoneAndPlasterHouse housing
-# 0x4065 converts to 0x4064
-0x4066 SmallStoneHouse housing
-# 0x4067 converts to 0x4066
-0x4068 SmallBrickHouse housing
-# 0x4069 converts to 0x4068
-0x406a SmallWoodHouse housing
-# 0x406b converts to 0x406a
-0x406c SmallWoodAndPlasterHouse housing
-# 0x406d converts to 0x406c
-0x406e SmallWoodAndStrawHouse housing
-# 0x406f converts to 0x406e
-0x4070 BlueTent housing
-# 0x4071 converts to 0x4070
-0x4072 GreenTent housing
-# 0x4073 converts to 0x4072
-0x4074 LargeBrickHouse housing
-# 0x4075 converts to 0x4074
-0x4076 TwoStoryWoodAndPlasterHouse housing
-# 0x4077 converts to 0x4076
-0x4078 TwoStoryStoneAndPlasterHouse housing
-# 0x4079 converts to 0x4078
-0x407a Tower housing
-# 0x407b converts to 0x407a
-0x407c Keep housing
-# 0x407d converts to 0x407c
-0x407e Castle housing
-# 0x407f converts to 0x407e
-# 0x4080 - 0x4086 unused
-# 0x4087 converts to 0x408c
-# 0x4088 - 0x408b unused
-0x408c LargePatioHouse housing
-0x408d RanchHouse housing
-# 0x408e - 0x4095 unused
-0x4096 MarblePatioHouse housing
-# 0x4097 unused
-0x4098 SmallTower housing
-# 0x4099 unused
-0x409a TwoStoryLogCabinHouse housing
-# 0x409b unused
-0x409c SmallSandstoneHouse housing
-# 0x409d unused
-0x409e TwoStoryVillaHouse housing
-# 0x409f unused
-0x40a0 SmallStoneShop housing
-# 0x40a1 unused
-0x40a2 SmallMarbleShop housing
-# 0x40a3 - 0x4257 unused
+# 0x3997 - 0x4257 unused
 0x4258 HornStyle1 barber
 0x4259 HornStyle2 barber
 0x425a HornStyle3 barber
@@ -1699,13 +1640,7 @@
 0x6024 keepdeed housing
 0x6025 castledeed housing
 0x6026 largepatiohousedeed housing
-0x6027 smallboatdeed boat
-0x6028 smalldragonboatdeed boat
-0x6029 mediumboatdeed boat
-0x602a mediumdragonboatdeed boat
-0x602b largeboatdeed boat
-0x602c largedragonboatdeed boat
-# 0x602d - 0x604f unused
+# 0x6027 - 0x604f unused
 0x6050 Firebow weapons
 0x6051 firearrow carpentry
 0x6052 frostarrow carpentry
@@ -2026,17 +1961,101 @@
 # 0xee1a - 0xee1f unused
 0xee20 glass mining
 0xee21 porcelain mining
-# 0xee22 - 0xf00f unused
-0xf010 Tillerman boat
-0xf011 gangplank boat
-0xf012 gangplank2 boat
-0xf013 Hold boat
-# 0xf014 - 0xf01f unused
-0xf020 Wrestling
-0xf021 mount
-# 0xf022 - 0xff00 unused
-0xff01 SecureTradeContainer
-0xff02 WornItemsContainer
-# 0xff03 - 0x12344 unused
-0x12345 mowongarawr
-# 0x12346 - 0x1ffff unused
+# 0xee22 - 0x10fff unused
+0x11000 SmallBoat boat
+# 0x11001 converts to 0x11000
+# 0x11002 converts to 0x11000
+# 0x11003 converts to 0x11000
+0x11004 SmallDragonBoat boat
+# 0x11005 converts to 0x11004
+# 0x11006 converts to 0x11004
+# 0x11007 converts to 0x11004
+0x11008 MediumBoat boat
+# 0x11009 converts to 0x11008
+# 0x1100a converts to 0x11008
+# 0x1100b converts to 0x11008
+0x1100c MediumDragonBoat boat
+# 0x1100d converts to 0x1100c
+# 0x1100e converts to 0x1100c
+# 0x1100f converts to 0x1100c
+0x11010 LargeBoat boat
+# 0x11011 converts to 0x11010
+# 0x11012 converts to 0x11010
+# 0x11013 converts to 0x11010
+0x11014 LargeDragonBoat boat
+# 0x11015 converts to 0x11014
+# 0x11016 converts to 0x11014
+# 0x11017 converts to 0x11014
+# 0x11018 - 0x1103f unused
+0x11040 BritannianBoat boat
+# 0x11041 converts to 0x11040
+# 0x11042 converts to 0x11040
+# 0x11043 converts to 0x11040
+# 0x11044 - 0x11063 unused
+0x11064 SmallStoneAndPlasterHouse housing
+# 0x11065 converts to 0x11064
+0x11066 SmallStoneHouse housing
+# 0x11067 converts to 0x11066
+0x11068 SmallBrickHouse housing
+# 0x11069 converts to 0x11068
+0x1106a SmallWoodHouse housing
+# 0x1106b converts to 0x1106a
+0x1106c SmallWoodAndPlasterHouse housing
+# 0x1106d converts to 0x1106c
+0x1106e SmallWoodAndStrawHouse housing
+# 0x1106f converts to 0x1106e
+0x11070 BlueTent housing
+# 0x11071 converts to 0x11070
+0x11072 GreenTent housing
+# 0x11073 converts to 0x11072
+0x11074 LargeBrickHouse housing
+# 0x11075 converts to 0x11074
+0x11076 TwoStoryWoodAndPlasterHouse housing
+# 0x11077 converts to 0x11076
+0x11078 TwoStoryStoneAndPlasterHouse housing
+# 0x11079 converts to 0x11078
+0x1107a Tower housing
+# 0x1107b converts to 0x1107a
+0x1107c Keep housing
+# 0x1107d converts to 0x1107c
+0x1107e Castle housing
+# 0x1107f converts to 0x1107e
+# 0x11080 - 0x11086 unused
+# 0x11087 converts to 0x1108c
+# 0x11088 - 0x1108b unused
+0x1108c LargePatioHouse housing
+0x1108d RanchHouse housing
+# 0x1108e - 0x11095 unused
+0x11096 MarblePatioHouse housing
+# 0x11097 unused
+0x11098 SmallTower housing
+# 0x11099 unused
+0x1109a TwoStoryLogCabinHouse housing
+# 0x1109b unused
+0x1109c SmallSandstoneHouse housing
+# 0x1109d unused
+0x1109e TwoStoryVillaHouse housing
+# 0x1109f unused
+0x110a0 SmallStoneShop housing
+# 0x110a1 unused
+0x110a2 SmallMarbleShop housing
+# 0x110a3 - 0x16026 unused
+0x16027 smallboatdeed boat
+0x16028 smalldragonboatdeed boat
+0x16029 mediumboatdeed boat
+0x1602a mediumdragonboatdeed boat
+0x1602b largeboatdeed boat
+0x1602c largedragonboatdeed boat
+0x1602d britannianshipdeed boat
+# 0x1602e - 0x1f00f unused
+0x1f010 Tillerman boat
+0x1f011 gangplank boat
+0x1f012 gangplank2 boat
+0x1f013 Hold boat
+# 0x1f014 - 0x1f01f unused
+0x1f020 Wrestling
+0x1f021 mount
+# 0x1f022 - 0x1ff00 unused
+0x1ff01 SecureTradeContainer
+0x1ff02 WornItemsContainer
+# 0x1ff03 - 0x1ffff unused

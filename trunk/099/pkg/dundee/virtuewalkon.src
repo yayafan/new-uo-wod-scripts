@@ -2,10 +2,9 @@ use os;
 use uo;
 use util;
 use cfgfile;
-use math;
 
 include "include/client";
-include "include/wodmath";
+include "include/math";
 
 Const EFFECT_SPARKLE := 0x373a;
 Const SOUND_EFFECT_RES := 0x215;

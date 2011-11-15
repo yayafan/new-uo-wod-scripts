@@ -875,7 +875,7 @@ function DoDoubleClickEvent ();
 	endcase
 
 	if (mounttype)
-		if (MoveObjectToLocation( master, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+		if (MoveObjectToLocation( master, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_NORMAL ))
 			drop();
 			set_critical (1);
 			master.facing := me.facing;

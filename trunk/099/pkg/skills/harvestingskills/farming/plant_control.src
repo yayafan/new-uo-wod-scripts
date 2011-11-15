@@ -462,6 +462,7 @@ function IsADecayablePlant (plant)
 		0x18e6:
 		0x18e9:
 		0x18ea:
+		0x091a:
 			return 0;
 	endcase
 	if (GetObjProperty (plant, "nodecay"))

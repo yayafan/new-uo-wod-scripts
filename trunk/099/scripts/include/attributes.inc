@@ -1,4 +1,3 @@
-use math;
 use vitals;
 
 ///////////////////
@@ -6,7 +5,7 @@ use vitals;
 ///////////////
 
 include "include/client";
-include "include/wodmath";
+include "include/math";
 include "include/skills";
 
 Const ATTRIBUTEID_ALCHEMY		:= "Alchemy";

@@ -2,7 +2,6 @@ use uo;
 use os;
 use util;
 use cfgfile;
-use math;
 
 include "include/client";
 include "include/objtype";
@@ -96,14 +95,14 @@ function MakeCarpentryItems (character, tool, logs)
 	var craftingbag := FindCraftingBag (character);
 	var characterx := character.x;
 	var charactery := character.y;
-	var amax := Cint (logs.amount/material_needed);
+	var amax := CINT (logs.amount/material_needed);
 	if (!amax)
 		SendSysMessage (character, "You don't have enough logs to make that!");
 		return;
 	elseif (amax > 10)
 		amax := 10;
 	endif
-	var items_to_make := Cint (Sendtextentrygump (character, "How many do you want to make?:", 
+	var items_to_make := CINT (Sendtextentrygump (character, "How many do you want to make?:", 
 				TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Max: " + amax + ", 0 to cancel)"));
 	if (!items_to_make)
 		SendSysMessage (character, "Canceled.");
@@ -140,19 +139,10 @@ function MakeCarpentryItems (character, tool, logs)
 		PlaySoundEffect(character, SFX_HAMMER);
 
 		if (!CheckSkill (character, SKILLID_CARPENTRY, item_skill, 0))
-			var lossamount := RandomInt (Cint ( material_needed/3) )+1;
+			var lossamount := RandomInt (CINT ( material_needed/3) )+1;
 			SubtractAmount (logs, lossamount);
 			SendSysmessage (character, "You fail, destroying some logs.");
 		else
-
-			var amax := Cint (logs.amount/material_needed);
-			if (!amax)
-				SendSysMessage (character, "You ran out of Materials!");
-				return;
-			elseif (amax > 10)
-				amax := 10;
-			endif
-
 			created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
 			if (!created_item)
 				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
@@ -160,7 +150,7 @@ function MakeCarpentryItems (character, tool, logs)
 			endif
 
 			created_item.movable := 1;
-			//created_item.buyprice := 0;
+			created_item.buyprice := 0;
 			SendSysMessage (character, "You place the item in your backpack.");
 			SubtractAmount (logs, material_needed);
 			if (!item_stackable)
@@ -175,12 +165,11 @@ function MakeCarpentryItems (character, tool, logs)
 					var thekey := CreateItemInContainer (created_item, UOBJ_COPPER_KEY, 1); 
 					SetObjProperty (thekey, "lockid", lockid);
 					SetObjProperty (created_item, "lockid", lockid);
-					SetObjProperty (created_item, "thekey", thekey.serial);
 				endif
 			endif
 
 			if (autoupgrade)
-				var upgrade_material := Cint (material_needed/2);
+				var upgrade_material := CINT (material_needed/2);
 				if (logs.amount < upgrade_material)
 					SendSysMessage (character, "You don't have enough logs to upgrade that item!");
 					return;
@@ -211,7 +200,6 @@ function MakeCarpentryItems (character, tool, logs)
 		endif
 		
 		if (created_item)
-			randommagicitem(character, created_item, item_lockable);
 			items_to_make := items_to_make - 1;
 		endif
 		sleep (2);
@@ -220,83 +208,8 @@ function MakeCarpentryItems (character, tool, logs)
 	SendSysMessage (character, "You stop crafting.");  
 endfunction
 
-function randommagicitem(character, item, item_lockable)
 
-	// First check to see if character meets requirements : to make magic is a special .spec setup not everyone can do it.
 
-	var carpentrySkill := GetAttributeBaseValue( character, "Carpentry" )/10;
-	var magerySkill := GetAttributeBaseValue( character, "magery")/10;
-	var meditationSkill := GetAttributeBaseValue( character, "Meditation")/10;
-
-	var mastermage := 1;
-	var neededskill := "none";
-
-	// This is 100 or better skills
-	if ( carpentrySkill < 100 )
-		if ( neededskill == "none" )
-			neededskill := "carpentry";
-		endif
-		mastermage := 0;
-	endif
-
-	if ( magerySkill < 100 )
-		if ( neededskill == "none" )
-			neededskill := "magery";
-		endif
-		mastermage := 0;
-	endif
-
-	if ( meditationSkill < 100 )
-		if ( neededskill == "none" )
-			neededskill := "meditation";
-		endif
-		mastermage := 0;
-	endif
-
-	if ( mastermage == 0 )
-		PrintTextAbove( character, "*thinks about " + neededskill + "*",
-			        font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR, journal_print := JOURNAL_PRINT_NAME);
-	endif
-
-	if (item_lockable)
-		if ( mastermage == 1 )
-			// ok now we can try to make a magic quality item
-			var results := RandomDiceRoll("d100");
-			// 2% magic item possiblilty
-			if ( results > 98 )
-
-				var keyserial := GetObjProperty(item, "thekey");
-				var thekey := SystemFindObjectBySerial( keyserial, sysfind_flags := 0 );
-				DestroyItem(thekey);
-				EraseObjProperty(item, "thekey");
-
-				var random_quality := CINT (((RandomInt (10)+1) * (RandomInt (10)+1))/10) + 1;
-
-				SetObjProperty (item, "mobchest_spawntime", ReadGameClock ());
-				SetObjProperty (item, "lockpicking", random_quality);
-				SetObjProperty (item, "questitem", 1);
-
-				item.locked := 1;
-				item.name := "a magical chest";
-
-				//make traps
-				if (RandomInt (3) == 1)
-					case (RandomInt (3))
-						0:
-							SetObjProperty (item, "trap", "explosion");
-						1:
-							SetObjProperty (item, "trap", "poison");
-						2:
-							SetObjProperty (item, "trap", "djinni");
-				endcase
-				endif
-
-				PrintTextAbovePrivate (character, "Oh, a magic chest!", character);
-			endif
-		endif
-	endif
-
-endfunction
 
 ///////////////////
 //  makes arrow shafts

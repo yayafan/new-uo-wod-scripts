@@ -18,6 +18,12 @@ program eat_food (character, food)
 		SendSysmessage (character, "You can't eat that.");
 		return;
 	endif
+	
+	//don't eat giant cakes - they need to be sliced
+	if (food.objtype == 0x28aa)
+		SendSysMessage (character, "That's a bit large.  Why don't you slice it first?");
+		return;
+	endif
 
 	//reserve the food
 	if (!ReserveItem (food) )

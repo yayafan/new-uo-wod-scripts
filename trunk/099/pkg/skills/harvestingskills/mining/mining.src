@@ -43,14 +43,26 @@ program use_picktool (character, tool)
 		SendSysMessage (character, "Canceled.");
 		return;
 	endif
-
-	if (mining_loc.item.objtype == UOBJ_MAP1)
-		TryToDigUpTreasureMap (character, mining_loc.item);
-		return;
+	
+	if (mining_loc.item)
+		case (mining_loc.item.objtype)
+			UOBJ_DECODED_MAP:
+			UOBJ_LEVEL_1_MAP:
+			UOBJ_LEVEL_2_MAP:
+			UOBJ_LEVEL_3_MAP:
+			UOBJ_LEVEL_4_MAP:
+			UOBJ_LEVEL_5_MAP:
+			UOBJ_SEER_MAP:
+				TryToDigUpTreasureMap (character, mining_loc.item);
+				return;
+		endcase;
+		if (mining_loc.item.container)
+			SendSysmessage (character, "What do you plan to do with that?");
+			return;
+		endif
 	endif
 
 	var distt := coordist (character.x, character.y, mining_loc.x, mining_loc.y );
-
 	if ( distt > 2 )
 		SendSysmessage (character, "That is too far away");
 		return;

@@ -103,7 +103,7 @@ function DoSlimeDamage (opponent)
 	endif
 	
 	//don't eat backpacks or mounts
-	if (item.objtype == 0x0E75 or item.objtype == 0xF021)
+	if (item.objtype == 0x0E75 or item.objtype == 0x1F021)
 		return 0;
 	endif
 

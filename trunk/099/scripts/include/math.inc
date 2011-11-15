@@ -175,7 +175,7 @@ function YRoot(x, y)
 	
 	var i := 0.000;
 	var n := 0.000;
-	var root := 2.000;
+	var sroot := 2.000;
 	var a := CInt(Sqr(x));
 
 	if (a < 4)
@@ -187,23 +187,23 @@ function YRoot(x, y)
 	
 	While (success == 0)		
 
-		n := Exp(root, y);
+		n := Exp(sroot, y);
 		i := x - n;
-		i := i / (a * root);
+		i := i / (a * sroot);
 		i := Trunc(i, 3);
-		root := root + i;
+		sroot := sroot + i;
 		if (i == 0)
 			success := 1;
-			if ( Exp(Root, y) > x )
-				root := root - 0.001;
+			if ( Exp(sRoot, y) > x )
+				sroot := sroot - 0.001;
 			endif
-			if ( Exp((root + 0.001), y) == x)
-				root := root + 0.001;
+			if ( Exp((sroot + 0.001), y) == x)
+				sroot := sroot + 0.001;
 			endif
 		endif
 	endwhile
 
-	return root;
+	return sroot;
 
 endfunction
 
@@ -214,25 +214,25 @@ function Sqr(x)
 
 	var i := 0.000;
 	var n := 0.000;
-	var root := 2.000;
+	var sroot := 2.000;
 	var success := 0;
 	
 	While (success == 0)		
 
-		n := Exp(root, 2);
+		n := Exp(sroot, 2);
 		i := x - n;
-		i := i / (2 * root);
+		i := i / (2 * sroot);
 		i := Trunc(i, 3);
-		root := root + i;
+		sroot := sroot + i;
 		if (i == 0)
 			success := 1;
-			if ( Exp(Root, 2) > x )
-				root := root - 0.001;
+			if ( Exp(sRoot, 2) > x )
+				sroot := sroot - 0.001;
 			endif
 		endif
 	endwhile
 
-	return root;
+	return sroot;
 
 endfunction
 
