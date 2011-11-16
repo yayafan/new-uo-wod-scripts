@@ -328,7 +328,7 @@ function ResurrectPet (healer, corpse, bandages)
 	endif
 
 	set_critical (1);
-	var new_npc := SpawnNPCAtLocation (npctemplate, corpse.x, corpse.y, corpse.z);
+	var new_npc := SpawnNPCAtLocation (npctemplate, corpse.x, corpse.y, corpse.z, 0, corpse.realm);
 	if (!new_npc)
 		SendSysMessage (healer, "It seems to have gone to the big pet shop in the sky...");
 		EraseObjProperty (healer, "#heal");

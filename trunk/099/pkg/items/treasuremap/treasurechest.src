@@ -10,24 +10,38 @@ use cfgfile;
 
 include "include/client";
 include "include/spawn";
+include "../pkg/npcs/shrunknpcs/shrunknpcs";
 
 program treasurechest (character,  chest)
-
 	if (!ReserveItem (chest))
+		SendSysMessage (character, "Someone else seems to be using that already.");
 		return;
 	endif
 
+	//remove nearby gates.  Stupid cheaters...
 	foreach item in ListItemsNearLocationOfType (chest.x, chest.y, chest.z, 20, 0x0F6C)
 		DestroyItem (item);
 	endforeach
 
 	character.hidden := 0;
-	SendSysMessage (character, "You unleash the treasure's guardians!");
-
 	if (GetObjProperty (chest, "guardians"))
-		ReleasePresetGuardians (chest);
+		if (ReleasePresetGuardians (chest))
+			SendSysMessage (character, "You unleash the treasure's guardians!");
+		else
+			SendSysMessage (character, "You feel a strange tingling...  But nothing happens.  This time.");
+		endif
+	elseif (GetObjProperty (chest, "guardian_pack"))
+		if (ReleaseSeerSetGuardians (chest))
+			SendSysMessage (character, "You unleash the treasure's guardians!");
+		else
+			SendSysMessage (character, "You feel a strange tingling...  But nothing happens.  This time.");
+		endif
 	else
-		SpawnChestGuardians (character, chest);
+		if (SpawnChestGuardians (chest))
+			SendSysMessage (character, "You unleash the treasure's guardians!");
+		else
+			SendSysMessage (character, "You feel a strange tingling...  But nothing happens.  This time.");
+		endif
 	endif
 
 	//destroys the chest after a while
@@ -35,29 +49,27 @@ program treasurechest (character,  chest)
 	setobjproperty (chest, "deleteme", 1);
 	var allchests := GetGlobalProperty ("unlockedchests");
 	if (!allchests)
-		allchests[1]:=chest.serial;
-	else
-		allchests.append (chest.serial);
+		allchests := Array {};
 	endif
+	
+	allchests.append (chest.serial);
 	SetGlobalProperty ("unlockedchests", allchests);
 	set_critical (0);
 
 	chest.usescript := "";
-
 endprogram
 
 
 
 
 ///////////////////
-//  for treasure chests buried by seers
+//  for treasure chests buried by seers (old system, kept for compatibility)
 ///////////////////
 
 function ReleasePresetGuardians (chest)
-
 	var guardians := GetObjProperty (chest, "guardians");
 	foreach template in guardians
-		SpawnNPCInArea (template, chest.x, chest.y, 4);
+		SpawnNPCInArea (template, chest.x, chest.y, 4, 20, chest.realm);
 	endforeach
 
 	var lvl := GetObjProperty (chest, "level");
@@ -67,9 +79,54 @@ function ReleasePresetGuardians (chest)
 	else
 		chest.locked := 0;
 	endif
-
+	return 1;
 endfunction
 
+
+
+
+///////////////////
+//  for treasure chests buried by seers (new system)
+///////////////////
+
+function ReleaseSeerSetGuardians (chest)
+	//unlock the chest if its not pickable
+	if (!GetObjProperty (chest, "lockpicking"))
+		chest.locked := 0;
+	endif
+
+	var guardian_bag_serial := GetObjProperty (chest, "guardian_pack");
+	if (!guardian_bag_serial)
+		return 0;
+	endif
+
+	var guardian_bag; 
+	foreach item in EnumerateItemsInContainer (chest)
+		if (item.serial == guardian_bag_serial)
+			guardian_bag := item;
+			break;
+		endif
+	endforeach
+
+	if (!guardian_bag)
+		return 0;
+	endif
+
+	if (!len (EnumerateItemsInContainer (guardian_bag)))
+		DestroyItem (guardian_bag);
+		return 0;
+	endif
+
+	foreach item in EnumerateItemsInContainer (guardian_bag)
+		if (item.container == guardian_bag)
+			var x := chest.x + RandomInt (16) - 7;
+			var y := chest.y + RandomInt (16) - 7;
+			UnshrinkNPC (item, x, y, 0, chest.realm);
+		endif
+	endforeach
+	DestroyItem (guardian_bag);
+	return 1;
+endfunction
 
 
 
@@ -77,10 +134,10 @@ endfunction
 // spawn monsters for normal maps
 ///////////////////
 
-function SpawnChestGuardians (character, chest)
-
+function SpawnChestGuardians (chest)
 	var lvl := GetObjProperty (chest, "level");
-	chest.locked := 0;
+	
+	//try to spawn the guardians
 	var cfgfile := ReadConfigFile (":treasuremap:guardians");
 	var spawn_group;
 	case (RandomInt (3))
@@ -100,7 +157,26 @@ function SpawnChestGuardians (character, chest)
 	for i := 1 to RandomDiceRoll (total)
 		var random_number := RandomInt (total_guardians) + 1;
 		var chosen_guardian := CSTR (guardian_array[random_number]);
-		SpawnNPCInArea (chosen_guardian, chest.x, chest.y, 4);
+		SpawnNPCInArea (chosen_guardian, chest.x, chest.y, 4, 20, chest.realm);
 	endfor
+	
+	//usually unlock the chest at this point, but sometimes set it to need to be picked
+	if (RandomInt (4) == 1)
+		var locklevel := RandomInt (lvl) + 1;
+		SetObjProperty (chest, "lockpicking", locklevel);
+		if (RandomInt (3) == 1)
+			case (RandomInt (3))
+				0:
+					SetObjProperty (chest, "trap", "explosion");
+				1:
+					SetObjProperty (chest, "trap", "poison");
+				2:
+					SetObjProperty (chest, "trap", "djinni");
+			endcase
+		endif
+	else
+		chest.locked := 0;
+	endif
 
+	return 1;
 endfunction

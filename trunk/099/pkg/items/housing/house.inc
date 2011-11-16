@@ -1,3 +1,4 @@
+include "include/wodinc";
 include "include/itemtypes";
 include "../pkg/items/housing/housefriends";
 
@@ -9,17 +10,43 @@ Const HOUSE_RAISE_ITEM		:= 5;
 Const HOUSE_LOWER_ITEM		:= 6;
 Const HOUSE_DISPLAY_ITEM		:= 7;
 
+Const HOUSE_VALUE_LIMIT		:= 5;
+
 ///////////////////
 //  gets the housevalue of the given account
 ///////////////////
 
 function GetAccountHouseValue (acctname)
-	var housevalue := GetGlobalProperty ("#housevalue of " + acctname);
-	if (!housevalue)
-		housevalue := 0;
+	acctname := Lower (acctname);
+	if (!acctname)
+		return CreateError ("No accountname supplied");
+	endif
+	var acct := FindAccount (acctname);
+	if (!acct)
+		return CreateError ("Account " + acctname + " does not exist");
 	endif
 
-	return housevalue;
+	var global_prop_name := "#housing_of_" + acctname;
+	var existing_houses := GetGlobalProperty (global_prop_name);
+	if (!existing_houses or !len (existing_houses))
+		return 0;
+	endif
+
+	var hv_counter := 0;
+	//make sure each sign exists and is still registered to the account
+	foreach sign_serial in existing_houses
+		var sign := SystemFindObjectBySerial (sign_serial);
+		if (sign)
+			var house_owner := Lower (GetObjProperty (sign, "account"));
+			if (house_owner and house_owner == acctname)
+				var sign_hv := GetHouseValueOfSign (sign);
+				if (sign_hv)
+					hv_counter := hv_counter + sign_hv;
+				endif
+			endif
+		endif
+	endforeach
+	return hv_counter;
 endfunction
 
 
@@ -29,31 +56,46 @@ endfunction
 //  adds the value of the house to the owner's housevalue
 ///////////////////
 
-function AddHouseValueToOwner (acctname, housevalue)
-	set_critical (1);
-	var oldhousevalue := GetAccountHouseValue (acctname);
-	var newhousevalue := oldhousevalue + housevalue;
-	SetGlobalProperty ("#housevalue of " + acctname, newhousevalue);
-	set_critical (0);
-endfunction
-
-
-
-
-///////////////////
-//  removes the value of the house from the owner's housevalue
-///////////////////
-
-function SubtractHouseValueFromOwner (acctname, housevalue)
-	set_critical (1);
-	var oldhousevalue := GetAccountHouseValue (acctname);
-	var newhousevalue := oldhousevalue - housevalue;
-	if (newhousevalue and newhousevalue > 0)
-		SetGlobalProperty ("#housevalue of " + acctname, newhousevalue);
-	else
-		EraseGlobalProperty ("#housevalue of " + acctname);
+function RecordHouseSignOwner (sign)
+	if (!sign)
+		return CreateError ("Sign does not exist!");
 	endif
+
+	var owneraccount := Lower (GetObjProperty (sign, "account"));
+	if (!owneraccount)
+		var try_counter := 0;
+		repeat
+			sleep (1);
+			try_counter := try_counter + 1;
+			owneraccount := Lower (GetObjProperty (sign, "account"));
+		until ((try_counter > 20) or owneraccount);
+	endif
+
+	set_critical (1);
+	var global_prop_name := "";
+	if (owneraccount)
+		var acct := FindAccount (owneraccount);
+		if (acct)
+			global_prop_name := "#housing_of_" + owneraccount;
+		else
+			global_prop_name := "#housing_no_owner";
+		endif
+	else
+		global_prop_name := "#housing_no_owner";
+	endif
+	
+	var existing_houses := GetGlobalProperty (global_prop_name);
+	if (!existing_houses)
+		existing_houses := Array {};
+	endif
+	
+	if (! (sign.serial in existing_houses))
+		existing_houses.append (sign.serial);
+		SetGlobalProperty (global_prop_name, existing_houses);
+	endif
+
 	set_critical (0);
+	return 1;
 endfunction
 
 
@@ -66,35 +108,11 @@ endfunction
 function HouseValueUnderLimit (character, housevalue);
 	var oldhousevalue := GetAccountHouseValue (character.acctname);
 	var newhousevalue := oldhousevalue + housevalue;
-	if (newhousevalue < 6 )
+	if (newhousevalue <= HOUSE_VALUE_LIMIT)
 		return 1;
 	else
 		return 0;
 	endif
-endfunction
-
-
-
-
-///////////////////
-//  Saves the location of unused items to a cfg file so they can be destroyed by a GM
-///////////////////
-
-function LogOldHouse (sign, ownerserial, MSG)
-
-	set_critical (1);
-	var prop := { };
-	var thelog := array {};
-	prop.+ pname := "House at " + sign.x + ", " + sign.y;
-	prop.+ pvalue := "lastvisit: " + GetObjProperty (sign, "lastvisit");
-
-	var elemkey := "owner serial: " + ownerserial;
-
-	thelog[1] := prop;
-	AppendConfigFileElem ( "housedecay", MSG, elemkey, thelog );
-	UnloadConfigFile ("housedecay");
-	set_critical (0);
-
 endfunction
 
 
@@ -127,7 +145,6 @@ endfunction
 ///////////////////
 
 function GetHouseValueByDeed (deed)
-
 	case (deed)
 		0x6023: //tower
 			return 3;
@@ -150,7 +167,6 @@ function GetHouseValueByDeed (deed)
 			return 2;
 		default: return 1;
 	endcase
-
 endfunction
 
 
@@ -163,13 +179,13 @@ endfunction
 function GetHouseValueOfSign (sign)
 	//static houses:
 	if (sign.objtype == 0x7060)
-		if ( GetObjProperty (sign, "housevalue") )
+		if (GetObjProperty (sign, "housevalue"))
 			return CINT (GetObjProperty (sign, "housevalue"));
 		endif
 		return 1;
 	endif
 
-	if ( GetObjProperty (sign, "housevalue") )
+	if (GetObjProperty (sign, "housevalue"))
 		return CINT (GetObjProperty (sign, "housevalue"));
 	endif
 	//deed-placed houses:
@@ -223,10 +239,8 @@ endfunction
 ///////////////////
 
 function GetMaxLockdowns (sign)
-
 	var hvalue := GetHouseValueOfSign (sign);
 	return (hvalue * 30) + 10;
-
 endfunction
 
 
@@ -410,9 +424,6 @@ function ChangeOwner (who, sign)
 		return;
 	endif
 
-	AddHouseValueToOwner (newowner.acctname, GetHouseValueOfSign (sign));
-	SubtractHouseValueFromOwner (who.acctname, GetHouseValueOfSign (sign));
-
 	EraseObjProperty (sign, "housefriends");
 	SetObjProperty (sign, "account", newowner.acctname);
 
@@ -458,55 +469,6 @@ function IsGMLockedDownItem (owner, item)
 	return 1;
 endfunction
 
-
-
-
-
-///////////////////
-//  does stuff when the house sign is created and on startup to make sure that the house is properly
-//  credited to the right account, and decays old, unused houses
-///////////////////
-
-function SetAccount (sign, ownerserial)
-
-	var char;
-	var owneraccount := GetObjProperty (sign, "account");
-	if (!owneraccount)
-		foreach acctname in ListAccounts ()
-			var acct := FindAccount(acctname);
-			for i := 1 to 5
-				char := acct.GetCharacter (i);
-				if (char)
-					if (char.serial == ownerserial)
-						SetObjProperty (sign, "account", acct.name);
-						return acct.name;
-					endif
-				endif
-			endfor
-		endforeach
-		LogOldHouse (sign, ownerserial, "NO CHARACTER!");
-	else
-		var acct := FindAccount (owneraccount);
-		if (!acct)
-			LogOldHouse (sign, ownerserial, "NO ACCOUNT!");
-		elseif (acct.banned) 
-			LogOldHouse (sign, ownerserial, "ACCOUNT BANNED!");
-		endif
-
-		var lastvisit := GetObjProperty (sign, "lastvisit");
-		if (!lastvisit)
-			lastvisit := 0;
-		endif
-
-		var twoweeks := 1209600 * 2;
-		if (lastvisit + twoweeks < ReadGameClock() )
-			LogOldHouse (sign, ownerserial, "ACCOUNT: " + owneraccount + " UNVISITED SINCE: "+lastvisit );
-		endif
-
-		AddHouseValueToOwner (owneraccount, GetHouseValueOfSign (sign));
-
-	endif
-endfunction
 
 
 
@@ -647,7 +609,7 @@ endfunction
 ///////////////////
 
 function FindHouseSign (character)
-	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127)
+	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127, character.realm)
 		case (item.objtype)
 			0x7060:
 			0x0bd2:
@@ -690,13 +652,13 @@ endfunction
 //  tries to find a house sign that covers the given location
 ///////////////////
 
-function FindHouseSignAtLocation (x, y)
-	foreach item in ListObjectsInBox (x-32, y-32, -128, x+32, y+32, +127)
+function FindHouseSignAtLocation (x, y, realm)
+	foreach item in ListObjectsInBox (x-32, y-32, -128, x+32, y+32, +127, realm)
 		case (item.objtype)
 			0x7060:
 			0x0bd2:
 			0x0bd0:
-				if (IsLocationWithinHouseSign (item, x, y))
+				if (IsLocationWithinHouseSign (item, x, y, realm))
 					return item;
 				endif
 		endcase
@@ -711,14 +673,15 @@ endfunction
 //  determines if the given sign covers the given X-Y location
 ///////////////////
 
-function IsLocationWithinHouseSign (sign, x, y)
+function IsLocationWithinHouseSign (sign, x, y, rlm)
 	var homeinfo := GetObjProperty (sign, "homeinfo");
 	if (!homeinfo)
 		return 0;
 	endif
 
 	if ( (x >= homeinfo[2] and x <= homeinfo[4]) and
-	     (y >= homeinfo[3] and y <= homeinfo[5]) )
+	     (y >= homeinfo[3] and y <= homeinfo[5]) and
+	     sign.realm == rlm )
 		return 1;
 	else
 		return 0;

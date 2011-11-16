@@ -166,8 +166,13 @@ Program Book (who, book)
 
   var bookcont:=GetObjProperty(book, "bookcontent");
   If (bookcont)
-    cont.titleauthor:=bookcont[1];
-    cont.story:=bookcont[2];
+    if (TypeOf(bookcont) == "Struct")
+        cont.titleauthor:=bookcont.titleauthor;
+        cont.story:=bookcont.story;
+    else
+        cont.titleauthor:=bookcont[1];
+        cont.story:=bookcont[2];
+    endif
   Else
     cont:=empty;
     cont.titleauthor[6]:=who.name;

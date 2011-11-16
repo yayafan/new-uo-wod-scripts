@@ -17,16 +17,20 @@ program SpawnThatStuff ()
 		var y := merchant[2];
 		var z := merchant[3];
 		var npctemplate := merchant[4];
-		var npc := SpawnNPCAtLocation (npctemplate, x, y, z);
+		var rlm := merchant[5];
+		if (!rlm)
+			rlm := _DEFAULT_REALM;
+		endif
+		var npc := SpawnNPCAtLocation (npctemplate, x, y, z, 0, rlm);
 		if (!npc)
-			LogBadMerchantSpawn (npctemplate, x, y);
+			LogBadMerchantSpawn (npctemplate, x, y, rlm);
 		endif
 	endforeach
 	set_critical(0);
 endprogram
 
 
-function LogBadMerchantSpawn (npctemplate, x, y)
+function LogBadMerchantSpawn (npctemplate, x, y, rlm)
 	var log := { };
 	var prop:= array {};
 
@@ -35,7 +39,7 @@ function LogBadMerchantSpawn (npctemplate, x, y)
 	log[1] := prop;
 
     	prop.+pname := "Location:";
-    	prop.+pvalue := x + ", " + y;
+    	prop.+pvalue := x + ", " + y + ", " + rlm;
 	log[2] := prop;
 
 	AppendConfigFileElem (":merchantspawner:merchantspawner", "Merchant", "spawner", log);

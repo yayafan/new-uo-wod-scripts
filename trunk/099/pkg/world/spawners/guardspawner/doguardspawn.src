@@ -80,8 +80,12 @@ function SpawnNewGuard (dfkey)
 		SendGMErrorMessage ("Error in guard datafile key " + dfkey, 1);
 		return;
 	endif
+	var spawnlocr := spawnloc[4];
+	if (!spawnlocr)
+		spawnlocr := _DEFAULT_REALM;
+	endif
 	
-	var theguard := SpawnNPCAtLocation (npctemplate, spawnloc[1], spawnloc[2], spawnloc[3]);
+	var theguard := SpawnNPCAtLocation (npctemplate, spawnloc[1], spawnloc[2], spawnloc[3], 0, spawnlocr);
 	if (!theguard)
 		SendGMErrorMessage ("Unable to spawn guard " + dfkey, 1);
 		return;

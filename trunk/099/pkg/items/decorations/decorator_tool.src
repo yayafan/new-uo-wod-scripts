@@ -70,7 +70,7 @@ program decorators_tool (character, tool)
 	endif
 
 	//make sure its in their house, or, if its in their backpack, put it down where they're standing
-	if (!IsLocationWithinHouseSign (housesign, item.x, item.y))
+	if (!IsLocationWithinHouseSign (housesign, item.x, item.y, item.realm))
 		if (item.container)
 			var tempitem := item;
 			var move_success := 0;
@@ -83,7 +83,7 @@ program decorators_tool (character, tool)
 					endif
 
 					item.movable := 1;
-	MoveObjectToLocation( item,character.x,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,character.x,character.y,character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION );
 					move_success := 1;
 				else
 					tempitem := tempitem.container;
@@ -126,7 +126,7 @@ program decorators_tool (character, tool)
 		
 		case (option)
 			OPTION_MOVE_NORTH:
-				if (!IsLocationWithinHouseSign (housesign, item.x, item.y - 1))
+				if (!IsLocationWithinHouseSign (housesign, item.x, item.y - 1, item.realm))
 					SendSysMessage (character, "That would put the item outside of your house!");
 				elseif (GetObjProperty (item, "otheritems"))
 					set_critical (1);
@@ -134,19 +134,19 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x,theitem.y - 1,theitem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x,theitem.y - 1,theitem.z, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 							theitem.movable := 0;
 						endif
 					endforeach
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x,item.y - 1, item.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x,item.y - 1, item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 
 			OPTION_MOVE_SOUTH:
-				if (!IsLocationWithinHouseSign (housesign, item.x, item.y + 1))
+				if (!IsLocationWithinHouseSign (housesign, item.x, item.y + 1, item.realm))
 					SendSysMessage (character, "That would put the item outside of your house!");
 				elseif (GetObjProperty (item, "otheritems"))
 					set_critical (1);
@@ -154,19 +154,19 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x,theitem.y + 1,theitem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x,theitem.y + 1,theitem.z, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 							theitem.movable := 0;
 						endif
 					endforeach
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x,item.y + 1,item.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x,item.y + 1,item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 
 			OPTION_MOVE_EAST:
-				if (!IsLocationWithinHouseSign (housesign, item.x + 1, item.y))
+				if (!IsLocationWithinHouseSign (housesign, item.x + 1, item.y, item.realm))
 					SendSysMessage (character, "That would put the item outside of your house!");
 				elseif (GetObjProperty (item, "otheritems"))
 					set_critical (1);
@@ -174,19 +174,19 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x + 1,theitem.y,theitem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x + 1,theitem.y,theitem.z, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 							theitem.movable := 0;
 						endif
 					endforeach
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x + 1,item.y,item.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x + 1,item.y,item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 
 			OPTION_MOVE_WEST:
-				if (!IsLocationWithinHouseSign (housesign, item.x - 1, item.y))
+				if (!IsLocationWithinHouseSign (housesign, item.x - 1, item.y, item.realm))
 					SendSysMessage (character, "That would put the item outside of your house!");
 				elseif (GetObjProperty (item, "otheritems"))
 					set_critical (1);
@@ -194,14 +194,14 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x - 1,theitem.y,theitem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x - 1,theitem.y,theitem.z, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 							theitem.movable := 0;
 						endif
 					endforeach
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x - 1,item.y,item.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x - 1,item.y,item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 
@@ -214,7 +214,7 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x,theitem.y,theitem.z + 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x,theitem.y,theitem.z + 1, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 
 							theitem.movable := 0;
 						endif
@@ -222,7 +222,7 @@ program decorators_tool (character, tool)
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x,item.y,item.z + 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x,item.y,item.z + 1, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 
@@ -235,14 +235,14 @@ program decorators_tool (character, tool)
 						var theitem := SystemFindObjectBySerial (serialnum);
 						if (theitem)
 							theitem.movable := 1;
-	MoveObjectToLocation( theitem,theitem.x,theitem.y,theitem.z - 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+							MoveObjectToLocation( theitem,theitem.x,theitem.y,theitem.z - 1, theitem.realm, flags := MOVEOBJECT_FORCELOCATION );
 							theitem.movable := 0;
 						endif
 					endforeach
 					set_critical (0);
 				else
 					item.movable := 1;
-	MoveObjectToLocation( item,item.x,item.y,item.z - 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item,item.x,item.y,item.z - 1, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 					item.movable := original_movable;
 				endif
 

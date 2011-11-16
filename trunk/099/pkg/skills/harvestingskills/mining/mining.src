@@ -758,7 +758,7 @@ function DoRandomEvent (me, tool)
 			0:
 			1:
 			2:
-				it := SpawnNPCInArea ("slime", me.x, me.y);
+				it := SpawnNPCInArea ("slime", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "A slime oozes over to see what you're doing");
 					return 1;
@@ -789,14 +789,14 @@ function DoRandomEvent (me, tool)
 				endif
 			7:
 				if (mining_type == GROUP_SAND)
-					it := SpawnNPCInArea ("sandelemental", me.x, me.y);
+					it := SpawnNPCInArea ("sandelemental", me.x, me.y, 4, 20, me.realm);
 					if (it)
 						SendSysmessage(me, "Oh no!  A sand elemental!");
 						return 1;
 					endif
 					return 0;
 				else
-					it := SpawnNPCInArea ("earthelemental", me.x, me.y);
+					it := SpawnNPCInArea ("earthelemental", me.x, me.y, 4, 20, me.realm);
 					if (it)
 						SendSysmessage(me, "Oh no!  An earth elemental!");
 						return 1;
@@ -810,7 +810,7 @@ function DoRandomEvent (me, tool)
 		case (RandomInt (12))
 			0:
 			1:
-				it := SpawnNPCInArea ("slime", me.x, me.y);
+				it := SpawnNPCInArea ("slime", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "A slime oozes over to see what you're doing");
 					return 1;
@@ -843,7 +843,7 @@ function DoRandomEvent (me, tool)
 				return 1;
 			7:
 			8:
-				it := SpawnNPCInArea ("giantslime", me.x, me.y);
+				it := SpawnNPCInArea ("giantslime", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "A slime oozes over to see what you're doing.");
 					return 1;
@@ -851,7 +851,7 @@ function DoRandomEvent (me, tool)
 				return 0;
 			9:
 			10:
-				it := SpawnNPCInArea ("graniteelemental", me.x, me.y);
+				it := SpawnNPCInArea ("graniteelemental", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "Oh no!  An earth elemental!");
 					return 1;
@@ -859,7 +859,7 @@ function DoRandomEvent (me, tool)
 				return 0;
 			11:
 				for i := 1 to 4
-					SpawnNPCInArea ("earthelemental", me.x, me.y);
+					SpawnNPCInArea ("earthelemental", me.x, me.y, 4, 20, me.realm);
 				endfor
 			default:
 				return 0;
@@ -869,7 +869,7 @@ function DoRandomEvent (me, tool)
 			0:
 			1:
 			2:
-				it := SpawnNPCInArea ("slime", me.x, me.y);
+				it := SpawnNPCInArea ("slime", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "A slime oozes over to see what you're doing");
 					return 1;
@@ -899,7 +899,7 @@ function DoRandomEvent (me, tool)
 				return 1;
 			7:
 			8:
-				it := SpawnNPCInArea ("earthelemental", me.x, me.y);
+				it := SpawnNPCInArea ("earthelemental", me.x, me.y, 4, 20, me.realm);
 				if (it)
 					SendSysmessage(me, "Oh no!  An earth elemental!");
 					return 1;
@@ -908,7 +908,7 @@ function DoRandomEvent (me, tool)
 				endif
 			9:
 				if ( randomint(2) )
-					it := SpawnNPCInArea ("graniteelemental", me.x, me.y);
+					it := SpawnNPCInArea ("graniteelemental", me.x, me.y, 4, 20, me.realm);
 					if (it)
 						SendSysmessage(me, "Oh no!  An earth elemental!");
 						return 1;

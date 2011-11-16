@@ -30,9 +30,7 @@ program SignListener (sign)
 		return;
 	endif
 
-	var ownerserial := GetObjProperty (house, "ownerserial");
-	SetAccount (sign, ownerserial);
-
+	RecordHouseSignOwner (sign);
 	RegisterForSpeechEvents (sign, 30);
 
 	var ev;
@@ -56,7 +54,6 @@ endprogram
 ///////////////////
 
 function BuildHouseLockdownArea (sign, housetype)
-
 	var homeinfo := array {};
 	homeinfo[1] := 0;
 	case (housetype)

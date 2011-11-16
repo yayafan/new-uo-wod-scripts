@@ -75,7 +75,7 @@ function SpawnNPCsFromSwitch (character, lever)
 
 	foreach guardian_elem in guardian_array
 		var npctemplate := guardian_elem[1];	
-		var thenpc := SpawnNPCInArea (npctemplate, lever.x, lever.y);
+		var thenpc := SpawnNPCInArea (npctemplate, lever.x, lever.y, 4, 20, lever.realm);
 		if (thenpc)
 			thenpc.graphic := guardian_elem[2];
 			thenpc.color := guardian_elem[3];
@@ -233,10 +233,14 @@ function SwitchTeleporter (character, lever)
 	var destx := GetObjProperty (lever, "teleportx");
 	var desty := GetObjProperty (lever, "teleporty");
 	var destz := GetObjProperty (lever, "teleportz");
+	var destr := GetObjProperty (lever, "teleportz");
+	if (!destr)
+		destr := _DEFAULT_REALM;
+	endif
 
 	ChangeLeverGraphic (lever, 1);
 	sleep (1);
-	if(MoveObjectToLocation( character, destx, desty, destz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+	if(MoveObjectToLocation( character, destx, desty, destz, destr, flags := MOVEOBJECT_NORMAL ))
 		if (!character.concealed)
 			PlaySoundEffect (character, SFX_SPELL_RECALL);
 			PlaySoundEffect (lever, SFX_SPELL_RECALL);

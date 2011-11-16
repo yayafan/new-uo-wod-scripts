@@ -37,21 +37,28 @@ program training_archery (character, butte)
 	
 	
 	var itemtype := character.weapon.objtype;
-	if (itemtype == UOBJ_BOW)
-		ammunitiontype := UOBJ_ARROW;
-		panim := ANIM_ATTACK_BOW;
-		effect := GFX_ARROW_FLIGHT;
-	elseif (itemtype == UOBJ_CROSSBOW or itemtype == UOBJ_HEAVY_CROSSBOW)
-		ammunitiontype := UOBJ_BOLT;
-		panim := ANIM_ATTACK_XBOW;
-		effect := GFX_BOLT_FLIGHT;
-	elseif (itemtype == UOBJ_FIRE_BOW)
-		SendSysMessage (character, "That probably wouldn't be too good for the archery butte...");
-		return;
-	else
-		SendSysmessage (character, "You must equip a bow or a crossbow.");
-		return;
-	endif
+	case (itemtype)
+		UOBJ_BOW:
+		UOBJ_COMPOSITE_BOW:
+		UOBJ_YUMI:
+		UOBJ_LONGBOW:
+		UOBJ_SHORTBOW:
+			ammunitiontype := UOBJ_ARROW;
+			panim := ANIM_ATTACK_BOW;
+			effect := GFX_ARROW_FLIGHT;
+		UOBJ_CROSSBOW:
+		UOBJ_HEAVY_CROSSBOW:
+		UOBJ_REPEATING_CROSSBOW:
+			ammunitiontype := UOBJ_BOLT;
+			panim := ANIM_ATTACK_XBOW;
+			effect := GFX_BOLT_FLIGHT;
+		UOBJ_FIRE_BOW:
+			SendSysMessage (character, "That probably wouldn't be too good for the archery butte...");
+			return;
+		default:
+			SendSysmessage (character, "You must equip a bow or a crossbow.");
+			return;
+	endcase
 			
 	var projectile := CheckForAmmunition (character, ammunitiontype);
 	if (!projectile)
@@ -64,7 +71,7 @@ program training_archery (character, butte)
 		sleep (1);
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,
-				effect, 10, 0, 0 );
+				effect, 10, 0, 0, butte.realm );
 		sleep(1);
 		PlaySoundEffect (character, SFX_SHOT);
 		SendSysmessage (character, "A good shot.");
@@ -74,7 +81,7 @@ program training_archery (character, butte)
 		sleep (1);
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,
-				effect, 10, 0, 0 );
+				effect, 10, 0, 0, butte.realm );
 		sleep (1);
 		PlaySoundEffect (character, SFX_ARROWHIT1 );
 		SendSysmessage (character, "You miss." );
@@ -113,7 +120,7 @@ function GrabAmmo (character, butte);
 
 	var used_bolts := GetObjProperty (butte, "bolts");
 	if (used_bolts)
-		CreateItemInBackpack (character, UOBJ_ARROW, CINT (used_bolts/2));
+		CreateItemInBackpack (character, UOBJ_BOLT, CINT (used_bolts/2));
 		SendSysMessage (character, "You grab " + CINT (used_bolts/2) + " bolts from the butte.");
 		EraseObjProperty (butte, "bolts");
 	endif

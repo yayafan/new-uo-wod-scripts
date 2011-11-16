@@ -24,7 +24,7 @@ program SignListener (sign)
 		SetObjProperty (sign, "originalgraphic", sign.graphic);
 	endif
 
-	SetAccount (sign, cint(homeinfo[1]) );
+	RecordHouseSignOwner (sign);
 	RegisterForSpeechEvents (sign, 30);
 
 	var ev;

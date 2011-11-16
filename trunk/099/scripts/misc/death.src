@@ -61,7 +61,7 @@ program npcdeath (corpse)
 	if (horse)
 		if (npctemplate["doppelganger"])
 			sleep(2);
-			var new_doppelganger := SpawnNPCAtLocation ("doppelganger", horse.x, horse.y, horse.z);
+			var new_doppelganger := SpawnNPCAtLocation ("doppelganger", horse.x, horse.y, horse.z, 0, horse.realm);
 			set_critical (1);
 			SetObjProperty (new_doppelganger, "#nextmorph", ReadGameClock() + cint(RandomInt(20)+15) );
 			new_doppelganger.graphic := horse.graphic;
@@ -113,7 +113,7 @@ program npcdeath (corpse)
 			while (!slime and tries < 10)
 				var randomx := RandomInt (5) - 2;
 				var randomy := RandomInt (5) - 2;
-				slime := SpawnNPCAtLocation ("slime", corpse.x + randomx, corpse.y + randomy, corpse.z, 0);
+				slime := SpawnNPCAtLocation ("slime", corpse.x + randomx, corpse.y + randomy, corpse.z, 0, corpse.realm);
 				tries := tries + 1;
 			endwhile
 		endfor
@@ -125,13 +125,13 @@ program npcdeath (corpse)
 			while (!slime and tries < 10)
 				var randomx := RandomInt (5) - 2;
 				var randomy := RandomInt (5) - 2;
-				slime := SpawnNPCAtLocation ("voidspawn", corpse.x + randomx, corpse.y + randomy, corpse.z, 0);
+				slime := SpawnNPCAtLocation ("voidspawn", corpse.x + randomx, corpse.y + randomy, corpse.z, 0, corpse.realm);
 				tries := tries + 1;
 			endwhile
 		endfor
 		nocorpse := 1;
 	elseif (npctemplate["necromancer"] and RandomInt (8) == 0)
-		var lich := SpawnNPCAtLocation ("lich", corpse.x, corpse.y, corpse.z, 0);
+		var lich := SpawnNPCAtLocation ("lich", corpse.x, corpse.y, corpse.z, 0, corpse.realm);
 		if (lich)
 			PrintTextAbove (lich, "In death, I grow only stronger!");
 			if (GetObjProperty (corpse, "deliverto"))
@@ -154,7 +154,7 @@ program npcdeath (corpse)
 		sleep (1);
 		PrintTextAbove (corpse, "1");
 		sleep (1);
-		foreach critter in ListMobilesNearLocationEx (corpse.x, corpse.y, corpse.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN );
+		foreach critter in ListMobilesNearLocationEx (corpse.x, corpse.y, corpse.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, corpse.realm );
 			PlaySoundEffectPrivate (critter, 0x208, critter);
 			PlayObjectCenteredEffect (critter, 0x36b0, 7, 0x10);
 			if (!critter.npctemplate or GetObjProperty (critter, "master"))
@@ -168,7 +168,7 @@ program npcdeath (corpse)
 
 	if (nocorpse)
 		foreach item in ListRootItemsInContainer (corpse);
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endforeach
 		DestroyItem (corpse);
 	endif

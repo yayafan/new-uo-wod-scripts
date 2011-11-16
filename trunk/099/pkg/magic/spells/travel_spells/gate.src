@@ -39,8 +39,12 @@ program spell_gate (parms)
 	var tox := Cint(GetObjProperty( cast_on, "x" ));
 	var toy := Cint(GetObjProperty( cast_on, "y" ));
 	var toz := Cint(GetObjProperty( cast_on, "z" ));
+	var tor := Cint(GetObjProperty( cast_on, "realm" ));
+	if (!tor)
+		tor := _DEFAULT_REALM;
+	endif
 
-	var sign := FindHouseSignAtLocation (tox, toy);
+	var sign := FindHouseSignAtLocation (tox, toy, tor);
 	if (sign)
 		if (!IsAFriend (sign, caster))
 			SendSysMessage (caster, "You can't gate to there!");
@@ -48,7 +52,7 @@ program spell_gate (parms)
 		endif
 	endif
 
-	DoGateSpellEffect (caster, tox, toy, toz);
+	DoGateSpellEffect (caster, tox, toy, toz, tor);
 	return 1;
 endprogram
 

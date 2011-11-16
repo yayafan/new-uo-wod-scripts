@@ -10,7 +10,7 @@ include "../pkg/npcs/npcinfo";
 //  tries to create an NPC of the given template at the given location
 ///////////////////
 
-function SpawnNPCAtLocation (npctemplate, x, y, z := "guess", specialparms := {})
+function SpawnNPCAtLocation (npctemplate, x, y, z := "guess", specialparms := {}, rlm)
 
         specialparms := { "not used"};
 
@@ -21,9 +21,9 @@ function SpawnNPCAtLocation (npctemplate, x, y, z := "guess", specialparms := {}
 	endif
 
 	if (z == "guess")
-		z := GetMapInfo (x,y).z;
+		z := GetMapInfo (x,y, rlm).z;
 	endif
-	var npc := CreateNpcFromTemplate( realtemplate, x, y, z, override_properties := 0, realm := _DEFAULT_REALM);
+	var npc := CreateNpcFromTemplate( realtemplate, x, y, z, 0, rlm);
 	return npc;
 endfunction
 
@@ -62,7 +62,7 @@ endfunction
 //  tries to create an NPC in the area given
 ///////////////////
 
-function SpawnNPCInArea (npctemplate, given_x, given_y, range := 4, maxtries := 20)
+function SpawnNPCInArea (npctemplate, given_x, given_y, range := 4, maxtries := 20, rlm)
 
 	var tries := 0;
 	var npc := 0;
@@ -70,7 +70,7 @@ function SpawnNPCInArea (npctemplate, given_x, given_y, range := 4, maxtries := 
 	while (!npc and tries < maxtries)
 		x := given_x + RandomInt (2*range+1) - range;
 		y := given_y + RandomInt (2*range+1) - range;
-		npc := SpawnNPCAtLocation (npctemplate, x, y);
+		npc := SpawnNPCAtLocation (npctemplate, x, y, "guess", 0, rlm);
 		if (npc == error)
 			return 0;
 		endif

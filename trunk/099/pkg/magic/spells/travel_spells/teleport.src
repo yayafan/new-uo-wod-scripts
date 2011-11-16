@@ -29,7 +29,7 @@ program cast_teleport( parms )
 		SendSysmessage( caster, "You cannot teleport there." );
 		return 0;
 	else
-		var sign := FindHouseSignAtLocation (cast_loc.x, cast_loc.y);
+		var sign := FindHouseSignAtLocation (cast_loc.x, cast_loc.y, cast_loc.realm);
 		if (sign)
 			if (!IsAFriend (sign, caster))
 				SendSysMessage (caster, "You cannot teleport near other player's houses.");

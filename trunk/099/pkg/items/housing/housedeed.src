@@ -287,6 +287,12 @@ function LegalHouseLocation (x, y)
 	//Covetous Entrance
 	elseif (x > 2440 and x < 2540 and y > 900 and y < 950)
 		return 0;
+	//Mountains north of Britain
+	elseif (x > 1420 and x < 1480 and y > 1200 and y < 1250)
+		return 0;
+	//Mountains north of Britain
+	elseif (x > 1600 and x < 1660 and y > 1170 and y < 1220)
+		return 0;
 	endif
 
 	return 1;

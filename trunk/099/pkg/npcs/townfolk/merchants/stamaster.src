@@ -146,7 +146,7 @@ function Load_Ticket_Data (byref player, byref ticket)
 		Sleep (3);
 
 		set_critical(1);
-			newpet := SpawnNPCAtLocation (GetObjProperty (ticket, "pettemplate"), me.x+1, me.y+1, "guess");
+			newpet := SpawnNPCAtLocation (GetObjProperty (ticket, "pettemplate"), me.x+1, me.y+1, "guess", 0, me.realm);
 			if (!newpet)
 				Say ("Uh-oh...  Where'd he go?");
 				set_critical (1);
