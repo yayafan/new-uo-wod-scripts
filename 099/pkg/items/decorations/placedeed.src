@@ -6,15 +6,16 @@ include "include/utility";
 include "include/itemtypes";
 include "../pkg/items/housing/house";
 
-var sign, maxlockdowns, lockdowns;
 
 program Place_Deed (character, deed)
+	var maxlockdowns, lockdowns;
+
 	if (!ReserveItem (deed))
 		SendSysMessage (character, "You can't use this right now.");
 		return;
 	endif
 
-	sign := FindHouseSign (character);
+	var sign := FindHouseSign (character);
 	if (!sign)
 		if (!character.cmdlevel)
 			SendSysMessage (character, "You must be in your house to use this!");
@@ -75,6 +76,7 @@ program Place_Deed (character, deed)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
+				SetObjProperty (item, "deedobjtype", deed.objtype);
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -82,7 +84,51 @@ program Place_Deed (character, deed)
 			return;
 
 		0xB001:	//forge
-			PlaceForge (character, deed, sign);
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0x0FB1, "Small forge");
+			AddMenuItem (select_menu, 0x197A, "Forge");
+			AddMenuItem (select_menu, 0x1986, "Forge");
+			AddMenuItem (select_menu, 0x199E, "Forge");
+			AddMenuItem (select_menu, 0x1992, "Forge");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+		
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+	
+			case (selected_item.index)
+			1:	//small forge
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			2:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_forge_we");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			3:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_forge_ns");
+				MoveObjectToLocation (character, character.x+1, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			4:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_forge_ew");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			5:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_forge_sn");
+				MoveObjectToLocation (character, character.x+1, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
 			return;
 
 		0xB002:	//	Training Dummies
@@ -105,6 +151,7 @@ program Place_Deed (character, deed)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
+				SetObjProperty (item, "deedobjtype", deed.objtype);
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -131,6 +178,7 @@ program Place_Deed (character, deed)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
+				SetObjProperty (item, "deedobjtype", deed.objtype);
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -159,6 +207,7 @@ program Place_Deed (character, deed)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
+				SetObjProperty (item, "deedobjtype", deed.objtype);
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -187,27 +236,27 @@ program Place_Deed (character, deed)
 			case (selected_item.index)
 			1:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_largebed_ns");
-	MoveObjectToLocation( character,character.x,character.y+2,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 
 			2:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_largebed_ew");
-	MoveObjectToLocation( character,character.x+2,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 
 			3:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_smallbed_ew");
-	MoveObjectToLocation( character,character.x+2,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 
 			4:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_smallbed_ns");
-	MoveObjectToLocation( character,character.x,character.y+2,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 
 			5:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_strawmat_ew");
-	MoveObjectToLocation( character,character.x+2,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 
 			6:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_strawmat_ns");
-	MoveObjectToLocation( character,character.x,character.y+2,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 			endcase
 			return;
 
@@ -231,26 +280,15 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			DestroyItem (deed);
-			if (selected_item.objtype == 0x105F)
-				item := CreateItemAtLocation (character.x,   character.y,   character.z, 0x1060, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-				item := CreateItemAtLocation (character.x,   character.y+1, character.z, 0x105F, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-			else
-				item := CreateItemAtLocation (character.x,   character.y,   character.z, 0x1061, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-				item := CreateItemAtLocation (character.x+1, character.y,   character.z, 0x1062, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-			endif
+			case (selected_item.index)
+			1:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_loom_ns");
+				MoveObjectToLocation (character, character.x+1, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			2:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_loom_ew");
+				MoveObjectToLocation (character, character.x, character.y+1, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
 			return;
 
 		0xB007:	//	mills
@@ -273,26 +311,15 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			DestroyItem (deed);
-			if (selected_item.objtype == 0x1922)
-				item := CreateItemAtLocation (character.x,   character.y,   character.z, 0x1920, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-				item := CreateItemAtLocation (character.x+1, character.y,   character.z, 0x1922, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-			else
-				item := CreateItemAtLocation (character.x,   character.y,   character.z, 0x192C, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-				item := CreateItemAtLocation (character.x,   character.y+1, character.z, 0x192E, 1);
-				if (sign)
-					SetObjProperty (item, "lockeddown", sign.serial);
-				endif
-			endif
+			case (selected_item.index)
+			1:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_mill_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			2:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_mill_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
 			return;
 
 		0xB008:	//	pentagram
@@ -465,6 +492,8 @@ program Place_Deed (character, deed)
 			var select_menu := CreateMenu ("Select facing:");
 			AddMenuItem (select_menu, 0x092B, "Oven");
 			AddMenuItem (select_menu, 0x0930, "Oven");
+			AddMenuItem (select_menu, 0x0461, "Oven");
+			AddMenuItem (select_menu, 0x046f, "Oven");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -483,6 +512,7 @@ program Place_Deed (character, deed)
 				endif
 				SetObjProperty (item, "deedobjtype", deed.objtype);
 				item.movable := 0;
+				item.facing := 29;
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -498,6 +528,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
+					new_item.facing := 29;
 				0x0930:
 					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0931, 1);
 					if (sign)
@@ -507,6 +538,27 @@ program Place_Deed (character, deed)
 					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
+					new_item.facing := 29;
+				0x0461:
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0462, 1);
+					if (sign)
+						SetObjProperty (new_item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (new_item, "deedobjtype", deed.objtype);
+					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					new_item.movable := 0;
+					new_item.facing := 29;
+				0x046f:
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x046e, 1);
+					if (sign)
+						SetObjProperty (new_item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (new_item, "deedobjtype", deed.objtype);
+					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					new_item.movable := 0;
+					new_item.facing := 29;
 				default:
 					SendSysMessage (character, "Error!  Please report this.");
 					return;
@@ -536,7 +588,6 @@ program Place_Deed (character, deed)
 			endif
 
 		0xB012:	//Piano
-			return;
 			var select_menu := CreateMenu ("Select facing:");
 			AddMenuItem (select_menu, 0x0b2d, "N/S");
 			AddMenuItem (select_menu, 0x0b2c, "E/W");
@@ -785,7 +836,6 @@ program Place_Deed (character, deed)
 			return;
 
 		0xB019:	//	large stone dragon statue
-			return;
 			var select_menu := CreateMenu ("Select direction:");
 			AddMenuItem (select_menu, 10300, "NS");
 			AddMenuItem (select_menu, 10319, "EW");
@@ -975,21 +1025,15 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 		return;
 	endif
 
-	sign := FindHouseSign (character);
-	if (!sign)
-		if (!character.cmdlevel)
-			SendSysMessage (character, "You must be in your house to use this!");
+	if (sign)
+		//make sure they have enough lockdowns for this
+		var maxlockdowns := GetMaxLockdowns (sign);
+		var lockdowns := GetLockdowns (sign);
+	
+		if (lockdowns + num_keys > maxlockdowns)
+			SendSysMessage (character, "You don't have enough lockdowns left.");
 			return;
 		endif
-	endif
-
-	maxlockdowns := GetMaxLockdowns (sign);
-	lockdowns := GetLockdowns (sign);
-
-	//make sure they have enough lockdowns for this
-	if (lockdowns + num_keys > maxlockdowns)
-		SendSysMessage (character, "You don't have enough lockdowns left.");
-		return;
 	endif
 
 	var itemserials := {};
@@ -1030,105 +1074,3 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 	endforeach
 	DestroyItem (deed);
 endfunction
-
-
-
-
-///////////////////
-//  Places a forge.  If its the only forge nearby, it'll be a small forge.  If there's 3 in a row and
-//  this one is in the middle, it'll change the other 2 and become one of the long forges
-///////////////////
-
-function PlaceForge (character, deed, sign)
-	if (!character or !deed or !sign)
-		return;
-	endif
-	
-	var existingforge := ListItemsNearLocationOfType (character.x, character.y, character.z, 0, 0x0FB1);
-	if (existingforge[1])
-		SendSysMessage (character, "You can't place this here!");
-		return;
-	endif
-	
-	var forge1 := ListItemsNearLocationOfType (character.x-1, character.y, character.z, 0, 0x0FB1);
-	forge1 := forge1[1];
-	if (!forge1 or forge1.graphic != 0x0FB1)
-		forge1 := 0;
-	endif
-	
-	var forge2 := ListItemsNearLocationOfType (character.x+1, character.y, character.z, 0, 0x0FB1);
-	forge2 := forge2[1];
-	if (!forge2 or forge2.graphic != 0x0FB1)
-		forge2 := 0;
-	endif
-	
-	if (forge1 and forge2)
-		var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
-		if (item)
-			DestroyItem (deed);
-		else
-			SendSysMessage (character, "Can't place it here.");
-			return;
-		endif
-		//They can affect which forge shows up by their facing
-		case (character.facing)
-			1:
-			2:
-			3:
-				forge1.graphic := 6566;
-				item.graphic := 6562;
-				forge2.graphic := 6558;
-			default:
-				forge1.graphic := 6522;
-				item.graphic := 6526;
-				forge2.graphic := 6530;
-		endcase
-		return;
-	endif
-	
-	forge1 := ListItemsNearLocationOfType (character.x, character.y-1, character.z, 0, 0x0FB1);
-	forge1 := forge1[1];
-	if (!forge1 or forge1.graphic != 0x0FB1)
-		forge1 := 0;
-	endif
-	
-	forge2 := ListItemsNearLocationOfType (character.x, character.y+1, character.z, 0, 0x0FB1);
-	forge2 := forge2[1];
-	if (!forge2 or forge2.graphic != 0x0FB1)
-		forge2 := 0;
-	endif
-	
-	if (forge1 and forge2)
-		var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
-		if (item)
-			DestroyItem (deed);
-		else
-			SendSysMessage (character, "Can't place it here.");
-			return;
-		endif
-		//They can affect which forge shows up by their facing
-		case (character.facing)
-			0:
-			1:
-			7:
-				forge1.graphic := 6534;
-				item.graphic := 6538;
-				forge2.graphic := 6542;
-			default:
-				forge1.graphic := 6554;
-				item.graphic := 6550;
-				forge2.graphic := 6546;
-		endcase
-		return;
-	endif
-
-	var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
-	if (item)
-		DestroyItem (deed);
-	else
-		SendSysMessage (character, "Can't place it here.");
-	endif
-	return;
-
-endfunction
-

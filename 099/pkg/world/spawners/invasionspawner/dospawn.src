@@ -77,6 +77,10 @@ function SpawnBoss (region, byref elem, strength)
 	var y1 := cint(coords[2]);
 	var x2 := cint(coords[3]);
 	var y2 := cint(coords[4]);
+	var rlm := elem.realm;
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
 	var groupscfg := ReadConfigFile (":invasionspawner:groups");
 	var bosselem := FindConfigElem( groupscfg, bosstype+strength );
@@ -86,7 +90,7 @@ function SpawnBoss (region, byref elem, strength)
 		return 0;
 	endif
 
-	var boss := SpawnMob( x1, y1, x2, y2, mobtype );
+	var boss := SpawnMob( x1, y1, x2, y2, mobtype, rlm );
 	if (!boss)
 		SendGMErrorMessage ("Invasionspawner:  Error spawning boss for group " + CSTR (bosstype+strength), 1);
 		return;
@@ -117,20 +121,20 @@ endfunction
 //  spawns the given NPC
 ///////////////////
 
-function SpawnMob ( x1, y1, x2, y2, critter )
+function SpawnMob ( x1, y1, x2, y2, critter, rlm )
 	var x, y, z;
 	var thecritter := 0;
 	var tries := 0;
 	repeat
 		x := RandomInt (x2-x1)+x1;
 		y := RandomInt (y2-y1)+y1;
-		z := GetMapInfo(x,y).z;
+		z := GetMapInfo(x,y,rlm).z;
 		tries := tries + 1;
 
-		if (CheckAreaIfSpawnable (x, y, z) )
-			thecritter := CreateNpcFromTemplate( critter, x, y, z, override_properties := 0, realm := _DEFAULT_REALM);
+		if (CheckAreaIfSpawnable (x, y, z, rlm) )
+			thecritter := CreateNpcFromTemplate( critter, x, y, z, 0, rlm);
 			if (thecritter)
-if(!MoveObjectToLocation( thecritter, thecritter.x, thecritter.y, z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+				if(!MoveObjectToLocation( thecritter, thecritter.x, thecritter.y, z, rlm, flags := MOVEOBJECT_NORMAL ))
 					KillIt (thecritter);
 				else
 					return thecritter;
@@ -178,6 +182,10 @@ function SpawnRegion (byref boss, region, byref elem)
 	var y1 := cint(coords[2]);
 	var x2 := cint(coords[3]);
 	var y2 := cint(coords[4]);
+	var rlm := elem.realm;
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
 	var strength := GetObjProperty (boss, "strength");
 	var density := elem.density;
@@ -188,7 +196,7 @@ function SpawnRegion (byref boss, region, byref elem)
 	var numtospawn := maxtospawn - numcurrentspawns;
 
 	if (numtospawn < 0 or randomint (500) == 1 or (numtospawn > maxtospawn) or (numcurrentspawns<0) )
-		NukeThisGroup (x1, y1, x2, y2, SpawnName);
+		NukeThisGroup (x1, y1, x2, y2, SpawnName, rlm);
 		return;
 	elseif ( numtospawn == 0 )
 		if ( (strength < 5 ) and ( randomint(2)==1 ) )
@@ -209,7 +217,7 @@ function SpawnRegion (byref boss, region, byref elem)
 	var critterlist := GetConfigStringArray(bosselem, "npc" );
 	for i := 1 to numtospawn
 		var critter := SpawnMob( x1, y1, x2, y2, 
-			critterlist[randomint( critterlist.size() )+1 ]);
+			critterlist[randomint( critterlist.size() )+1 ], rlm);
 		if ( critter )
 			set_critical(1);
 			numcurrentspawns := Cint(GetGlobalProperty(SpawnName))+1;
@@ -223,13 +231,13 @@ function SpawnRegion (byref boss, region, byref elem)
 	
 endfunction
 
-function NukeThisGroup(x1, y1, x2, y2, SpawnName)
+function NukeThisGroup(x1, y1, x2, y2, SpawnName, rlm)
 	var kills := 0;
 	var x, y, z;
 	for( x := x2 ; x > x1 ; x := x  - 16)
 		for( y := y1; y < y2; y := y + 16 )
 			for( z := -60; z <= 60; z := z + 16 )
-				foreach npc in ListMobilesNearLocationEx (x, y, z, 16, 0x02+0x01)
+				foreach npc in ListMobilesNearLocationEx (x, y, z, 16, 0x02+0x01, rlm)
 					if ( GetObjProperty( npc, "regspawn" ) == SpawnName )
 						set_critical(1);
 						EraseObjProperty (npc,"regspawn");
@@ -256,24 +264,24 @@ endfunction
 //  Checks around the area to see if the position is inside of a house or if there's a player around
 ///////////////////
 
-function CheckAreaIfSpawnable (x, y, startz := -120)
-	var sh := GetStandingHeight (x, y, startz);
+function CheckAreaIfSpawnable (x, y, startz := -120, rlm)
+	var sh := GetStandingHeight (x, y, startz, rlm);
 	if (sh.multi or sh.multi.serial)
 		return 0;
 	endif
 	
-	if (FindHouseSignAtLocation (x, y))
+	if (FindHouseSignAtLocation (x, y, rlm))
 		return 0;
 	endif
 
 	var z;
 	for ( z := startz; z <= 120; z := z + 30)
-		foreach item in ListItemsNearLocationOfType (x, y, z, 32, 0x708a)
-			if (IsLocationWithinHouseSign (item, x, y))
+		foreach item in ListItemsNearLocationOfType (x, y, z, 32, 0x708a, rlm)
+			if (IsLocationWithinHouseSign (item, x, y, rlm))
 				return 0;
 			endif
 		endforeach
-		foreach mobile in ListMobilesNearLocationEx (x, y, z, 12, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST)
+		foreach mobile in ListMobilesNearLocationEx (x, y, z, 12, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST, rlm)
 			if (!mobile.npctemplate)
 				return 0;
 			endif

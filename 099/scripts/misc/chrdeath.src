@@ -154,18 +154,18 @@ function docreatemount(character, mount)
 
 	set_critical (1);
 	var npctemplate := GetObjProperty (mount, "npctemplate");
-	var animal := SpawnNPCAtLocation (npctemplate, character.x, character.y, character.z);
+	var animal := SpawnNPCAtLocation (npctemplate, character.x, character.y, character.z, 0, character.realm);
 	if (!animal)
-		animal := SpawnNPCAtLocation (npctemplate, character.x+1, character.y, character.z);
+		animal := SpawnNPCAtLocation (npctemplate, character.x+1, character.y, character.z, 0, character.realm);
 		if (!animal)
-			animal := SpawnNPCAtLocation (npctemplate, character.x, character.y+1, character.z);
+			animal := SpawnNPCAtLocation (npctemplate, character.x, character.y+1, character.z, 0, character.realm);
 			if (!animal)
-				animal := SpawnNPCAtLocation (npctemplate, character.x-1, character.y, character.z);
+				animal := SpawnNPCAtLocation (npctemplate, character.x-1, character.y, character.z, 0, character.realm);
 				if (!animal)
-					animal := SpawnNPCAtLocation (npctemplate, character.x, character.y-1, character.z);
+					animal := SpawnNPCAtLocation (npctemplate, character.x, character.y-1, character.z, 0, character.realm);
 					if (!animal)
 						SendGMErrorMessage ("Dismount:  Can't spawn a " + npctemplate + " for " + character.name, 1);
-						SendGMErrorMessage ("Dismount:  Location: " + character.x + ", " + character.y + ", " + character.z, 1);
+						SendGMErrorMessage ("Dismount:  Location: " + character.x + ", " + character.y + ", " + character.z + ", " + character.realm, 1);
 						return DoOldDismount (character, mount);
 					endif
 				endif

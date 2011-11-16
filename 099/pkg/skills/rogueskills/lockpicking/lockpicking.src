@@ -183,14 +183,14 @@ function ActivateTrap (character, chest)
 		"poison":
 			SetPoison (character, RandomInt (6) + 5, "You've been poisoned!");
 		"djinni":
-			var thenpc := SpawnNPCInArea ("djinni", character.x, character.y);
+			var thenpc := SpawnNPCInArea ("djinni", character.x, character.y, 4, 20, character.realm);
 			if (thenpc)
 				SendSysMessage (character, "You've released an evil spirit!");
 			endif
 		"npcspawn":
 			var npctemplate := GetObjProperty (chest, "secondarytrapdata");
 			EraseObjProperty (chest, "secondarytrapdata");
-			var thenpc := SpawnNPCInArea (npctemplate, character.x, character.y);
+			var thenpc := SpawnNPCInArea (npctemplate, character.x, character.y, 4, 20, character.realm);
 			if (thenpc)
 				SendSysMessage (character, "You've released an evil creature!");
 			endif

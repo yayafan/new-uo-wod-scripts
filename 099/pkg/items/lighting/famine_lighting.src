@@ -18,12 +18,13 @@ program test_lighting (character)
 	var charx := character.x;
 	var chary := character.y;
 	var charz := character.z;
+	var charr := character.realm;
 	
-	var light1 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1);
+	var light1 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1, charr);
 	light1.graphic := 0x1647;
 	light1.facing := 29;
 	light1.movable := 0;
-	var light2 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1);
+	var light2 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1, charr);
 	light2.graphic := 0x1647;
 	light2.facing := 36;
 	light2.movable := 0;
@@ -36,13 +37,14 @@ program test_lighting (character)
 			charx := character.x;
 			chary := character.y;
 			charz := character.z;
+			charr := character.realm;
 		
 			light1.movable := 1;
-		MoveObjectToLocation( light1, charx + 2, chary + 2,charz + 1 , realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( light1, charx + 2, chary + 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
 			light1.movable := 0;
 
 			light2.movable := 1;
-		MoveObjectToLocation( light2, charx + 2, chary - 2,charz + 1 , realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( light2, charx + 2, chary - 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
 			light2.movable := 0;
 
 			set_critical (0);

@@ -137,7 +137,11 @@ program cast_recall (parms)
 		var tox := recall_loc[1];
 		var toy := recall_loc[2];
 		var toz := recall_loc[3];
-		var sign := FindHouseSignAtLocation (tox, toy);
+		var tor := recall_loc[4];
+		if (!tor)
+			tor := _DEFAULT_REALM;
+		endif
+		var sign := FindHouseSignAtLocation (tox, toy, tor);
 		if (sign)
 			if (!IsAFriend (sign, caster))
 				SendSysMessage (caster, "You can't recall to there!");
@@ -152,7 +156,7 @@ program cast_recall (parms)
 
 		PlaySoundEffect (caster, SFX_210);
 		sleepms (250);
-		MoveObjectToLocation( caster, tox, toy, toz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+		MoveObjectToLocation( caster, tox, toy, toz, tor, flags := MOVEOBJECT_NORMAL );
 		SetWeatherForPlayer (caster);
 		PlaySoundEffect (caster, SFX_SPELL_RECALL);
 		return 1;

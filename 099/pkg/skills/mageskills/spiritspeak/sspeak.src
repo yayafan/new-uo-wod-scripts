@@ -97,7 +97,7 @@ function ContactUndead(me, stonelevel)
 
 	PlaySoundEffect(me, 0x0108);
 	var npctemplate := GetUndeadType (stonelevel);
-	var it := SpawnNPCInArea (npctemplate, me.x, me.y, 4);
+	var it := SpawnNPCInArea (npctemplate, me.x, me.y, 4, 20, me.realm);
 	if (!it)
 		return;
 	endif

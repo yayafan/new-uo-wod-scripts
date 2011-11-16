@@ -159,7 +159,9 @@ function HouseLockUnlockItem (sign, character, item)
 			return;
 		endif
 	else
-		SendSysMessage (character, "You cannot release that!");
+		if (!IsADeedItem (character, item))
+			SendSysMessage (character, "You cannot release that!");
+		endif
 		return;
 	endif
 endfunction
@@ -353,7 +355,7 @@ function HouseRaiseItem (sign, character, item);
 
 	var oldmovable := item.movable;
 	item.movable := 1;
-	MoveObjectToLocation( item, item.x, item.y, item.z + 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, item.x, item.y, item.z + 1, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 	item.movable := oldmovable;
 endfunction
 
@@ -393,7 +395,7 @@ function HouseLowerItem (sign, character, item);
 
 	var oldmovable := item.movable;
 	item.movable := 1;
-	MoveObjectToLocation( item, item.x, item.y, item.z - 1, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( item, item.x, item.y, item.z - 1, item.realm, flags := MOVEOBJECT_FORCELOCATION );
 	item.movable := oldmovable;
 endfunction
 

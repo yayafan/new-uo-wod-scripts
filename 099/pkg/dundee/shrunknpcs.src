@@ -18,7 +18,7 @@ program unshrink_npcs (character, dolly)
 	endif
 
 	var npctemplate := GetObjProperty (dolly, "npctemplate");
-	var mobile := SpawnNPCAtLocation (npctemplate, where.x, where.y, where.z);
+	var mobile := SpawnNPCAtLocation (npctemplate, where.x, where.y, where.z, 0, where.realm);
 	if (!mobile)
 		SendSysMessage (character, "Error creating NPC");
 		return;

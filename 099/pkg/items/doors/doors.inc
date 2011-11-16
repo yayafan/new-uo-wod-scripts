@@ -30,6 +30,7 @@ function OpenDoor (door)
 	var newx := doorx + xmod;
 	var newy := doory + ymod;
 	var newz := door.z;
+	var newr := door.realm;
 
 	var opengraphic := GetObjProperty (door, "opengraphic");
 	if (!opengraphic or opengraphic == "")
@@ -40,7 +41,7 @@ function OpenDoor (door)
 		set_critical (1);
 		door.movable := 1;
 		door.graphic := opengraphic;
-		MoveObjectToLocation( door, newx, newy, newz, realm := _DEFAULT_REALM, flags :=MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( door, newx, newy, newz, newr, flags :=MOVEOBJECT_FORCELOCATION );
 		door.movable := 0;
 		set_critical (0);
 		PlayDoorOpenSound (door);
@@ -72,11 +73,12 @@ function CloseDoor (door)
 	endif
 
 	var newz := door.z;
+	var newr := door.realm;
 	if (door.graphic != door.objtype)
 		set_critical (1);
 		door.movable := 1;
 		door.graphic := door.objtype;
-		MoveObjectToLocation( door, newx, newy, newz, realm := _DEFAULT_REALM, flags :=MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( door, newx, newy, newz, newr, flags :=MOVEOBJECT_FORCELOCATION );
 		door.movable := 0;
 		set_critical (0);
 		PlayDoorCloseSound (door);

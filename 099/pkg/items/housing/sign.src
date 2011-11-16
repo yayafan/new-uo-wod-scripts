@@ -143,9 +143,6 @@ function MakeADeed (character, house)
 		PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
 		return 0;
 	endif
-
-	var housevalue := GetHouseValueByDeed (deedtype);
-	SubtractHouseValueFromOwner (character.acctname, housevalue);
 	return 1;
 endfunction
 
@@ -217,7 +214,6 @@ function DisownHouse (character, sign)
 	endforeach
 
 	ReleaseAll (character, sign);
-	SubtractHouseValueFromOwner (character.acctname, housevalue);
 	DestroyItem (sign);
 endfunction
 
@@ -312,6 +308,7 @@ function ChangeHouseSign (character, sign)
 	AddMenuItem (itemmenu, 0x0c09, "sign");
 	AddMenuItem (itemmenu, 0x0c0b, "sign");
 	AddMenuItem (itemmenu, 0x0c0d, "sign");
+	AddMenuItem (itemmenu, 0x0c43, "sign");
 	var selection := SelectMenuItem2 (character, itemmenu);
 	if (!selection.objtype)
 		SendSysMessage (character, "Canceled.");
@@ -372,7 +369,7 @@ function BuildHouseSignGump (character, sign)
 		"page 3",
 		"text 20 147 40 6",
 		"text 20 177 40 9",
-		"text 20 207 40 22",
+		"text 20 207 40 27",
 		"text 20 237 40 11",
 		"text 20 267 40 16",
 

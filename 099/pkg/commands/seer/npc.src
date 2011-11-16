@@ -30,7 +30,7 @@ program textcmd_createnpc (character, parms)
 			return;
 		endif
 
-		var npc := SpawnNPCAtLocation (npctemplate, loc.x, loc.y, loc.z);
+		var npc := SpawnNPCAtLocation (npctemplate, loc.x, loc.y, loc.z, 0, loc.realm);
 		if (npc == "error")
 			SendSysMessage (character, "Can't create NPC!");
 			return;

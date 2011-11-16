@@ -21,7 +21,7 @@ program dismount_from_horse (parms)
 		var results := 0;
 		var isMounted := ListEquippedItems( character );
 		foreach item in ( isMounted )
-			if ( item.objtype == 0x1f021 )
+			if ( item.objtype == 0x1f021 or item.objtype == 0xf021 )
 				results := 1;
 			endif
 		endforeach
@@ -56,18 +56,18 @@ program dismount_from_horse (parms)
 
 	set_critical (1);
 	var npctemplate := GetObjProperty (mount, "npctemplate");
-	var animal := SpawnNPCAtLocation (npctemplate, character.x, character.y, character.z);
+	var animal := SpawnNPCAtLocation (npctemplate, character.x, character.y, character.z, 0, character.realm);
 	if (!animal)
-		animal := SpawnNPCAtLocation (npctemplate, character.x+1, character.y, character.z);
+		animal := SpawnNPCAtLocation (npctemplate, character.x+1, character.y, character.z, 0, character.realm);
 		if (!animal)
-			animal := SpawnNPCAtLocation (npctemplate, character.x, character.y+1, character.z);
+			animal := SpawnNPCAtLocation (npctemplate, character.x, character.y+1, character.z, 0, character.realm);
 			if (!animal)
-				animal := SpawnNPCAtLocation (npctemplate, character.x-1, character.y, character.z);
+				animal := SpawnNPCAtLocation (npctemplate, character.x-1, character.y, character.z, 0, character.realm);
 				if (!animal)
-					animal := SpawnNPCAtLocation (npctemplate, character.x, character.y-1, character.z);
+					animal := SpawnNPCAtLocation (npctemplate, character.x, character.y-1, character.z, 0, character.realm);
 					if (!animal)
 						SendGMErrorMessage ("Dismount:  Can't spawn a " + npctemplate + " for " + character.name, 1);
-						SendGMErrorMessage ("Dismount:  Location: " + character.x + ", " + character.y + ", " + character.z, 1);
+						SendGMErrorMessage ("Dismount:  Location: " + character.x + ", " + character.y + ", " + character.z + ", " + character.realm, 1);
 						return DoOldDismount (character, mount);
 					endif
 				endif
@@ -153,7 +153,7 @@ function DoOldDismount (me, mount)
 	endif
 
 	set_critical(1);
-	var animal := CreateNPCFromTemplate (critter, me.x, me.y, me.z);
+	var animal := CreateNPCFromTemplate (critter, me.x, me.y, me.z, 0, me.realm);
 	if (!animal)
 		SendGMErrorMessage ("Dismount:  Can't create animal with old dismount!", 1);
 		return 0;

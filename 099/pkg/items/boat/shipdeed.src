@@ -96,6 +96,9 @@ program useshipdeed( character, deed )
 
 	if (deed.name != "a toy boat" and !deed.name["deed"])
 		created.ship.tillerman.name := deed.name;
+		created.packkey.name := "a key for " + deed.name;
+	else
+		created.packkey.name := "a boat key";
 	endif
 	DestroyItem (deed);
 

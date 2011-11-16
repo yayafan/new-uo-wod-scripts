@@ -388,7 +388,11 @@ endfunction
 
 function TryToCreateGate (caster, parms)
 	//make sure its not someone elses house
-	var sign := FindHouseSignAtLocation (parms[2], parms[3]);
+	var locrealm := parms[5];
+	if (!locrealm)
+		locrealm := _DEFAULT_REALM;
+	endif
+	var sign := FindHouseSignAtLocation (parms[2], parms[3], locrealm);
 	if (sign)
 		if (!IsAFriend (sign, caster))
 			SendSysMessage (caster, "You can't gate to there!");
@@ -431,6 +435,10 @@ function TryToCastGateSpell (caster, parms)
 	var target_x := parms[2];
 	var target_y := parms[3];
 	var target_z := parms[4];
+	var target_rlm := parms[5];
+	if (!target_rlm)
+		target_rlm := _DEFAULT_REALM;
+	endif
 
 	SpeakPowerWords (caster, 52);
 	PerformAction (caster, ANIM_CAST_AREA);
@@ -459,7 +467,7 @@ function TryToCastGateSpell (caster, parms)
 		return 0;
 	endif
 
-	DoGateSpellEffect (caster, target_x, target_y, target_z);
+	DoGateSpellEffect (caster, target_x, target_y, target_z, target_rlm);
 	return 1;
 
 endfunction
@@ -481,6 +489,10 @@ function TryToUseGateScroll (caster, parms, scroll)
 	var target_x := parms[2];
 	var target_y := parms[3];
 	var target_z := parms[4];
+	var target_rlm := parms[5];
+	if (!target_rlm)
+		target_rlm := _DEFAULT_REALM;
+	endif
 
 	SpeakPowerWords (caster, 52);
 	PerformAction (caster, ANIM_CAST_AREA);
@@ -502,7 +514,7 @@ function TryToUseGateScroll (caster, parms, scroll)
 	endif
 
 	SubtractAmount (scroll, 1);
-	DoGateSpellEffect (caster, target_x, target_y, target_z);
+	DoGateSpellEffect (caster, target_x, target_y, target_z, target_rlm);
 	return 1;
 
 endfunction

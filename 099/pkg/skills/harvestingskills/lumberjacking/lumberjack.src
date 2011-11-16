@@ -229,10 +229,10 @@ function DoRandomEvent (me, axe, tree, mex, mey)
 
 		8:
 			SendSysmessage (me, "You disturbed a bee hive!");
-			CreateItemAtLocation (tree.x, tree.y, tree.z, ITEM_SWARM, 1);
+			CreateItemAtLocation (tree.x, tree.y, tree.z, ITEM_SWARM, 1, tree.realm);
 			return 1;
 		9:
-			SpawnNPCInArea ("ent", me.x, me.y);
+			SpawnNPCInArea ("ent", me.x, me.y, 4, 20, me.realm);
 			SendSysmessage (me, "You have angered a Wood Spirit!");
 			return 1;
 	endcase

@@ -628,14 +628,14 @@ endfunction
 //  Does the gate spell effect...
 ///////////////////
 
-function DoGateSpellEffect (byref caster, destinationx, destinationy, destinationz)
+function DoGateSpellEffect (byref caster, destinationx, destinationy, destinationz, destinationrealm)
 	if (destinationx > 5118 and !caster.cmdlevel)
 		sendsysmessage (caster, "Blocked!");
 		return;
 	endif
 
 	//seal off Buccaneer's Den from outside gates
-	if (destinationx > 2560 and destinationx < 2960 and destinationy > 1940 and destinationy < 2340)
+	if (destinationx > 2560 and destinationx < 2960 and destinationy > 1940 and destinationy < 2340 and destinationrealm == REALM_BRITANNIA)
 		if (!caster.cmdlevel)
 			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
 			return;
@@ -643,7 +643,7 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	endif
 
 	//seal off Hidden Valley from outside gates
-	if (destinationx > 1655 and destinationx < 1695 and destinationy > 2935 and destinationy < 3005)
+	if (destinationx > 1655 and destinationx < 1695 and destinationy > 2935 and destinationy < 3005 and destinationrealm == REALM_BRITANNIA)
 		if (!caster.cmdlevel)
 			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
 			return;
@@ -651,12 +651,12 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	endif
 
 	//seal off the valleys connecting Covetous from gates...
-	if (destinationx > 2440 and destinationx < 2560 and destinationy > 850 and destinationy < 910)
+	if (destinationx > 2440 and destinationx < 2560 and destinationy > 850 and destinationy < 910 and destinationrealm == REALM_BRITANNIA)
 		if (!caster.cmdlevel)
 			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
 			return;
 		endif
-	elseif (destinationx > 2350 and destinationx < 2430 and destinationy > 830 and destinationy < 910)
+	elseif (destinationx > 2350 and destinationx < 2430 and destinationy > 830 and destinationy < 910 and destinationrealm == REALM_BRITANNIA)
 		if (!caster.cmdlevel)
 			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
 			return;
@@ -737,19 +737,20 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	var casterx := caster.x;
 	var castery := caster.y;
 	var casterz := caster.z;
+	var casterrlm := caster.realm;
 
 	set_critical (1);
-	var pregate := CreateItemAtLocation (casterx, castery, casterz, 0x1af3, 1);
+	var pregate := CreateItemAtLocation (casterx, castery, casterz, 0x1af3, 1, casterrlm);
 	pregate.movable := 0;
 	pregate.facing := 1;
 	PlaySoundEffect (caster, SFX_SPELL_GATE_TRAVEL);
 	sleepms (1500);
 	DestroyItem (pregate);
 
-	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1);
+	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1, casterrlm);
 	gate1.movable := 0;
 	gate1.facing := 1;
-	var gate2 := CreateItemAtLocation (destinationx, destinationy, destinationz, UOBJ_BLUE_MOONGATE, 1);
+	var gate2 := CreateItemAtLocation (destinationx, destinationy, destinationz, UOBJ_BLUE_MOONGATE, 1, destinationrealm);
 	gate2.movable := 0;
 	gate2.facing := 1;
 	if (!gate1 or !gate2)
@@ -759,9 +760,12 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	SetObjProperty (gate1, "GateDestX", gate2.x);
 	SetObjProperty (gate1, "GateDestY", gate2.y);
 	SetObjProperty (gate1, "GateDestZ", gate2.z);
+	SetObjProperty (gate1, "GateDestR", gate2.realm);
+	
 	SetObjProperty (gate2, "GateDestX", gate1.x);
 	SetObjProperty (gate2, "GateDestY", gate1.y);
 	SetObjProperty (gate2, "GateDestZ", gate1.z);
+	SetObjProperty (gate1, "GateDestR", gate2.realm);
 
 	SetObjProperty (gate1, "summoned_field", 1);
 	SetObjProperty (gate2, "summoned_field", 1);

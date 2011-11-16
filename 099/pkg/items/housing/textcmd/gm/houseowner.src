@@ -81,7 +81,6 @@ program houseowner (who)
 	SetObjProperty (sign, "lastownername", who.name );
 	SetObjProperty (sign, "housevalue", housevalue);
 	SetObjProperty (sign, "houseprice", sellvalue);
-	AddHouseValueToOwner (owner.acctname, housevalue);
 	set_critical (0);
 
 	SendSysMessage (who, "Done!");

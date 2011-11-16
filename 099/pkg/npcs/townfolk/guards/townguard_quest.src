@@ -145,13 +145,16 @@ function SpawnTheNPC (byref elem, npctemplate)
 	var x2 := CINT (coords[2]);
 	var y1 := CINT (coords[3]);
 	var y2 := CINT (coords[4]);
-	
+	var rlm := elem.realm;
+	if(!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 	var tries, x, y, thenpc := 0;
 	repeat
 		x := RandomInt (x2-x1)+x1;
 		y := RandomInt (y2-y1)+y1;
-		if (CheckAreaIfSpawnable (x, y) )
-			thenpc := SpawnNPCAtLocation (npctemplate, x, y);
+		if (CheckAreaIfSpawnable (x, y, rlm) )
+			thenpc := SpawnNPCAtLocation (npctemplate, x, y, "guess", 0, rlm);
 		endif
 	until (thenpc or tries > 50);	
 	if (thenpc)
@@ -167,13 +170,13 @@ endfunction
 //  Checks around the area to see if the position is inside of a house or if there's a player around
 ///////////////////
 
-function CheckAreaIfSpawnable (x, y, startz := -120)
-	var sh := GetStandingHeight (x, y, startz);
+function CheckAreaIfSpawnable (x, y, rlm, startz := -120)
+	var sh := GetStandingHeight (x, y, startz, rlm);
 	if (sh.multi or sh.multi.serial)
 		return 0;
 	endif
 
-	if (FindHouseSignAtLocation (x, y))
+	if (FindHouseSignAtLocation (x, y, rlm))
 		return 0;
 	endif
 	

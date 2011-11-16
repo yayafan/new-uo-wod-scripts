@@ -3,6 +3,7 @@ use os;
 use util;
 use cfgfile;
 
+include "include/gumps";
 include "include/client";
 include "include/objtype";
 include "../pkg/items/housing/house";
@@ -12,7 +13,6 @@ program find_account_houses (character, text)
 	if (!text)
 		var optionmenu := CreateMenu ("Select an option:");
 		AddMenuItem (optionmenu, 0, "Find houses owned by an account");
-		AddMenuItem (optionmenu, 0, "Recalculate all house values (SLOW)");
 		AddMenuItem (optionmenu, 0, "Create a For Sale sign");
 		AddMenuItem (optionmenu, 0, "Change housesign properties");
 		AddMenuItem (optionmenu, 0, "Change housesign lockdown area");
@@ -32,18 +32,16 @@ program find_account_houses (character, text)
 					TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 60, "");
 				text := "find " + acctname;
 			2:
-				text := "fix all";
-			3:
 				text := "forsale";
-			4:
+			3:
 				text := "fix";
-			5:
+			4:
 				text := "area";
-			6:
+			5:
 				text := "gmlockdown";
-			7:
+			6:
 				text := "login";
-			8:
+			7:
 				text := "maketele";
 
 			default:
@@ -59,8 +57,6 @@ program find_account_houses (character, text)
 			return;
 		endif
 		FindHousesOfAccount (character, new_text[2]);
-	elseif (text["fix all"] or text["fixall"])
-		FixAllHouseValues (character);
 	elseif (text["fix"] or text["reset"])
 		AdjustHouseSign (character);
 	elseif (text["area"] or text["fixarea"])
@@ -91,67 +87,34 @@ function FindHousesOfAccount (character, acctname)
 		SendSysMessage (character, "That's not an existing account name.");
 		return;
 	endif
-
-	SendSysMessage (character, "Searching for houses.  This may take a minute.");
-	var x, y, found_number := 0;
-
-	for (x := 6144 ; x > 64 ; x := x  - 128)
-		for( y := 64; y < 4096; y := y + 128 )
-			foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127)
-				if (item.objtype == 0x7060 or item.objtype == 0x0bd2 or item.objtype == 0x0bd0)
-					var account_name := GetObjProperty (item, "account");
-					if (account_name and account_name == acctname)
-						SendSysMessage (character, "Found house at X=" + item.x + " Y=" + item.y);
-						found_number := found_number + 1;
-					endif
-				endif
-			endforeach
-		endfor
-		sleepms (50);
-	endfor
-	SendSysMessage (character, "Done searching.  Found " + found_number + " houses.");
-endfunction
-
-
-
-
-///////////////////
-//  Tries to recompute all the housevalues for all players
-///////////////////
-
-function FixAllHouseValues (character)
-	SendSysMessage (character, "Fixing all house values.  Please wait...");
-
-	var acctname, housevalue;
-	foreach acctname in ListAccounts ()
-		EraseGlobalProperty ("#housevalue of " + acctname);
+	
+	var housesigns := {};
+	var global_prop_name := "#housing_of_" + acctname;
+	var sign_serials := GetGlobalProperty (global_prop_name);
+	if (!sign_serials)
+		SendSysMessage (character, "No houses found");
+		return;
+	endif
+	
+	var themessage := "Houses of " + acctname;
+	
+	foreach sign_serial in sign_serials
+		var sign := SystemFindObjectBySerial (sign_serial);
+		if (sign)
+			var house_owner := Lower (GetObjProperty (sign, "account"));
+			if (house_owner and house_owner == acctname)
+				themessage := themessage + "<p>Found house at " + sign.x + ", " + sign.y;
+				housesigns.append (sign);
+			endif
+		endif
 	endforeach
 
-	var found_signs := {};
-	var xmid, ymid;
-	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
-		SendSysMessage (character, "Searching near X=" + xmid );
-		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
-				if (item.objtype == 0x7060 or item.objtype == 0x0bd0 or item.objtype == 0x0bd2)
-					if (!GetObjProperty (item, "#found") )
-						acctname := GetObjProperty (item, "account");
-						housevalue := GetHouseValueOfSign (item);
-						AddHouseValueToOwner (acctname, housevalue);
+	if (!len (housesigns))
+		SendSysMessage (character, "No houses found");
+		return;
+	endif
 
-						SetObjProperty (item, "#found", 1);
-						found_signs.append (item);
-					endif
-				endif
-			endforeach
-		endfor
-		sleep (1);
-	endfor
-
-	foreach sign in found_signs
-		EraseObjProperty (sign, "#found");
-	endforeach
-	SendSysMessage (character, "Done fixing housevalues.");
+	SendStringAsHtmlWindow (character, themessage, "Houses");
 endfunction
 
 
@@ -323,7 +286,7 @@ function SetGMLockdownItem (character)
 			return;
 		endif
 		
-		var sign := FindHouseSignAtLocation (item.x, item.y);
+		var sign := FindHouseSignAtLocation (item.x, item.y, item.realm);
 		if (!sign)
 			SendSysMessage (character, "That item doesn't seem to be within a house.");
 			return;
@@ -381,7 +344,7 @@ endfunction
 ///////////////////
 
 function MakeHouseTeleporters (character)
-	var sign := FindHouseSignAtLocation (character.x, character.y);
+	var sign := FindHouseSignAtLocation (character.x, character.y, character.realm);
 	if (!sign)
 		SendSysMessage (character, "You don't seem to be within a house.");
 		return;
@@ -407,7 +370,7 @@ function MakeHouseTeleporters (character)
 		return;
 	endif
 
-	var othersign := FindHouseSignAtLocation (tox, toy);
+	var othersign := FindHouseSignAtLocation (tox, toy, sign.realm);
 	if (!othersign)
 		SendSysMessage (character, "You don't seem to be within a house.");
 		return;
@@ -430,7 +393,7 @@ function MakeHouseTeleporters (character)
 		return;
 	endif
 	
-	sign := FindHouseSignAtLocation (character.x, character.y);
+	sign := FindHouseSignAtLocation (character.x, character.y, character.realm);
 	if (!sign)
 		SendSysMessage (character, "You don't seem to be within a house.");
 		return;
@@ -440,11 +403,11 @@ function MakeHouseTeleporters (character)
 		return;
 	endif
 
-	var gate1 := CreateItemAtLocation (character.x, character.y, character.z, 0x6203, 1);
+	var gate1 := CreateItemAtLocation (character.x, character.y, character.z, 0x6203, 1, sign.realm);
 	gate1.facing := 29;
 	gate1.invisible := 0;
 	gate1.graphic := selected_item.graphic;
-	var gate2 := CreateItemAtLocation (tox, toy, toz, 0x6203, 1);
+	var gate2 := CreateItemAtLocation (tox, toy, toz, 0x6203, 1, sign.realm);
 	gate2.facing := 29;
 	gate2.invisible := 0;
 	gate2.graphic := selected_item.objtype;

@@ -68,7 +68,7 @@ function YankOntoBoat (mob, plank)
 	if (sh)
 		var nx := (plank.x + plank.multi.x) / 2;
 		var ny := (plank.y + plank.multi.y) / 2;
-		MoveObjectToLocation( mob, nx, ny, plank.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+		MoveObjectToLocation( mob, nx, ny, plank.z, plank.realm, flags := MOVEOBJECT_NORMAL );
 		SetWeatherForPlayer (mob);
 		return;
 	endif

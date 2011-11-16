@@ -90,6 +90,10 @@ function SpawnThisGroup (regionnum, byref spawnregion, groupname, groupdensity)
 	var y1 := CINT (coords[2]);
 	var x2 := CINT (coords[3]);
 	var y2 := CINT (coords[4]);
+	var rlm := spawnregion.realm;
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
 	var spawngroup := FindConfigElem (regspawn, groupname);
 	if (!spawngroup)
@@ -150,10 +154,10 @@ function SpawnThisGroup (regionnum, byref spawnregion, groupname, groupdensity)
 			z := GetMapInfo(x,y).z;
 			tries := tries + 1;
 
-			if (CheckAreaIfSpawnable (x, y, z) )
-				thecritter := CreateNpcFromTemplate (critterlist[critnum], x, y, z);
+			if (CheckAreaIfSpawnable (x, y, z, rlm) )
+				thecritter := CreateNpcFromTemplate (critterlist[critnum], x, y, z, 0, rlm);
 				if (thecritter)
-if(!MoveObjectToLocation( thecritter, thecritter.x, thecritter.y, z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+				if(!MoveObjectToLocation( thecritter, thecritter.x, thecritter.y, z, rlm, flags := MOVEOBJECT_NORMAL ))
 						KillIt (thecritter);
 					else
 						set_critical (1);
@@ -197,6 +201,10 @@ function NukeThisGroup(regionnum, spawnregion, groupname)
 	var y1 := cint(coords[2]);
 	var x2 := cint(coords[3]);
 	var y2 := cint(coords[4]);
+	var rlm := spawnregion.realm;
+	if(!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 	var kills := 0;
 
 	var SpawnName := "r"+regionnum+"g"+groupname;
@@ -207,7 +215,7 @@ function NukeThisGroup(regionnum, spawnregion, groupname)
 	for( x := x2 ; x > x1 ; x := x  - 16)
     	  for( y := y1; y < y2; y := y + 16 )
 	    for( z := -60; z <= 60; z := z + 16 )
-		foreach npc in ListMobilesNearLocationEx( x, y, z, 16,0x02+0x01)
+		foreach npc in ListMobilesNearLocationEx( x, y, z, 16,0x02+0x01, rlm)
 			if ( GetObjProperty( npc, "regspawn" ) == SpawnName )
 				set_critical(1);
 				EraseObjProperty(npc,"regspawn");
@@ -233,8 +241,8 @@ endfunction
 //  Checks around the area to see if the position is inside of a house or if there's a player around
 ///////////////////
 
-function CheckAreaIfSpawnable (x, y, startz)
-	var sh := GetStandingHeight (x, y, startz);
+function CheckAreaIfSpawnable (x, y, startz, rlm)
+	var sh := GetStandingHeight (x, y, startz, rlm);
 //	if (sh.z == error)
 //		return 0;
 //	endif
@@ -243,7 +251,7 @@ function CheckAreaIfSpawnable (x, y, startz)
 		return 0;
 	endif
 	
-	if (FindHouseSignAtLocation (x, y))
+	if (FindHouseSignAtLocation (x, y, rlm))
 		return 0;
 	endif
 	

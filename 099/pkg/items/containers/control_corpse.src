@@ -51,7 +51,7 @@ program control_corpse (corpse)
 	foreach item in ListRootItemsInContainer (corpse)
 		if (!item.newbie and item.movable)
 			if ((item.objtype < UOBJ_STARTHAIR or item.objtype > UOBJ_ENDHAIR) and item.movable)
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+				MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, flags := MOVEOBJECT_FORCELOCATION );
 				if (item.decayat)
 					item.decayat := ReadGameClock() + 600;
 				endif
