@@ -18,8 +18,8 @@ program cast_curse (parms)
 		return 0;
 	endif
 
-	var duration := CalcModDuration ();
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
+	var duration := CalcCurseModDuration ();
+	var mod_amount := CalcModAmount() * 2;
 
 	PlaySoundEffect(caster, SFX_SPELL_MASS_CURSE);
 	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, 4);
@@ -28,6 +28,14 @@ program cast_curse (parms)
 			PlaySoundEffect (mobile, SFX_SPELL_MASS_CURSE);
 			PlayObjectCenteredEffect (mobile, FX_CURSE_EFFECT, 10, 10);
 			var resisted_mod_amount := Resisted (caster, mobile, mod_amount);
+			if (mobile.npctemplate)
+				//more effective against NPCs, but only for good mages
+				if (caster_magery > 90)
+					resisted_mod_amount := Resisted (caster, mobile, CINT (2 *mod_amount));
+				elseif (caster_magery > 70)
+					resisted_mod_amount := Resisted (caster, mobile, CINT (1.5 *mod_amount));
+				endif
+			endif
 			DoMagicStatMod (mobile, STATMOD_ALL, 0-resisted_mod_amount, duration, "Curse Spell");
 		endif
 	endforeach

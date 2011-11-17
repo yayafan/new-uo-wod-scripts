@@ -28,10 +28,10 @@ program cast_bless( parms )
 		caster_evalint := caster_spiritspeak;
 	endif
 
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
-	var duration := CalcModDuration () * 4;
+	var mod_amount := CalcModAmount();
+	var duration := CalcModDuration ();
 	if (caster_evalint > 90)
-		var new_mod_amount := CINT( (CalcModAmount() * 2) / 3);
+		var new_mod_amount := CalcModAmount();
 		if (new_mod_amount > mod_amount)
 			mod_amount := new_mod_amount;
 		endif

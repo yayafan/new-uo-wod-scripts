@@ -48,7 +48,7 @@ program cast_raise_dead (parms)
 	endif
 
 	set_critical (1);
-	var summoned_creature := CreateNPCfromTemplate (":undead:zombie", corpse.x, corpse.y, corpse.z, 0);
+	var summoned_creature := CreateNPCfromTemplate (":undead:zombie", corpse.x, corpse.y, corpse.z, 0, corpse.realm);
 	if (!summoned_creature)
 		set_critical (0);
 		return;
@@ -60,9 +60,9 @@ program cast_raise_dead (parms)
 	SetAttributeBaseValue (summoned_creature, "Strength", oldstr * 10);
 	RecalcVitals (summoned_creature);
 	
-	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics);
+	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics * 10);
 	if (Wrestling)
-		SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_WRESTLING, Wrestling);
+		SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_WRESTLING, Wrestling * 10);
 	endif
 
 	SetVital (summoned_creature, "Life", GetVitalMaximumValue (summoned_creature, "Life"));
@@ -86,7 +86,7 @@ program cast_raise_dead (parms)
 	RestartScript (summoned_creature);
 
 	foreach item in ListRootItemsInContainer (corpse);
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, flags := MOVEOBJECT_NORMAL );
 	endforeach
 	DestroyItem (corpse);
 	set_critical (0);

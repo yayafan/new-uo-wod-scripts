@@ -23,13 +23,15 @@ program cast_feeblemind (parms)
 		return 1;
 	endif
 
-	var duration := CalcModDuration ();
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
-	if (cast_on.npctemplate)
-		SetObjProperty (cast_on, "#lastspell", ReadGameClock() + 10);
-	endif
-
+	var mod_amount := CalcModAmount() * 2;
 	mod_amount := Resisted (caster, cast_on, mod_amount);
+	var duration := CalcCurseModDuration ();
+	if (cast_on.npctemplate)
+		var stunduration := CINT (caster_magery/5) - 10;
+		if (stunduration > 3)
+			SetObjProperty (cast_on, "#lastspell", ReadGameClock() + stunduration);
+		endif
+	endif
 
 	PlaySoundEffect (cast_on, SFX_SPELL_CURSE);
 	PlayObjectCenteredEffect (cast_on, FX_CURSE_EFFECT, 7, 7);

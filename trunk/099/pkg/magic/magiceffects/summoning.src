@@ -41,7 +41,7 @@ program summon_creature (parms)
 		return "error";
 	endif
 
-	thecritter := CreateNPCfromTemplate (realtemplate, cast_loc.x, cast_loc.y, cast_loc.z, npc_parms);
+	thecritter := CreateNPCfromTemplate (realtemplate, cast_loc.x, cast_loc.y, cast_loc.z, npc_parms, cast_loc.realm);
 	if (!thecritter)
 		Syslog ("Error summoning NPC - " + thecritter);
 		return;
@@ -93,7 +93,7 @@ program summon_creature (parms)
 
 	if (thecritter)
 		PlaySoundEffect( thecritter , SFX_SPELL_MANA_VAMPIRE );
-		PlayStationaryEffect( thecritter.x, thecritter.y, thecritter.z, FX_SMOKE, 0xA, 0xA );
+		PlayStationaryEffect( thecritter.x, thecritter.y, thecritter.z, FX_SMOKE, 0xA, 0xA, 0, thecritter.realm );
 		KillNPC (thecritter);
 	endif
 endprogram

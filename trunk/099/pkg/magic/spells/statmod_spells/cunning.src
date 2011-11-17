@@ -18,20 +18,22 @@ program cast_cunning (parms)
 		return 0;
 	endif
 
-	var caster_animallore := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
-	if (caster_animallore > caster_evalint)
-		caster_evalint := caster_animallore;
+	if (caster)
+		var caster_animallore := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+		if (caster_animallore > caster_evalint)
+			caster_evalint := caster_animallore;
+		endif
+	
+		var caster_spiritspeak:= GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
+		if (caster_spiritspeak > caster_evalint)
+			caster_evalint := caster_spiritspeak;
+		endif
 	endif
 
-	var caster_spiritspeak:= GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
-	if (caster_spiritspeak > caster_evalint)
-		caster_evalint := caster_spiritspeak;
-	endif
-
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
-	var duration := CalcModDuration () * 4;
+	var mod_amount := CalcModAmount();
+	var duration := CalcModDuration ();
 	if (caster_evalint > 90)
-		var new_mod_amount := CINT( (CalcModAmount() * 2) / 3);
+		var new_mod_amount := CalcModAmount();
 		if (new_mod_amount > mod_amount)
 			mod_amount := new_mod_amount;
 		endif

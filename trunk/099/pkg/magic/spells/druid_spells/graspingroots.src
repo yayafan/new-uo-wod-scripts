@@ -25,28 +25,63 @@ program groots (parms)
 	EraseObjProperty (caster, "#castingdruidspell");
 	detach ();
 
-	if (!CheckSkill (caster, SKILLID_ANIMALLORE, 80, 0))
+	if (!CheckSkill (caster, SKILLID_ANIMALLORE, 70, 0))
 		SendSysMessage (caster, "Your spell fails.");
 		return;
 	endif
+	
+	var casterskill := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+
+	var roots_array := {};
 
 	//create the summoned grasping roots
 	var graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x, cast_loc.y, cast_loc.z);
-	if (!graspingroots)
-		return;
-	endif
-	
-	SetObjProperty (graspingroots, "summoned", 1);
-
-	var casterskill := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
-	var duration := casterskill;
-	sleep (duration);
-
 	if (graspingroots)
-		PlaySoundEffect( graspingroots , SFX_SPELL_MANA_VAMPIRE );
-		PlayStationaryEffect( graspingroots.x, graspingroots.y, graspingroots.z, FX_SMOKE, 0xA, 0xA );
-		KillNPC (graspingroots);
+		SetObjProperty (graspingroots, "summoned", 1);
+		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
+		SetObjProperty (graspingroots, "resistdifficulty", casterskill);
 	endif
+	roots_array.append (graspingroots);
+	
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y-2, GetMapInfo (cast_loc.x-2, cast_loc.y-2).z);
+	if (graspingroots)
+		SetObjProperty (graspingroots, "summoned", 1);
+		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
+		SetObjProperty (graspingroots, "resistdifficulty", casterskill);
+	endif
+	roots_array.append (graspingroots);
+		
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y+2, GetMapInfo (cast_loc.x-2, cast_loc.y+2).z);
+	if (graspingroots)
+		SetObjProperty (graspingroots, "summoned", 1);
+		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
+		SetObjProperty (graspingroots, "resistdifficulty", casterskill);
+	endif
+	roots_array.append (graspingroots);
+	
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y-2, GetMapInfo (cast_loc.x+2, cast_loc.y-2).z);
+	if (graspingroots)
+		SetObjProperty (graspingroots, "summoned", 1);
+		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
+		SetObjProperty (graspingroots, "resistdifficulty", casterskill);
+	endif
+	roots_array.append (graspingroots);
+
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y+2, GetMapInfo (cast_loc.x+2, cast_loc.y+2).z);
+	if (graspingroots)
+		SetObjProperty (graspingroots, "summoned", 1);
+		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
+		SetObjProperty (graspingroots, "resistdifficulty", casterskill);
+	endif
+	roots_array.append (graspingroots);
+	
+	sleep (casterskill);
+
+	foreach graspingroots in roots_array
+		PlaySoundEffect (graspingroots, SFX_SPELL_MANA_VAMPIRE);
+		PlayStationaryEffect (graspingroots.x, graspingroots.y, graspingroots.z, FX_SMOKE, 0xA, 0xA);
+		KillNPC (graspingroots);
+	endforeach
 	return 1;
 endprogram
 

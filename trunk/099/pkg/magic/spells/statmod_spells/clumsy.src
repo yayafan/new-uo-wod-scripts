@@ -23,13 +23,24 @@ program cast_clumsy (parms)
 		return 1;
 	endif
 
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
+	var mod_amount := CalcModAmount() * 2;
 	if (cast_on.npctemplate)
-		mod_amount := cast_on.dexterity - 20;
+		//more effective against NPCs, but only for good mages
+		if (caster_magery > 90)
+			var npc_mod_amount := GetAttribute (cast_on, "Dexterity") - 20;
+			if (npc_mod_amount > mod_amount)
+				mod_amount := npc_mod_amount;
+			endif
+		elseif (caster_magery > 70)
+			var npc_mod_amount := GetAttribute (cast_on, "Dexterity") - 50;
+			if (npc_mod_amount > mod_amount)
+				mod_amount := npc_mod_amount;
+			endif
+		endif
 	endif
-
-	var duration := CalcModDuration ();
 	mod_amount := Resisted (caster, cast_on, mod_amount);
+
+	var duration := CalcCurseModDuration ();
 
 	PlaySoundEffect (cast_on, SFX_SPELL_CURSE);
 	PlayObjectCenteredEffect (cast_on, FX_CURSE_EFFECT, 7, 7);
