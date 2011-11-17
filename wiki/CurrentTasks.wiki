@@ -25,11 +25,11 @@ Here is the package list and those assigned to them in parenthesis:
   * combat (*finished by Agata*)
   * commands
   * drocket
-  * dundee
-  * guilds (Agata)
+  * dundee (Agata)
+  * guilds (*finished by Agata*)
   * items (*finished by Agata*)
   * magic (*finished by Agata*)
-  * merchants_database
+  * merchants_database (*finished by Agata*)
   * npcs (*finished by Agata*)
   * quests (*finished by Agata*)
   * skills (*finished by Agata*)
