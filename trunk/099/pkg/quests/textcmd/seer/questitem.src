@@ -65,14 +65,17 @@ program dotcommand_questitem (player, text)
 			"Nuke keywords? (off)"
 		};
 		
+		if (GetObjProperty (item, "questitem"))
+			gump_data[1] := "Unmark as quest item";
+		endif
+
 		if (GetObjProperty (item, "deliverto"))
 			deliverto_npc := SystemFindObjectBySerial (GetObjproperty (item, "deliverto"));
 			if (deliverto_npc)
 				gump_data[2] := "Deliver to: " + deliverto_npc.name;
 				gump_layout.append ("button 72 105 2103 2104 1 0 3");
 				gump_layout.append ("text 90 100 0 2");
-				
-				
+
 				if (GetObjProperty (item, "delivery_speech"))
 					var speech_lines := GetObjProperty (item, "delivery_speech");
 					var tempstring := "";
@@ -124,7 +127,11 @@ program dotcommand_questitem (player, text)
 		endif
 	
 		var gump_return := SendDialogGump (player, gump_layout, gump_data);
-		if (!gump_return[0])
+		if (gump_return[0] == error)
+			SendSysMessage (player, "Gump error!  Try closing other gumps first.");
+			return;
+		elseif (gump_return[0] == 0)
+			SendSysMessage (player, "Finished");
 			return;
 		endif
 	
