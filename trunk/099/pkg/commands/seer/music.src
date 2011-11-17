@@ -9,12 +9,6 @@
 // program music: takes in the music ID from the user and  //
 //                makes sure it is 1 byte long.            //
 //                                                         //
-// function PlayMusic: a placeholder function that will be //
-//                     removed when a uo.em function is    //
-//                     created to play a midi.             //
-//                     Currently uses SendPacket to start  //
-//                     the music.                          //
-//                                                         //
 // TODO: Dont make the user type the music id in hex.      //
 /////////////////////////////////////////////////////////////
 
@@ -39,3 +33,5 @@ program music (character, text)
     PlayMusic( character, music_id );
 
 endprogram
+
+

@@ -35,7 +35,27 @@ program textcmd_dump (character, textline)
 	if (oldcontainer.objtype == UOBJ_SPELLBOOK)
 		SendSysMessage (character, "You wish.");
 		return;
-	endif		
+	endif
+	
+	//special for garbage cans
+	if (oldcontainer.objtype == UOBJ_TRASHBARREL)
+		if (distance (character, oldcontainer) > 3)
+			SendSysMessage (character, "That's too far away!");
+			return;
+		endif
+
+		var trashcanitems := ListRootItemsInContainer (oldcontainer);
+		if (!trashcanitems.size())
+			SendSysmessage (character, "The trash barrel is empty.");
+			return;
+		endif
+
+		SendSysMessage (character, "You remove all the items from the trash and put them in your backpack.  Eww...");
+		foreach item in trashcanitems
+			MoveItemToContainer (item, character.backpack);
+		endforeach
+		return;
+	endif
 
 	if (oldcontainer == character or oldcontainer == character.backpack)
 		oldcontainer := character.backpack;

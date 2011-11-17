@@ -32,7 +32,7 @@ program helpnext (me)
 		return;
 	endif
 	
-MoveObjectToLocation( me, player.x-2, player.y-2, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, player.x-2, player.y-2, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 	SetWeatherForPlayer (me);
 	me.facing := 3;
 	

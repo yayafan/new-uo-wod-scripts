@@ -29,7 +29,7 @@ program textcmd_create (character, text)
 			return;
 		endif
 		
-		var item := CreateItemAtLocation (place.x, place.y, place.z, objtype, 1);
+		var item := CreateItemAtLocation (place.x, place.y, place.z, objtype, 1, place.realm);
 		if (!item)
 			SendSysMessage (character, "Error creating item");
 			return;

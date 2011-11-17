@@ -26,14 +26,14 @@ program textcmd_create( who, text )
        
             SendSysMessage( who, "Now select a location on the ground, where you want the item to appear." );
             var place := TargetCoordinates( who );
-            var item := CreateItemAtLocation( place.x, place.y, place.z, objtype, amount );
+            var item := CreateItemAtLocation( place.x, place.y, place.z, objtype, amount, place.realm );
             item.decayAt := 0;
     else
         var selection := SelectMenuItem2( who, "ItemCreation" );
         if (selection)
             SendSysMessage( who, "Now select a location on the ground, where you want the item to appear." );
             var place := TargetCoordinates( who );
-            var created := CreateItemAtLocation( place.x, place.y, place.z, selection.objtype, 1 );
+            var created := CreateItemAtLocation( place.x, place.y, place.z, selection.objtype, 1, place.realm );
             created.color := selection.color;
             created.decayAt := 0;
             SetObjProperty(created, "Created", who.name);

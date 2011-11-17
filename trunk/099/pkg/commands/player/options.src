@@ -86,8 +86,8 @@ program display_character_options (character)
 	endif
 	
 	crafting_options := GetObjProperty (character, "crafting_options");
-	if (!crafting_options or len (crafting_options) < 2)
-		crafting_options := {1, 0};
+	if (!crafting_options or len (crafting_options) < 3)
+		crafting_options := {1, 0, 0};
 	endif
 
 	logoffcloneoptions := GetObjProperty (character, "logoff_clone_options");
@@ -776,7 +776,8 @@ function DisplaycraftingOptions (character)
 		"filler",
 		"Crafting Options",			//1
 		"Autoloop scrolls",			//2
-		"Suppress Inscription msgs.",	//2
+		"Suppress Inscription msgs.",	//3
+		"Automatic quick-scribe",	//4
 		"Set Crafting Bag"
 	};
 
@@ -785,8 +786,10 @@ function DisplaycraftingOptions (character)
 	gump_layout.append ("text 75 85 0 2");
 	gump_layout.append ("checkbox 55 115 2510 2511 " + crafting_options[2] + " 2");
 	gump_layout.append ("text 75 115 0 3");
+	gump_layout.append ("checkbox 55 145 2510 2511 " + crafting_options[3] + " 3");
+	gump_layout.append ("text 75 145 0 4");
 	gump_layout.append ("button 55 370 2104 2103 1 0 11");
-	gump_layout.append ("text 75 365 0 4");
+	gump_layout.append ("text 75 365 0 5");
 
 	var gump_return := SendDialogGump (character, gump_layout, gump_data);
 	if (!gump_return[0])
@@ -797,12 +800,15 @@ function DisplaycraftingOptions (character)
 		return 0;
 	endif
 	
-	crafting_options := {0, 0};
+	crafting_options := {0, 0, 0};
 	if (gump_return[1])
 		crafting_options[1] := 1;
 	endif
 	if (gump_return[2])
 		crafting_options[2] := 1;
+	endif
+	if (gump_return[3])
+		crafting_options[3] := 1;
 	endif
 	
 	//Set the crafting bag
@@ -852,13 +858,19 @@ endfunction
 
 
 
+
+///////////////////
+//  Options related to gumps
+///////////////////
+
 function DisplayGumpOptions (character)
 	var gump_layout := blank_gump_layout;
 	var gump_data := {
 		"filler",
 		"Gump Options",			//1
 		"Reset Codex gump",			//2
-		"Reset Druidbag gump"		//3
+		"Reset Druidbag gump",		//3
+		"Set default .msg position"
 	};
 
 	gump_layout.append ("text 100 55 0 1");
@@ -866,6 +878,8 @@ function DisplayGumpOptions (character)
 	gump_layout.append ("text 75 80 0 2");
 	gump_layout.append ("button 55 110 2104 2103 1 0 12");
 	gump_layout.append ("text 75 105 0 3");
+	gump_layout.append ("button 55 135 2104 2103 1 0 13");
+	gump_layout.append ("text 75 130 0 4");
 
 	var gump_return := SendDialogGump (character, gump_layout, gump_data);
 	if (!gump_return[0])
@@ -904,6 +918,85 @@ function DisplayGumpOptions (character)
 				endif
 			endif
 		endforeach
+
+		return BUTTON_CURRENT_PAGE;
+	elseif (gump_return[13])
+		var xpos := 100;
+		var ypos := 100;
+		var big_move_mode := 1;
+		var done := 0;
+		
+		repeat
+			var msg_gump_layout := array {
+				"nodispose",
+				"page 0",
+				"resizepic " + xpos + " " + ypos + " 5054 600 160",
+				"text " + (xpos+20) + " " + (ypos+10) + " 0 0",
+				"text " + (xpos+20) + " " + (ypos+30) + " 0 1",
+				"button " + (xpos+80) + " " + (ypos+105) + " 5600 5604 1 0 2",	//Up
+				"button " + (xpos+80) + " " + (ypos+135) + " 5602 5606 1 0 3",	//Down
+				"button " + (xpos+100) + " " + (ypos+120) + " 5601 5605 1 0 4",	//right
+				"button " + (xpos+60) + " " + (ypos+120) + " 5603 5607 1 0 5",	//left
+		
+				"button " + (xpos+380) + " " + (ypos+120) + " 243 241 1 0 0",	//Cancel
+				"button " + (xpos+460) + " " + (ypos+120) + " 249 247 1 0 1"	//Ok
+			};
+			var msg_gump_data := array {
+				"Use the arrows to position the gump where you want it, then",
+				"press OK"
+			};
+			if (big_move_mode)
+				msg_gump_layout.append ("button " + (xpos+81) + " " + (ypos+121) + " 1210 1210 1 0 6");
+			else
+				msg_gump_layout.append ("button " + (xpos+81) + " " + (ypos+121) + " 1209 1209 1 0 6");
+			endif
+			
+			var msg_gump_return := SendDialogGump (character, msg_gump_layout, msg_gump_data);
+			if (msg_gump_return [1])
+				done := 1;
+			elseif (msg_gump_return [2])
+				if (big_move_mode)
+					ypos := ypos - 100;
+				else
+					ypos := ypos - 25;
+				endif
+				if (ypos < 0)
+					ypos := 0;
+				endif
+			elseif (msg_gump_return [3])
+				if (big_move_mode)
+					ypos := ypos + 100;
+				else
+					ypos := ypos + 25;
+				endif
+			elseif (msg_gump_return [4])
+				if (msg_gump_return)
+					xpos := xpos + 150;
+				else
+					xpos := xpos + 25;
+				endif
+			elseif (msg_gump_return [5])
+				if (big_move_mode)
+					xpos := xpos - 100;
+				else
+					xpos := xpos - 25;
+				endif
+				if (xpos < 0)
+					xpos := 0;
+				endif
+			elseif (msg_gump_return [6])
+				if (big_move_mode)
+					big_move_mode := 0;
+				else
+					big_move_mode := 1;
+				endif
+			else
+				SendSysMessage (character, "Canceled.");
+				return BUTTON_CURRENT_PAGE;
+			endif
+		until (done);
+		SetObjProperty (character, "dotmsg_gump_position", Array {xpos, ypos});
+		
 
 		return BUTTON_CURRENT_PAGE;
 	endif

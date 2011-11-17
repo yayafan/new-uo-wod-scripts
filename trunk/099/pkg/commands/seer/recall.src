@@ -12,7 +12,11 @@ program recall(who)
 		endif
 		var toy := Cint(GetObjProperty( what, "y" ));
 		var toz := Cint(GetObjProperty( what, "z" ));
-		MoveObjectToLocation( who, tox, toy, toz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		var tor := GetObjProperty ( what, "realm" );
+		if (!tor)
+			tor := _DEFAULT_REALM;
+		endif
+		MoveObjectToLocation( who, tox, toy, toz, tor, MOVEOBJECT_FORCELOCATION );
 	else
 		SendSysmessage(who, "Canceled");
 	endif

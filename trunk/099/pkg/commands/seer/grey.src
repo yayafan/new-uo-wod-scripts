@@ -5,6 +5,7 @@ program grey ( me )
 
 	if (GetObjProperty(me,"#grey"))
 		EraseObjProperty (me, "#grey");
+		me.SetCriminal (0);
 		SendSysmessage (me, "Criminal flag will expire in under two minutes.");
 		return;
 	endif
@@ -16,5 +17,7 @@ program grey ( me )
 		me.SetCriminal (1);
 		sleep (120);
 	endwhile
-	SendSysMessage (me, "Criminal flag has expired");
+	if (!me.criminal)
+		SendSysMessage (me, "Criminal flag has expired");
+	endif
 endprogram

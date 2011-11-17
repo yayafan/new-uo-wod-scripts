@@ -56,8 +56,8 @@ program textcmd_goto (character, whom)
 						character.concealed := 1;
 					endif
 
-if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION ))
-     MoveObjectToLocation( character,onlinechr.x+1,onlinechr.y+1,onlinechr.z,realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION );
+					if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,onlinechr.realm,MOVEOBJECT_FORCELOCATION ))
+						MoveObjectToLocation( character,onlinechr.x+1,onlinechr.y+1,onlinechr.z,onlinechr.realm,MOVEOBJECT_FORCELOCATION );
 					endif
 					SetWeatherForPlayer (character);
 					break;
@@ -70,6 +70,23 @@ if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,real
 	whom := Lower (whom);
 	var onlinechr := FindOnlinePlayerByName (character, whom);
 	if (!onlinechr)
+		if (CINT (whom))
+			//We can also go by number
+			var players := EnumerateOnlineCharacters();
+			onlinechr := players [CINT (whom)];
+			if (onlinechr)
+				if (onlinechr.concealed <= character.cmdlevel)
+					if (onlinechr.concealed and !character.concealed)
+						character.concealed := 1;
+					endif
+					if (!MoveObjecttoLocation(character, onlinechr.x-1, onlinechr.y-1, onlinechr.z, onlinechr.realm, MOVEOBJECT_FORCELOCATION))
+						MoveObjecttoLocation(character, onlinechr.x+1, onlinechr.y+1, onlinechr.z, onlinechr.realm, MOVEOBJECT_FORCELOCATION);
+					endif
+					SetWeatherForPlayer (character);
+				endif
+				return;
+			endif
+		endif
 		SendSysMessage (character, "Unable to find player");
 		return;
 	endif
@@ -78,8 +95,8 @@ if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,real
 			character.concealed := 1;
 		endif
 
-if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION ))
-     MoveObjectToLocation( character,onlinechr.x+1,onlinechr.y+1,onlinechr.z,realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION );
+if(!MoveObjectToLocation( character,onlinechr.x-1,onlinechr.y-1,onlinechr.z,onlinechr.realm,MOVEOBJECT_FORCELOCATION ))
+     MoveObjectToLocation( character,onlinechr.x+1,onlinechr.y+1,onlinechr.z,onlinechr.realm,MOVEOBJECT_FORCELOCATION );
 		endif
 		SetWeatherForPlayer (character);
 	endif

@@ -20,7 +20,7 @@ program textcmd_createnpc (character, npctemplate)
 		return;
 	endif
         SendSysMessage(character, npctemplate);
-	var npc := CreateNpcFromTemplate( npctemplate, loc.x, loc.y, loc.z, override_properties := 0, realm := _DEFAULT_REALM);
+	var npc := CreateNpcFromTemplate( npctemplate, loc.x, loc.y, loc.z, 0, loc.realm);
 	if (!npc)
 		SendSysMessage (character, "Can't create NPC!");
 	endif
@@ -79,9 +79,7 @@ function DisplayNPCSelectionMenu (character)
 		return;
 	endif
 
-	var results := ":" + thepkg + ":" + thenpcs[selection2.index];
-
-	return results;
+	return thenpcs [selection2.index];
 endfunction
 
 
