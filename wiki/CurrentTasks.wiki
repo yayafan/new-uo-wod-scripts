@@ -28,9 +28,9 @@ Here is the package list and those assigned to them in parenthesis:
   * dundee
   * guilds
   * items (*finished by Agata*)
-  * magic (Agata)
+  * magic (*finished by Agata*)
   * merchants_database
   * npcs (*finished by Agata*)
-  * quests
+  * quests (Agata)
   * skills (*finished by Agata*)
   * world
