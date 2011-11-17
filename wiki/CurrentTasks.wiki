@@ -34,3 +34,11 @@ Here is the package list and those assigned to them in parenthesis:
   * quests (*finished by Agata*)
   * skills (*finished by Agata*)
   * world (*finished by Agata*)
+
+Additionally there is the scripts folder with the following entries:
+  * ai
+  * console
+  * control
+  * include
+  * items
+  * misc
