@@ -128,8 +128,8 @@ function DoBasicPVMBattle (character, arena_stone)
 	foreach item in ListEquippedItems (opponent)
 		item.newbie := 1;
 	endforeach
-	MoveObjectToLocation( character, 1392, 3734, -21, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-	MoveObjectToLocation( opponent, 1406, 3751, -21, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, 1392, 3734, -21, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( opponent, 1406, 3751, -21, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
 	
 	while (1)
 		if (!character or !character.ip or character.dead or LeftTheArena (character))
@@ -191,8 +191,8 @@ function DoBasicPVPBattle (character, arena_stone)
 	SendSysMessage (opponent, "the area during the fight will result in disqualification.");
 	sleep (5);
 
-	MoveObjectToLocation( character, 1392, 3734, -21, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-	MoveObjectToLocation( opponent,1406,3751, -21, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, 1392, 3734, -21, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( opponent,1406,3751, -21, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
 	
 	while (1)
 		if (!character or !character.ip or character.dead or LeftTheArena (character))
@@ -223,6 +223,8 @@ function LeftTheArena (player)
 	elseif (player.y < 3729 or player.y > 3758)
 		return 1;
 	elseif (player.z > 0)
+		return 1;
+	elseif (player.realm != _DEFAULT_REALM)
 		return 1;
 	endif
 	return 0;

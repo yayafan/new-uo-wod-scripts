@@ -12,7 +12,7 @@ use uo;
 
 include "include/client";
 
-const MINUTES_BETWEEN_SAVES := 120;
+const MINUTES_BETWEEN_SAVES := 60;
 
 print ("Saving every " + MINUTES_BETWEEN_SAVES + " minutes");
 
