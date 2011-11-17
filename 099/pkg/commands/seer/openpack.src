@@ -18,7 +18,7 @@ program textcmd_pack (who, text)
 	endif
 
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation(5288 , 1176 , 0, 0xe75,1);
+		var newbackpack := CreateItemAtLocation(5288 , 1176 , 0, 0xe75,1, _DEFAULT_REALM);
 		if (!EquipItem(me, newbackpack))
 			return;
 		endif
@@ -54,7 +54,7 @@ function TryToOpenOfflineBackpack (character, text)
 				player := account.GetCharacter (counter);
 				if (player and player.serial == serial)
 					var thepack := player.backpack;
-		MoveObjectToLocation( character,player.x,player.y,player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( character,player.x,player.y,player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 					SendOpenSpecialContainer (character, thepack);
 					var items := EnumerateItemsInContainer (thepack);
 					SendSysMessage (character, "Total items: " + len(items));

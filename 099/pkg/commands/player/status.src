@@ -4,6 +4,7 @@ use datafile;
 
 include "include/clock";
 include "include/accounts";
+include "../pkg/guilds/guilds";
 include "../pkg/character/virtue/virtue";
 
 Const BUTTON_OK				:= 99;
@@ -396,13 +397,121 @@ function BuildGuildAndQuestGump (character)
 	gump_layout[5] := "text 120 29 40 0";
 	gump_data[1] := "Status - Guilds and Quests";
 
-	var current_y := 70;
-	var string_counter := 1;
+	var players_guild := GetObjProperty (character, "players_guild");
+	if (players_guild)
+		gump_data.append ("Guild: Adventurers Guild");
+		gump_layout.append ("text 20 70 40 1");
+		
+		var guildrank := GetPlayerGuildRank ("adventurers_guild", GetGuildRankingPoints (character, "adventurers_guild"));
+		gump_data.append ("Rank: " + guildrank);
+		gump_layout.append ("text 20 95 40 2");
+		
+		gump_data.append ("To next guild rank:");
+		gump_layout.append ("text 20 120 40 3");
+
+		var percentage_guildrank := CINT ( 10000 * GetGuildPointsRequiredForNextLevel (character) /GetFullGuildPointsRequiredForNextLevel (character));
 	
-	gump_data.append ("This page is not complete");
-	gump_layout.append ("text 20 70 40 1");
+		if (percentage_guildrank == 0)
+			gump_data.append ("-");
+		elseif (percentage_guildrank <= 500)
+			gump_data.append ("Almost");
+		elseif (percentage_guildrank <= 1000)
+			gump_data.append ("Close");
+		elseif (percentage_guildrank <= 2000)
+			gump_data.append ("Pretty close");
+		elseif (percentage_guildrank <= 3000)
+			gump_data.append ("Mostly there");
+		elseif (percentage_guildrank <= 4000)
+			gump_data.append ("Still a ways to go");
+		elseif (percentage_guildrank <= 5000)
+			gump_data.append ("Halfway");
+		elseif (percentage_guildrank <= 6000)
+			gump_data.append ("Almost halfway");
+		elseif (percentage_guildrank <= 7000)
+			gump_data.append ("A third of the way there");
+		elseif (percentage_guildrank <= 8000)
+			gump_data.append ("Pretty far to go");
+		elseif (percentage_guildrank <= 9000)
+			gump_data.append ("Long way to go");
+		else
+			gump_data.append ("Just getting started");
+		endif
+		gump_layout.append ("text 160 120 40 4");
+		
+		gump_data.append ("Guild Quest:");
+		gump_layout.append ("text 20 145 40 5");
+		gump_layout.append ("text 30 170 40 6");
+
+		var quest_parms := GetObjProperty (character, "guild_quest");
+		if (!quest_parms)
+			gump_data.append ("None");
+		elseif (quest_parms [7] < ReadGameClock () )
+			gump_data.append ("Expired");
+		else
+			var quest_desc := GetGuildQuestDescription (quest_parms);
+			if (!quest_desc)
+				gump_data.append ("Error getting description.");
+			else
+				gump_data.append (quest_desc);
+			endif
+		endif
+	else
+		gump_data.append ("Guild: None");
+		gump_layout.append ("text 20 70 40 1");
+	endif
+
 	return;
 endfunction
+
+
+
+
+///////////////////
+//  figures out a good way to phrase what the quest is
+///////////////////
+
+function GetGuildQuestDescription (quest_parms)
+	var timeleft := quest_parms[7] - ReadGameClock();
+	var daysleft := CINT (timeleft/86400);
+	if (daysleft < 1)
+		daysleft := 1;
+	endif
+
+	var quest_cfg_file := ReadConfigFile (quest_parms[1]);
+	if (!quest_cfg_file)
+		Syslog ("Can't open adventurers guild quest cfgfile!");
+		return 0;
+	endif
+
+	var chosen_quest := FindConfigElem (quest_cfg_file, quest_parms[2]);
+	if (!chosen_quest)
+		Syslog ("error opening " + quest_parms[2] + " quest in adventurers guild quest cfgfile!");
+		return 0;
+	endif
+
+	if (quest_parms [1] == ":adventurers_guild:quests_heads")
+		var desc_plural := chosen_quest.desc_plural;
+		var thestring := CSTR ("Return with the heads of " + quest_parms[6] + " " + desc_plural + " within " 
+					+ daysleft + " day");
+		if (daysleft > 1)
+			thestring := thestring + "s.";
+		else
+			thestring := thestring + ".";
+		endif
+		return thestring;
+	elseif (quest_parms [1] == ":adventurers_guild:quests_items")
+		var regionname := chosen_quest.dungeonname;
+		var thestring := CSTR ("Find " + quest_parms[5] + " in " + regionname + " within " 
+					+ daysleft + " day");
+		if (daysleft > 1)
+			thestring := thestring + "s.";
+		else
+			thestring := thestring + ".";
+		endif
+		return thestring;
+	endif
+endfunction
+
 
 
 
@@ -480,12 +589,6 @@ function BuildOtherInforGump (character)
 		gump_data.append ("Just getting started");
 	endif
 	gump_layout.append ("text 180 115 40 6");
-	
-	
-
-
-	var current_y := 70;
-	var string_counter := 1;
 
 	return;
 endfunction

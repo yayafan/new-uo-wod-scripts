@@ -29,8 +29,12 @@ program textcmd_go (character, text)
 		SendSysmessage (character, "Unknown Location");
 		return;
 	endif
+	var gorealm := elem.realm;
+	if (!gorealm)
+		gorealm := _DEFAULT_REALM;
+	endif
 
-	MoveObjectToLocation( character, elem.x, elem.y, elem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, elem.x, elem.y, elem.z, gorealm, MOVEOBJECT_FORCELOCATION );
 endprogram
 
 
@@ -69,7 +73,7 @@ function DisplayTravelGump (character)
 				SendSysMessage (character, "Error finding element " + thisloc);
 				return;
 			endif
-			var temparray := {elem.desc, elem.x, elem.y, elem.z};
+			var temparray := {elem.desc, elem.x, elem.y, elem.z, elem.realm};
 			travel_locations.append (temparray);
 		endif
 	endfor
@@ -126,7 +130,11 @@ function DisplayTravelGump (character)
 		SendSysMessage (character, "Ack, this isn't supposed to happen!");
 		return;
 	endif
-MoveObjectToLocation(character,selected_travel_loc[2],selected_travel_loc[3],selected_travel_loc[4],realm := _DEFAULT_REALM,flags := MOVEOBJECT_FORCELOCATION );
+	var travelrealm := selected_travel_loc[5];
+	if (!travelrealm)
+		travelrealm := _DEFAULT_REALM;
+	endif
+	MoveObjectToLocation(character,selected_travel_loc[2],selected_travel_loc[3],selected_travel_loc[4],travelrealm,MOVEOBJECT_FORCELOCATION );
 	return;
 endfunction
 

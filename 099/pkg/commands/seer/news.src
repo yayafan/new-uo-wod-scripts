@@ -1,25 +1,24 @@
 use uo;
 use os;
 
-program textcmd_news( me, cmd )
+include "include/eventid";
 
-	if (!cmd)
-		SendSysMessage(me, "Usage: [read] [write] or [delete]");
-		return;
-	endif
-
-	if ( lower(cmd) == "delete" )
-		SendSysMessage(me, "News deleted!");
-		EraseGlobalProperty("news");
-	elseif ( lower(cmd) == "read" )
-		ReadNews(me);
-	elseif ( lower(cmd) == "write" )
-		WriteNews(me);
-	else
-		SendSysMessage(me, "Usage: [read] [write] or [delete]");
-		return;
-	endif
-
+program textcmd_news (character, text)
+	text := Lower (text);
+	case (text)
+		"delete":
+			EraseGlobalProperty ("news");
+			SendSysMessage (character, "News deleted!");
+		"read":
+			ReadNews (character);
+		"write":
+			WriteNews (character);
+		"spout":
+			SpoutNews (character);
+		default:
+			SendSysMessage (character, "Usage: [read] [write] [spout] or [delete]");
+			return;
+	endcase
 endprogram
 
 function WriteNews(me)
@@ -63,5 +62,26 @@ function ReadNews(me)
 		SendSysMessage(me,news[i]);
 		sleepms(250);
 	endfor
-
 endfunction
+
+function SpoutNews (character)
+	SendSysMessage (character, "Select a towncrier to force to spout the news:");
+	var targetted := Target (character);
+	if (!targetted)
+		SendSysMessage (character, "Canceled.");
+		return;
+	elseif (!targetted.script["crier"])
+		SendSysMessage (character, "Invalid target.  Only towncriers can spout the news");
+		return;
+	endif
+	
+	var ev := Array{};
+	ev.+type := EVID_SPEECH;
+	ev.+text := "news";
+	
+	SendEvent (targetted, ev);
+endfunction
+
+
+
+

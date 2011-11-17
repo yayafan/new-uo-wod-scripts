@@ -28,7 +28,7 @@ program move_x (character, parms)
 		endif
 		var lockdown := what.movable;
 		what.movable := 1;
-		MoveObjectToLocation( what, what.x + howfar, what.y, what.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( what, what.x + howfar, what.y, what.z, what.realm, MOVEOBJECT_FORCELOCATION );
 		what.movable := lockdown;	
 	until (!character or !domore);
 endprogram

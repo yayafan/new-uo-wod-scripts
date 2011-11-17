@@ -18,8 +18,9 @@ program ShowTele( me )
 	var oldx := me.x;
 	var oldy := me.y;
 	var oldz := me.z;
-	MoveObjectToLocation( me, 5281, 1185, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-	MoveObjectToLocation( me, oldx, oldy, oldz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	var oldr := me.realm;
+	MoveObjectToLocation( me, 5281, 1185, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( me, oldx, oldy, oldz, oldr, MOVEOBJECT_FORCELOCATION );
     
 	var Things := ListItemsNearLocation( me.x, me.y, me.z, 5 );
 

@@ -38,7 +38,7 @@ function DestroyBoatFromStanding (character)
 	endif
 
 	SendSysMessage (character, "Serial is: " + themulti.serial);
-MoveObjectToLocation( character, character.x, character.y+5, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, character.x, character.y+5, character.z, character.realm, MOVEOBJECT_FORCELOCATION );
 
 	var res := DestroyMulti (themulti);
 	SendSysMessage (character, "Done: "+res);

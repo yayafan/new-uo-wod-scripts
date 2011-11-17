@@ -171,7 +171,7 @@ Function grabit (byref me, byref it)
 			elseif (it.desc["treasure"] or it.desc["glowing"])
 				PrintTextAbove (me, "*"+it.desc+"*");
 			else
-				PrintTextAbove (me, "*scavenges*");
+				PrintTextAbove (me, "*yoink*");
 			endif
 			sleep(1);
 		else
@@ -180,6 +180,8 @@ Function grabit (byref me, byref it)
 		return;
 	endif
 
+	//Items with owner's marks automatically go into the top level backpack.  Makes things easier to sort out if
+	//someone yoinks someone else's stuff during a quest or something
 	var targetbag := lootbag;
 	if (GetObjProperty (it, "ownerserial") )
 		targetbag := me.backpack;
@@ -190,7 +192,7 @@ Function grabit (byref me, byref it)
 		var ownerserial := GetObjProperty (it, "ownerserial");
 		if (ownerserial and ownerserial == me.serial)
 			if (MoveItemToContainer (it, targetbag, 1, 1 ))
-				PrintTextAbove (me,"*scavenges*");
+				PrintTextAbove (me,"*yoink*");
 				sleep(1);
 			else
 				PrintTextAbovePrivate (me, "*That container is full!*", me);
@@ -199,6 +201,7 @@ Function grabit (byref me, byref it)
 		return;
 	endif
 
+	//If its a non-stackable item, just move it to the bag
 	if (!IsStackableItem (it) )
 		if (MoveItemToContainer (it, targetbag, 1, 1 ))
 			if (IsMagicalItem (it) )
@@ -212,7 +215,7 @@ Function grabit (byref me, byref it)
 			elseif (it.desc["treasure"] or it.desc["glowing"])
 				PrintTextAbove (me, "*"+it.desc+"*");
 			else
-				PrintTextAbove (me, "*scavenges*");
+				PrintTextAbove (me, "*yoink*");
 			endif
 			sleep(1);
 		else
@@ -221,18 +224,26 @@ Function grabit (byref me, byref it)
 		return;
 	endif
 
+	//Otherwise, its stackable.  See if they have autostack turned on, and if so, try to find another item
+	//of the same type in their backpack
 	if (GetObjProperty (me, "grabautostack") )
 		foreach item in allmyjunk
 			if (item.objtype == it.objtype)
 				if (item.color == it.color)
 					if (AddAmount (item, it.amount) )
-						PrintTextAbove (me, "*scavenges*");
-						DestroyItem (it);
+						if (!DestroyItem (it))
+							SubtractAmount (item, it.amount);
+							return;
+						endif
+						PrintTextAbove (me, "*yoink*");
 						sleep (1);
 						return;
 					elseif (CreateItemInContainer (targetbag, it.objtype, it.amount))
-						PrintTextAbove (me, "*scavenges*");
-						DestroyItem (it);
+						if (!DestroyItem (it))
+							SubtractAmount (item, it.amount);
+							return;
+						endif
+						PrintTextAbove (me, "*yoink*");
 						sleep (1);
 						return;
 					else
@@ -244,9 +255,15 @@ Function grabit (byref me, byref it)
 		endforeach
 	endif
 
-	if (CreateItemInContainer (targetbag, it.objtype, it.amount))
-		PrintTextAbove (me, "*scavenges*");
-		DestroyItem (it);
+	//Ok, they don't have any other items of that type (or autostack is turned off.)  Recreate
+	//the item so that it may stack with others in the grab bag (for when autostack is off.)
+	var newitem := CreateItemInContainer (targetbag, it.objtype, it.amount);
+	if (newitem)
+		if (!DestroyItem (it))
+			SubtractAmount (newitem, it.amount);
+			return;
+		endif
+		PrintTextAbove (me, "*yoink*");
 		sleep(1);
 	else
 		PrintTextAbovePrivate (me, "*That container is full!*", me);

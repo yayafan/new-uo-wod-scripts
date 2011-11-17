@@ -57,7 +57,7 @@ program textcmd_summon( character, whom )
 
     foreach onlinechr in EnumerateOnlineCharacters()
         if (onlinechr.name == name)
-MoveObjectToLocation( onlinechr, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( onlinechr, character.x, character.y, character.z, character.realm, MOVEOBJECT_FORCELOCATION );
             break;
         endif
     endforeach
@@ -69,7 +69,7 @@ MoveObjectToLocation( onlinechr, character.x, character.y, character.z, realm :=
 
     foreach onlinechr in EnumerateOnlineCharacters()
         if (upper(onlinechr.name) == whom)
-MoveObjectToLocation( onlinechr, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( onlinechr, character.x, character.y, character.z, character.realm, MOVEOBJECT_FORCELOCATION );
             break;
         endif
     endforeach

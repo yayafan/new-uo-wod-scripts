@@ -22,7 +22,7 @@ program teleto (character, text)
 		return;
 	endif
 
-	MoveObjectToLocation( targetted, where.x, where.y, where.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( targetted, where.x, where.y, where.z, where.realm, MOVEOBJECT_FORCELOCATION );
 
 endprogram
 
@@ -44,8 +44,12 @@ function DoGolocTeleport (character, targetted, text)
 		SendSysmessage (character, "Unknown Location");
 		return;
 	endif
+	var tor := elem.realm;
+	if (!tor)
+		tor := _DEFAULT_REALM;
+	endif
 
-	MoveObjectToLocation( targetted, elem.x, elem.y, elem.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( targetted, elem.x, elem.y, elem.z, tor, MOVEOBJECT_FORCELOCATION );
 endfunction
 
 

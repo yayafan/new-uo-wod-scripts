@@ -51,6 +51,7 @@ program cast_mark (parms)
 	SetObjProperty (cast_on, "x", caster.x);
 	SetObjProperty (cast_on, "y", caster.y);
 	SetObjProperty (cast_on, "z", caster.z);
+	SetObjProperty (cast_on, "realm", caster.realm);
 
 	SetName (cast_on, "a marked recall rune");
 	return 1;

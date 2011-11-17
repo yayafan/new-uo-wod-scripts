@@ -58,6 +58,7 @@ function DeterminePropertyValue (item, propname)
 		"strength_mod":		retstr := CINT (GetAttributeTemporaryMod (item, "Strength")/10);
 		"intelligence_mod":		retstr := CINT (GetAttributeTemporaryMod (item, "Intelligence")/10);
 		"dexterity_mod":		retstr := CINT (GetAttributeTemporaryMod (item, "Dexterity")/10);
+		"objtype":			retstr := Hex (item.objtype) + " (" + item.objtype + ")";
 		default:
 			retstr := item.get_member (propname);
 	endcase

@@ -25,6 +25,7 @@ var data := array {
 var xpos := 100;
 var ypos := 100;
 var style := "new";
+var big_move_mode := 1;
 
 var logging_acctnames := array {};
 
@@ -62,6 +63,13 @@ program textcmd_msg (character, name)
 	if (GetObjProperty (character, "dotmsgstyle"))
 		style := "old";
 	endif
+	
+	if (GetObjProperty (character, "dotmsg_gump_position"))
+		var gumppos := GetObjProperty (character, "dotmsg_gump_position");
+		xpos := gumppos[1];
+		ypos := gumppos[2];	
+	endif
+
 
 	if (!name)
 		FillInArrays (character);
@@ -184,38 +192,36 @@ endfunction
 //  sends the message
 ///////////////////
 
-function SendTheMessage (who, whom)
-	if ( GetObjProperty (who,"private") )
-		SendSysMessage (who, "No longer in Privacy mode");
-		EraseObjProperty (who,"private");
+function SendTheMessage (character, whom)
+	if ( GetObjProperty (character,"private") )
+		SendSysMessage (character, "No longer in Privacy mode");
+		EraseObjProperty (character,"private");
 	endif
 
 	var receivers_name := whom.name;
-
 	var text := " ";
-
 	repeat
 		if (style == "old")
-			text := SendTextEntryGump (who, text, TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 60, "Message for " + whom.name + ":");
+			text := SendTextEntryGump (character, text, TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 60, "Message for " + whom.name + ":");
 		else
-			text := GetLineOfText (who, receivers_name, text);
+			text := GetLineOfText (character, receivers_name, text);
 		endif
 		if (text and text != "NULL MOVED")
 			PlaySoundEffectPrivate (whom, 0x225, whom);
-			SendSysMessage (whom, who.name + ": " + text, FONT_NORMAL, MESSAGE_COLOR_MESSAGE);
-			SetObjProperty (whom, "replyto", who.name);
-			SendSysMessage (who, "Message sent to " + whom.name + ": " + text, FONT_NORMAL, MESSAGE_COLOR_MESSAGE - 1);
+			SendSysMessage (whom, character.name + ": " + text, FONT_NORMAL, MESSAGE_COLOR_MESSAGE);
+			SetObjProperty (whom, "replyto", character.name);
+			SendSysMessage (character, "Message sent to " + whom.name + ": " + text, FONT_NORMAL, MESSAGE_COLOR_MESSAGE - 1);
 			
 			//Logging of certain conversations...  Icky
-			if ((who.acctname in logging_acctnames) or (whom.acctname in logging_acctnames))
-				LogAccountMessages (who, whom, text);
+			if ((character.acctname in logging_acctnames) or (whom.acctname in logging_acctnames))
+				LogAccountMessages (character, whom, text);
 			endif
 		endif
 		if (!whom)
-			SendSysMessage (who, receivers_name + " is no longer online.");
+			SendSysMessage (character, receivers_name + " is no longer online.");
 			return;
 		endif
-	until (!text or !who or !whom);
+	until (!text or !character or !whom);
 
 endfunction
 
@@ -226,7 +232,7 @@ endfunction
 //  Fancy new gump
 ///////////////////
 
-function GetLineOfText (who, receivers_name, previous_line)
+function GetLineOfText (character, receivers_name, previous_line)
 	if (previous_line == "NULL MOVED")
 		previous_line := " ";
 	endif
@@ -254,24 +260,53 @@ function GetLineOfText (who, receivers_name, previous_line)
 		previous_line,
 		""
 	};
-	var gump_return := SendDialogGump (who, msg_layout, msg_data);
+	if (big_move_mode)
+		msg_layout.append ("button " + (xpos+81) + " " + (ypos+121) + " 1210 1210 1 0 6");
+	else
+		msg_layout.append ("button " + (xpos+81) + " " + (ypos+121) + " 1209 1209 1 0 6");
+	endif
+
+	var gump_return := SendDialogGump (character, msg_layout, msg_data);
 
 	if (gump_return [2])
-		ypos := ypos - 50;
+		if (big_move_mode)
+			ypos := ypos - 100;
+		else
+			ypos := ypos - 25;
+		endif
 		if (ypos < 0)
 			ypos := 0;
 		endif
 		return "NULL MOVED";
 	elseif (gump_return [3])
-		ypos := ypos + 50;
+		if (big_move_mode)
+			ypos := ypos + 100;
+		else
+			ypos := ypos + 25;
+		endif
 		return "NULL MOVED";
 	elseif (gump_return [4])
-		xpos := xpos + 50;
+		if (big_move_mode)
+			xpos := xpos + 150;
+		else
+			xpos := xpos + 25;
+		endif
 		return "NULL MOVED";
 	elseif (gump_return [5])
-		xpos := xpos - 50;
+		if (big_move_mode)
+			xpos := xpos - 100;
+		else
+			xpos := xpos - 25;
+		endif
 		if (xpos < 0)
 			xpos := 0;
+		endif
+		return "NULL MOVED";
+	elseif (gump_return [6])
+		if (big_move_mode)
+			big_move_mode := 0;
+		else
+			big_move_mode := 1;
 		endif
 		return "NULL MOVED";
 	endif
@@ -355,7 +390,7 @@ endfunction
 
 
 
-function LogAccountMessages (who, whom, text)
+function LogAccountMessages (character, whom, text)
 	set_critical (1);
 	var acctinfodf := OpenDataFile (":character:msg_logging");
 	if (!acctinfodf)
@@ -367,8 +402,8 @@ function LogAccountMessages (who, whom, text)
 		endif
 	endif
 	
-	var acctname := who.acctname;
-	if (!(who.acctname in logging_acctnames))
+	var acctname := character.acctname;
+	if (!(character.acctname in logging_acctnames))
 		acctname := whom.acctname;
 	endif
 
@@ -379,7 +414,7 @@ function LogAccountMessages (who, whom, text)
 	endif
 	
 	var propname := CSTR (ReadGameClock());
-	var value := {who.name, whom.name, text};
+	var value := {character.name, whom.name, text};
 
 	entry.SetProp (propname, value);
 	UnloadDataFile (":character:msg_logging");

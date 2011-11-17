@@ -83,14 +83,10 @@ endfunction
 
 function SetNewObjectProp (player, item, propname, propvalue, text)
 	case (propname)
-		"x":				MoveObjectToLocation      (item , CINT (propvalue), item.y, item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
-//						MoveCharacterToLocation (item , CINT (propvalue), item.y, item.z, item.realm, MOVECHAR_FORCELOCATION );
+		"x":				MoveObjectToLocation      (item , CINT (propvalue), item.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION );
 		"y":				MoveObjectToLocation      (item , item.x, CINT (propvalue), item.z, item.realm, MOVEOBJECT_FORCELOCATION );
-//						MoveCharacterToLocation (item , item.x, CINT (propvalue), item.z, item.realm, MOVECHAR_FORCELOCATION );
 		"z":				MoveObjectToLocation      (item , item.x, item.y, CINT (propvalue), item.realm, MOVEOBJECT_FORCELOCATION );
-//						MoveCharacterToLocation (item , item.x, item.y, CINT (propvalue), item.realm, MOVECHAR_FORCELOCATION );
-		"realm":				MoveObjectToLocation      (item , item.x, item.y, item.z, propvalue, MOVEOBJECT_FORCELOCATION );
-//						MoveCharacterToLocation (item , item.x, item.y, item.z, propvalue, MOVECHAR_FORCELOCATION );
+		"realm":			MoveObjectToLocation      (item , item.x, item.y, item.z, propvalue, MOVEOBJECT_FORCELOCATION );
 
 		"hp":				if (item.npctemplate or item.acctname)
 								SetVital (item, "Life", CINT (propvalue)*100);

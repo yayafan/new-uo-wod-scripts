@@ -3,14 +3,12 @@
 //
 // Usage: Target a mobile to view its stats, skills,
 //        etc. Also can change values
-//        and perform special actions (kick, etc.).
 //
 /////////////////////////////////////////////////////
 
 use uo;
 use os;
 use cfgfile;
-use vitals;
 
 include "include/client";
 include "include/objtype";
@@ -40,105 +38,149 @@ program textcmd_info (character, text)
 		endif
 	endif
 	
-	BuildGump (character, who);
-	var result := SendDialogGump (character, layout, data);
-	if (!result)
-		SendSysMessage (character, "Done.");
-		return;
-	endif
-
-	//Needed for the radio buttons
-	var reskey;
-	foreach key in (result.keys)
-		if( key >= 1000 )
-			reskey := key;
+	var done := 0;
+	repeat
+		BuildGump (character, who);
+		var result := SendDialogGump (character, layout, data);
+		if (result[0] == error)
+			SendSysMessage (character, "Error opening gump");
+			return;
+		elseif (!result[0])
+			SendSysMessage (character, "Done.");
+			return;
 		endif
-	endforeach
+	
+		if (!who)
+			SendSysMessage (character, "Target no longer exists");
+			return;
+		endif
 
-    case( result[0] )
-		1:   //fall through intentional
-		2:
-		3:
-		4:
-		5:
-		6:
-		7:
-		9:
-		11:
-		13:
-			EditStat( who , character , result[0] );
-		16:	EditSkill( who , character , reskey-1000 );
-		17:	if (who.frozen)
-				who.frozen := 0;
-				SendSysmessage (character, who.name + " is unfrozen.");
-			else
-				who.frozen := 1;
-				SendSysmessage (character, who.name + " is frozen.");
+		//Needed for the radio buttons
+		var reskey;
+		foreach key in (result.keys)
+			if( key >= 1000 )
+				reskey := key;
 			endif
-		18:	SelectNewLootgroup (character, who);
-		19:	if (!who.npctemplate)
-				DisconnectClient (who);
-			endif
-		20:     MoveObjectToLocation( who, 5281, 1185, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-		21:	if (!who.npctemplate)
-				var bankbox := FindBankBox (who.acctname);
-				if (bankbox)
-					SendOpenSpecialContainer (character, bankbox);
+		endforeach
+
+	    case (result[0])
+			1:   //fall through intentional
+			2:
+			3:
+			4:
+			5:
+			6:
+			7:
+			9:
+			11:
+			13:
+				EditStat (who , character , result[0]);
+			16:
+				EditSkill (who , character , reskey-1000);
+			17:
+				if (who.frozen)
+					who.frozen := 0;
+					SendSysmessage (character, who.name + " is unfrozen.");
 				else
-					SendSysMessage (character, "Can't find bankbox!");
+					who.frozen := 1;
+					SendSysmessage (character, who.name + " is frozen.");
 				endif
-			else
-				SendSysmessage (character, "Only can be used on players.");
-			endif
-		22:	SendOpenSpecialContainer (character, who.backpack);
-	23: MoveObjectToLocation( who, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-		24:	SetName (who, RequestInput (character, character.backpack, "Enter a new name."));
-		default:
-			SendSysMessage (character, "Error - bad selection.");
-	endcase
+			18:
+				SelectNewLootgroup (character, who);
+			19:
+				if (!who.npctemplate)
+					DisconnectClient (who);
+				endif
+			20:
+				MoveObjectToLocation( who , 5281 , 1185 , 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
+			21:
+				if (who.acctname)
+					if (character.cmdlevel < 3)
+						SendSysMessage (character, "Sorry, but you are not authorized to do that");
+					else
+						var bankbox := FindBankBox (who.acctname);
+						if (bankbox)
+							SendOpenSpecialContainer (character, bankbox);
+						else
+							SendSysMessage (character, "Can't find bankbox!");
+						endif
+					endif
+				else
+					SendSysmessage (character, "Only can be used on players.");
+				endif
+			22:
+				if (character.cmdlevel < 3)
+					SendSysMessage (character, "Sorry, but you are not authorized to do that");
+				else
+					SendOpenSpecialContainer (character, who.backpack);
+				endif
+			23:
+				MoveObjectToLocation (who, character.x, character.y, character.z, character.realm);
+			24:
+				SetName (who, RequestInput (character, character.backpack, "Enter a new name."));
+			default:
+				SendSysMessage (character, "Error - bad selection.");
+		endcase
+	until (done or !character);
 endprogram
 
 
 
 function EditStat (who, character, result)
-	SendSysmessage (character, "Caution! Values are changed immediately, Integers only!. Hit ESC to cancel.");
-	var val := RequestInput (character, character.backpack, "Enter a new value.");
-	if (!CINT (val) and val != "0")
-		SendSysmessage (character , "Cancelled.");
+	SendSysmessage (character, "Caution! Values are changed immediately, Integers only!");
+	var newval := SendTextEntryGump (character, "Enter new value", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 4, "");
+	if (!newval)
+		SendSysMessage (character, "Canceled.");
 		return;
 	endif
+	if (newval == "0")
+		newval := 0;
+	else
+		newval := CINT (newval);
+		if (!newval)
+			SendSysMessage (character, "Invalid value.");
+			return;
+		endif
+	endif
 
-	val := CINT (val);
 	case (result)
-		1:	SetAttributeBaseValue (who, "Strength", val*10);
+		1:	SetAttributeBaseValue (who, "Strength", newval*10);
 			RecalcVitals (who);
-		2:	SetAttributeBaseValue (who, "Intelligence", val*10);
+		2:	SetAttributeBaseValue (who, "Intelligence", newval*10);
 			RecalcVitals (who);
-		3:	SetAttributeBaseValue (who, "Dexterity", val*10);
+		3:	SetAttributeBaseValue (who, "Dexterity", newval*10);
 			RecalcVitals (who);
-		4:	SetAttributeTemporaryMod (who, "Strength", val*10);
+		4:	SetAttributeTemporaryMod (who, "Strength", newval*10);
 			RecalcVitals (who);
-		5:	SetAttributeTemporaryMod (who, "Intelligence", val*10);
+		5:	SetAttributeTemporaryMod (who, "Intelligence", newval*10);
 			RecalcVitals (who);
-		6:	SetAttributeTemporaryMod (who, "Dexterity", val*10);
+		6:	SetAttributeTemporaryMod (who, "Dexterity", newval*10);
 			RecalcVitals (who);
 
-		7:	SetVital (who, "Life", val*100);
-		9:	SetVital (who, "Mana", val*100);
-		11:	SetVital (who, "Stamina", val*100);
-		13:	who.ar_mod := val;
+		7:	SetVital (who, "Life", newval*100);
+		9:	SetVital (who, "Mana", newval*100);
+		11:	SetVital (who, "Stamina", newval*100);
+		13:	who.ar_mod := newval;
 	endcase
 endfunction
 
 function EditSkill (who, character, skill);
-	SendSysmessage (character, "Caution! Values are changed immediately, Integers only!. Hit ESC to cancel.");
-	var val := CDBL (RequestInput (character, character.backpack, "Enter a new value."));
-	val := CINT (val*10);
-	if(!val and val != 0)
-		SendSysmessage (character, "Cancelled.");
+	var newval := SendTextEntryGump (character, "Enter new value", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 4, "");
+	if (!newval)
+		SendSysMessage (character, "Canceled.");
 		return;
 	endif
-	SetAttributeBaseValue (who, GetAttributeIDBySkillID (skill), val);
+	if (newval == "0" or newval == "0.0")
+		newval := 0;
+	else
+		newval := CINT (CDBL (newval) * 10);
+		if (!newval)
+			SendSysMessage (character, "Invalid value.");
+			return;
+		endif
+	endif
+
+	SetAttributeBaseValue (who, GetAttributeIDBySkillID (skill), newval);
 endfunction
 
 
@@ -162,7 +204,7 @@ function BuildGump (character, thetarget)
 			endif
 		endfor
 
-		var housevalue := GetGlobalProperty ("#housevalue of " + thetarget.acctname);
+		var housevalue := GetAccountHouseValue (thetarget.acctname);
 		if (!housevalue)
 			housevalue := 0;
 		endif
@@ -228,8 +270,9 @@ function BuildGump (character, thetarget)
 
 		"text 30 420 40 142",				//accountname
 		"text 150 420 40 143",
-		"text 30 440 40 144",				//cmdlevel
+		"text 30 440 40 144",				//cmdlevel, or lootgroup
 		"text 150 440 40 145",
+		"",								//change lootgroups, for NPCs
 		"text 30 460 40 146",				//position
 		"text 80 480 40 147",
 
@@ -573,14 +616,6 @@ function BuildGump (character, thetarget)
 		CSTR (thetarget.x + " / " + thetarget.y + " / " + thetarget.z)
 	};
 	
-	//Changable lootgroup
-	if (thetarget.npctemplate)
-		layout.append ("button 15 295 2640 2641 1 0 18");
-		layout.append ("text 50 300 40 130");
-		if (GetObjProperty (thetarget, "override_lootgroup"))
-			data[131] := "Lootgroup: " + GetObjProperty (thetarget, "override_lootgroup");
-		endif
-	endif
 	
 	case (thetarget.cmdlevel)
 		0:	data[146] := "Player";
@@ -591,9 +626,24 @@ function BuildGump (character, thetarget)
 		5:	data[146] := "Development";
 	endcase
 	if (thetarget.acctname)
-		data[144] := thetarget.acctname;
+		if (character.cmdlevel < 3)
+			data[144] := "(hidden)";
+		else
+			data[144] := thetarget.acctname;
+		endif
 	else
-		data[144] := "NPC";
+		data[143] := "NPCTemplate:";
+		data[144] := thetarget.npctemplate;
+
+		//Changable lootgroup
+		data[145] := "NPCLootgroup:";
+		layout[49] := "text 45 440 40 144";
+		layout[51] := "button 15 445 1210 1209 1 0 18";
+		if (GetObjProperty (thetarget, "override_lootgroup"))
+			data[146] := GetObjProperty (thetarget, "override_lootgroup");
+		else
+			data[146] := "default";
+		endif
 	endif
 	
 	FillInSkills (thetarget);
