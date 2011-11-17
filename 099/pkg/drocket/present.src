@@ -13,11 +13,11 @@ program open_present (character, package)
 	foreach item in ListRootItemsInContainer (package)
 		if (package.container)
 			if (!MoveItemToContainer (item, package.container))
-	MoveObjectToLocation( item, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+				MoveObjectToLocation( item, character.x, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION );
 			endif
 		else
-if(!MoveObjectToLocation( item, package.x, package.y, package.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
-	MoveObjectToLocation( item, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+if(!MoveObjectToLocation( item, package.x, package.y, package.z, package.realm, flags := MOVEOBJECT_FORCELOCATION ))
+	MoveObjectToLocation( item, character.x, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION );
 endif
 		endif
 		SendSysMessage (character, item.desc + "!");
