@@ -176,7 +176,7 @@ function MoveToNextStop ()
 			return;
 		elseif (stop_step_counter > 20)
 			//give up and teleport there
-MoveObjectToLocation( me, current_stop_destination[2], current_stop_destination[3], current_stop_destination[4], realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+			MoveObjectToLocation( me, current_stop_destination[2], current_stop_destination[3], current_stop_destination[4], me.realm, flags := MOVEOBJECT_NORMAL );
 			current_stop_counter := current_stop_counter + 1;
 			current_stop_counter := current_stop_counter + 1;
 			if (current_stop_counter > myroute.size())
@@ -308,7 +308,6 @@ function look_around()
 			if (!mobile.script["tamed"])
 				if (mobile.name)
 					Say ("Ah ha! " + mobile.name);
-					SetObjProperty(mobile, "guardkill", "1");
 					Fight (mobile);
 					return;
 				endif

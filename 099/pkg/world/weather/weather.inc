@@ -3,7 +3,7 @@ Const SFX_THUNDER := 0x29;
 function SetWeatherForPlayer (player)
 	//check if they're in a dungeon.  If so, turn the weather off
 	if (player.x >= 5120)
-		MoveObjectToLocation( player, player.x, player.y, player.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( player, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
 		return;
 	endif
 

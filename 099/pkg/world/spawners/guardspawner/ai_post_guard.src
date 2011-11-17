@@ -126,7 +126,11 @@ function GoToMyHomeLocation ()
 	endif
 	
 	if (stepcounter > 20)
-		MoveObjectToLocation( me, myhome[1], myhome[2], myhome[3], realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+		var rlm := myhome[4];
+		if (!rlm)
+			rlm := _DEFAULT_REALM;
+		endif
+		MoveObjectToLocation( me, myhome[1], myhome[2], myhome[3], rlm, flags := MOVEOBJECT_NORMAL );
 		drop_anchor ();
 		return;
 	endif
@@ -224,7 +228,6 @@ function look_around()
 			if (!mobile.script["tamed"])
 				if (mobile.name)
 					Say ("Ah ha! " + mobile.name);
-					SetObjProperty(mobile, "guardkill", "1");
 					Fight (mobile);
 					return;
 				endif
