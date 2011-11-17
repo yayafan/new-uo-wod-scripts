@@ -10,7 +10,7 @@ program sendtojail (gm, text)
 	text := Lower (text);
 	if (text)
 		if (text == "me")
-			MoveObjectToLocation( gm, 5281, 1185, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( gm, 5281, 1185, 0, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
 			return;
 		elseif (text == "target");
 			SendOnlineCharacterToJail (gm);
@@ -34,7 +34,7 @@ program sendtojail (gm, text)
 	case (menuselect.index)
 		1:
 			SendSysMessage (gm, "(Shortcut is '.jail me')");
-			MoveObjectToLocation( gm, 5281, 1185, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( gm, 5281, 1185, 0, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
 			return;
 		2:
 			SendSysMessage (gm, "(Shortcut is '.jail target')");
@@ -69,7 +69,7 @@ function SendOnlineCharacterToJail (gm)
 		SendSysMessage (gm, "Canceled");
 		return;
 	endif
-	MoveObjectToLocation( targetted, 5281, 1185, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( targetted, 5281, 1185, 0, _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
 endfunction
 
 
