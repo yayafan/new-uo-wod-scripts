@@ -17,36 +17,13 @@ program dismount_from_horse (parms)
 	endif
 
 	if (!mount)
-		// verify character is mounted
-		var results := 0;
-		var isMounted := ListEquippedItems( character );
-		foreach item in ( isMounted )
-			if ( item.objtype == 0x1f021 or item.objtype == 0xf021 )
-				results := 1;
+		mount := GetEquipmentByLayer (character, LAYER_MOUNT);
+		if (!mount)
+			mount := TryToFindMount (character);
+			if (!mount)
+				return 0;
 			endif
-		endforeach
-
-		if (!results)
-			return 0;
 		endif
-
-		var mountserial := GetObjProperty(character, "saddle");
-		if (!mountserial)
-			return 0;
-		endif
-
-		mount := SystemFindObjectBySerial( mountserial, sysfind_flags := 0 );
-		if(!mount)
-			return 0;
-		endif
-
-		// actually destroy the mounted item 0x1f021
-		var mounted := GetEquipmentByLayer( character, LAYER_MOUNT );
-		DestroyItem(mounted);
-
-		// remove the "saddle" property
-		EraseObjProperty(character, "saddle");
-
 	endif
 
 	if (!GetObjProperty (mount, "npctemplate"))
@@ -101,8 +78,6 @@ program dismount_from_horse (parms)
 	//if its a player, retame the creature
 	if (character.acctname)
 		var freetime := GetObjProperty (mount, "freetime");
-
-		freetime := "not used right now";
 
 		SetObjProperty (animal, "master", character.serial);
 		animal.script := "::tamed";
@@ -205,7 +180,7 @@ endfunction
 
 function TryToFindMount (corpse)
 	foreach item in EnumerateItemsInContainer (corpse)
-		if (item.objtype == UOBJ_MOUNT)
+		if (item.objtype == UOBJ_MOUNT or item.objtype == 0xf021)
 			return item;
 		endif
 	endforeach

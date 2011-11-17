@@ -1,7 +1,7 @@
 use os;
 use uo;
 
-//include "include/math";
+include "include/math";
 include "include/utility";
 
 program merchant_search (character, searchparms)
@@ -66,7 +66,7 @@ function merchantsearch (character, searchparms)
 	var itemdesc, addedthisguy, founditem, total_found := 0;
 	foreach merchantserial in playermerchantlist
 		addedthisguy := 0;
-		var inv_fs := FindRootItemInStorageArea (storage, merchantserial + " 1C");
+		var inv_fs := FindRootItemInStorageArea (storage, merchantserial + " FS");
 		if (inv_fs)
 			foreach item in EnumerateItemsInContainer (inv_fs)
 				if (item.container == inv_fs)
