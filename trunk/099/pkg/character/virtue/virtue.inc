@@ -251,7 +251,10 @@ function GetFullVirtueRequiredForNextLevel (player)
 			playervirtue := playerhonor[2];
 		endif
 	endif
-	if ( playervirtue < -25600 )
+	
+	if (!playervirtue)
+		return 200;
+	elseif ( playervirtue < -25600 )
 		return 25600;
 	elseif ( playervirtue < -12800 )
 		return 12800;
