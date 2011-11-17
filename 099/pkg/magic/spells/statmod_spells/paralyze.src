@@ -23,8 +23,11 @@ program cast_paralyze( parms )
 		return 1;
 	endif
 
-	var duration := 10 + CINT (caster_magery/5);
+	var duration := 10 + CINT (caster_magery/7);
 	duration := Resisted (caster, cast_on, duration);
+	if (duration > 30)
+		duration := 30;
+	endif
 
 	PlayStationaryEffect (cast_on.x, cast_on.y, cast_on.z, FX_CURSE_EFFECT, 10, 0xa, 0);
 	PlaySoundEffect (cast_on, SFX_SPELL_PARALYZE);

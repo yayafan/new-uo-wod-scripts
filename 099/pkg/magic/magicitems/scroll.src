@@ -10,6 +10,12 @@ var itemdesc_cfg := ReadConfigFile (":*:itemdesc");
 var circle_cfg := readconfigfile ("::circles");
 
 program use_scroll (character, scroll)
+	if (!itemdesc_cfg)
+		SendSysMessage (character, "Unable to open itemdesc.cfg file!");
+		return;
+	endif
+
+
 	if (!ReserveItem(scroll))
 		SendSysMessage (character, "You can't use that right now.");
 		return;
@@ -45,11 +51,11 @@ program use_scroll (character, scroll)
 				endif
 			endif
 		0x1f6c:
-			var summoned_serial := GetObjProperty (character, "#summoned_elemental_fire");
+			var summoned_serial := GetObjProperty (character, "#summoned_elemental_water");
 			if (summoned_serial)
 				var summoned := SystemFindObjectBySerial (summoned_serial);
 				if (summoned)
-					SendSysMessage (character, "You already have a fire elemental!");
+					SendSysMessage (character, "You already have a water elemental!");
 					return 0;
 				endif
 			endif
@@ -63,8 +69,6 @@ program use_scroll (character, scroll)
 				endif
 			endif
 	endcase
-
-
 
 	var spellid := GetSpellId (scroll);
 	var circle := GetSpellCircleBySpellID (spellid);

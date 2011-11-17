@@ -363,10 +363,18 @@ endfunction
 ///////////////////
 
 function CalcModDuration ()
-	var duration := 60 + (CINT(caster_magery/15) * 60);
+	var duration := 300 + caster_magery * 10 + caster_evalint * 10;
 	return duration;
 endfunction
 
+///////////////////
+//  This function is for curses (aka negative buffs)
+///////////////////
+
+function CalcCurseModDuration ()
+	var duration := 10 + CINT (caster_magery/2) + CINT (caster_evalint/2);
+	return duration;
+endfunction
 
 
 

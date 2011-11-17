@@ -65,7 +65,7 @@ program cast_frost_shield (parms)
 	endfor
 	
 	for i := 1 to duration
-		foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, 0x03)
+		foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, 0x03, cast_on.realm)
 			dmg := DruidResist (caster, mobile, RandomInt (8) + 3);
 			DoDamageByType (caster, mobile, dmg, DAMAGETYPE_COLD);
 			PlaySoundEffect (mobile, 0x15);
@@ -96,7 +96,7 @@ program cast_frost_shield (parms)
 					
 					set_critical (1);
 					tempitem.movable := 1;
-	MoveObjectToLocation( tempitem, effect_x, effect_y, cast_on.z+4, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( tempitem, effect_x, effect_y, cast_on.z+4, cast_on.realm, flags := MOVEOBJECT_FORCELOCATION );
 					tempitem.movable := 0;
 					set_critical (0);
 				endif

@@ -14,7 +14,7 @@ program cast_incognito (parms)
 		return 0;
 	endif
 
-	var duration := CalcModDuration ();
+	var duration := CINT (CalcModDuration () / 4);
 	PlaySoundEffect (caster, SFX_1E3);
 	DoMagicStatMod (caster, STATMOD_INCOGNITO, 1, duration, "Incognito Spell");
 	return 1;

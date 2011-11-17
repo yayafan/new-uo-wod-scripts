@@ -23,13 +23,18 @@ program cast_weaken (parms)
 		return 1;
 	endif
 
-	var duration := CalcModDuration ();
-	var mod_amount := CINT( (CalcModAmount() * 2) / 3);
+	var mod_amount := CalcModAmount() * 2;
 	if (cast_on.npctemplate)
-		SetObjProperty (cast_on, "#weakened", ReadGameClock());
+		//more effective against NPCs, but only for good mages
+		if (caster_magery > 90)
+			mod_amount := mod_amount * 2;
+		elseif (caster_magery > 70)
+			mod_amount := CINT (mod_amount * 1.5);
+		endif
 	endif
-
 	mod_amount := Resisted (caster, cast_on, mod_amount);
+
+	var duration := CalcCurseModDuration ();
 
 	PlaySoundEffect (cast_on, SFX_SPELL_CURSE);
 	PlayObjectCenteredEffect (cast_on, FX_CURSE_EFFECT, 7, 7);

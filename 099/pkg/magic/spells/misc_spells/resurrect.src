@@ -71,92 +71,92 @@ function ResurrectPlayer (caster, cast_on)
 	Resurrect (cast_on);
 
         // added for races 
-        checkrace(cast_on);
+//        checkrace(cast_on);
 
 	AwardVirtueForRes (caster,cast_on);
       
 endfunction
 
 function checkrace(character)
-var subrace := GetObjProperty(character, "subrace");
-var sex := character.gender;
+	var subrace := GetObjProperty(character, "subrace");
+	var sex := character.gender;
 
-if ( subrace )
-  // This handles any ob property subraces add as needed for your game
-  if ( subrace == "elf")
-     if ( sex )
-    	// we have a female
+	if ( subrace )
+	// This handles any ob property subraces add as needed for your game
+	if ( subrace == "elf")
+		if ( sex )
+			// we have a female
 
-	character.graphic := character.trueobjtype;
-	character.color := character.truecolor;
+			character.graphic := character.trueobjtype;
+			character.color := character.truecolor;
 
-	character.graphic := 0x25e;
-	character.race := RACE_ELF;
-     else
-        // we have a male
+			character.graphic := 0x25e;
+			character.race := RACE_ELF;
+		else
+			// we have a male
 
-	character.graphic := character.trueobjtype;
-	character.color := character.truecolor;
+			character.graphic := character.trueobjtype;
+			character.color := character.truecolor;
 
-	character.graphic := 0x25d;
-	character.race := RACE_ELF;
-     endif
-     var racecolor := 57;
-     var tempracecolor := GetObjProperty(character, "racecolor");
-     if ( tempracecolor )
-	racecolor := tempracecolor;
-     endif
-     character.color := racecolor;
-  elseif ( subrace == "centaur" )
+			character.graphic := 0x25d;
+			character.race := RACE_ELF;
+		endif
+		var racecolor := 57;
+		var tempracecolor := GetObjProperty(character, "racecolor");
+		if ( tempracecolor )
+			racecolor := tempracecolor;
+		endif
+		character.color := racecolor;
+	elseif ( subrace == "centaur" )
 
-     character.graphic := character.trueobjtype;
-     character.color := character.truecolor;
+		character.graphic := character.trueobjtype;
+		character.color := character.truecolor;
 
-     character.graphic := 0x65;
-     character.race := RACE_ELF;
-     character.color := 0;
-  elseif ( subrace == "goblin" )
+		character.graphic := 0x65;
+		character.race := RACE_ELF;
+		character.color := 0;
+	elseif ( subrace == "goblin" )
 
-     character.graphic := character.trueobjtype;
-     character.color := character.truecolor;
+		character.graphic := character.trueobjtype;
+		character.color := character.truecolor;
 
-     character.graphic := 0x8a;
-     character.race := RACE_ELF;
-     character.color := 0;
-  elseif ( subrace == "merfolk" )
-     if ( sex )
-    	// we have a female
+		character.graphic := 0x8a;
+		character.race := RACE_ELF;
+		character.color := 0;
+	elseif ( subrace == "merfolk" )
+		if ( sex )
+    		// we have a female
 	
-	character.graphic := character.trueobjtype;
-	character.color := character.truecolor;
+			character.graphic := character.trueobjtype;
+			character.color := character.truecolor;
 
-        character.graphic := 0x25e;
-	character.race := RACE_ELF;
-     else
-        // we have a male
+			character.graphic := 0x25e;
+			character.race := RACE_ELF;
+		else
+			// we have a male
 
-	character.graphic := character.trueobjtype;
-	character.color := character.truecolor;
+			character.graphic := character.trueobjtype;
+			character.color := character.truecolor;
 
-	character.graphic := 0x25d;
-	character.race := RACE_ELF;
-     endif
-     var racecolor := 92;
-     var tempracecolor := GetObjProperty(character, "racecolor");
-     if ( tempracecolor )
-	racecolor := tempracecolor;
-     endif
+			character.graphic := 0x25d;
+			character.race := RACE_ELF;
+		endif
+		var racecolor := 92;
+		var tempracecolor := GetObjProperty(character, "racecolor");
+		if ( tempracecolor )
+			racecolor := tempracecolor;
+		endif
 
-     character.color := racecolor;
-  elseif ( subrace == "minotaur" )
+		character.color := racecolor;
+	elseif ( subrace == "minotaur" )
 
-     character.graphic := character.trueobjtype;
-     character.color := character.truecolor;
+		character.graphic := character.trueobjtype;
+		character.color := character.truecolor;
 
-     character.graphic := 0x119;
-     character.race := RACE_ELF;
-     character.color := 0;
-  endif
+		character.graphic := 0x119;
+		character.race := RACE_ELF;
+		character.color := 0;
+	endif
 
 endif
 

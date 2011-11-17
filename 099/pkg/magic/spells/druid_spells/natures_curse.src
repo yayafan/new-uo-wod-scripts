@@ -44,10 +44,10 @@ function DoNaturesCurseSpellEffect (character)
 	var items := {};
 
 	set_critical (1);
-	items.append (CreateItemAtLocation (character.x+1, character.y, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x, character.y-1, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x-1, character.y, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x, character.y+1, character.z, UOBJ_SPLASH_TILE, 1));
+	items.append (CreateItemAtLocation (character.x+1, character.y, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x, character.y-1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x-1, character.y, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x, character.y+1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
 	foreach item in items
 		IncrementGraphic (item);
 	endforeach
@@ -55,10 +55,10 @@ function DoNaturesCurseSpellEffect (character)
 	sleepms (250);
 	
 	set_critical (1);
-	items.append (CreateItemAtLocation (character.x+1, character.y+1, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x+1, character.y-1, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x-1, character.y-1, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x-1, character.y+1, character.z, UOBJ_SPLASH_TILE, 1));
+	items.append (CreateItemAtLocation (character.x+1, character.y+1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x+1, character.y-1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x-1, character.y-1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x-1, character.y+1, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
 	foreach item in items
 		IncrementGraphic (item);
 	endforeach
@@ -67,10 +67,10 @@ function DoNaturesCurseSpellEffect (character)
 	sleepms (250);
 	
 	set_critical (1);
-	items.append (CreateItemAtLocation (character.x+2, character.y, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x, character.y-2, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x-2, character.y, character.z, UOBJ_SPLASH_TILE, 1));
-	items.append (CreateItemAtLocation (character.x, character.y+2, character.z, UOBJ_SPLASH_TILE, 1));
+	items.append (CreateItemAtLocation (character.x+2, character.y, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x, character.y-2, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x-2, character.y, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
+	items.append (CreateItemAtLocation (character.x, character.y+2, character.z, UOBJ_SPLASH_TILE, 1, character.realm));
 	foreach item in items
 		IncrementGraphic (item);
 	endforeach
@@ -149,18 +149,18 @@ function CheckMovement (character, byref oldx, byref oldy, items)
 		item.movable := 1;
 	endforeach
 
-	MoveObjectToLocation( items[1], character.x+2,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[2], character.x,character.y-2,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[3], character.x-2,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[4], character.x,character.y+2,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[5], character.x+1,character.y+1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[6], character.x+1,character.y-1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[7], character.x-1,character.y-1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[8], character.x-1,character.y+1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[9], character.x+1,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[10], character.x,character.y-1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[11], character.x-1,character.y,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
-	MoveObjectToLocation( items[12], character.x,character.y+1,character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[1], character.x+2,character.y,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[2], character.x,character.y-2,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[3], character.x-2,character.y,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[4], character.x,character.y+2,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[5], character.x+1,character.y+1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[6], character.x+1,character.y-1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[7], character.x-1,character.y-1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[8], character.x-1,character.y+1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[9], character.x+1,character.y,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[10], character.x,character.y-1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[11], character.x-1,character.y,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( items[12], character.x,character.y+1,character.z, character.realm, flags := MOVEOBJECT_NORMAL );
 
 	foreach item in items
 		item.movable := 0;

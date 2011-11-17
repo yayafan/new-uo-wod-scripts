@@ -62,7 +62,7 @@ program cast_poly( parms )
 		mod_amount := mod_amount + bonusskillval;
 	endif
 
-	var duration := GetModDuration (caster_magery ) * 4;
+	var duration := CalcModDuration ();
 	DoTempMod (caster, "poly", mod_amount, duration, "Polymorph Spell");
 	DoPersistedMod (caster, "color", newcolor, caster.color, duration, "Polymorph Spell");
 

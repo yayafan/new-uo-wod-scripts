@@ -81,7 +81,7 @@ program tidal_wave ( parms )
 		return 0;
 	endif
 
-	MoveObjectToLocation( ghost, cast_on.x, cast_on.y, cast_on.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( ghost, cast_on.x, cast_on.y, cast_on.z, cast_on.realm, flags := MOVEOBJECT_FORCELOCATION );
 	Resurrect (ghost);
 	ghost.hp := ghost.maxhp;
 	ghost.stamina := ghost.maxstamina;

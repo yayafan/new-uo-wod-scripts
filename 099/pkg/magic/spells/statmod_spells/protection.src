@@ -18,41 +18,25 @@ program cast_protection( parms )
 		return 0;
 	endif
 
-	var caster_animallore := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
-	if (caster_animallore > caster_evalint)
-		caster_evalint := caster_animallore;
-	endif
-
-	var caster_spiritspeak:= GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
-	if (caster_spiritspeak > caster_evalint)
-		caster_evalint := caster_spiritspeak;
-	endif
-
-	var mod_amount := CINT(CalcModAmount()/2);
-	var duration := CalcModDuration () * 4;
-	if (caster_evalint > 90)
-		var new_mod_amount := CINT(CalcModAmount()/2);
-		if (new_mod_amount > mod_amount)
-			mod_amount := new_mod_amount;
+	if (caster)
+		var caster_animallore := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
+		if (caster_animallore > caster_evalint)
+			caster_evalint := caster_animallore;
+		endif
+	
+		var caster_spiritspeak:= GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
+		if (caster_spiritspeak > caster_evalint)
+			caster_evalint := caster_spiritspeak;
 		endif
 	endif
 
-	var cast_on_magery := GetAttribute (cast_on, ATTRIBUTEID_MAGERY);
-	var cast_on_evalint := GetAttribute (cast_on, ATTRIBUTEID_INVOCATION);
-	var cast_on_med := GetAttribute (cast_on, ATTRIBUTEID_MEDITATION);
-
-	var cast_on_animallore := GetAttribute (cast_on, ATTRIBUTEID_ANIMALLORE);
-	if (cast_on_animallore > cast_on_evalint)
-		cast_on_evalint := cast_on_animallore;
-	endif
-
-	var cast_on_spiritspeak:= GetAttribute (cast_on, ATTRIBUTEID_NECROMANCY);
-	if (cast_on_spiritspeak > cast_on_evalint)
-		cast_on_evalint := cast_on_spiritspeak;
-	endif
-
-	if ( (cast_on_magery + cast_on_med + cast_on_evalint) > (85 * 3) )
-		mod_amount := CINT (mod_amount * 1.75);
+	var mod_amount := CINT(CalcModAmount() * 3 / 4);
+	var duration := CalcModDuration ();
+	if (caster_evalint > 90)
+		var new_mod_amount := CINT(CalcModAmount() * 3 / 4);
+		if (new_mod_amount > mod_amount)
+			mod_amount := new_mod_amount;
+		endif
 	endif
 
 	PlaySoundEffect(cast_on, SFX_SPELL_PROTECTION);
