@@ -20,8 +20,8 @@ What we are doing is converting all of these scripts to POL 099 and update them 
 Each one of us should pick one by one the folders inside 095\pkg and compare them with 099\pkg, and do the necesary work to accomplish the tasks mentioned above.
 
 Here is the package list and those assigned to them in parenthesis:
-  * attributes
-  * character (Agata)
+  * attributes (Agata)
+  * character (*finished by Agata*)
   * combat (*finished by Agata*)
   * commands
   * drocket (*finished by Agata*)
