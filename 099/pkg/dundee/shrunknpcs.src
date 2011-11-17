@@ -36,6 +36,10 @@ program unshrink_npcs (character, dolly)
 			"str":
 			"int":
 			"dex":
+			"str_mod":
+			"int_mod":
+			"dex_mod":
+			"ar_mod":
 			"gender":
 			"npctemplate":
 			"title_prefix":
@@ -80,6 +84,10 @@ program unshrink_npcs (character, dolly)
 		mobile.title_guild := GetObjProperty (dolly, "title_guild");
 	endif
 
+	if (GetObjProperty (dolly, "ar_mod"))
+		mobile.ar_mod := GetObjProperty (dolly, "ar_mod");
+	endif
+
 	mobile.graphic := getobjproperty (dolly, "graphic");
 	mobile.color := dolly.color;
 	setobjproperty (mobile, "color", mobile.color);
@@ -87,6 +95,11 @@ program unshrink_npcs (character, dolly)
 	SetAttributeBaseValue (mobile, "Strength", GetObjProperty (dolly, "str") * 10);
 	SetAttributeBaseValue (mobile, "Intelligence", GetObjProperty (dolly, "int") * 10);
 	SetAttributeBaseValue (mobile, "Dexterity", GetObjProperty (dolly, "dex") * 10);
+
+	SetAttributeTemporaryMod (mobile, "Strength", CINT (GetObjProperty (dolly, "str_mod")) * 10);
+	SetAttributeTemporaryMod (mobile, "Intelligence", CINT (GetObjProperty (dolly, "int_modt")) * 10);
+	SetAttributeTemporaryMod (mobile, "Dexterity", CINT (GetObjProperty (dolly, "dex_mod")) * 10);
+
 	RecalcVitals (mobile);
 
 	SetVital (mobile, "Life", GetVitalMaximumValue (mobile, "Life"));
