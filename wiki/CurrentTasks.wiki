@@ -24,7 +24,7 @@ Here is the package list and those assigned to them in parenthesis:
   * character
   * combat (*finished by Agata*)
   * commands
-  * drocket (Agata)
+  * drocket (*finished by Agata*)
   * dundee (*finished by Agata*)
   * guilds (*finished by Agata*)
   * items (*finished by Agata*)
@@ -33,4 +33,4 @@ Here is the package list and those assigned to them in parenthesis:
   * npcs (*finished by Agata*)
   * quests (*finished by Agata*)
   * skills (*finished by Agata*)
-  * world
+  * world (Agata)
