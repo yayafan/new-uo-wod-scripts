@@ -202,6 +202,27 @@ endfunction
 
 
 ///////////////////
+//  Returns the number of Guild ranking points
+///////////////////
+
+function GetGuildRankingPoints (player, guild_title)
+	var players_guild := GetObjProperty (player, "players_guild");
+	if (!players_guild)
+		player.title_race := "";
+		return;
+	endif
+
+	var guild_points := players_guild[4];
+	if (!guild_points)
+		guild_points := 0;
+	endif
+	return guild_points;
+endfunction
+
+
+
+
+///////////////////
 //  Adds points to a person's guild ranking and sets their title
 ///////////////////
 
@@ -231,56 +252,159 @@ function AddGuildRankingPoints (player, new_points, guild_title)
 		return;
 	endif
 	
-	var guildtitle;
-	case (players_guild[1])
-		"adventurers_guild":
-			guildtitle := "Jr. Pathfinder, AG";
-			if (old_points > 50000)
-				guildtitle := "Sr. Explorer, AG";
-			elseif (old_points > 45000)
-				guildtitle := "Explorer, AG";
-			elseif (old_points > 40000)
-				guildtitle := "Jr. Explorer, AG";
-			elseif (old_points > 35000)
-				guildtitle := "Sr. Pioneer, AG";
-			elseif (old_points > 30000)
-				guildtitle := "Pioneer, AG";
-			elseif (old_points > 25000)
-				guildtitle := "Jr. Pioneer, AG";
-			elseif (old_points > 20000)
-				guildtitle := "Sr. Guide, AG";
-			elseif (old_points > 15000)
-				guildtitle := "Guide, AG";
-			elseif (old_points > 11000)
-				guildtitle := "Jr. Guide, AG";
-			elseif (old_points > 8000)
-				guildtitle := "Sr. Trailblazer, AG";
-			elseif (old_points > 4500)
-				guildtitle := "Trailblazer, AG";
-			elseif (old_points > 2000)
-				guildtitle := "Jr. Trailblazer, AG";
-			elseif (old_points > 1000)
-				guildtitle := "Sr. Pathfinder, AG";
-			elseif (old_points > 500)
-				guildtitle := "Pathfinder, AG";
-			endif
-		default:
-			player.title_race := "";
-			return;
-	endcase
+	var guildtitle := GetPlayerGuildRank (players_guild[1], old_points);
 	player.title_race := guildtitle;
 endfunction
 
 
 
 
+///////////////////
+//  Figures out the player's guild title
+///////////////////
+
+function GetPlayerGuildRank (guild, guild_points)
+	var guildtitle;
+	case (guild)
+		"adventurers_guild":
+			guildtitle := "Jr. Pathfinder, AG";
+			if (guild_points > 50000)
+				guildtitle := "Sr. Explorer, AG";
+			elseif (guild_points > 45000)
+				guildtitle := "Explorer, AG";
+			elseif (guild_points > 40000)
+				guildtitle := "Jr. Explorer, AG";
+			elseif (guild_points > 35000)
+				guildtitle := "Sr. Pioneer, AG";
+			elseif (guild_points > 30000)
+				guildtitle := "Pioneer, AG";
+			elseif (guild_points > 25000)
+				guildtitle := "Jr. Pioneer, AG";
+			elseif (guild_points > 20000)
+				guildtitle := "Sr. Guide, AG";
+			elseif (guild_points > 15000)
+				guildtitle := "Guide, AG";
+			elseif (guild_points > 11000)
+				guildtitle := "Jr. Guide, AG";
+			elseif (guild_points > 8000)
+				guildtitle := "Sr. Trailblazer, AG";
+			elseif (guild_points > 4500)
+				guildtitle := "Trailblazer, AG";
+			elseif (guild_points > 2000)
+				guildtitle := "Jr. Trailblazer, AG";
+			elseif (guild_points > 1000)
+				guildtitle := "Sr. Pathfinder, AG";
+			elseif (guild_points > 500)
+				guildtitle := "Pathfinder, AG";
+			endif
+		default:
+			Syslog ("Error:  Invalid guild!");
+			guildtitle := "";
+	endcase
+	return guildtitle;
+endfunction
 
 
 
 
+///////////////////
+//  Returns how many guild points the player needs to get to the next 'level'
+///////////////////
+
+function GetFullGuildPointsRequiredForNextLevel (player)
+	var players_guild := GetObjProperty (player, "players_guild");
+	if (!players_guild)
+		return 0xffff;
+	endif
+
+	var guild_points := players_guild[4];
+	if (!guild_points)
+		guild_points := 0;
+	endif
+
+	if ( guild_points < 500 )
+		return 250;
+	elseif ( guild_points < 1000 )
+		return 500;
+	elseif ( guild_points < 2000 )
+		return 1000;
+	elseif ( guild_points < 4500 )
+		return 2250;
+	elseif ( guild_points < 8000 )
+		return 4000;
+	elseif ( guild_points < 11000 )
+		return 5500;
+	elseif ( guild_points < 15000 )
+		return 7500;
+	elseif ( guild_points < 20000 )
+		return 10000;
+	elseif ( guild_points < 25000 )
+		return 12500;
+	elseif ( guild_points < 30000 )
+		return 15000;
+	elseif ( guild_points < 35000 )
+		return 17500;
+	elseif ( guild_points < 40000 )
+		return 20000;
+	elseif ( guild_points < 45000 )
+		return 22500;
+	elseif ( guild_points < 50000 )
+		return 25000;
+	else
+		return 25600;
+	endif
+endfunction
 
 
 
+
+///////////////////
+//  Returns how many guild points the player needs to get to the next 'level'
+///////////////////
+
+function GetGuildPointsRequiredForNextLevel (player)
+	var players_guild := GetObjProperty (player, "players_guild");
+	if (!players_guild)
+		return 0;
+	endif
+
+	var guild_points := players_guild[4];
+	if (!guild_points)
+		return 200;
+	endif
+	
+	if (guild_points < 500)
+		return (500 - guild_points);
+	elseif (guild_points < 1000)
+		return (1000 - guild_points);
+	elseif (guild_points < 2000)
+		return (2000 - guild_points);
+	elseif (guild_points < 4500)
+		return (4500 - guild_points);
+	elseif (guild_points < 8000)
+		return (8000 - guild_points);
+	elseif (guild_points < 11000)
+		return (11000 - guild_points);
+	elseif (guild_points < 15000)
+		return (15000 - guild_points);
+	elseif (guild_points < 20000)
+		return (20000 - guild_points);
+	elseif (guild_points < 25000)
+		return (25000 - guild_points);
+	elseif (guild_points < 30000)
+		return (30000 - guild_points);
+	elseif (guild_points < 35000)
+		return (35000 - guild_points);
+	elseif (guild_points < 40000)
+		return (40000 - guild_points);
+	elseif (guild_points < 45000)
+		return (45000 - guild_points);
+	elseif (guild_points < 50000)
+		return (50000 - guild_points);
+	else
+		return 0;
+	endif
+endfunction
 
 
 
