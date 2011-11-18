@@ -39,7 +39,7 @@ program spell_gate (parms)
 	var tox := Cint(GetObjProperty( cast_on, "x" ));
 	var toy := Cint(GetObjProperty( cast_on, "y" ));
 	var toz := Cint(GetObjProperty( cast_on, "z" ));
-	var tor := Cint(GetObjProperty( cast_on, "realm" ));
+	var tor := GetObjProperty( cast_on, "realm" );
 	if (!tor)
 		tor := _DEFAULT_REALM;
 	endif
