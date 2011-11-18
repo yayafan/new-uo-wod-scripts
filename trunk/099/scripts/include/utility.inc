@@ -293,13 +293,20 @@ function TeleportFromNoLogoutArea (byref character)
 
 	foreach key in GetConfigStringKeys (logoffcfgfile)
 		var elem := FindConfigElem (logoffcfgfile, key);
+		var elemrealm := 0;
 		if (elem)
-			if (character.x > elem.MinX)
-				if (character.x < elem.MaxX)
-					if (character.y > elem.MinY)
-						if (character.y < elem.MaxY)
-MoveObjectToLocation( character,elem.TeletoX,elem.TeletoY, elem.TeletoZ, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-							return 1;
+			elemrealm := elem.Realm;
+			if (!elemrealm)
+				elemrealm := _DEFAULT_REALM;
+			endif
+			if (character.realm == elemrealm)
+				if (character.x > elem.MinX)
+					if (character.x < elem.MaxX)
+						if (character.y > elem.MinY)
+							if (character.y < elem.MaxY)
+								MoveObjectToLocation( character,elem.TeletoX,elem.TeletoY, elem.TeletoZ, elemrealm, MOVEOBJECT_FORCELOCATION );
+								return 1;
+							endif
 						endif
 					endif
 				endif
@@ -357,6 +364,8 @@ Function DoubleWordPacket(doubleword)
   paket:="00000000"+paket[3, Len(paket)-2];
   Return (paket[Len(paket)-7, 8]);
 EndFunction
+
+
 
 
 

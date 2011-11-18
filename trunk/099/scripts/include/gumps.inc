@@ -191,4 +191,153 @@ endfunction
 
 
 
+///////////////////
+//  This function (tries to) return the length of the the string in pixels (or whatever unit of measurement UO gumps use...)
+//  Probably not very accurate
+///////////////////
+
+function GetStringGumpPixelLength (thestring)
+	var string_len := 0;
+	foreach letter in thestring
+		var charlen := 0;
+		case (letter)
+			"|":
+				charlen := 2;
+			"`":
+			"'":
+			",":
+			".":
+			";":
+			":":
+				charlen := 3;
+			"!":
+				charlen := 4;
+			"i":
+			"l":
+			"1":
+			"[":
+			"]":
+				charlen := 3;
+	
+	
+			"b":
+			"c":
+			"e":
+			"j":
+			"o":
+			"t":
+			"î":
+			"ˆ":
+			"(":
+			")":
+			"{":
+			"}":
+			"=":
+				charlen := 6;
+			"a":
+			"d":
+			"f":
+			"p":
+			"q":
+			"r":
+			"s":
+			"z":
+			"I":
+			"Ñ":
+			"‰":
+			"~":
+				charlen := 7;
+			"g":
+			"h":
+			"n":
+			"u":
+			"v":
+			"y":
+			"Å":
+			"¸":
+			" ":
+			"<":
+			">":
+			"-":
+				charlen := 8;
+			"x":
+			"J":
+			"5":
+			"7":
+			"8":
+			"$":
+			"?":
+			"ﬂ":
+			"+":
+				charlen := 9;
+			"k":
+			"C":
+			"E":
+			"2":
+			"3":
+			"6":
+			"9":
+			"^":
+			"/":
+			"*":
+				charlen := 10;
+			"m":
+			"w":
+			"A":
+			"B":
+			"D":
+			"F":
+			"O":
+			"P":
+			"é":
+			"ƒ":
+			"ô":
+			"÷":
+			"4":
+			"0":
+			"%":
+				charlen := 11;
+			"G":
+			"L":
+			"N":
+			"Q":
+			"S":
+			"Z":
+			"#":
+				charlen := 12;
+			"H":
+			"R":
+			"T":
+			"&":
+			"_":
+			"":
+			"":
+			"":
+			"":
+				charlen := 13;
+			"K":
+			"ö":
+			"‹":
+			"U":
+			"Y":
+				charlen := 14;
+			"X":
+				charlen := 15;
+			"V":
+				charlen := 16;
+			"M":
+				charlen := 18;
+			"W":
+				charlen := 21;
+			default:
+				SysLog ("Unable to find character " + letter);
+				charlen := 12;
+		endcase
+		string_len := string_len + charlen;
+	endforeach
+	return string_len;
+endfunction
+
+
+
 

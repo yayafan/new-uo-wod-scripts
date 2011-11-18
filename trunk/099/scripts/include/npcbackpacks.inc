@@ -44,7 +44,7 @@ function MoveBackpackToCorpse (container)
 
 	if (GetObjProperty (container, "summoned"))
 		foreach thingie in ListRootItemsInContainer(mypack)
-MoveObjectToLocation( thingie, container.x, container.y, container.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( thingie, container.x, container.y, container.z, container.realm, MOVEOBJECT_FORCELOCATION );
 		endforeach
 		return 0;
 	else

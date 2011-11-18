@@ -66,7 +66,7 @@ function MoveMyPack (character)
 	endforeach
 
 	var oldbackpack := character.backpack;
-	MoveObjectToLocation( oldbackpack, 5123, 1779, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( oldbackpack, 5123, 1779, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 	return oldbackpack;
 endfunction
 
@@ -105,7 +105,7 @@ function clone (character, npc)
 	SetVital (character, "Stamina", GetVital (npc, "Stamina"));
 
 	foreach it in ListEquippedItems (npc)
-	MoveObjectToLocation( it, 5123, 1779, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( it, 5123, 1779, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 		equipitem (character, it);
 	endforeach
 
@@ -113,8 +113,8 @@ function clone (character, npc)
 		SetAttributeBaseValue (character, GetAttributeIDBySkillID (i), GetAttribute (npc, GetAttributeIDBySkillID (i))*10);
 	endfor
 
-	MoveObjectToLocation( character, npc.x, npc.y, npc.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
-	MoveObjectToLocation( npc, 5276, 1164, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( character, npc.x, npc.y, npc.z, npc.realm, MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( npc, 5276, 1164, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 
 	character.concealed := 0;
 
@@ -167,7 +167,7 @@ function unpossess (character)
 	SetVital (npc, "Life", GetVital (character, "Life"));
 	SetVital (npc, "Mana", GetVital (character, "Mana"));
 	SetVital (npc, "Stamina", GetVital (character, "Stamina"));	
-	MoveObjectToLocation( npc, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( npc, character.x, character.y, character.z, character.realm, MOVEOBJECT_FORCELOCATION );
 
 	for i := 0 to 48
 		SetAttributeBaseValue (character, GetAttributeIDBySkillID (i), 1000);
@@ -210,13 +210,13 @@ function SwapClothes (character, npc)
 
 	var hispack := npc.backpack;
 	if (hispack)
-		MoveObjectToLocation( hispack, 5123, 1779, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( hispack, 5123, 1779, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 	else
-		hispack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1);
+		hispack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1, _DEFAULT_REALM);
 	endif
 
 	foreach item in ListEquippedItems (character)
-		MoveObjectToLocation( item, 5123, 1779, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, 5123, 1779, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 		EquipItem (npc, item);
 	endforeach
 
@@ -270,7 +270,7 @@ function UnpossessCorpse (character, corpse )
 	eraseobjproperty (character, "oldprefix");
 	eraseobjproperty (character, "oldsuffix");
 
-	MoveObjectToLocation( npc, 5288, 1176, 0, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( npc, 5288, 1176, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 	setobjproperty (npc, "guardkill", 1);
 	RevokePrivilege (npc, "invul");
 	DoDamageByType (0, npc, CINT (GetVital (npc, "Life")/100) + 100, DAMAGETYPE_PHYSICAL);

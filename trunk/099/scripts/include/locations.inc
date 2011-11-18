@@ -31,7 +31,7 @@ function FindTownFromLocation (x, y)
 		return TOWN_JHELOM;
 	elseif (x >= 3525 and x <= 3825 and y >= 2000 and y <= 2300)
 		return TOWN_MAGINCIA;
-	elseif (x >= 2400 and x <= 2650 and y >= 2500 and y <= 700)
+	elseif (x >= 2400 and x <= 2650 and y >= 250 and y <= 700)
 		return TOWN_MINOC;
 	elseif (x >= 4250 and x <= 4725 and y >= 775 and y <= 1525)
 		return TOWN_MOONGLOW;
@@ -41,7 +41,7 @@ function FindTownFromLocation (x, y)
 		return TOWN_OCLLO;
 	elseif (x >= 2750 and x <= 3075 and y >= 3325 and y <= 3650)
 		return TOWN_SERPENTS_HOLD;
-	elseif (x >= 530 and x <= 2250 and y >= 2100 and y <= 600)
+	elseif (x >= 530 and x <= 680 and y >= 2100 and y <= 2290)
 		return TOWN_SKARA_BRAE;
 	elseif (x >= 1800 and x <= 2150 and y >= 2625 and y <= 2950)
 		return TOWN_TRINSIC;
