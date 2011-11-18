@@ -767,9 +767,11 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	DestroyItem (pregate);
 
 	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1, casterrlm);
+//	SendSysMessage (caster, "Gate1: " + gate1 + ", " + casterx + ", " + castery + ", " + casterz + ", " + casterrlm);
 	gate1.movable := 0;
 	gate1.facing := 1;
 	var gate2 := CreateItemAtLocation (destinationx, destinationy, destinationz, UOBJ_BLUE_MOONGATE, 1, destinationrealm);
+//	SendSysMessage (caster, "Gate2: " + gate2 + ", " + destinationx + ", " + destinationy + ", " + destinationz + ", " + destinationrealm);
 	gate2.movable := 0;
 	gate2.facing := 1;
 	if (!gate1 or !gate2)

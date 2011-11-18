@@ -237,8 +237,9 @@ function AddRune( who , book )
 	var x := GetObjProperty( rune, "x" );
 	var y := GetObjProperty( rune, "y" );
 	var z := GetObjProperty( rune, "z" );
+	var realm := GetObjProperty( rune, "realm" );
 	var rname := rune.desc - "A recall rune for ";
-	var new_rune_struct := { rname , x , y , z };
+	var new_rune_struct := { rname , x , y , z, realm };
 	//here we add this rune's info to the cprop array
 	var runedefs := GetObjProperty( book , "runedefs" );
 

@@ -21,7 +21,7 @@ program textcmd_goxyz (who, text)
 	if (len(params) < 4) // didn't pass realm
 		params[4] := who.realm;
 	endif
-	var res := MoveObjectToLocation( who,CInt(params[1]),CInt(params[2]),CInt(params[3]),CInt(params[4]), MOVEOBJECT_FORCELOCATION );
+	var res := MoveObjectToLocation( who,CInt(params[1]),CInt(params[2]),CInt(params[3]),params[4], MOVEOBJECT_FORCELOCATION );
 	if (!res)
 		SendSysMessage( who, "Unable to go there: " + res.errortext );
 	endif
