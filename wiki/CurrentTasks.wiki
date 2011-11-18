@@ -36,9 +36,9 @@ Here is the package list and those assigned to them in parenthesis:
   * world (*finished by Agata*)
 
 Additionally there is the scripts folder with the following entries:
-  * ai (Agata)
+  * ai (*finished by Agata*)
   * console
-  * control
+  * control (Agata)
   * include
   * items
   * misc
