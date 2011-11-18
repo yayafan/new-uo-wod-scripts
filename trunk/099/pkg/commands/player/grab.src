@@ -98,7 +98,7 @@ program grab_nearby_items (me, textline)
 		ListMyStuff (me);
 	endif
 
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, GRAB_RANGE)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, GRAB_RANGE, me.realm)
 		if (CorpseOrChest (me, item))
 			foreach thingie in ListRootItemsInContainer (item)
 				if (me.dead)
@@ -292,10 +292,10 @@ function CorpseOrChest (byref me, byref it)
 			start_script (":drocket:carvecorpse", parms);
 		endif
 
-		foreach item in ListItemsNearLocationOfType (it.x, it.y, it.z, 0, UOBJ_BLOOD)
+		foreach item in ListItemsNearLocationOfType (it.x, it.y, it.z, 0, UOBJ_BLOOD, me.realm)
 			return 1;
 		endforeach
-		CreateItemAtLocation (it.x, it.y, it.z, UOBJ_BLOOD, 1);
+		CreateItemAtLocation (it.x, it.y, it.z, UOBJ_BLOOD, 1, it.realm);
 		return 1;
 	elseif (GetObjProperty (it, "level") )
 		return 1;
@@ -344,7 +344,7 @@ endfunction
 ///////////////////
 
 function FindSomethingWorthGrabbing (me)
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, GRAB_RANGE)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, GRAB_RANGE, me.realm)
 		if (item.objtype == UOBJ_CORPSE)
 			if (!GetObjProperty (item, "skinned"))
 				if (!lootbag)
