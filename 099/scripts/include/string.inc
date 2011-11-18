@@ -113,7 +113,6 @@ function CreateArrayIndex(MainArray)
 				i := ArrayLen + 1;
 			endif
 		endfor
-	sleepms(10);
 	endfor
 
 	return ( { NewArray, IndexArray } );
@@ -146,7 +145,6 @@ function SortArrayByIndex(OldArray, IndexArray)
 		endif
 
 		NewArray[i] := OldArray[q];
-	sleepms(10);
 	endfor
 
 	return NewArray;
@@ -184,7 +182,6 @@ function SortMultiArrayByIndex(MultiArray, SubIndex)
 				MultiArray[k] := f;
 			endif
 		endfor
-	sleepms(10);
 	endfor
 
 	return MultiArray;
@@ -209,7 +206,6 @@ function PadString(x, stringlength)
 	while(padding > 20)
 		x := x + padstr;
 		padding := padding - 20;
-        sleepms(5);
 	endwhile
 
 	if (padding > 0)
@@ -243,7 +239,6 @@ function PadArray(x, arraylength)
 	for (i := 1; i <= padding; i := i + 1)
 		q := q + 1;
 		x[q] := 0;
-        sleepms(10);
 	endfor
 
 	return x;
@@ -263,7 +258,6 @@ function ReturnIndex(myarray, elementvalue)
 		if (myarray[i] = elementvalue)
 			return i;
 		endif
-	sleepms(10);
 	endfor
 
 	return 0;

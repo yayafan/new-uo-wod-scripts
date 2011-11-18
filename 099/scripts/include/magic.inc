@@ -351,7 +351,12 @@ endfunction
 ///////////////////
 
 function CalcModAmount () 
-	var mod_amount := RandomInt (10) + CINT(caster_magery/6);
+	var mod_amount := RandomInt (5) + CINT(caster_magery/10);
+	if (caster_evalint > 95)
+		mod_amount := mod_amount + 3;
+	elseif (caster_evalint > 75)
+		mod_amount := mod_amount + 1;
+	endif
 	return mod_amount;
 endfunction
 
@@ -385,6 +390,12 @@ endfunction
 
 function Resisted (byref caster, byref cast_on, amt)
 	var cast_on_resist := GetAttribute (cast_on, ATTRIBUTEID_MAGICRESISTANCE);
+	if (cast_on_resist > 90)
+		cast_on_resist := CINT (cast_on_resist * 1.4);
+	elseif (cast_on_resist > 70)
+		cast_on_resist := CINT (cast_on_resist * 1.2);
+	endif
+
 	var dmg := CINT((caster_evalint * amt)/(cast_on_resist + 20));
 	if (dmg > CINT (amt*1.5))
 		dmg := CINT (amt * 1.5);
@@ -773,7 +784,7 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	SetObjProperty (gate2, "GateDestX", gate1.x);
 	SetObjProperty (gate2, "GateDestY", gate1.y);
 	SetObjProperty (gate2, "GateDestZ", gate1.z);
-	SetObjProperty (gate1, "GateDestR", gate2.realm);
+	SetObjProperty (gate2, "GateDestR", gate1.realm);
 
 	SetObjProperty (gate1, "summoned_field", 1);
 	SetObjProperty (gate2, "summoned_field", 1);
