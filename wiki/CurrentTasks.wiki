@@ -40,5 +40,5 @@ Additionally there is the scripts folder with the following entries:
   * console
   * control (*finished by Agata*)
   * include
-  * items
-  * misc (Agata)
+  * items (Agata)
+  * misc (*finished by Agata*)
