@@ -24,11 +24,15 @@ program walk_on_moongate( mobile, gate )
 	var x := GetObjProperty (gate, "DestX");
 	var y := GetObjProperty (gate, "DestY");
 	var z := GetObjProperty (gate, "DestZ");
+	var rlm := GetObjProperty (gate, "DestR");
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
 	if (!x or !y)
 		return;
 	endif
-if(MoveObjectToLocation( mobile, x, y, z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+	if(MoveObjectToLocation( mobile, x, y, z, rlm, MOVEOBJECT_NORMAL ))
 		SetWeatherForPlayer (mobile);
 		SetObjProperty (mobile, "#justgated", 1);
 		sleep (1);

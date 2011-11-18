@@ -8,9 +8,6 @@ program get_coords( user , item )
 	var y := user.y;
 	var z := user.z;
 
-	item := "not used right now";
-	z := "not used right now";
-
 	//center tile: cx and cy
 	var cx:= 1323;
 	var cy:= 1624;

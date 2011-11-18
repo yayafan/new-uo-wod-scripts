@@ -11,8 +11,12 @@ program walk_on_moongate ( mobile, gate )
 	var x := GetObjProperty (gate, "DestX");
 	var y := GetObjProperty (gate, "DestY");
 	var z := GetObjProperty (gate, "DestZ");
+	var rlm := GetObjProperty (gate, "DestR");
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
-if(MoveObjectToLocation( mobile, x, y, z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+	if(MoveObjectToLocation( mobile, x, y, z, rlm, MOVEOBJECT_NORMAL ))
 		SetObjProperty (mobile, "#justgated", 1);
 		set_critical (0);
 		sleep (1);
