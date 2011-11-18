@@ -7,11 +7,11 @@ copy tiles.cfg config
 uoconvert landtiles
 copy landtiles.cfg config
 
-uoconvert map     realm=britannia mapid=0 usedif=1 width=7168 height=4096
+uoconvert map     realm=britannia mapid=0 usedif=1 width=6144 height=4096
 uoconvert statics realm=britannia
 uoconvert maptile realm=britannia
 
-uoconvert map     realm=britannia_alt mapid=1 usedif=1 width=7168 height=4096
+uoconvert map     realm=britannia_alt mapid=1 usedif=1 width=6144 height=4096
 uoconvert statics realm=britannia_alt
 uoconvert maptile realm=britannia_alt
 
@@ -27,6 +27,6 @@ uoconvert map     realm=tokuno mapid=4 usedif=1 width=1448 height=1448
 uoconvert statics realm=tokuno
 uoconvert maptile realm=tokuno
 
-uoconvert map     realm=termur mapid=5 usedif=1 width=1280 height=4096
-uoconvert statics realm=termur
-uoconvert maptile realm=termur
+rem uoconvert map     realm=termur mapid=5 usedif=1 width=1280 height=4096
+rem uoconvert statics realm=termur
+rem uoconvert maptile realm=termur
