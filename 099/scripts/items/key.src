@@ -120,7 +120,7 @@ function UseKeyRing (character, key, thetarget)
 		PrintTextAbovePrivate (character, "You remove the keys from the ring.", character);
 		foreach otherkey in EnumerateItemsInContainer (insidering)
 			if (!MoveItemToContainer (otherkey, character.backpack))
-MoveObjectToLocation( otherkey, character.x, character.y, character.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+				MoveObjectToLocation( otherkey, character.x, character.y, character.z, character.realm, MOVEOBJECT_FORCELOCATION );
 			endif
 		endforeach
 		key.graphic := 4113;

@@ -32,7 +32,7 @@ program walk_on_moongate( mobile, gate )
 	
 	
 	
-   if(MoveObjectToLocation( mobile, x, y, z, rlm, flags := MOVEOBJECT_NORMAL ))
+   if(MoveObjectToLocation( mobile, x, y, z, rlm, MOVEOBJECT_NORMAL ))
 		if (!mobile.concealed)
 			PlaySoundEffect( mobile, SFX_SPELL_RECALL );
 		endif

@@ -6,6 +6,7 @@ include "include/objtype";
 include "include/utility";
 include "include/crafting";
 include "include/attributes";
+include "include/string";
 include "../pkg/npcs/npcinfo";
 include "../pkg/combat/loot/loot";
 include "../pkg/skills/harvestingskills/lumberjacking/scroll_making";
@@ -45,6 +46,8 @@ program use_blade (user, blade)
 		HarvestStaticPlant (user, use_on);
 	elseif (use_on.item.objtype == 0xC6A)
 		CarvePumpkin (user, use_on.item);
+	elseif (use_on.item.objtype == 0x28aa)
+		SliceCake (user, use_on.item);
 	else
 		SendSysmessage( user, "I don't know how to use those items together." );
 	endif
@@ -175,7 +178,7 @@ function RemoveBridle (user, packanimal)
 	if (packanimal.graphic == CID_PACK_LLAMA)
 		SendSysMessage (user, "You cut the pack off the animal.");
 		foreach item in ListRootItemsInContainer (packanimal.backpack)
-	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
 		endforeach
 
 		packanimal.graphic := CID_LLAMA;
@@ -186,7 +189,7 @@ function RemoveBridle (user, packanimal)
 	elseif (packanimal.graphic == CID_PACK_HORSE)
 		SendSysMessage (user, "You cut the pack off the animal.");
 		foreach item in ListRootItemsInContainer (packanimal.backpack)
-	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
 		endforeach
 
 		packanimal.graphic := packanimal.objtype;
@@ -565,8 +568,31 @@ function CarvePumpkin (character, pumpkin)
 			SendSysMessage (character, "That won't work.");
 			return;
 	endcase
-	
-	
+endfunction
 
+function SliceCake (character, cake)
+	if (!cake.movable)
+		SendSysMessage (character, "You can't slice that cake");
+		return;
+	elseif (!ReserveItem (cake))
+		SendSysMessage (character, "You can't slice that cake");
+		return;
+	endif
+ 	
+	var tempstring := cake.desc;
+	tempstring := "a slice of " + TruncateArticle (tempstring);
+	var slice;
+
+	//create 6 slices of cake
+	for i := 1 to 6
+		if (cake.container)
+			slice := CreateItemInContainer (cake.container, 0x28ab, 1);
+		else
+			slice := CreateItemAtLocation (cake.x, cake.y, cake.z, 0x28ab, 1, cake.realm);
+		endif
+		slice.color := cake.color;
+		slice.name := tempstring;
+	endfor
+	DestroyItem (cake);
 endfunction
 
