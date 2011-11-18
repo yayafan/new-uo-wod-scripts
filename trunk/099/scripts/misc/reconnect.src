@@ -36,15 +36,6 @@ program reconnect (character)
 	endif
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
-
-
-        if ( character.cmdlevel < 1 )
-		broadcastsound();
-		broadcast(character.name + " has returned to the World of Dreams!", FONT_NORMAL, 48);
-	endif
-
-
-
 endprogram
 
 function unclone(who)

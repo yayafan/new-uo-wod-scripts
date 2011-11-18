@@ -83,23 +83,28 @@ endfunction
 
 
 ///////////////////
-//  Figures out what the current year is
+//  Figures out what the current year is (real-world time)
 ///////////////////
 
-function GetYear ()
+function Systime_GetYear ()
 	//Seconds since 1/1/1970
 	var systime := polcore().systime;
 	//Lets skip ahead to y2k
 	systime := systime - 946684800;
 	var current_year_counter := 0;
-	while (systime > 31536000)
+	var done := 0;
+	repeat
 		if (current_year_counter%4 == 0)
 			systime := systime - 31622400;
 		else
 			systime := systime - 31536000;
 		endif
-		current_year_counter := current_year_counter + 1;
-	endwhile;
+		if (systime >= 0)
+			current_year_counter := current_year_counter + 1;
+		else
+			done:= 1;
+		endif
+	until (done);
 	return (2000 + current_year_counter);	
 endfunction
 
@@ -108,10 +113,10 @@ endfunction
 
 
 ///////////////////
-//  Figures out what the current month is (by name)
+//  Figures out what the current month is (by name) (real-world time)
 ///////////////////
 
-function GetMonth ()
+function Systime_GetMonth ()
 	var MonthDays := array { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	var MonthNames := array {
@@ -134,23 +139,26 @@ function GetMonth ()
 	//Lets skip ahead to y2k
 	systime := systime - 946684800;
 
+	//convert to days
+	var days := CINT (systime / SECONDS_PER_DAY);
+	
 	var current_year_counter := 0;
 	var current_month_counter := 1;
 	var done := 0;
+	var days_in_month := 0;
 	repeat
-		var seconds_in_this_month := 0;
 		if (current_month_counter == 2)
 			if (current_year_counter%4 == 0)
-				seconds_in_this_month := SECONDS_PER_DAY * 29;
+				days_in_month := 29;
 			else
-				seconds_in_this_month := SECONDS_PER_DAY * 28;
+				days_in_month := 28;
 			endif
 		else
-			seconds_in_this_month := SECONDS_PER_DAY * MonthDays[current_month_counter];
+			days_in_month := MonthDays[current_month_counter];
 		endif
-
-		if (systime > seconds_in_this_month)
-			systime := systime - seconds_in_this_month;
+		
+		if (days_in_month <= days)
+			days := days - days_in_month;
 			current_month_counter := current_month_counter + 1;
 			if (current_month_counter > 12)
 				current_month_counter := 1;
@@ -160,8 +168,191 @@ function GetMonth ()
 			done := 1;
 		endif
 	until (done);
-	return MonthNames [current_month_counter];	
+
+	return MonthNames [current_month_counter];
 endfunction
+
+
+
+
+
+///////////////////
+//  Figures out what the current date is (real-world time) 
+///////////////////
+
+function Systime_GetDate ()
+	var MonthDays := array { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	//Seconds since 1/1/1970
+	var systime := polcore().systime;
+	//Lets skip ahead to y2k
+	systime := systime - 946684800;
+
+	//convert to days
+	var days := CINT (systime / SECONDS_PER_DAY) + 1;
+
+	var current_year_counter := 0;
+	var current_month_counter := 1;
+	var done := 0;
+	repeat
+		if (current_month_counter == 2)
+			if (current_year_counter%4 == 0)
+				if (days > 29)
+					days := days - 29;
+				else
+					return days;
+				endif
+			else
+				if (days > 28)
+					days := days - 28;
+				else
+					return days;
+				endif
+			endif
+		else
+			if (days > 28)
+				days := days - MonthDays[current_month_counter];
+			else
+				return days;
+			endif
+		endif
+
+		if (days > 0)
+			current_month_counter := current_month_counter + 1;
+			if (current_month_counter > 12)
+				current_month_counter := 1;
+				current_year_counter := current_year_counter + 1;
+			endif
+		else
+			done := 1;
+		endif
+	until (done);
+
+	return days;
+endfunction
+
+
+
+
+///////////////////
+//  Figures out what the current hour is, military time (real-world time) 
+///////////////////
+
+function Systime_GetHour ()
+	var systime := polcore().systime;
+	systime := CINT (systime % SECONDS_PER_DAY);
+
+	var hour := CINT (systime / 3600);
+	return hour;
+endfunction
+
+
+
+
+///////////////////
+//  Figures out what the current minute is (real-world time) 
+///////////////////
+
+function Systime_GetMinute ()
+	var systime := polcore().systime;
+	systime := CINT (systime % 3600);
+
+	var minute := CINT (systime / 60);
+	return minute;
+endfunction
+
+
+
+
+///////////////////
+//  This function returns a string in the format "month date, year hour:minutes"
+///////////////////
+
+function Systime_GetReadableTimeString ()
+	var MonthDays := array { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	var MonthNames := array {
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec"
+	};
+
+	//Seconds since 1/1/1970
+	var systime := polcore().systime;
+	//Lets skip ahead to y2k
+	systime := systime - 946684800;
+	//convert to days
+	var days := CINT (systime / SECONDS_PER_DAY) + 1;
+	
+	var current_year_counter := 0;
+	var current_month_counter := 1;
+	var days_in_month, done := 0;
+	repeat
+		if (current_month_counter == 2)
+			if (current_year_counter%4 == 0)
+				days_in_month := 29;
+			else
+				days_in_month := 28;
+			endif
+		else
+			days_in_month := MonthDays[current_month_counter];
+		endif
+		
+		if (days_in_month <= days)
+			days := days - days_in_month;
+			current_month_counter := current_month_counter + 1;
+			if (current_month_counter > 12)
+				current_month_counter := 1;
+				current_year_counter := current_year_counter + 1;
+			endif
+		else
+			done := 1;
+		endif
+	until (done);
+
+	if (days < 10)
+		days := "0" + days;
+	endif
+	var timestring := MonthNames [current_month_counter] + " " + days + ", " + (2000 + current_year_counter);
+
+	//now figure out hours and minutes
+	systime := polcore().systime;
+	systime := CINT (systime % SECONDS_PER_DAY);
+	var hour := CINT (systime / 3600);
+
+	systime := polcore().systime;
+	systime := CINT (systime % 3600);
+	var minute := CINT (systime / 60);
+	
+	if (hour == 0)
+		hour := 24;
+	elseif (hour < 10)
+		hour := "0" + hour;
+	endif
+	if (minute < 10)
+		minute := "0" + minute;
+	endif
+	
+	timestring := timestring + " " + hour + ":" + minute + "GMT";
+	return timestring;
+endfunction
+
+
+
+
+
+
+
+
 
 
 
@@ -171,8 +362,8 @@ endfunction
 ///////////////////
 
 function GetCurrentPlaytimeMonth ()
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 	
 	return (year + "_" + month + "_play_time");
 endfunction
@@ -185,8 +376,8 @@ endfunction
 ///////////////////
 
 function GetPreviousPlaytimeMonth (previous_month_counter := 1)
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 	
 	repeat
 		case (month)

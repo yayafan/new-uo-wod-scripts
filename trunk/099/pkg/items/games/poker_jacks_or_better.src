@@ -29,8 +29,8 @@ program poker (character)
 	endif
 
 	//data for monthly counter
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 
 	var still_playing := 1;
 	repeat

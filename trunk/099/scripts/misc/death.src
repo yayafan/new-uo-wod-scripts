@@ -59,25 +59,17 @@ program npcdeath (corpse)
 	//if the NPC was riding a horse, make a new one
 	var horse := Dismount (corpse, 0);
 	if (horse)
+		//gotta do special stuff for doppelgangers
 		if (npctemplate["doppelganger"])
-			sleep(2);
-			var new_doppelganger := SpawnNPCAtLocation ("doppelganger", horse.x, horse.y, horse.z, 0, horse.realm);
 			set_critical (1);
-			SetObjProperty (new_doppelganger, "#nextmorph", ReadGameClock() + cint(RandomInt(20)+15) );
-			new_doppelganger.graphic := horse.graphic;
-			new_doppelganger.name := horse.name;
-			SetVital (new_doppelganger, "Life", 5000);
-
 			var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
-			if (!EquipItem (new_doppelganger, newbackpack))
+			if (!EquipItem (horse, newbackpack))
 				DestroyItem (newbackpack);
 			endif
 
 			foreach item in ListRootItemsInContainer (corpse)
-				MoveItemToContainer (item, new_doppelganger.backpack);
+				MoveItemToContainer (item, horse.backpack);
 			endforeach
-			
-			KillNPC (horse);
 			set_critical (0);
 
 			sleep (2);
@@ -252,10 +244,10 @@ function RemakeTotem (corpse, npctemplate)
 	var color := GetObjProperty (corpse, "color");
 
 	set_critical (1);
-	var totem := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, totemtype, 1);
+	var totem := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, totemtype, 1, corpse.realm);
 	if (!totem)
 		foreach item in ListRootItemsInContainer (corpse)
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION );
 		endforeach
 		DestroyItem (corpse);
 		return;
@@ -289,7 +281,7 @@ function RemakeTotem (corpse, npctemplate)
 	endif
 
 	foreach item in ListRootItemsInContainer (corpse)
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION );
 	endforeach
 	DestroyItem (corpse);
 	set_critical (0);
@@ -318,6 +310,10 @@ function ZapStorageAreas (corpse)
 		if (ownerserial)
 			var bankbox := FindBankBox ("deadmerchants");
 			var newpack := CreateItemInContainer (bankbox, UOBJ_BACKPACK, 1);
+			
+			var temp_string := corpse.desc;
+			temp_string["A corpse of "] := "";
+			newpack.name := "Remains of " + temp_string;
 
 			var itembox := find_or_create_item( storage, corpseserial + " FS", 0xE7C );
 			foreach item in ListRootItemsInContainer (itembox)
