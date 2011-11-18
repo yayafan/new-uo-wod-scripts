@@ -670,7 +670,7 @@ function Release()
 	var totem := CINT (GetObjProperty (me , "totem"));
 	if (totem)
 		set_critical (1);
-		var it := CreateItemAtLocation (me.x, me.y, me.z, totem, 1);
+		var it := CreateItemAtLocation (me.x, me.y, me.z, totem, 1, me.realm);
 		if (!it)
 			say ("*Argh*");
 			set_critical (0);
@@ -699,7 +699,7 @@ function Release()
 
 		Drop ();
 		PlaySoundEffect (me, SFX_SPELL_DISPEL);
-		PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, 0xA, 0xA);
+		PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, 0xA, 0xA, 0, me.realm);
 		KillMe ();
 		set_critical(0);
 		return;
