@@ -20,7 +20,7 @@ if (!masterserial)
 		masterserial := GetObjProperty (me, "master");
 	until (masterserial or waitcounter > 20);
 	if (!masterserial)
-		GoWild (me);
+		GoWild ();
 	endif
 endif
 

@@ -137,7 +137,7 @@ program concealme (character, text)
 			sleep (1);
 			var oldmovable := targetted.movable;
 			targetted.movable := 1;
-			MoveObjectToLocation (targetted, originallocation.x, originallocation.y, originallocation.z, , originallocation.realm, MOVEOBJECT_FORCELOCATION);
+			MoveObjectToLocation (targetted, originallocation.x, originallocation.y, originallocation.z, originallocation.realm, MOVEOBJECT_FORCELOCATION);
 			targetted.decayat := ReadGameClock() + 600;
 			targetted.movable := oldmovable;
 			DestroyItem (smallfire);
