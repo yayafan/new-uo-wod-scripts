@@ -17,7 +17,7 @@ var nextwatch := ReadGameClock ();
 
 program humuc_ai ()
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288, 1176, 0,UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288, 1176, 0,UOBJ_BACKPACK, 1, _DEFAULT_REALM);
 		if (!EquipItem (me, newbackpack))
 			DestroyItem (newbackpack);
 		endif
@@ -68,7 +68,7 @@ function MainAILoop()
 		following := master;
 		me.hidden := 0;
 		me.frozen := 0;
-	MoveObjectToLocation( me, following.x, following.y, following.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, MOVEOBJECT_FORCELOCATION );
 		SetObjProperty (master, "humuc", me.serial);
 	endif
 
@@ -140,7 +140,7 @@ function Follow()
 		sleep(1);
 		chaseloop := 0;
 	elseif (( d > 10 ) or ( chaseloop > 50 ))
-	MoveObjectToLocation( me, following.x, following.y, following.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, MOVEOBJECT_FORCELOCATION );
 		chaseloop := 0;
 		sleep (1);
 	else
@@ -269,7 +269,7 @@ function drop()
 	SayWhat();
 	foreach myitems in EnumerateItemsInContainer (me.backpack)
 		if (myitems.container == me.backpack)
-	MoveObjectToLocation( myitems, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( myitems, me.x, me.y, me.z, me.realm, MOVEOBJECT_FORCELOCATION );
 			sleepms(100);
 		endif
 	endforeach
@@ -406,7 +406,7 @@ function TeleToMaster ();
 		say ("Kal Ort Por");
 		PlaySoundEffect ( me, SFX_210 );
 		sleepms (250);
-	MoveObjectToLocation( me, master.x, master.y, master.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( me, master.x, master.y, master.z, master.realm, MOVEOBJECT_FORCELOCATION );
 		following := master;
 		PlaySoundEffect (me, SFX_SPELL_RECALL);
 	endif

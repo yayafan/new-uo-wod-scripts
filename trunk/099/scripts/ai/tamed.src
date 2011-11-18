@@ -54,7 +54,7 @@ program TamedAI()
 	if (master.npctemplate)
 		if (GetObjProperty (me, "#restarting"))
 			EraseObjProperty (me, "#restarting");
-			GoWild (master);
+			GoWild ();
 		else
 			SetObjProperty (me, "master", getobjproperty (master, "master") );
 			SetObjProperty (me, "#restarting", 1);
@@ -222,6 +222,7 @@ function MainAILoop ()
 				return;
 			endif
 		elseif (!GetObjProperty (me, "totem") )
+			warnings := 0;
 			Poop ();
 		endif
 	endwhile
@@ -476,7 +477,7 @@ endfunction
 
 function drop()
 	foreach item in ListRootItemsInContainer (me.backpack)
-		MoveObjectToLocation( item, me.x, me.y, me.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+		MoveObjectToLocation (item, me.x, me.y, me.z, me.realm, 0);
 	endforeach
 endfunction
 
@@ -704,28 +705,17 @@ function Release()
 		return;
 	endif
 
-	GoWild (master);
+	GoWild ();
 endfunction
+
+
+
 
 ///////////////////
 //  NPC leaves its master
 ///////////////////
 
-function GoWild (master)
-
-	var mountserial := GetObjProperty(master, "saddle");
-	if (mountserial)
-
-		// find the mount
-		var mount := SystemFindObjectBySerial( mountserial, sysfind_flags := 0 );
-
-		var mounted := GetEquipmentByLayer( master, LAYER_MOUNT );
-		DestroyItem(mounted);
-
-		EraseObjProperty(master, "saddle");
-		DestroyItem(mount);
-	endif
-
+function GoWild ()
 	var MyTemplateElem := GetNpcTemplateElem (me.npctemplate);
 	if (MyTemplateElem.script)
 		me.script := MyTemplateElem.script;
@@ -844,13 +834,9 @@ function DoDoubleClickEvent ();
 	endif	
 
 	//make sure they aren't already mounted
-	var isMounted := ListEquippedItems( master );
-	foreach item in ( isMounted )
-		if ( item.objtype == 0xf021 )
-			SendSysMessage( master, "You are mounted already!" , font := _DEFAULT_TEXT_FONT, color := 40 );
-			return;
-		endif
-	endforeach
+	if (GetEquipmentByLayer (master, LAYER_MOUNT))
+		return;
+	endif
 
 	master.hidden := 0;
 	var mounttype := 0;
@@ -875,49 +861,33 @@ function DoDoubleClickEvent ();
 	endcase
 
 	if (mounttype)
-		if (MoveObjectToLocation( master, me.x, me.y, me.z, me.realm, flags := MOVEOBJECT_NORMAL ))
+		if (MoveObjectToLocation (master, me.x, me.y, me.z, me.realm, 0))
 			drop();
 			set_critical (1);
 			master.facing := me.facing;
-
-			var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1);
+			var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, _DEFAULT_REALM);
 			if (!mount)
 				set_critical(0);
 				return;
 			endif
-
-			var saddle := CreateItemInBackpack( master, 0x1F13, amount := 1 );
-
-			if ( !saddle )
-				set_critical(0);
-				return;
-			endif
-
-			saddle.movable := 0;
-			saddle.weight := 0;
-			saddle.desc := "a saddle";
-			saddle.name := "a saddle";
-
-			SetObjProperty(master, "saddle", saddle.serial);
-
 			mount.color := me.color;
 			mount.graphic := mounttype;
 
 			foreach property in GetObjPropertyNames (me)
 				if (property != "master")
 					var value := GetObjProperty (me, property);
-					SetObjProperty (saddle, property, value);
+					SetObjProperty (mount, property, value);
 				endif
 			endforeach
 
-			SetObjProperty (saddle, "petname", me.name);
-			SetObjProperty (saddle, "npctemplate", me.npctemplate);
-			SetObjProperty (saddle, "pethp", CINT (GetVital (me, "Life")/100));
-			SetObjProperty (saddle, "petmana", CINT (GetVital (me, "Mana")/100));
-			SetObjProperty (saddle, "petgraphic", me.graphic);
-			SetObjProperty (saddle, "freetime", freetime);
+			SetObjProperty (mount, "petname", me.name);
+			SetObjProperty (mount, "npctemplate", me.npctemplate);
+			SetObjProperty (mount, "pethp", CINT (GetVital (me, "Life")/100));
+			SetObjProperty (mount, "petmana", CINT (GetVital (me, "Mana")/100));
+			SetObjProperty (mount, "petgraphic", me.graphic);
+			SetObjProperty (mount, "freetime", freetime);
 			if (Getobjproperty (me, "summoned"))
-				SetObjProperty (saddle, "summoned", 1);
+				SetObjProperty (mount, "summoned", 1);
 			endif
 
 			if (!EquipItem (master, mount))
@@ -925,7 +895,6 @@ function DoDoubleClickEvent ();
 				set_critical(0);
 				return;
 			endif
-
 			KillMe ();
 			set_critical(0);
 			following := 0;
@@ -1228,7 +1197,7 @@ function Follow ()
 		chaseloop := 0;
 	elseif (( d > 10 ) or ( chaseloop > 50 ))
 		if (!me.frozen)
-	MoveObjectToLocation( me, following.x, following.y, following.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( me, following.x, following.y, following.z, following.realm, MOVEOBJECT_FORCELOCATION );
 		endif
 		chaseloop := 0;
 		sleepms (100);
@@ -1247,7 +1216,7 @@ function Follow ()
 endfunction
 
 function AllCommand (evtype,what)
-	var mobs := ListMobilesNearLocation( master.x, master.y, master.z, 9 );
+	var mobs := ListMobilesNearLocation( master.x, master.y, master.z, 9, master.realm );
 	var eve := array {};
 	eve.+type := evtype;
 	eve.+source := me;
@@ -1271,7 +1240,7 @@ function BreathFire (opponent, byref nextbreath)
 		return;
 	elseif (battle_orders == BATTLEORDERS_CHECK_FOR_FRIENDLIES)
 		nextbreath := ReadGameClock() + RandomInt(8) + 6;
-		foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+		foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm)
 			if (!mobile.hidden or !GetObjProperty (mobile, "#specialhidden_nodamage"))
 				if (!mobile.npctemplate)
 					return;
@@ -1308,7 +1277,7 @@ function BreathFire (opponent, byref nextbreath)
 		firedamage := "4d6";
 	endif
 
-	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm)
 		if (!mobile.hidden or !GetObjProperty (mobile, "#specialhidden_nodamage"))
 			if (!mobile.npctemplate["humuc"])
 				var dmg := CINT (RandomDiceRoll (firedamage) * percent_modifier);
@@ -1372,7 +1341,7 @@ endfunction
 ///////////////////
 
 function CastHealingSpells (me, opponent)
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15, me.realm)
 		if (mobile.acctname or GetObjProperty (mobile, "master"))
 			if (mobile.poisoned)
 				CastSpell (me, mobile, ":poison_spells:cure");
@@ -1407,7 +1376,7 @@ endfunction
 ///////////////////
 
 function GoToSleep ()
-	foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 10 );
+	foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 10, me.realm );
 		if (!critter.npctemplate)
 			return 0;
 		endif

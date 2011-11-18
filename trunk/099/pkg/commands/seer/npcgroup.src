@@ -29,7 +29,7 @@ program textcmd_createnpc (character, parms)
 		var x := character.x - 10 + RandomInt (20);
 		var y := character.y - 10 + RandomInt (20);
 		var z := GetMapInfo(x,y).z;
-		var npc := SpawnNPCAtLocation (npctemplate, x, y, z, character.realm);
+		var npc := SpawnNPCAtLocation (npctemplate, x, y, z, 0, character.realm);
 		if (npc == "error")
 			SendSysMessage (character, "Can't create NPC!");
 			return;
