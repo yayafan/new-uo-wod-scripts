@@ -706,7 +706,7 @@
 # 0xee3 converts to 0xee4
 0xee4 spiderweb decorations
 # 0xee5 - 0xeec unused
-0xeed goldcoin
+0xeed GoldCoin mining
 # 0xeee - 0xef9 unused
 0xefa Spellbook magic
 # 0xefb - 0xf0d unused
@@ -824,7 +824,7 @@
 # 0x1004 - 0x1008 unused
 0x1009 basin tinkering
 0x100a archerybutte training
-# 0x100b converts to 0x100a
+0x100b archerybutte2 training
 # 0x100c unused
 0x100d hay farming
 0x100e ironkey
@@ -887,7 +887,7 @@
 # 0x106a - 0x106f unused
 0x1070 trainingdummy training
 # 0x1071 - 0x1073 unused
-# 0x1074 converts to 0x1070
+0x1074 trainingdummy2 training
 # 0x1075 - 0x1077 unused
 0x1078 hide tailoring
 # 0x1079 - 0x107b unused
@@ -1133,7 +1133,8 @@
 0x1562 decweap4 decorations
 # 0x1563 - 0x1568 unused
 0x1569 decweap5 decorations
-# 0x156a - 0x156b unused
+0x156a decweap6 decorations
+# 0x156b unused
 0x156c decweap7 decorations
 0x156d decweap8 decorations
 0x156e decweap9 decorations
@@ -1184,7 +1185,9 @@
 0x172d pear cooking
 # 0x172e - 0x1764 unused
 0x1765 cloth tailoring
-# 0x1766 - 0x1848 unused
+# 0x1766 - 0x180f unused
+0x1810 hourglass lighting
+# 0x1811 - 0x1848 unused
 0x1849 heatingstand alchemy
 # 0x184a - 0x1851 unused
 0x1852 scales decorations
@@ -1345,7 +1348,7 @@
 # 0x1ebe - 0x1ebf unused
 0x1ec0 pickpocket1 training
 # 0x1ec1 - 0x1ec2 unused
-# 0x1ec3 converts to 0x1ec0
+0x1ec3 pickpocket2 training
 # 0x1ec4 - 0x1efc unused
 0x1efd FancyShirt armor
 # 0x1efe unused
@@ -1532,15 +1535,25 @@
 0x2839 present_purple_bow giftwrapper
 # 0x283a - 0x284f unused
 0x2850 jackolantern lighting
-# 0x2851 - 0x2865 unused
+# 0x2851 - 0x2859 unused
+0x285a birdbath decorations
+# 0x285b - 0x2863 unused
+# 0x2864 converts to 0x2865
+0x2865 copperteakettle decorations
 0x2866 broom weapons
 # 0x2867 unused
 0x2868 wickerbasket containers
-# 0x2869 - 0x2881 unused
+0x2869 largeflowervase decorations
+0x286a largedecoratedvase decorations
+0x286b largeflowerurn decorations
+# 0x286c - 0x2881 unused
 0x2882 ghostcutout decorations
 # 0x2883 - 0x289f unused
 0x28a0 winerack containers
-# 0x28a1 - 0x29cc unused
+# 0x28a1 - 0x28a9 unused
+0x28aa giantcake cooking
+0x28ab giantcakeslice cooking
+# 0x28ac - 0x29cc unused
 0x29cd candycane cooking
 0x29ce gingerbreadman cooking
 # 0x29cf - 0x2d29 unused
@@ -1609,7 +1622,7 @@
 0x6005 level3map treasuremap
 0x6006 level4map treasuremap
 0x6007 level5map treasuremap
-0x6008 DecodedMap treasuremap
+0x6008 SeerCreatedMap treasuremap
 0x6009 IronOre mining
 0x600a BronzeOre mining
 0x600b DullCopperOre mining
@@ -1761,7 +1774,9 @@
 0x70b4 giftwrapped_present giftwrapper
 0x70b5 statbonus_item world_items
 0x70b6 totemrepairkit tinkering
-# 0x70b7 - 0x70bf unused
+# 0x70b7 - 0x70bb unused
+0x70bc ShrunkNPC shrunknpcs
+# 0x70bd - 0x70bf unused
 0x70c0 potatoplant farming
 # 0x70c1 - 0x70cf unused
 0x70d0 BlacksmithySpecialOrderContract blacksmithy
@@ -1801,7 +1816,7 @@
 # 0xa15a - 0xafff unused
 0xb000 AnvilDeed decorations
 0xb001 SmallForgeDeed decorations
-0xb002 TrainingDummieDeed decorations
+0xb002 TrainingDummyDeed decorations
 0xb003 PickpocketDipDeed decorations
 0xb004 SpinningWheelDeed decorations
 0xb005 BedDeed decorations
