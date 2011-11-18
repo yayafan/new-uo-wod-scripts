@@ -89,8 +89,8 @@ program display_forsale_items (parms)
 	SetAccountProperty (player.acctname, "magic_dealer_points", total_points);
 
 	//monthly counter
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 	var monthly_string := "magic_dealer_points" + year + "_" + month;
 
 	var monthly_points := GetAccountProperty (player.acctname, monthly_string);

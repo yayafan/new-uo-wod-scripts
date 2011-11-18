@@ -14,14 +14,11 @@ var gump_layout := array {
 	"gumppic 0 50 500"
 };
 
-//var skillmastercfg := ReadConfigFile(":skills:skillmaster");
+var skillmastercfg := ReadConfigFile(":skills:skillmaster");
 var skills := {};
 const LASTPAGE := 3;
 
 program SkillWindow (me, text)
-
-	text := "not used";
-
 	if (GetObjProperty (me, "#logon_noskillwin"))
 		EraseObjProperty (me, "#logon_noskillwin");
 		return;
@@ -152,7 +149,6 @@ function LoadSkillArrayByValue (me)
 	var skillvals := {};
 	for i := 0 to 48
 		skillvals[i+1] := GetSortValue (me, i);
-		sleepms(3);
 	endfor
 	skillvals[50] := -1;		//dummy for comparisons
 
@@ -164,13 +160,11 @@ function LoadSkillArrayByValue (me)
 			if (skillvals[j] > skillvals[chosenskill])
 				chosenskill := j;
 			endif
-		sleepms(3);
 		endfor
 		if (skillvals[chosenskill] >= 0)
 			skillvals[chosenskill] := -1;
 			skills[i] := chosenskill - 1;
 		endif
-	sleepms(3);
 	endfor
 endfunction 
 

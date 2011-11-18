@@ -47,8 +47,8 @@ program display_forsale_items (parms)
 	SetAccountProperty (player.acctname, "magic_dealer_potions", total_potions + 1);
 	
 	//Keep track by month, too
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 	var monthly_string := "magic_dealer_potions" + year + "_" + month;
 
 	var monthly_potions := GetAccountProperty (player.acctname, monthly_string);

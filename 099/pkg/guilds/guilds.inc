@@ -54,8 +54,8 @@ endfunction
 function AddToMonthlyTicketCounter (player_acctname, new_amount, guild_name)
 	set_critical (1);
 	
-	var year := GetYear ();
-	var month := lower (GetMonth ());
+	var year := Systime_GetYear ();
+	var month := lower (Systime_GetMonth ());
 
 	var monthly_tickets := GetAccountProperty (player_acctname, guild_name + "_tickets_" + year + "_" + month);
 	if (!monthly_tickets)

@@ -11,8 +11,9 @@ program SailToDestination(parms)
 	//[2] = y
 	//[3] = z
 	//[4] = duration
+	//[5] = realm
 
-	MoveObjectToLocation( you, 5892, 3087, -2, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( you, 5892, 3087, -2, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 
 	for i := 1 to cint(sailto[4]);
 		sleep(2);
@@ -28,7 +29,11 @@ program SailToDestination(parms)
 	sleep(3);
 
 	if ( StillAboard(you) )
-		MoveObjectToLocation( you, sailto[1], sailto[2], sailto[3], realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+		var sailtorealm := sailto[5];
+		if (!sailtorealm)
+			sailtorealm := _DEFAULT_REALM;
+		endif
+		MoveObjectToLocation( you, sailto[1], sailto[2], sailto[3], sailtorealm, MOVEOBJECT_FORCELOCATION );
 	endif
 	EraseObjProperty(you,"sailto");
 
@@ -36,7 +41,7 @@ endprogram
 
 function StillAboard( me )
 
-	if ( (me.x >= 5885 and me.x <= 5895) and (me.y >= 3081 and me.y <= 3092 ) )
+	if ( (me.x >= 5885 and me.x <= 5895) and (me.y >= 3081 and me.y <= 3092 and me.realm == _DEFAULT_REALM ) )
 		return 1;
 	else
 		return 0;
