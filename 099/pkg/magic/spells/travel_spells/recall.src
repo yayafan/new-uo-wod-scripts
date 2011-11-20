@@ -137,7 +137,7 @@ program cast_recall (parms)
 		var tox := recall_loc[1];
 		var toy := recall_loc[2];
 		var toz := recall_loc[3];
-		var tor := recall_loc[4];
+		var tor := recall_loc[5];
 		if (!tor)
 			tor := _DEFAULT_REALM;
 		endif
