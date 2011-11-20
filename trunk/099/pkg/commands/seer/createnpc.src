@@ -19,10 +19,9 @@ program textcmd_createnpc (character, npctemplate)
 		SendSysMessage (character, "Canceled");
 		return;
 	endif
-        SendSysMessage(character, npctemplate);
-	var npc := CreateNpcFromTemplate( npctemplate, loc.x, loc.y, loc.z, 0, loc.realm);
+	var npc := SpawnNPCAtLocation( npctemplate, loc.x, loc.y, loc.z, 0, loc.realm);
 	if (!npc)
-		SendSysMessage (character, "Can't create NPC!");
+		SendSysMessage (character, "Can't create NPC! ");
 	endif
 
 endprogram

@@ -312,7 +312,7 @@ function CreateSpecialDoors (character)
 		return;
 	endif
 	
-	var item := CreateItemAtLocation (place.x, place.y, place.z, selection.objtype, 1);
+	var item := CreateItemAtLocation (place.x, place.y, place.z, selection.objtype, 1, place.realm);
 	var create := YesNo (character, "Create here?");
 	if (!create)
 		SendSysMessage (character, "Canceled.");
