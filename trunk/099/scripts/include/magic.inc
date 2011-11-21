@@ -777,12 +777,15 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	if (!gate1 or !gate2)
         	return;
 	endif
+	
+	gate1.SetDestination(gate2.x, gate2.y, gate2.z, gate2.realm);
 
 	SetObjProperty (gate1, "GateDestX", gate2.x);
 	SetObjProperty (gate1, "GateDestY", gate2.y);
 	SetObjProperty (gate1, "GateDestZ", gate2.z);
 	SetObjProperty (gate1, "GateDestR", gate2.realm);
 	
+	gate2.SetDestination(gate1.x, gate1.y, gate1.z, gate1.realm);
 	SetObjProperty (gate2, "GateDestX", gate1.x);
 	SetObjProperty (gate2, "GateDestY", gate1.y);
 	SetObjProperty (gate2, "GateDestZ", gate1.z);
