@@ -1504,7 +1504,11 @@
 0x204e Shroud armor
 # 0x204f unused
 0x2050 dupre barber
-# 0x2051 - 0x25f7 unused
+# 0x2051 - 0x2252 unused
+0x2253 Necromancy Spellbook necromancy
+# 0x2254 - 0x2259 unused
+0x225a BookOfBardMasteries bardmasteries
+# 0x225b - 0x25f7 unused
 0x25f8 adranathtoy
 0x25f9 lordblacktoy
 0x25fa dashatoy
@@ -1595,7 +1599,25 @@
 # 0x29cf - 0x2d29 unused
 0x2d2a longbow weapons
 0x2d2b shortbow weapons
-# 0x2d2c - 0x2dda unused
+# 0x2d2c - 0x2d9c unused
+0x2d9d MysticismSpellbook mysticism
+0x2d9e netherboltscroll mysticism
+0x2d9f healingstonescroll mysticism
+0x2da0 purgemagicscroll mysticism
+0x2da1 enchantscroll mysticism
+0x2da2 sleepscroll mysticism
+0x2da3 eaglestrikescroll mysticism
+0x2da4 animatedweaponscroll mysticism
+0x2da5 stoneformscroll mysticism
+0x2da6 spelltriggerscroll mysticism
+0x2da7 masssleepscroll mysticism
+0x2da8 cleansingwindsscroll mysticism
+0x2da9 bombardscroll mysticism
+0x2daa spellplaguescroll mysticism
+0x2dab hailstormscroll mysticism
+0x2dac nethercyclonescroll mysticism
+0x2dad risingcolossusscroll mysticism
+# 0x2dae - 0x2dda unused
 0x2ddb elvenoven cooking
 # 0x2ddc - 0x2ee0 unused
 0x2ee1 lemontree farming
@@ -1696,9 +1718,41 @@
 # 0x40a0 converts to 0x110a0
 # 0x40a1 unused
 # 0x40a2 converts to 0x110a2
-# 0x40a3 - 0x5014 unused
+# 0x40a3 - 0x4257 unused
+0x4258 HornStyle1 barber
+0x4259 HornStyle2 barber
+0x425a HornStyle3 barber
+0x425b HornStyle4 barber
+0x425c HornStyle5 barber
+0x425d HornStyle6 barber
+0x425e HornStyle7 barber
+0x425f HornStyle8 barber
+# 0x4260 unused
+0x4261 HornStyle9 barber
+0x4262 HornStyle10 barber
+# 0x4263 - 0x4272 unused
+0x4273 HornStyle11 barber
+0x4274 HornStyle12 barber
+0x4275 HornStyle13 barber
+# 0x4276 - 0x42a9 unused
+0x42aa HornStyle14 barber
+0x42ab HornStyle15 barber
+# 0x42ac unused
+0x42ad FacialHornStyle1 barber
+0x42ae FacialHornStyle2 barber
+0x42af FacialHornStyle3 barber
+0x42b0 FacialHornStyle4 barber
+0x42b1 HornStyle16 barber
+# 0x42b2 - 0x5014 unused
 0x5015 wristwatch tinkering
-# 0x5016 - 0x6000 unused
+# 0x5016 - 0x574a unused
+0x574b InspireScroll bardmasteries
+0x574c InvigorateScroll bardmasteries
+0x574d ResilienceScroll bardmasteries
+0x574e PerseveranceScroll bardmasteries
+0x574f TribulationScroll bardmasteries
+0x5750 DespairScroll bardmasteries
+# 0x5751 - 0x6000 unused
 0x6001 blankmap cartography
 0x6002 moongate
 0x6003 level1map treasuremap
@@ -1737,7 +1791,13 @@
 0x6024 keepdeed housing
 0x6025 castledeed housing
 0x6026 largepatiohousedeed housing
-# 0x6027 - 0x604f unused
+# 0x6027 converts to 0x16027
+# 0x6028 converts to 0x16028
+# 0x6029 converts to 0x16029
+# 0x602a converts to 0x1602a
+# 0x602b converts to 0x1602b
+# 0x602c converts to 0x1602c
+# 0x602d - 0x604f unused
 0x6050 Firebow weapons
 0x6051 firearrow carpentry
 0x6052 frostarrow carpentry
@@ -2065,7 +2125,12 @@
 # 0xf011 converts to 0x1f011
 # 0xf012 converts to 0x1f012
 # 0xf013 converts to 0x1f013
-# 0xf014 - 0x10fff unused
+# 0xf014 - 0xf020 unused
+# 0xf021 converts to 0x1f021
+# 0xf022 - 0xff00 unused
+# 0xff01 converts to 0x1ff01
+# 0xff02 converts to 0x1ff02
+# 0xff03 - 0x10fff unused
 0x11000 SmallBoat boat
 # 0x11001 converts to 0x11000
 # 0x11002 converts to 0x11000
