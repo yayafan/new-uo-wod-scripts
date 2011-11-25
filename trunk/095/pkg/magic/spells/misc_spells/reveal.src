@@ -24,12 +24,14 @@ program reveal_hider (parms)
 
 	if(len(hiders) > 0)
 		foreach mobile in hiders
-			if (Found (mobile))
-				numfound := 1;
-				mobile.hidden := 0;
-				PrintTextAbovePrivate (mobile , "You have been revealed!" , mobile);
-				PrintTextAbovePrivate (mobile , "Ah ha!!" , caster);
-				PlaySoundEffect(mobile, SFX_1FE);
+			if (!GetObjProperty (mobile, "#specialhidden_nodamage"))
+				if (Found (mobile))
+					numfound := 1;
+					mobile.hidden := 0;
+					PrintTextAbovePrivate (mobile , "You have been revealed!" , mobile);
+					PrintTextAbovePrivate (mobile , "Ah ha!!" , caster);
+					PlaySoundEffect(mobile, SFX_1FE);
+				endif
 			endif
 		endforeach
 	endif
