@@ -1504,11 +1504,41 @@
 0x204e Shroud armor
 # 0x204f unused
 0x2050 dupre barber
-# 0x2051 - 0x2252 unused
+# 0x2051 - 0x2251 unused
+0x2252 PaladinSpellbook chivalry
 0x2253 Necromancy Spellbook necromancy
 # 0x2254 - 0x2259 unused
 0x225a BookOfBardMasteries bardmasteries
-# 0x225b - 0x25f7 unused
+# 0x225b - 0x226f unused
+0x2270 cleansebyfirescroll chivalry
+0x2271 closewoundsscroll chivalry
+0x2272 consecrateweaponscroll chivalry
+0x2273 dispelevilscroll chivalry
+0x2274 divinefuryscroll chivalry
+0x2275 enemyofonescroll chivalry
+0x2276 holylightscroll chivalry
+0x2277 noblesacrificescroll chivalry
+0x2278 removecursescroll chivalry
+0x2279 sacredjourneyscroll chivalry
+# 0x227a - 0x238b unused
+0x238c BushidoSpellbook bushido
+0x238d honorableexecutionscroll bushido
+0x238e confidencescroll bushido
+0x238f evasionscroll bushido
+0x2390 counterattackscroll bushido
+0x2391 lightningstrikescroll bushido
+0x2392 momentumstrikescroll bushido
+# 0x2393 - 0x239f unused
+0x23a0 ninjitsuspellbook ninjitsu
+0x23a1 focusattackscroll ninjitsu
+0x23a2 deathstrikescroll ninjitsu
+0x23a3 animalformscroll ninjitsu
+0x23a4 kiattackscroll ninjitsu
+0x23a5 surpriseattackscroll ninjitsu
+0x23a6 backstabscroll ninjitsu
+0x23a7 shadowjumpscroll ninjitsu
+0x23a8 mirrorimagecroll ninjitsu
+# 0x23a9 - 0x25f7 unused
 0x25f8 adranathtoy
 0x25f9 lordblacktoy
 0x25fa dashatoy
