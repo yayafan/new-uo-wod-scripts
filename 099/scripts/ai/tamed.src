@@ -858,6 +858,39 @@ function DoDoubleClickEvent ();
 			mounttype := 0x3ea4;
 		CID_FOREST_OSTARD:
 			mounttype := 0x3ea5;
+		CID_REPTALON:
+			mounttype := 0x3e90;
+		CID_CU_SIDHE:
+			mounttype := 0x3e91;
+		CID_CHARGER_HORSE:
+			mounttype := 0x3e92;
+		CID_HIRYU:
+			mounttype := 0x3e94;
+		CID_GIANT_BEETLE:
+			mounttype := 0x3e95;
+		CID_FIRE_BEETLE:
+			mounttype := 0x3e97;
+		CID_SWAMP_DRAGON:
+			mounttype := 0x3e98;
+		CID_RIDGEBACK:
+			mounttype := 0x3e9a;
+		CID_UNICORN:
+			mounttype := 0x3e9b;
+		CID_KIRIN:
+			mounttype := 0x3e9c;
+		CID_FIRESTEED:
+			mounttype := 0x3e9e;
+		CID_SAVAGE_RIDGEBACK:
+			mounttype := 0x3eb8;
+		CID_HELLSTEED:
+			mounttype := 0x3ebb;
+		CID_ARMORED_SWAMP_DRAGON:
+			mounttype := 0x3ebe;
+		CID_POLAR_BEAR:
+			mounttype := 0x3ec5;
+		CID_ARMORED_BOURA:
+			mounttype := 0x3ec6;
+
 	endcase
 
 	if (mounttype)

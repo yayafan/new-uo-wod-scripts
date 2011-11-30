@@ -36,7 +36,7 @@ function FindTeleporterToPlayer (opponent)
 	SetObjProperty (me, "#lookforgates", ReadGameClock() + 5);
 
 	//Look for both teleporters and gates
-	var nearbygates := {};
+	var nearbygates := array {};
 	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 7)
 		if (item.objtype == 0x6203 or item.objtype == 0x0f6c)
 			nearbygates.append (item);
@@ -96,7 +96,7 @@ function OpenDoors (byref opponent)
 	endif
 
 	//first, lets see if there's any doors nearby
-	var nearbydoors := {};
+	var nearbydoors := array {};
 	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 5)
 		if (item.isa (POLCLASS_DOOR))
 			if (!item.locked)

@@ -7,12 +7,12 @@ include "include/spawn";
 include "../pkg/npcs/townfolk/guards/henchman";
 var spell_circle := 8;
 
-program spell_resurrect (parms)
+program spell_resurrect (parms, spellid)
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 

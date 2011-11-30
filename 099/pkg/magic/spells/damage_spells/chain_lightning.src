@@ -5,12 +5,15 @@ use util;
 include "include/magic";
 var spell_circle := 7;
 
-program cast_chainlightning (parms)
+program cast_chainlightning (parms, spellid)
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!spellid)
+		spellid := 49;
+	endif
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 	var cast_on := GetSpellCastOn (caster, parms);

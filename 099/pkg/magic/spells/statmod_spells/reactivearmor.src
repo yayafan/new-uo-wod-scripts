@@ -5,12 +5,12 @@ use util;
 include "include/magic";
 var spell_circle := 1;
 
-program reactivearmor (parms)
+program reactivearmor (parms, spellid)
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 

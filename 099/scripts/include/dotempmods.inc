@@ -223,7 +223,7 @@ function CheckMods (byref who, persisted)
 		modarray := "mods";
 	endif
 
-	var newmods := {};
+	var newmods := array {};
 	var currentmods := GetObjProperty(who,modarray);
 	if (!currentmods)
 		set_critical(0);

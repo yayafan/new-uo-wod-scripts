@@ -5,12 +5,12 @@ use util;
 include "include/magic";
 var spell_circle := 3;
 
-program cast_fireball( parms )
+program cast_fireball( parms, spellid )
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 	var cast_on := GetSpellCastOn (caster, parms, TGTOPT_HARMFUL + TGTOPT_CHECK_LOS);

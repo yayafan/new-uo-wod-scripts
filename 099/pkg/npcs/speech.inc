@@ -80,7 +80,7 @@ function check_speech (text, speaker)
 		return;
 	endif
 
-	var myfriends := { };
+	var myfriends := array { };
 	for i := 1 to 3
 		var thefriend := GetObjProperty (me, "friend"+i);
 		if (!thefriend)
@@ -244,7 +244,7 @@ function DefaultHello (text, speaker)
 	SetObjProperty (me, "#nextgreet", ReadGameClock() + 30);
 
 	var logoffcloneoptions := GetObjProperty (me, "logoff_clone_options");
-	var messages := {};
+	var messages := array {};
 	
 	for i := 2 to 11
 		if (logoffcloneoptions[i])
@@ -412,7 +412,7 @@ function TakeItem (you, item)
 	MoveItemToContainer (item, me.backpack);
 
 	//launch an external script
-	var itemparms := {};
+	var itemparms := array {};
 	itemparms[1] := you;
 	itemparms[2] := me;
 	itemparms[3] := item;

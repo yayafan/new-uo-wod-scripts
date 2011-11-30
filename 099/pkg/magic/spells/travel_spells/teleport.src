@@ -7,12 +7,12 @@ include "../pkg/items/housing/house";
 include "../pkg/world/weather/weather";
 var spell_circle := 3;
 
-program cast_teleport( parms )
+program cast_teleport( parms, spellid )
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 	var cast_loc := GetSpellCastOn (caster, parms);

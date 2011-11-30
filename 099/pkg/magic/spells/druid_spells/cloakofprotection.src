@@ -5,10 +5,13 @@ use util;
 include "include/magic";
 var spell_circle := 7;
 
-program summon_cloak (parms)
+program summon_cloak (parms, spellid)
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
+	endif
+	if (!spellid)
+		spellid := 89;
 	endif
 	if (!CheckSuccessfulSpellCast (parms))
 		EraseObjProperty (caster, "#castingdruidspell");

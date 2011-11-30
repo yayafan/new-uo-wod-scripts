@@ -95,7 +95,7 @@ function CastSpell(character, spellid, spell, scrollid)
 			sleep (1);
 			return 0;
 		else
-			ConsumeSpellManaCost (character, GetManaCostBySpellID (spellid));
+			ConsumeSpellManaCostByID (character, spellid);
 			var parms := array;
 			parms[1] := "#MOB";
 			parms[2] := character;
@@ -125,12 +125,12 @@ function CastSpell(character, spellid, spell, scrollid)
 		return 0;
 	endif
 
-	var hasspell;
-	foreach item in EnumerateItemsInContainerOfObjtype (spellbook, scrollid)
-		hasspell := item;
-		break;
-	endforeach
-	if (!hasspell)
+//	var hasspell;
+//	foreach item in EnumerateItemsInContainerOfObjtype (spellbook, scrollid)
+//		hasspell := item;
+//		break;
+//	endforeach
+	if (!spellbook.HasSpell(spellid))
 		return 0;
 	endif			
 
@@ -170,7 +170,7 @@ function CastSpell(character, spellid, spell, scrollid)
 			sleep(1);
 			return 0;
 		else
-			ConsumeSpellManaCost (character, GetManaCostBySpellID (spellid));
+			ConsumeSpellManaCostByID (character, spellid);
 			var parms := array;
 			parms[1] := "#MOB";
 			parms[2] := character;
@@ -195,11 +195,11 @@ function CastSpell(character, spellid, spell, scrollid)
 endfunction
 
 function manacost (spellid)
-
-	var cfg := readconfigfile(":spells:spells");
-	var circle := cfg[ spellid ].circle;
-	cfg := readconfigfile("::circles");
-	return cint(cfg[ circle ].mana);
+	return GetManaCostBySpellID(spellid);
+//	var cfg := readconfigfile(":spells:spells");
+//	var circle := cfg[ spellid ].circle;
+//	cfg := readconfigfile("::circles");
+//	return cint(cfg[ circle ].mana);
 
 endfunction
 

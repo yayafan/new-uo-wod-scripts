@@ -5,7 +5,7 @@ use util;
 include "include/magic";
 var spell_circle := 7;
 
-program cast_poly( parms )
+program cast_poly( parms, spellid )
 	if (parms[1] == "#MOB")
 		CastToad (parms[2], parms[3]);
 		return;
@@ -15,7 +15,7 @@ program cast_poly( parms )
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 

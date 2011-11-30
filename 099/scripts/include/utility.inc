@@ -162,7 +162,7 @@ endfunction
 ///////////////////
 
 function ListRootItemsInContainer (byref container)
-	var ret := { };
+	var ret := array { };
         foreach item in enumerateitemsincontainer(container)
 		if ( item.container == container )
 			ret.append (item);

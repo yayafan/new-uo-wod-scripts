@@ -9,12 +9,12 @@ var spell_circle := 4;
 
 Const BUTTONID_BUY_SLOT := 999;
 
-program cast_recall (parms)
+program cast_recall (parms, spellid)
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 	

@@ -11,9 +11,9 @@ use util;
 function DoLongTermMod (byref who, stat, amt, duration, description)
 	var allmods := GetObjProperty (who, "longtermmods");
 	if (!allmods)
-		allmods := {};
+		allmods := array {};
 	endif
-	var mmod := {};
+	var mmod := array {};
 	mmod[1] := stat;
 	mmod[2] := amt;
 	mmod[3] := ReadGameClock()+duration;
@@ -53,7 +53,7 @@ function CheckLongTermMods (byref who)
 		return;
 	endif
 
-	var newmods := {};
+	var newmods := array {};
 	foreach mmod in currentmods
 		if (now < mmod[3])
 			newmods.append(mmod);
