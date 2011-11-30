@@ -464,7 +464,7 @@ function TryToCastGateSpell (caster, parms)
 		return 0;
 	endif
 
-	if(!ConsumeSpellManaCost (caster, GetSpellCircleBySpellID (52)))
+	if(!ConsumeSpellManaCostByID (caster, 52))
 		return 0;
 	endif
 
@@ -509,7 +509,7 @@ function TryToUseGateScroll (caster, parms, scroll)
 		return 0;
 	endif
 
-	if(!ConsumeSpellManaCost (caster, GetSpellCircleBySpellID (52)))
+	if(!ConsumeSpellManaCostByID (caster, 52))
 		PrintTextAbovePrivate(caster,"*No mana!*", caster);
 		return 0;
 	endif

@@ -905,10 +905,17 @@ Const CID_GIANT_TOAD		:= 0x050;
 Const CID_BULLFROG			:= 0x051;
 Const CID_OPHIDIAN_MAGE		:= 0x055;
 Const CID_OPHIDIAN_WARRIOR	:= 0x056;
-Const CID_OPHIDIAN_QUEEN		:= 0x057;
+Const CID_OPHIDIAN_QUEEN	:= 0x057;
 Const CID_SEA_CREATURE		:= 0x05f;
+const CID_UNICORN           := 0x07a;
+const CID_KIRIN             := 0x084;
 Const CID_SEA_SERPENT		:= 0x096;
 Const CID_DOLPHIN			:= 0x097;
+
+const CID_FIRE_BEETLE       := 0x0a9;
+const CID_RIDGEBACK         := 0x0bb;
+const CID_SAVAGE_RIDGEBACK  := 0x0bc;
+const CID_FIRESTEED         := 0x0be;
 
 Const CID_TAN_HORSE			:= 0x0c8;
 Const CID_CAT				:= 0x0c9;
@@ -938,16 +945,29 @@ Const CID_LIGHT_HORSE		:= 0x0e2;
 Const CID_GREY_HORSE		:= 0x0e4;
 Const CID_COW2				:= 0x0e7;
 Const CID_BULL				:= 0x0e8;
-Const CID_BULL2			:= 0x0e9;
+Const CID_BULL2			    := 0x0e9;
 Const CID_GREAT_HART		:= 0x0ea;
 Const CID_DEER				:= 0x0ed;
 Const CID_RAT				:= 0x0ee;
+const CID_HIRYU             := 0x0f3;
+const CID_REPTALON          := 0x114;
+const CID_CU_SIDHE          := 0x115;
+const CID_CHARGER_HORSE     := 0x11c;
 Const CID_BOAR				:= 0x122;
 Const CID_PACK_HORSE		:= 0x123;
 Const CID_PACK_LLAMA		:= 0x124;
+const CID_ARMORED_BOURA     := 0x1b0;
 
-const CID_HUMAN_MALE        :=  0x190;
-const CID_HUMAN_FEMALE      :=  0x191;
+const CID_HUMAN_MALE        := 0x190;
+const CID_HUMAN_FEMALE      := 0x191;
+
+const CID_ELF_MALE          := 0x25d;
+const CID_ELF_FEMALE        := 0x25e;
+
+const CID_GIANT_BEETLE      := 0x317;
+const CID_HELLSTEED         := 0x319;
+const CID_SWAMP_DRAGON      := 0x31a;
+const CID_ARMORED_SWAMP_DRAGON := 0x31f;
 
 ////
 // Directions

@@ -1626,7 +1626,27 @@
 # 0x28ac - 0x29cc unused
 0x29cd candycane cooking
 0x29ce gingerbreadman cooking
-# 0x29cf - 0x2d29 unused
+# 0x29cf - 0x2b66 unused
+0x2b67 WoodlandChest armor
+# 0x2b68 unused
+0x2b69 WoodlandGorget armor
+0x2b6a WoodlandGauntlets armor
+0x2b6b WoodlandLeggings armor
+0x2b6c WoodlandArms armor
+0x2b6d FemaleWoodlandChest armor
+0x2b6e Circlet armor
+0x2b6f RoyalCirclet armor
+0x2b70 GemmedCirclet armor
+0x2b71 RavenHelm armor
+0x2b72 VultureHelm armor
+0x2b73 WingedHelm armor
+0x2b74 HideTunic armor
+0x2b75 HideGloves armor
+0x2b76 HideGorget armor
+0x2b77 HidePauldrons armor
+0x2b78 HideLeggings armor
+0x2b79 FemaleHideTunic armor
+# 0x2b7a - 0x2d29 unused
 0x2d2a longbow weapons
 0x2d2b shortbow weapons
 # 0x2d2c - 0x2d9c unused
@@ -1659,7 +1679,15 @@
 0x2eea orangetree farming
 # 0x2eeb unused
 0x2eec orangetreetop farming
-# 0x2eed - 0x3914 unused
+# 0x2eed - 0x2fc4 unused
+0x2fc5 LeafTunic armor
+0x2fc6 LeafGloves armor
+0x2fc7 LeafGorget armor
+0x2fc8 LeafArms armor
+0x2fc9 LeafLeggings armor
+0x2fca LeafTonlet armor
+0x2fcb FemaleLeafTunic armor
+# 0x2fcc - 0x3914 unused
 0x3915 poisonfield1 magiceffects
 # 0x3916 - 0x391f unused
 0x3920 poisonfield2 magiceffects

@@ -5,12 +5,12 @@ use util;
 include "include/magic";
 var spell_circle := 5;
 
-program dispel_field( parms )
+program dispel_field( parms, spellid )
 	var caster := GetSpellCaster (parms);
 	if (!caster)
 		return 0;
 	endif
-	if (!CheckSuccessfulSpellCast (parms))
+	if (!CheckSuccessfulSpellCast (parms, spellid))
 		return 0;
 	endif
 	var cast_loc := GetSpellCastOn (caster, parms);

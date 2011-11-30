@@ -24,7 +24,7 @@
 ///////////////////////////////////////////////////////////////////
 
 
-const CONST_EMPTY := { };
+const CONST_EMPTY := array { };
 const CONST_NULL := "";
 
 

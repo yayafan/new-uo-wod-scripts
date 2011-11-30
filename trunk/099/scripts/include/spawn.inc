@@ -10,7 +10,7 @@ include "../pkg/npcs/npcinfo";
 //  tries to create an NPC of the given template at the given location
 ///////////////////
 
-function SpawnNPCAtLocation (npctemplate, x, y, z := "guess", specialparms := {}, rlm)
+function SpawnNPCAtLocation (npctemplate, x, y, z := "guess", specialparms := array {}, rlm)
 
         specialparms := { "not used"};
 

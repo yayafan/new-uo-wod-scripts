@@ -376,7 +376,7 @@ function WalkHome()
 		return 0;
 	endif
 
-	var myhome := {};
+	var myhome := array {};
 	if (!GetObjProperty (me, "myhome"))
 		myhome[1] := me.x;
 		myhome[2] := me.y;

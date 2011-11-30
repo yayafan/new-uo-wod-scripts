@@ -16,6 +16,9 @@ include "../pkg/npcs/npcinfo";
 include "../pkg/npcs/npc_util";
 include "../pkg/character/virtue/virtue";
 
+const CSSC_NOREAGENTS       := 0x01;
+const CSSC_HANDSFREE        := 0x02;
+const CSSC_NOSKILLCHECK     := 0x04;
 
 Const STATMOD_STR			:= 1;
 Const STATMOD_DEX			:= 2;
@@ -75,10 +78,10 @@ endfunction
 
 
 ///////////////////
-//  Determines the caster of the spell based on the parameters passed
+//  Determines the success of the spell from the parameters passed and other checks
 ///////////////////
 
-function CheckSuccessfulSpellCast (byref parms)
+function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 	if (parms[1] == "#MOB")
 		return 1;
 	elseif (parms[1] == "#WAND")
@@ -86,8 +89,10 @@ function CheckSuccessfulSpellCast (byref parms)
 		if (!CanCastSpell (thecaster, spell_circle))
 			return 0;
 		endif
-		if (!FreeHands (thecaster))
-			return 0;
+		if(!(flags & CSSC_HANDSFREE))
+			if (!FreeHands (thecaster))
+				return 0;
+			endif
 		endif
 		return 1;
 
@@ -96,8 +101,10 @@ function CheckSuccessfulSpellCast (byref parms)
 		if (!CanCastSpell (thecaster, spell_circle))
 			return 0;
 		endif
-		if (!FreeHands (thecaster))
-			return 0;
+		if(!(flags & CSSC_HANDSFREE))
+			if (!FreeHands (thecaster))
+				return 0;
+			endif
 		endif
 		return 1;
 
@@ -112,21 +119,42 @@ function CheckSuccessfulSpellCast (byref parms)
 				return 0;
 			endif
 		endif
-
 		if (!CanCastSpell (thecaster, spell_circle))
 			return 0;
 		endif
-		if (!FreeHands (thecaster))
-			return 0;
+		if (!(flags & CSSC_HANDSFREE))
+			if (!FreeHands (thecaster))
+				return 0;
+			endif
 		endif
-		if (!ConsumeSpellManaCost (thecaster, spell_circle))
-			return 0;
+		if (!spellid)
+			if(!ConsumeSpellManaCost (thecaster, spell_circle))
+				return 0;
+			endif
+		else
+			if (!GetObjProperty(thecaster, "#scroll"))
+				SpeakPowerWords (thecaster, spellid);
+				PerformAction (thecaster, 0x0010);
+				if(!(flags & CSSC_NOREAGENTS))
+					if (!ConsumeSpellReagents (thecaster, spellid))
+						return 0;
+					endif
+				endif
+				if (!(flags & CSSC_NOSKILLCHECK))
+					if (!CheckSkill (thecaster, SKILLID_MAGERY, GetSpellDifficulty(spellid), 0))
+						Fizzle(thecaster);
+						return 0;
+					endif
+				endif
+			endif
+			if(!ConsumeSpellManaCostByID (thecaster, spellid))
+				return 0;
+			endif			
 		endif
 		return 1;
 	endif
 	return 1;
 endfunction
-
 
 
 
@@ -841,7 +869,35 @@ function ConsumeSpellManaCost (caster, circle)
 	return 0;
 endfunction
 
+function ConsumeSpellManaCostByID (caster, spellid)
+	if (!caster)
+		return 0;
+	endif
+	
+	if (!ConsumeMana(caster, spellid))
+		SendSysMessage (caster, "You do not have enough mana to cast that spell.");
+		Fizzle (caster);
+		return 0;
+	endif
+	
+	return 1;
+endfunction
 
+///////////////////
+//  Consume the reagents
+//////////////////
+
+function ConsumeSpellReagents (caster, spellid)
+	if (!caster)
+		return 0;
+	endif
+	if(!ConsumeReagents(caster, spellid))
+		PrintTextAbovePrivate (caster, "You don't have enough reagents!", caster);
+		Fizzle (caster);
+		return 0;
+	endif
+	return 1;
+endfunction
 
 
 ///////////////////
@@ -874,21 +930,13 @@ endfunction
 ///////////////////
 
 function GetManaCostBySpellCircle (spellcircle)
-	case (spellcircle)
-		1:	return 4;
-		2:	return 6;
-		3:	return 9;
-		4:	return 11;
-		5:	return 14;
-		6:	return 20;
-		7:	return 40;
-		8:	return 50;
-		9:	return 75;
-		10:	return 100;
-		default:
-			Syslog ("Error finding spell circle!");
-			return 20;
-	endcase
+	var cfg := readconfigfile("::circles");
+	var spellmana := cint(cfg[ spellcircle ].mana);
+	if (!spellmana)
+		Syslog ("Error finding spell circle!");
+		return 20;
+	endif
+	return spellmana;
 endfunction
 
 
@@ -900,8 +948,13 @@ endfunction
 
 function GetManaCostBySpellID (spellid)
 	var cfg := readconfigfile(":*:spells");
-	var spellcircle := cfg[ spellid ].circle;
-	return GetManaCostBySpellCircle (spellcircle);
+	var spellmana := CINT(cfg[ spellid ].mana);
+	if (!spellmana)
+		spellmana := cfg[ spellid ].circle;
+		cfg := readconfigfile("::circles");
+		spellmana := cint(cfg[ spellmana ].mana);
+	endif
+	return spellmana;
 endfunction
 
 
