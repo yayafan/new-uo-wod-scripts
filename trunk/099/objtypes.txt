@@ -1520,7 +1520,21 @@
 0x2277 noblesacrificescroll chivalry
 0x2278 removecursescroll chivalry
 0x2279 sacredjourneyscroll chivalry
-# 0x227a - 0x238b unused
+# 0x227a - 0x2304 unused
+0x2305 FlowerGarland armor
+# 0x2306 unused
+0x2307 FurBoots armor
+# 0x2308 unused
+0x2309 FurCape armor
+# 0x230a unused
+0x230b FurSarong armor
+# 0x230c unused
+0x230d GildedDress armor
+# 0x230e unused
+0x230f FormalShirt armor
+# 0x2310 - 0x236b unused
+0x236c PlateKabuto2 armor
+# 0x236d - 0x238b unused
 0x238c BushidoSpellbook bushido
 0x238d honorableexecutionscroll bushido
 0x238e confidencescroll bushido
@@ -1544,7 +1558,19 @@
 0x25fa dashatoy
 0x25fb dawntoy
 0x25fc kaburtoy
-# 0x25fd - 0x26b9 unused
+# 0x25fd - 0x2640 unused
+0x2641 DragonBreastplate armor
+# 0x2642 unused
+0x2643 DragonGloves armor
+# 0x2644 unused
+0x2645 DragonHelm armor
+# 0x2646 unused
+0x2647 DragonLeggings armor
+# 0x2648 - 0x2656 unused
+0x2657 DragonSleeves armor
+# 0x2658 - 0x2688 unused
+0x2689 WingedHelmet armor
+# 0x268a - 0x26b9 unused
 0x26ba Scythe weapons
 0x26bb BoneHarvester weapons
 0x26bc Scepter weapons
@@ -1576,7 +1602,8 @@
 0x27ca StuddedHiroSode armor
 0x27cb PlateHiroSode armor
 0x27cc PlateJingasa armor
-# 0x27cd - 0x27ce unused
+0x27cd MaleKimono armor
+0x27ce FemaleKimono armor
 0x27cf StuddedJingasa armor
 0x27d0 PlateKabuto armor
 0x27d1 LeatherSuneate armor
@@ -1587,12 +1614,25 @@
 0x27d6 StuddedHaidate armor
 # 0x27d7 unused
 0x27d8 PlateHaidate armor
-# 0x27d9 - 0x27dc unused
+0x27d9 LeatherNinjaHood armor
+0x27da ClothNinjaHood armor
+# 0x27db unused
+0x27dc LeatherNinjaPants armor
 0x27dd LeatherNinjaMitts armor
 0x27de LeatherNinjaJacket armor
-# 0x27df - 0x27e7 unused
+# 0x27df - 0x27e0 unused
+0x27e1 WarajiAndTabi armor
+0x27e2 NinjaTabi armor
+0x27e3 Kasa armor
+0x27e4 Kamishimo armor
+0x27e5 Hakama armor
+0x27e6 TattsukeHakama armor
+0x27e7 HakamaShita armor
 0x27e8 StuddedMempo armor
-# 0x27e9 - 0x27ef unused
+# 0x27e9 - 0x27ea unused
+0x27eb Obi armor
+0x27ec JinBaori armor
+# 0x27ed - 0x27ef unused
 0x27f0 Yumi weapons
 # 0x27f1 - 0x2831 unused
 0x2832 present_red_bow giftwrapper
@@ -1679,7 +1719,9 @@
 0x2eea orangetree farming
 # 0x2eeb unused
 0x2eec orangetreetop farming
-# 0x2eed - 0x2fc4 unused
+# 0x2eed - 0x2fb7 unused
+0x2fb8 ElvenGlasses armor
+# 0x2fb9 - 0x2fc4 unused
 0x2fc5 LeafTunic armor
 0x2fc6 LeafGloves armor
 0x2fc7 LeafGorget armor
@@ -1687,7 +1729,17 @@
 0x2fc9 LeafLeggings armor
 0x2fca LeafTonlet armor
 0x2fcb FemaleLeafTunic armor
-# 0x2fcc - 0x3914 unused
+# 0x2fcc - 0x315e unused
+0x315f WoodlandBelt armor
+# 0x3160 - 0x3172 unused
+0x3173 MaleElvenRobe armor
+0x3174 FemaleElvenRobe armor
+0x3175 ElvenShirt armor
+0x3176 FancyElvenShirt armor
+# 0x3177 - 0x3178 unused
+0x3179 ElvenPants armor
+0x317a ElvenBoots armor
+# 0x317b - 0x3914 unused
 0x3915 poisonfield1 magiceffects
 # 0x3916 - 0x391f unused
 0x3920 poisonfield2 magiceffects
@@ -1704,79 +1756,45 @@
 # 0x398d - 0x3995 unused
 0x3996 firefield2 magiceffects
 # 0x3997 - 0x3fff unused
-# 0x4000 converts to 0x11000
-# 0x4001 converts to 0x11000
-# 0x4002 converts to 0x11000
-# 0x4003 converts to 0x11000
-# 0x4004 converts to 0x11004
-# 0x4005 converts to 0x11004
-# 0x4006 converts to 0x11004
-# 0x4007 converts to 0x11004
-# 0x4008 converts to 0x11008
-# 0x4009 converts to 0x11008
-# 0x400a converts to 0x11008
-# 0x400b converts to 0x11008
-# 0x400c converts to 0x1100c
-# 0x400d converts to 0x1100c
-# 0x400e converts to 0x1100c
-# 0x400f converts to 0x1100c
-# 0x4010 converts to 0x11010
-# 0x4011 converts to 0x11010
-# 0x4012 converts to 0x11010
-# 0x4013 converts to 0x11010
-# 0x4014 converts to 0x11014
-# 0x4015 converts to 0x11014
-# 0x4016 converts to 0x11014
-# 0x4017 converts to 0x11014
-# 0x4018 - 0x4063 unused
-# 0x4064 converts to 0x11064
-# 0x4065 converts to 0x11064
-# 0x4066 converts to 0x11066
-# 0x4067 converts to 0x11066
-# 0x4068 converts to 0x11068
-# 0x4069 converts to 0x11068
-# 0x406a converts to 0x1106a
-# 0x406b converts to 0x1106a
-# 0x406c converts to 0x1106c
-# 0x406d converts to 0x1106c
-# 0x406e converts to 0x1106e
-# 0x406f converts to 0x1106e
-# 0x4070 converts to 0x11070
-# 0x4071 converts to 0x11070
-# 0x4072 converts to 0x11072
-# 0x4073 converts to 0x11072
-# 0x4074 converts to 0x11074
-# 0x4075 converts to 0x11074
-# 0x4076 converts to 0x11076
-# 0x4077 converts to 0x11076
-# 0x4078 converts to 0x11078
-# 0x4079 converts to 0x11078
-# 0x407a converts to 0x1107a
-# 0x407b converts to 0x1107a
-# 0x407c converts to 0x1107c
-# 0x407d converts to 0x1107c
-# 0x407e converts to 0x1107e
-# 0x407f converts to 0x1107e
-# 0x4080 - 0x4086 unused
-# 0x4087 converts to 0x1108c
-# 0x4088 - 0x408b unused
-# 0x408c converts to 0x1108c
-# 0x408d converts to 0x1108d
-# 0x408e - 0x4095 unused
-# 0x4096 converts to 0x11096
-# 0x4097 unused
-# 0x4098 converts to 0x11098
-# 0x4099 unused
-# 0x409a converts to 0x1109a
-# 0x409b unused
-# 0x409c converts to 0x1109c
-# 0x409d unused
-# 0x409e converts to 0x1109e
-# 0x409f unused
-# 0x40a0 converts to 0x110a0
-# 0x40a1 unused
-# 0x40a2 converts to 0x110a2
-# 0x40a3 - 0x4257 unused
+0x4000 GargishRobe armor
+# 0x4001 unused
+0x4002 GargishFancyRobe armor
+# 0x4003 - 0x4046 unused
+0x4047 GargishLeatherArms armor
+0x4048 GargishLeatherArms2 armor
+0x4049 GargishLeatherChest armor
+0x404a GargishLeatherChest2 armor
+0x404b GargishLeatherKilt armor
+0x404c GargishLeatherKilt2 armor
+0x404d GargishLeatherLeggings armor
+0x404e GargishLeatherLeggings2 armor
+0x404f GargishPlatemailArms armor
+0x4050 GargishPlatemailArms2 armor
+0x4051 GargishPlatemailChest armor
+0x4052 GargishPlatemailChest2 armor
+0x4053 GargishPlatemailKilt armor
+0x4054 GargishPlatemailKilt2 armor
+0x4055 GargishPlatemailLeggings armor
+0x4056 GargishPlatemailLeggings2 armor
+0x4057 GargishStoneArms armor
+0x4058 GargishStoneArms2 armor
+0x4059 GargishStoneChest armor
+0x405a GargishStoneChest2 armor
+0x405b GargishStoneKilt armor
+0x405c GargishStoneKilt2 armor
+0x405d GargishStoneLeggings armor
+0x405e GargishStoneLeggings2 armor
+0x405f GargishClothArms armor
+0x4060 GargishClothArms2 armor
+0x4061 GargishClothChest armor
+0x4062 GargishClothChest2 armor
+0x4063 GargishClothKilt armor
+0x4064 GargishClothKilt2 armor
+0x4065 GargishClothLeggings armor
+0x4066 GargishClothLeggings2 armor
+# 0x4067 - 0x41d7 unused
+0x41d8 LeatherTalons armor
+# 0x41d9 - 0x4257 unused
 0x4258 HornStyle1 barber
 0x4259 HornStyle2 barber
 0x425a HornStyle3 barber
@@ -1801,9 +1819,23 @@
 0x42af FacialHornStyle3 barber
 0x42b0 FacialHornStyle4 barber
 0x42b1 HornStyle16 barber
-# 0x42b2 - 0x5014 unused
+# 0x42b2 - 0x42dd unused
+0x42de PlateTalons armor
+# 0x42df - 0x450c unused
+0x450d GargoyleBelt armor
+# 0x450e - 0x457d unused
+0x457e LeatherWingArmor armor
+# 0x457f - 0x45a3 unused
+0x45a4 ClothWingArmor armor
+# 0x45a5 - 0x46a9 unused
+0x46aa GargoyleBodySash armor
+# 0x46ab - 0x46b3 unused
+0x46b4 GargoyleBodySash2 armor
+# 0x46b5 - 0x5014 unused
 0x5015 wristwatch tinkering
-# 0x5016 - 0x574a unused
+# 0x5016 - 0x50d7 unused
+0x50d8 GargoyleHalfApron armor
+# 0x50d9 - 0x574a unused
 0x574b InspireScroll bardmasteries
 0x574c InvigorateScroll bardmasteries
 0x574d ResilienceScroll bardmasteries
@@ -1835,27 +1867,7 @@
 0x6016 PyriteIngot mining
 0x6017 MalachiteIngot mining
 0x6018 AzuriteIngot mining
-0x6019 smallstoneandplasterhousedeed housing
-0x601a smallstonehousedeed housing
-0x601b smallwoodenhousedeed housing
-0x601c smallplasterhousedeed housing
-0x601d smallwoodandstrawhousedeed housing
-0x601e bluetentdeed housing
-0x601f greententdeed housing
-0x6020 largebrickhousedeed housing
-0x6021 twostorywoodandplasterhousedeed housing
-0x6022 twostorystoneandplasterhousedeed housing
-0x6023 towerdeed housing
-0x6024 keepdeed housing
-0x6025 castledeed housing
-0x6026 largepatiohousedeed housing
-# 0x6027 converts to 0x16027
-# 0x6028 converts to 0x16028
-# 0x6029 converts to 0x16029
-# 0x602a converts to 0x1602a
-# 0x602b converts to 0x1602b
-# 0x602c converts to 0x1602c
-# 0x602d - 0x604f unused
+# 0x6019 - 0x604f unused
 0x6050 Firebow weapons
 0x6051 firearrow carpentry
 0x6052 frostarrow carpentry
@@ -1867,16 +1879,7 @@
 0x6200 systemteleporter
 # 0x6201 - 0x6202 unused
 0x6203 dungtele
-# 0x6204 - 0x6226 unused
-0x6227 smallstoneshopdeed housing
-0x6228 smallmarbleshopdeed housing
-0x6229 smalltowerdeed housing
-0x622a sandstonepatiohousedeed housing
-0x622b twostorylogcabindeed housing
-0x622c twostoryvilladeed housing
-0x622d largemarblepatiohousedeed housing
-0x622e ranchhousedeed housing
-# 0x622f - 0x7007 unused
+# 0x6204 - 0x7007 unused
 0x7008 employmentcontract player_merchants
 0x7009 publicmallsign merchants
 # 0x700a - 0x701f unused
@@ -1896,8 +1899,7 @@
 0x7058 walkon dundee
 0x7059 NewPotion alchemy
 0x705a Snowball dundee
-# 0x705b - 0x705f unused
-0x7060 staticsign housing
+# 0x705b - 0x7060 unused
 0x7061 BlueSteelOre mining
 0x7062 RubysteelOre mining
 0x7063 BlueSteelIngot mining
@@ -1939,7 +1941,7 @@
 0x7087 maskclaimdeed drocket
 0x7088 laminatingkit quest_rewards
 0x7089 leatherdyes quest_rewards
-0x708a forsalesign housing
+# 0x708a unused
 0x708b StuddedCap armor
 0x708c RingmailCoif armor
 0x708d druidcloak magiceffects
@@ -2213,38 +2215,54 @@
 # 0x11015 converts to 0x11014
 # 0x11016 converts to 0x11014
 # 0x11017 converts to 0x11014
-# 0x11018 - 0x11063 unused
+0x11018 OrcShip boat
+# 0x11019 converts to 0x11018
+# 0x1101a converts to 0x11018
+# 0x1101b converts to 0x11018
+# 0x1101c - 0x11023 unused
+0x11024 GargoyleShip boat
+# 0x11025 converts to 0x11024
+# 0x11026 converts to 0x11024
+# 0x11027 converts to 0x11024
+# 0x11028 - 0x1102f unused
+0x11030 TokunoShip boat
+# 0x11031 converts to 0x11030
+# 0x11032 converts to 0x11030
+# 0x11033 converts to 0x11030
+# 0x11034 - 0x1103f unused
+0x11040 BritannianShip boat
+# 0x11041 converts to 0x11040
+# 0x11042 converts to 0x11040
+# 0x11043 converts to 0x11040
+# 0x11044 - 0x11063 unused
 0x11064 SmallStoneAndPlasterHouse housing
-# 0x11065 converts to 0x11064
+# 0x11065 unused
 0x11066 SmallStoneHouse housing
-# 0x11067 converts to 0x11066
+# 0x11067 unused
 0x11068 SmallBrickHouse housing
-# 0x11069 converts to 0x11068
+# 0x11069 unused
 0x1106a SmallWoodHouse housing
-# 0x1106b converts to 0x1106a
+# 0x1106b unused
 0x1106c SmallWoodAndPlasterHouse housing
-# 0x1106d converts to 0x1106c
+# 0x1106d unused
 0x1106e SmallWoodAndStrawHouse housing
-# 0x1106f converts to 0x1106e
+# 0x1106f unused
 0x11070 BlueTent housing
-# 0x11071 converts to 0x11070
+# 0x11071 unused
 0x11072 GreenTent housing
-# 0x11073 converts to 0x11072
+# 0x11073 unused
 0x11074 LargeBrickHouse housing
-# 0x11075 converts to 0x11074
+# 0x11075 unused
 0x11076 TwoStoryWoodAndPlasterHouse housing
-# 0x11077 converts to 0x11076
+# 0x11077 unused
 0x11078 TwoStoryStoneAndPlasterHouse housing
-# 0x11079 converts to 0x11078
+# 0x11079 unused
 0x1107a Tower housing
-# 0x1107b converts to 0x1107a
+# 0x1107b unused
 0x1107c Keep housing
-# 0x1107d converts to 0x1107c
+# 0x1107d unused
 0x1107e Castle housing
-# 0x1107f converts to 0x1107e
-# 0x11080 - 0x11086 unused
-# 0x11087 converts to 0x1108c
-# 0x11088 - 0x1108b unused
+# 0x1107f - 0x1108b unused
 0x1108c LargePatioHouse housing
 0x1108d RanchHouse housing
 # 0x1108e - 0x11095 unused
@@ -2264,15 +2282,45 @@
 # 0x110a3 - 0x16007 unused
 0x16008 permmoongate moongates
 0x16009 SystemMoonGate moongates
-# 0x1600a - 0x16026 unused
+# 0x1600a - 0x16018 unused
+0x16019 smallstoneandplasterhousedeed housing
+0x1601a smallstonehousedeed housing
+0x1601b smallwoodenhousedeed housing
+0x1601c smallplasterhousedeed housing
+0x1601d smallwoodandstrawhousedeed housing
+0x1601e bluetentdeed housing
+0x1601f greententdeed housing
+0x16020 largebrickhousedeed housing
+0x16021 twostorywoodandplasterhousedeed housing
+0x16022 twostorystoneandplasterhousedeed housing
+0x16023 towerdeed housing
+0x16024 keepdeed housing
+0x16025 castledeed housing
+0x16026 largepatiohousedeed housing
 0x16027 smallboatdeed boat
 0x16028 smalldragonboatdeed boat
 0x16029 mediumboatdeed boat
 0x1602a mediumdragonboatdeed boat
 0x1602b largeboatdeed boat
 0x1602c largedragonboatdeed boat
-0x1602d britannianshipdeed boat
-# 0x1602e - 0x1f00f unused
+0x1602d orcshipdeed boat
+0x1602e gargoyleshipdeed boat
+0x1602f tokunoshipdeed boat
+0x16030 britannianshipdeed boat
+# 0x16031 - 0x16226 unused
+0x16227 smallstoneshopdeed housing
+0x16228 smallmarbleshopdeed housing
+0x16229 smalltowerdeed housing
+0x1622a sandstonepatiohousedeed housing
+0x1622b twostorylogcabindeed housing
+0x1622c twostoryvilladeed housing
+0x1622d largemarblepatiohousedeed housing
+0x1622e ranchhousedeed housing
+# 0x1622f - 0x1705f unused
+0x17060 staticsign housing
+# 0x17061 - 0x17089 unused
+0x1708a forsalesign housing
+# 0x1708b - 0x1f00f unused
 0x1f010 Tillerman boat
 0x1f011 gangplank boat
 0x1f012 gangplank2 boat

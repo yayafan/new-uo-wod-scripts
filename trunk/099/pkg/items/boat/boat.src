@@ -387,7 +387,7 @@ function DryDock (event)
 			foreach item2 in ListRootItemsInContainer (item)
 				if (!item2.newbie and item2.movable)
 					if (item2.objtype < UOBJ_STARTHAIR or item2.objtype > UOBJ_ENDHAIR)
-						MoveObjectToLocation( item2, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
+						MoveObjectToLocation( item2, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 					endif
 				endif
 			endforeach
@@ -395,13 +395,13 @@ function DryDock (event)
 		else
 			oldmovable := item.movable;
 			item.movable := 1;
-			MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 			item.movable := oldmovable;
 		endif
 	endforeach
 
 	foreach item in ListRootItemsInContainer (boat.hold)
-		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
+		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 	endforeach
 
 	var key := FindKey (player, boat.portplank);
@@ -607,7 +607,7 @@ function CheckForBeingLostAtSea ()
 			if (!owner)
 				owner := ghost;
 			else
-				if (GetObjProperty (boat.hold, "owner") = ghost.serial )
+				if (GetObjProperty (boat.hold, "owner") == ghost.serial )
 					owner := ghost;
 				endif
 			endif

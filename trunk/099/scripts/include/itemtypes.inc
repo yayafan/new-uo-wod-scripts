@@ -36,6 +36,22 @@ function IsHair (byref hair)
 		0x2048:	//Receding
 		0x2049:	//Pigtails
 		0x204a:	//Krisna
+		0x4258: //Male Horns 1
+		0x4259: //Male Horns 2
+		0x425a: //Male Horns 3
+		0x425b: //Male Horns 4
+		0x425c: //Male Horns 5
+		0x425d: //Male Horns 6
+		0x425e: //Male Horns 7
+		0x425f: //Male Horns 8
+		0x4261: //Female Horns 1
+		0x4262: //Female Horns 2
+		0x4273: //Female Horns 3
+		0x4274: //Female Horns 4
+		0x4275: //Female Horns 5
+		0x42aa: //Female Horns 6
+		0x42ab: //Female Horns 7
+		0x42b1: //Female Horns 8
 		return 1;
 		default: return 0;
 	endcase
@@ -52,6 +68,10 @@ function IsFacialHair (byref beard)
 		0x204b:	//Short beard w/mustache
 		0x204c:	//Long beard w/mustache
 		0x204d:	//Vandyke
+		0x42ad:	//Facial Horns 1
+		0x42ae:	//Facial Horns 2
+		0x42af:	//Facial Horns 3
+		0x42b0:	//Facial Horns 4
 		return 1;
 	endcase
 		return 0;
@@ -210,6 +230,26 @@ function IsArmor (byref armor)
 		return 1;
 	elseif (armor.graphic >= 0x1F0B and armor.graphic <= 0x1F0C)
 		return 1;
+	elseif (armor.graphic >= 0x2641 and armor.graphic <= 0x2648)
+		return 1;
+	elseif (armor.graphic >= 0x2657 and armor.graphic <= 0x2658)
+		return 1;
+	elseif (armor.graphic >= 0x2689 and armor.graphic <= 0x268a)
+		return 1;
+	elseif (armor.graphic >= 0x27bf and armor.graphic <= 0x27cc)
+		return 1;
+	elseif (armor.graphic >= 0x27cf and armor.graphic <= 0x27df)
+		return 1;
+	elseif (armor.graphic == 0x27e8)
+		return 1;
+	elseif (armor.graphic >= 0x2b67 and armor.graphic <= 0x2b79)
+		return 1;
+	elseif (armor.graphic == 0x2fb8)
+		return 1;
+	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
+		return 1;
+	elseif (armor.graphic >= 0x4047 and armor.graphic <= 0x4066)
+		return 1;
 	endif
 		return 0;
 endfunction
@@ -233,6 +273,30 @@ function IsLeatherArmor (byref armor)
 	elseif (armor.graphic >= 0x1C06 and armor.graphic <= 0x1C0D)
 		return 1;
 	elseif (armor.graphic == 0x1DB9 or armor.graphic == 0x1DBA)
+		return 1;
+	elseif (armor.graphic == 0x27c3 or armor.graphic == 0x27c5)
+		return 1;
+	elseif (armor.graphic >= 0x27c6 and armor.graphic <= 0x27c7)
+		return 1;
+	elseif (armor.graphic >= 0x27c9 and armor.graphic <= 0x27ca)
+		return 1;
+	elseif (armor.graphic == 0x27c1 or armor.graphic == 0x27cf)
+		return 1;
+	elseif (armor.graphic >= 0x27d1 and armor.graphic <= 0x27d2)
+		return 1;
+	elseif (armor.graphic >= 0x27d4 and armor.graphic <= 0x27d6)
+		return 1;
+	elseif (armor.graphic == 0x27d9 or armor.graphic == 0x27e8)
+		return 1;
+	elseif (armor.graphic >= 0x27db and armor.graphic <= 0x27de)
+		return 1;
+	elseif (armor.graphic >= 0x2b74 and armor.graphic <= 0x2b79)
+		return 1;
+	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
+		return 1;
+	elseif (armor.graphic >= 0x4047 and armor.graphic <= 0x404e)
+		return 1;
+	elseif (armor.graphic == 0x457e)
 		return 1;
 	elseif (armor.graphic == 0x708b)
 		return 1;
