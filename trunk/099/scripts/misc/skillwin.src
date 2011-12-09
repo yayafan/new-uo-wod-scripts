@@ -16,7 +16,7 @@ var gump_layout := array {
 
 var skillmastercfg := ReadConfigFile(":skills:skillmaster");
 var skills := {};
-const LASTPAGE := 3;
+const LASTPAGE := 4;
 
 program SkillWindow (me, text)
 	if (GetObjProperty (me, "#logon_noskillwin"))
@@ -147,16 +147,16 @@ endfunction
 
 function LoadSkillArrayByValue (me)
 	var skillvals := {};
-	for i := 0 to 48
+	for i := 0 to 57
 		skillvals[i+1] := GetSortValue (me, i);
 	endfor
-	skillvals[50] := -1;		//dummy for comparisons
+	skillvals[59] := -1;		//dummy for comparisons
 
 
-	var chosenskill := 50;
-	for i := 1 to 49
-		chosenskill := 50;
-		for j := 1 to 49
+	var chosenskill := 59;
+	for i := 1 to 58
+		chosenskill := 59;
+		for j := 1 to 58
 			if (skillvals[j] > skillvals[chosenskill])
 				chosenskill := j;
 			endif

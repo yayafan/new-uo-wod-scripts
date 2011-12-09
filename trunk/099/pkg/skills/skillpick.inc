@@ -42,7 +42,7 @@ function PickASkill (me)
 	skill.+ index;
 
 	//organize them by skill value:
-	for i := 0 to 48
+	for i := 0 to 57
 		skill.value := SortValue (me, i);
 		skill.index := i;
 		skills[i+1] := skill;
