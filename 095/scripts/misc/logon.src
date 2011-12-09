@@ -91,6 +91,7 @@ program logon (character)
 	RecordPlayerLogin (character);
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
+	MakeChristmasTreeDeed (character);
 endprogram
 
 
@@ -164,7 +165,7 @@ endfunction
 
 
 function MakeChristmasGift (character)
-	if (GetAccountProperty (character.acctname, "christmas_present_2003"))
+	if (GetAccountProperty (character.acctname, "christmas_present_2011"))
 		return;
 	endif
 
@@ -186,7 +187,7 @@ function MakeChristmasGift (character)
 	gift1.movable := 0;
 	
 	var gift2 := CreateItemInContainer (bankbox, 0xB010, 1);
-	if (!gift1)
+	if (!gift2)
 		Syslog ("Christmas Error! player " + character.acctname + " did not get their second gift");
 	endif
 	gift2.graphic := 10294;
@@ -194,7 +195,7 @@ function MakeChristmasGift (character)
 	gift2.name := "A Christmas Gift";
 	gift2.usescript := ":giftwrapper:christmasgift";
 	gift2.movable := 0;
-	SetAccountProperty (character.acctname, "christmas_present_2003", 1);
+	SetAccountProperty (character.acctname, "christmas_present_2011", 1);
 
 	SendSysMessage (character, "Merry Christmas!");
 	return;
@@ -316,7 +317,7 @@ endfunction
 ///////////////////
 
 function MakeChristmasTreeDeed (character)
-	if (GetAccountProperty (character.acctname, "christmas_tree_deed_2003"))
+	if (GetAccountProperty (character.acctname, "christmas_tree_deed_2011"))
 		return;
 	endif
 
@@ -327,7 +328,7 @@ function MakeChristmasTreeDeed (character)
 		return;
 	endif
 
-	SetAccountProperty (character.acctname, "christmas_tree_deed_2003", 1);
+	SetAccountProperty (character.acctname, "christmas_tree_deed_2011", 1);
 endfunction
 
 
