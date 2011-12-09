@@ -5,4 +5,6 @@
 
 This is the Main Page. Before you can start working, you need to set up a POL environment, either for 095 or 099, depending on the scripts you wish to work on. Just send a PM to Agata in the [http://www.theworldofdreams.com/forum World of Dreams forum] for instructions on how to set this up.
 
-Make sure you are using the Stygian Abyss Classic Client available [http://games.on.net/file/36130/Ultima_Online_Stygian_Abyss_-_Classic_Client_v7.0.7.1 here]
+For the 099 scripts, make sure you are using the High Seas Classic Client available [http://www.uoherald.com/downloads here]
+
+For the 095 scripts, use anything between Renassiance and Samurai Empire.
