@@ -17,28 +17,4 @@ What we are doing is converting all of these scripts to POL 099 and update them 
 
   * Watch out for removed items. I have found and added some, you may find more.
 
-Each one of us should pick one by one the folders inside 095\pkg and compare them with 099\pkg, and do the necesary work to accomplish the tasks mentioned above.
-
-Here is the package list and those assigned to them in parenthesis:
-  * attributes (*finished by Agata*)
-  * character (*finished by Agata*)
-  * combat (*finished by Agata*)
-  * commands (*finished by Agata*)
-  * drocket (*finished by Agata*)
-  * dundee (*finished by Agata*)
-  * guilds (*finished by Agata*)
-  * items (*finished by Agata*)
-  * magic (*finished by Agata*)
-  * merchants_database (*finished by Agata*)
-  * npcs (*finished by Agata*)
-  * quests (*finished by Agata*)
-  * skills (*finished by Agata*)
-  * world (*finished by Agata*)
-
-Additionally there is the scripts folder with the following entries:
-  * ai (*finished by Agata*)
-  * control (*finished by Agata*)
-  * include (*finished by Agata*)
-  * items (*finished by Agata*)
-  * misc (*finished by Agata*)
-  * www (*finished by Agata)
+  * Check objtype numbers. Many of them need to be moved upwards. The range between 0x4000 and 0xFFFF was previously used for multis and custom items, not it belongs to items with a corresponding graphic at the same index. Recommendation is to add 0x10000 to the item number and add an OldObjType property with the old number. The OldObjType property will be necesary once for the migration process, and will be removed after that, so we will need both files with and without them. As for the boats, please leave them the way they are, I will take care of that myself (Agata).
