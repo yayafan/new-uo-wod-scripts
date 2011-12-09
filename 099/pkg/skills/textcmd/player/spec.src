@@ -216,6 +216,15 @@ function GetStrCap (skillid)
 		SKILLID_MEDITATION:		retname :=  110;
 		SKILLID_STEALTH:		retname :=  60;
 		SKILLID_REMOVETRAP:		retname :=  75;
+		SKILLID_AOSNECROMANCY:	retname :=  80;
+		SKILLID_FOCUS:			retname :=  75;
+		SKILLID_CHIVALRY:		retname :=  90;
+		SKILLID_BUSHIDO:		retname :=  90;
+		SKILLID_NINJITSU:		retname :=  75;
+		SKILLID_SPELLWEAVING:	retname :=  50;
+		SKILLID_THROWING:		retname :=  90;
+		SKILLID_IMBUING:		retname :=  75;
+		SKILLID_MYSTICISM:		retname :=  50;
 	endcase
 	return retname;
 endfunction
@@ -273,6 +282,15 @@ function GetDexCap (skillid)
 		SKILLID_SNOOPING:		retname :=  90;
 		SKILLID_TASTEID:		retname :=  60;
 		SKILLID_VETERINARY:		retname :=  65;
+		SKILLID_AOSNECROMANCY:	retname :=  55;
+		SKILLID_FOCUS:			retname :=  75;
+		SKILLID_CHIVALRY:		retname :=  80;
+		SKILLID_BUSHIDO:		retname :=  80;
+		SKILLID_NINJITSU:		retname :=  75;
+		SKILLID_SPELLWEAVING:	retname :=  60;
+		SKILLID_THROWING:		retname :=  95;
+		SKILLID_IMBUING:		retname :=  75;
+		SKILLID_MYSTICISM:		retname :=  60;
 	endcase
 	return retname;
 endfunction
@@ -330,6 +348,15 @@ function GetIntCap(skillid)
 		SKILLID_SNOOPING:		retname :=  75;
 		SKILLID_TASTEID:		retname :=  95;
 		SKILLID_VETERINARY:		retname :=  80;
+		SKILLID_AOSNECROMANCY:	retname :=  90;
+		SKILLID_FOCUS:			retname :=  75;
+		SKILLID_CHIVALRY:		retname :=  55;
+		SKILLID_BUSHIDO:		retname :=  55;
+		SKILLID_NINJITSU:		retname :=  75;
+		SKILLID_SPELLWEAVING:	retname :=  115;
+		SKILLID_THROWING:		retname :=  40;
+		SKILLID_IMBUING:		retname :=  75;
+		SKILLID_MYSTICISM:		retname :=  115;
 	endcase
 	return retname;
 endfunction
