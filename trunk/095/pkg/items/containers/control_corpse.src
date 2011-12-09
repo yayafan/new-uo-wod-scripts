@@ -15,7 +15,7 @@ program control_corpse (corpse)
 	if (GetObjProperty (corpse, "npctemplate") and !GetObjProperty (corpse, "master"))
 		sleep (600);
 	else
-		sleep (1200);
+		sleep (3600);
 	endif
 
 	if (GetObjProperty (corpse, "nodecay"))
@@ -43,7 +43,7 @@ program control_corpse (corpse)
 				sleep (60);
 				all_players := EnumerateOnlineCharacters ();
 			until (len (all_players) > 3);
-		elseif (len (all_players) < 5)
+		elseif (len (all_players) < 6)
 			sleep (300);
 		endif
 	endif
