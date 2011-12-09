@@ -7,4 +7,4 @@ This is the Main Page. Before you can start working, you need to set up a POL en
 
 For the 099 scripts, make sure you are using the High Seas Classic Client available [http://www.uoherald.com/downloads here]
 
-For the 095 scripts, use anything between Renassiance and Samurai Empire.
+For the 095 scripts, use anything between Renassiance and UO Gold.
