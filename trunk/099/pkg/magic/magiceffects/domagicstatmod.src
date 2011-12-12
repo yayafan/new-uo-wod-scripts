@@ -22,7 +22,7 @@ program do_spell_statmod (parms)
 
 	case (mod_type)
 		STATMOD_PARALYZE:
-			if (cast_on.cmdlevel or cast_on.enable ("invul"))
+			if (cast_on.enable ("invul"))
 				return;
 			endif
 			if (GetObjProperty (cast_on, "prot_paralyze_potion") )

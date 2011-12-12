@@ -5,6 +5,7 @@ include "include/client";
 include "include/objtype";
 include "include/wodinc";
 include "include/accounts";
+include "include/buffdebuff";
 include "../pkg/npcs/npc_util";
 include "../pkg/world/weather/weather";
 include "../pkg/character/virtue/virtue";
@@ -36,6 +37,7 @@ program reconnect (character)
 	endif
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
+	ResetBuffDebuffIcons(character);
 endprogram
 
 function unclone(who)

@@ -8,6 +8,7 @@ include "include/objtype";
 include "include/wodinc";
 include "include/accounts";
 include "include/clock";
+include "include/buffdebuff";
 include "../pkg/npcs/npc_util";
 include "../pkg/world/weather/weather";
 include "../pkg/character/virtue/virtue";
@@ -94,6 +95,7 @@ program logon (character)
 	RecordPlayerLogin (character);
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
+	ResetBuffDebuffIcons(character);
 	
 	//MakeChristmasGift (character);
 
