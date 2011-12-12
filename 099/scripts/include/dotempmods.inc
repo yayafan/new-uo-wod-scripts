@@ -6,6 +6,7 @@ use vitals;
 include "include/client";
 include "include/utility";
 include "include/attributes";
+include "include/buffdebuff";
 
 ///////////////////
 //  Determines if there's already a mod on that particular attribute
@@ -55,15 +56,32 @@ function DoTempMod (byref who, stat, amt, duration, description)
 		"cstr":
 		"str" :	var current_mod := GetAttributeTemporaryMod (who, "Strength");
 				SetAttributeTemporaryMod (who, "Strength", current_mod + mmod[2]*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_STRENGTH, BUFFSTATE_ENABLED, duration);
+				else
+					BuffDebuffIcon(who, BUFFICON_WEAKEN, BUFFSTATE_ENABLED, duration);
+				endif
 		"cdex":
 		"dex" :	var current_mod := GetAttributeTemporaryMod (who, "Dexterity");
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod + mmod[2]*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_AGILITY, BUFFSTATE_ENABLED, duration);
+				else
+					BuffDebuffIcon(who, BUFFICON_CLUMSY, BUFFSTATE_ENABLED, duration);
+				endif
 		"cint":
 		"int" :	var current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_CUNNING, BUFFSTATE_ENABLED, duration);
+				else
+					BuffDebuffIcon(who, BUFFICON_FEEBLEMIND, BUFFSTATE_ENABLED, duration);
+				endif
 		"car":
 		"ar"  :	who.ar_mod := who.ar_mod + mmod[2];
+				BuffDebuffIcon(who, BUFFICON_PROTECTION, BUFFSTATE_ENABLED, duration);
 		"p"   :	who.SetParalyzed (1);
+				BuffDebuffIcon(who, BUFFICON_PARALYZE, BUFFSTATE_ENABLED, duration);
 		"call":
 		"all" :
 				var current_mod := GetAttributeTemporaryMod (who, "Strength");
@@ -72,6 +90,11 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod + mmod[2]*10);
 				current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_BLESS, BUFFSTATE_ENABLED, duration);
+				else
+					BuffDebuffIcon(who, BUFFICON_CURSE, BUFFSTATE_ENABLED, duration);
+				endif
 		"cpoly":
 		"poly":
 				var current_mod := GetAttributeTemporaryMod (who, "Strength");
@@ -81,6 +104,7 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
 				who.ar_mod := who.ar_mod + CINT (mmod[2]/3);
+				BuffDebuffIcon(who, BUFFICON_POLYMORPH, BUFFSTATE_ENABLED, duration);
 		"natures_blessing":
 				DoSkillMod (who, SKILLID_SWORDSMANSHIP, amt, duration);
 				DoSkillMod (who, SKILLID_MACEFIGHTING, amt, duration);
@@ -257,18 +281,35 @@ function UndoTheMod (byref who, prop, amt )
 		"cstr":
 		"str" :	var current_mod := GetAttributeTemporaryMod (who, "Strength");
 				SetAttributeTemporaryMod (who, "Strength", current_mod - amt*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_STRENGTH, BUFFSTATE_DISABLED);
+				else
+					BuffDebuffIcon(who, BUFFICON_WEAKEN, BUFFSTATE_DISABLED);
+				endif
 		"cdex":
 		"dex" :	var current_mod := GetAttributeTemporaryMod (who, "Dexterity");
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod - amt*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_AGILITY, BUFFSTATE_DISABLED);
+				else
+					BuffDebuffIcon(who, BUFFICON_CLUMSY, BUFFSTATE_DISABLED);
+				endif
 		"cint":
 		"int" :	var current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod - amt*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_CUNNING, BUFFSTATE_DISABLED);
+				else
+					BuffDebuffIcon(who, BUFFICON_FEEBLEMIND, BUFFSTATE_DISABLED);
+				endif
 		"car":
 		"ar"  :	who.ar_mod := who.ar_mod - amt;
 				msg := "Armor is now " + who.ar;
 				sound := SFX_1E3;
+				BuffDebuffIcon(who, BUFFICON_PROTECTION, BUFFSTATE_DISABLED);
 		"p"   :	SetScriptController (who);
 				who.SetParalyzed (0);
+				BuffDebuffIcon(who, BUFFICON_PARALYZE, BUFFSTATE_DISABLED);
 		"call":
 		"all" :
 				var current_mod := GetAttributeTemporaryMod (who, "Strength");
@@ -277,6 +318,11 @@ function UndoTheMod (byref who, prop, amt )
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod - amt*10);
 				current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod - amt*10);
+				if (amt > 0)
+					BuffDebuffIcon(who, BUFFICON_BLESS, BUFFSTATE_DISABLED);
+				else
+					BuffDebuffIcon(who, BUFFICON_CURSE, BUFFSTATE_DISABLED);
+				endif
 		"cpoly":
 		"poly":
 				var current_mod := GetAttributeTemporaryMod (who, "Strength");
@@ -288,6 +334,7 @@ function UndoTheMod (byref who, prop, amt )
 				msg := "Armor is now " + who.ar;
 				sound := SFX_1E3;
 				who.ar_mod := who.ar_mod - CINT (amt/3);
+				BuffDebuffIcon(who, BUFFICON_POLYMORPH, BUFFSTATE_DISABLED);
 		"name"    : who.name := oldvalue;
 				msg := "Your name is now " + who.name;
 				sound := SFX_1E3;
@@ -319,6 +366,7 @@ function UndoTheMod (byref who, prop, amt )
 			EraseObjProperty (who, "#dotempmod_stamina_regen_rate");
 		"poison":
 			who.SetPoisoned (0);
+			BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_DISABLED);
 	endcase
 	RecalcVitals (who);
 
