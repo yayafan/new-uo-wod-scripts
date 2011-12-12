@@ -48,6 +48,8 @@ function DoTempMod (byref who, stat, amt, duration, description)
 	mmod[2] := amt;
 	mmod[3] := ReadGameClock()+duration;
 	mmod[4] := description;
+	var buffamt := array {};
+	buffamt[1] := amt;
 
 	AddToStatMods (allmods, mmod);
 	SetObjProperty (who, "#mods", allmods);
@@ -57,29 +59,30 @@ function DoTempMod (byref who, stat, amt, duration, description)
 		"str" :	var current_mod := GetAttributeTemporaryMod (who, "Strength");
 				SetAttributeTemporaryMod (who, "Strength", current_mod + mmod[2]*10);
 				if (amt > 0)
-					BuffDebuffIcon(who, BUFFICON_STRENGTH, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_STRENGTH, BUFFSTATE_ENABLED, duration, buffamt);
 				else
-					BuffDebuffIcon(who, BUFFICON_WEAKEN, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_WEAKEN, BUFFSTATE_ENABLED, duration, buffamt);
 				endif
 		"cdex":
 		"dex" :	var current_mod := GetAttributeTemporaryMod (who, "Dexterity");
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod + mmod[2]*10);
 				if (amt > 0)
-					BuffDebuffIcon(who, BUFFICON_AGILITY, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_AGILITY, BUFFSTATE_ENABLED, duration, buffamt);
 				else
-					BuffDebuffIcon(who, BUFFICON_CLUMSY, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_CLUMSY, BUFFSTATE_ENABLED, duration, buffamt);
 				endif
 		"cint":
 		"int" :	var current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
 				if (amt > 0)
-					BuffDebuffIcon(who, BUFFICON_CUNNING, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_CUNNING, BUFFSTATE_ENABLED, duration, buffamt);
 				else
-					BuffDebuffIcon(who, BUFFICON_FEEBLEMIND, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_FEEBLEMIND, BUFFSTATE_ENABLED, duration, buffamt);
 				endif
 		"car":
 		"ar"  :	who.ar_mod := who.ar_mod + mmod[2];
-				BuffDebuffIcon(who, BUFFICON_PROTECTION, BUFFSTATE_ENABLED, duration);
+				buffamt[2] := 0;
+				BuffDebuffIcon(who, BUFFICON_PROTECTION, BUFFSTATE_ENABLED, duration, buffamt);
 		"p"   :	who.SetParalyzed (1);
 				BuffDebuffIcon(who, BUFFICON_PARALYZE, BUFFSTATE_ENABLED, duration);
 		"call":
@@ -90,10 +93,12 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				SetAttributeTemporaryMod (who, "Dexterity", current_mod + mmod[2]*10);
 				current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
+				buffamt[2] := amt;
+				buffamt[3] := amt;
 				if (amt > 0)
-					BuffDebuffIcon(who, BUFFICON_BLESS, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_BLESS, BUFFSTATE_ENABLED, duration, buffamt);
 				else
-					BuffDebuffIcon(who, BUFFICON_CURSE, BUFFSTATE_ENABLED, duration);
+					BuffDebuffIcon(who, BUFFICON_CURSE, BUFFSTATE_ENABLED, duration, buffamt);
 				endif
 		"cpoly":
 		"poly":
@@ -104,7 +109,10 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				current_mod := GetAttributeTemporaryMod (who, "Intelligence");
 				SetAttributeTemporaryMod (who, "Intelligence", current_mod + mmod[2]*10);
 				who.ar_mod := who.ar_mod + CINT (mmod[2]/3);
-				BuffDebuffIcon(who, BUFFICON_POLYMORPH, BUFFSTATE_ENABLED, duration);
+				buffamt[2] := amt;
+				buffamt[3] := amt;
+				buffamt[4] := CINT(amt/3);
+				BuffDebuffIcon(who, BUFFICON_POLYMORPH, BUFFSTATE_ENABLED, duration, buffamt);
 		"natures_blessing":
 				DoSkillMod (who, SKILLID_SWORDSMANSHIP, amt, duration);
 				DoSkillMod (who, SKILLID_MACEFIGHTING, amt, duration);
