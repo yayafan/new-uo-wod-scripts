@@ -49,6 +49,7 @@ program poisonhit (parms)
 
 	var poison_damage := GetPoisonDamagePerTick (who, plvl);
 	who.SetPoisoned (plvl);
+	BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_ENABLED);
 	RecalcVitals (who);
 	if (msg)
 		PrintTextAbovePrivate (who, msg, who, FONT_NORMAL, 37);
@@ -83,6 +84,7 @@ program poisonhit (parms)
 	SetScriptController (0);
 
 	who.SetPoisoned (0);
+	BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_DISABLED);
 	EraseObjProperty (who, "#poisoninfo");
 	RecalcVitals (who);
 endprogram

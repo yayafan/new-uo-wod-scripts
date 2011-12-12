@@ -1,3 +1,5 @@
+include "include/buffdebuff";
+
 ///////////////////
 //  New poison system, rewritten for POL 0.94.  Poison used to be a subset of the dotempmods functions
 //  and relied on regen rates to work.  It now used the /pkg/skills/rogueskills/poisoning/poisondamage.src
@@ -35,6 +37,7 @@ endfunction
 function CurePoison (byref who, sound := 0, msg := "")
 	EraseObjProperty (who, "#poisoninfo");
 	who.SetPoisoned (0);
+	BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_DISABLED);
 	if (sound)
 		PlaySoundEffect (who, sound);
 	endif
