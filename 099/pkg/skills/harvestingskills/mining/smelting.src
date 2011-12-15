@@ -73,7 +73,7 @@ endfunction
 ///////////////////
 
 function FindForgeInArea (character)
-	foreach item in ListItemsNearLocation(character.x, character.y, character.z,2)
+	foreach item in ListItemsNearLocation(character.x, character.y, character.z,2, character.realm)
 		if ( item.objtype >= UOBJ_FORGE_START and item.objtype <= UOBJ_FORGE_END )
 			return 1;
 		elseif (item.objtype == UOBJ_SMALL_FORGE)

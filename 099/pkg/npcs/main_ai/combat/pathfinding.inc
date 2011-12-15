@@ -37,8 +37,8 @@ function FindTeleporterToPlayer (opponent)
 
 	//Look for both teleporters and gates
 	var nearbygates := array {};
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 7)
-		if (item.objtype == 0x6203 or item.objtype == 0x0f6c)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 7, me.realm)
+		if (item.objtype == 0x16203 or item.objtype == 0x0f6c)
 			nearbygates.append (item);
 		endif
 	endforeach
@@ -57,7 +57,11 @@ function FindTeleporterToPlayer (opponent)
 	foreach gate in nearbygates
 		var destx := GetObjProperty (gate, "DestX");
 		var desty := GetObjProperty (gate, "DestY");
-		if (destx and desty)
+		var destr := GetObjProperty (gate, "DestR");
+		if (!destr)
+			destr := _DEFAULT_REALM;
+		endif
+		if (destx and desty and destr == opponent.realm)
 			if (CoorDist (opponent.x, opponent.y, destx, desty) < 10)
 				return gate;
 			endif
@@ -97,7 +101,7 @@ function OpenDoors (byref opponent)
 
 	//first, lets see if there's any doors nearby
 	var nearbydoors := array {};
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 5)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 5, me.realm)
 		if (item.isa (POLCLASS_DOOR))
 			if (!item.locked)
 				if (item.z > me.z-10 and item.z < me.z + 10)

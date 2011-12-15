@@ -104,7 +104,7 @@ program usehousedeed (character, deed)
 			component.append (item.serial);
 
 		69786:	//2story log cabin
-			item :=CreateItemAtLocation (where.x+3, where.y-4, where.z+8, 0x6203, 1, where.realm);
+			item :=CreateItemAtLocation (where.x+3, where.y-4, where.z+8, 0x16203, 1, where.realm);
 			SetObjProperty (item, "DestX", where.x+3);
 			SetObjProperty (item, "DestY", where.y-5);
 			SetObjProperty (item, "DestZ", where.z+29);

@@ -22,26 +22,26 @@ program ShowTele( me )
 	MoveObjectToLocation( me, 5281, 1185, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
 	MoveObjectToLocation( me, oldx, oldy, oldz, oldr, MOVEOBJECT_FORCELOCATION );
     
-	var Things := ListItemsNearLocation( me.x, me.y, me.z, 5 );
+	var Things := ListItemsNearLocation( me.x, me.y, me.z, 5, me.realm );
 
 	foreach thing in things
 	if (thing.invisible) 
 		PrintTextAbovePrivate(thing,"*Invisible*", me);
 	endif
-	if (thing.objtype == 0x6203 )
+	if (thing.objtype == 0x16203 )
 		if (thing.graphic == 1)
 			thing.graphic := 0x1FD4;
 			thing.invisible := 1;
 			PrintTextAbovePrivate(thing,"*Invisible*", me);
 		endif
-	elseif (thing.objtype == 0x6200)
+	elseif (thing.objtype == 0x16200)
 		if (thing.graphic == 1)
 			thing.graphic := 0x1FD4;
 			thing.color := 1208;
 			thing.invisible := 1;
 			PrintTextAbovePrivate(thing,"*Invisible*", me);
 		endif
-	elseif (thing.objtype == 0x7058)
+	elseif (thing.objtype == 0x17058)
 		if (thing.graphic == 1)
 			thing.graphic := 0x1FD4;
 			thing.color := 1209;

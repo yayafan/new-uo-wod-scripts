@@ -30,7 +30,7 @@ program can_insert_potion (character, keg, movetype, inserttype, potion, existin
 	endif
 
 	//whole lotta possible errors
-	if (potion.objtype == 0x7059)
+	if (potion.objtype == 0x17059)
 		SendSysMessage (character, "You cannot put the old potions in a keg anymore");
 		SendSysMessage (character, "Double-click them to turn them into new potions.");
 		MoveItemToContainer (potion, character.backpack);

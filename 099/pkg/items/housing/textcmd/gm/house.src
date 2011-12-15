@@ -103,7 +103,7 @@ function FindHousesOfAccount (character, acctname)
 		if (sign)
 			var house_owner := Lower (GetObjProperty (sign, "account"));
 			if (house_owner and house_owner == acctname)
-				themessage := themessage + "<p>Found house at " + sign.x + ", " + sign.y;
+				themessage := themessage + "<p>Found house at " + sign.x + ", " + sign.y + ", " + sign.realm;
 				housesigns.append (sign);
 			endif
 		endif
@@ -131,7 +131,7 @@ function CreateForSaleSign (character)
 		return;
 	endif
 	
-	var item := CreateItemAtLocation (location.x, location.y, location.z, 0x708a, 1 );
+	var item := CreateItemAtLocation (location.x, location.y, location.z, 0x1708a, 1, location.realm );
 	if (!item)
 		SendSysMessage (character, "Can't place there");
 		return;
@@ -223,7 +223,7 @@ function AdjustLockdownArea (character)
 		SendSysMessage (character, "Canceled.");
 		return;
 	endif
-	if (sign.objtype != 0x0bd2 and sign.objtype != 0x0bd0 and sign.objtype != 0x7060)
+	if (sign.objtype != 0x0bd2 and sign.objtype != 0x0bd0 and sign.objtype != 0x17060)
 		SendSysMessage (character, "That's not a house sign!");
 		return;
 	endif
@@ -315,7 +315,7 @@ function SetHouseLoginLocation (character)
 		SendSysMessage (character, "Canceled.");
 		return;
 	endif
-	if (sign.objtype != 0x0bd2 and sign.objtype != 0x0bd0 and sign.objtype != 0x7060)
+	if (sign.objtype != 0x0bd2 and sign.objtype != 0x0bd0 and sign.objtype != 0x17060)
 		SendSysMessage (character, "That's not a house sign!");
 		return;
 	endif
@@ -327,12 +327,14 @@ function SetHouseLoginLocation (character)
 		EraseObjProperty (sign, "loginx");
 		EraseObjProperty (sign, "loginy");
 		EraseObjProperty (sign, "loginz");
+		EraseObjProperty (sign, "loginr");
 		return;
 	endif
 	
 	SetObjProperty (sign, "loginx", targetted.x);
 	SetObjProperty (sign, "loginy", targetted.y);
 	SetObjProperty (sign, "loginz", targetted.z);
+	SetObjProperty (sign, "loginr", targetted.realm);
 	SendSysMessage (character, "Login location set.");
 endfunction
 
@@ -365,12 +367,16 @@ function MakeHouseTeleporters (character)
 	var tox := CINT(GetObjProperty (rune, "x"));
 	var toy := CINT(GetObjProperty (rune, "y"));
 	var toz := CINT(GetObjProperty (rune, "z"));
+	var tor := GetObjProperty (rune, "realm");
 	if (!tox or !toy)
 		SendSysmessage (character, "That rune is not marked!");
 		return;
 	endif
+	if (!tor)
+		tor := _DEFAULT_REALM;
+	endif
 
-	var othersign := FindHouseSignAtLocation (tox, toy, sign.realm);
+	var othersign := FindHouseSignAtLocation (tox, toy, tor);
 	if (!othersign)
 		SendSysMessage (character, "You don't seem to be within a house.");
 		return;
@@ -403,11 +409,11 @@ function MakeHouseTeleporters (character)
 		return;
 	endif
 
-	var gate1 := CreateItemAtLocation (character.x, character.y, character.z, 0x6203, 1, sign.realm);
+	var gate1 := CreateItemAtLocation (character.x, character.y, character.z, 0x16203, 1, sign.realm);
 	gate1.facing := 29;
 	gate1.invisible := 0;
 	gate1.graphic := selected_item.graphic;
-	var gate2 := CreateItemAtLocation (tox, toy, toz, 0x6203, 1, sign.realm);
+	var gate2 := CreateItemAtLocation (tox, toy, toz, 0x16203, 1, tor);
 	gate2.facing := 29;
 	gate2.invisible := 0;
 	gate2.graphic := selected_item.objtype;
@@ -421,9 +427,11 @@ function MakeHouseTeleporters (character)
 	SetObjProperty (gate1, "DestX", gate2.x);
 	SetObjProperty (gate1, "DestY", gate2.y);
 	SetObjProperty (gate1, "DestZ", gate2.z);
+	SetObjProperty (gate1, "DestR", gate2.realm);
 	SetObjProperty (gate2, "DestX", gate1.x);
 	SetObjProperty (gate2, "DestY", gate1.y);
 	SetObjProperty (gate2, "DestZ", gate1.z);
+	SetObjProperty (gate2, "DestR", gate1.realm);
 	SetObjProperty (gate1, "price", 5000);
 	SetObjProperty (gate1, "gmlockeddown", sign.serial);
 	SetObjProperty (gate2, "price", 5000);

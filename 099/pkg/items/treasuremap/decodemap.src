@@ -7,7 +7,7 @@ include "include/client";
 include "include/objtype";
 include "include/attributes";
 
-Const UOBJECT_DIGGINGTOOL := 0x6008;
+Const UOBJECT_DIGGINGTOOL := 0x16008;
 
 program decode_map (character, map)
 	var maplevel;

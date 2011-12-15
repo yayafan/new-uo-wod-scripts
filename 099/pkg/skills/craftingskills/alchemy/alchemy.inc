@@ -56,7 +56,7 @@ function RenameKeg (byref keg)
 		0xdc29:		temp_string := "keg of Taint's Major Transmutation potions";
 
 		0xdce6:		temp_string := "keg of nightsight potions";
-		0x7059:
+		0x17059:
 			case (keg_potion_subtype)
 				23:	temp_string := "keg of invisibility potions";
 				24:	temp_string := "keg of Phandel's Fine Intellect potions";
@@ -121,7 +121,7 @@ function RenamePotion (byref potion)
 		0xdc16:		temp_string := "a greater cure potion";
 		0xdc17:		temp_string := "a deadly poison potion";
 		0xdce6:		temp_string := "a nightsight potion";
-		0x7059:
+		0x17059:
 			case (potion_subtype)
 				23:	temp_string := "an invisibility potion";
 				24:	temp_string := "Phandel's Fine Intellect";

@@ -166,7 +166,7 @@ Function grabit (byref me, byref it)
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))
 				PrintTextAbove (me, "*"+it.desc+"*");
-			elseif (it.objtype >= 0x6003 and it.objtype <= 0x6007)
+			elseif (it.objtype >= 0x16003 and it.objtype <= 0x16007)
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (it.desc["treasure"] or it.desc["glowing"])
 				PrintTextAbove (me, "*"+it.desc+"*");
@@ -210,7 +210,7 @@ Function grabit (byref me, byref it)
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))
 				PrintTextAbove (me, "*"+it.desc+"*");
-			elseif (it.objtype >= 0x6003 and it.objtype <= 0x6007)
+			elseif (it.objtype >= 0x16003 and it.objtype <= 0x16007)
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (it.desc["treasure"] or it.desc["glowing"])
 				PrintTextAbove (me, "*"+it.desc+"*");

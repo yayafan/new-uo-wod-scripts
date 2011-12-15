@@ -66,7 +66,7 @@ program use_fishpole (character, pole)
 		var splashx := castxoffset + character.x;
 		var splashy := castyoffset + character.y;
 		var splashz := targetted_location.z;
-		MakeSplashTile (splashx, splashy, splashz);
+		MakeSplashTile (splashx, splashy, splashz, character.realm);
 		var timedelay := RandomInt (8) + 4;
 		for i := 1 to timedelay
 			sleep (1);
@@ -303,9 +303,9 @@ function DoRandomEvent (character, pole)
 			endif
 			return 0;
 		2:
-			var maptype := 0x6003;
+			var maptype := 0x16003;
 			if ( RandomInt (5) == 0 )
-				maptype := 0x6004;
+				maptype := 0x16004;
 			endif
 			if (CheckSkill (character, SKILLID_FISHING, 90, 0 ))
 				if (CreateIteminContainer (craftingbag, maptype, 1))
@@ -337,7 +337,7 @@ function DoRandomEvent (character, pole)
 			return 0;
 		7:
 			if (RandomInt(4)==1)
-				var water_elem := CreateNPCFromTemplate (":elementals:waterelemental", nearby_x_loc, nearby_y_loc, character.z);
+				var water_elem := CreateNPCFromTemplate (":elementals:waterelemental", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 				if (water_elem)
 					water_elem.name := "a wave elemental";
 					SendSysmessage (character, "You attract the attention of a wave elemental!");
@@ -355,7 +355,7 @@ function DoRandomEvent (character, pole)
 			endif
 		9:
 			if (RandomInt(4)==1)
-				var water_elem := CreateNPCFromTemplate (":elementals:waterspout", nearby_x_loc, nearby_y_loc, character.z);
+				var water_elem := CreateNPCFromTemplate (":elementals:waterspout", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 				if (water_elem)
 					SendSysmessage (character, "You attract the attention of a water spout!");
 					setobjproperty  (water_elem, "boatspawn", 1);
@@ -378,7 +378,7 @@ endfunction
 
 function WalrusNearby (character)
 
-	foreach mob in ListMobilesNearLocation (character.x, character.y, character.z, 15)
+	foreach mob in ListMobilesNearLocation (character.x, character.y, character.z, 15, character.realm)
 		if (mob.npctemplate ["walrus"])
 			return 1;
 		endif
@@ -395,7 +395,7 @@ endfunction
 
 function IsWaterTile (targetted_location, character)
 
-	var info := GetMapInfo (targetted_location.x , targetted_location.y);
+	var info := GetMapInfo (targetted_location.x , targetted_location.y, targetted_location.realm);
 
 	if ((targetted_location.objtype >= 0x1796) and (targetted_location.objtype <= 0x17b2) )
 		return 1;
@@ -442,9 +442,9 @@ endfunction
 //  makes, animates and then destroys the splash tile
 ///////////////////
 
-function MakeSplashTile (x, y, z)
+function MakeSplashTile (x, y, z, rlm)
 
-	var splash_tile := CreateItemAtLocation (x, y, z, UOBJ_SPLASH_TILE, 1);
+	var splash_tile := CreateItemAtLocation (x, y, z, UOBJ_SPLASH_TILE, 1, rlm);
 	splash_tile.movable := 0;
 	splash_tile.decayat := ReadGameClock() + 200;
 	sleepms (200);

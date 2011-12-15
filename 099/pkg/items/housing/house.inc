@@ -146,24 +146,24 @@ endfunction
 
 function GetHouseValueByDeed (deed)
 	case (deed)
-		0x6023: //tower
+		0x16023: //tower
 			return 3;
-		0x6024: //keep
-		0x6025: //castle
+		0x16024: //keep
+		0x16025: //castle
 			return 5;
-		0x6020: //largebrickhouse
-		0x6021: //twostorywood
-		0x6022: //twostorystone
-		0x6026: //largepatiohousedeed
-		0x6020: //largebrickhouse
-		0x6021: //twostorywood
-		0x6022: //twostorystone
-		0x6229: //smalltowerdeed
-		0x622A: //sandstonepatiohousedeed
-		0x622B: //twostorylogcabindeed
-		0x622C: //twostoryvilladeed
-		0x622D: //largemarblepatiohousedeed
-		0x622E: //ranch house
+		0x16020: //largebrickhouse
+		0x16021: //twostorywood
+		0x16022: //twostorystone
+		0x16026: //largepatiohousedeed
+		0x16020: //largebrickhouse
+		0x16021: //twostorywood
+		0x16022: //twostorystone
+		0x16229: //smalltowerdeed
+		0x1622A: //sandstonepatiohousedeed
+		0x1622B: //twostorylogcabindeed
+		0x1622C: //twostoryvilladeed
+		0x1622D: //largemarblepatiohousedeed
+		0x1622E: //ranch house
 			return 2;
 		default: return 1;
 	endcase
@@ -205,27 +205,27 @@ function GetDeedType (house)
 
 	var deed := 0;
 	case (house.objtype)
-		16484:	deed := 0x6019;
-		16486:	deed := 0x601A;
-		16490:	deed := 0x601B;
-		16492:	deed := 0x601C;
-		16494:	deed := 0x601D;
-		16519:	deed := 0x6026;
-		16500:	deed := 0x6020;
-		16502:	deed := 0x6021;
-		16504:	deed := 0x6022;
-		16506:	deed := 0x6023;
-		16508:	deed := 0x6024;
-		16510:	deed := 0x6025;
-		16524:	deed := 0x6026;
-		16544:	deed := 0x6227;
-		16546:	deed := 0x6228;
-		16536:	deed := 0x6229;
-		16540:	deed := 0x622A;
-		16538:	deed := 0x622B;
-		16542:	deed := 0x622C;
-		16534:	deed := 0x622D;
-		16525:	deed := 0x622E;
+		69732:	deed := 0x16019;
+		69734:	deed := 0x1601A;
+		69738:	deed := 0x1601B;
+		69740:	deed := 0x1601C;
+		69742:	deed := 0x1601D;
+		69748:	deed := 0x16020;
+		69750:	deed := 0x16021;
+		69752:	deed := 0x16022;
+		69754:	deed := 0x16023;
+		69756:	deed := 0x16024;
+		69758:	deed := 0x16025;
+		69772:	deed := 0x16026;
+		69792:	deed := 0x16227;
+		69794:	deed := 0x16228;
+		69784:	deed := 0x16229;
+		69788:	deed := 0x1622A;
+		69786:	deed := 0x1622B;
+		69790:	deed := 0x1622C;
+		69782:	deed := 0x1622D;
+		69773:	deed := 0x1622E;
+		69736:	deed := 0x1622F;
 	endcase
 	return deed;
 
@@ -252,7 +252,7 @@ endfunction
 
 function GetLockdowns (sign)
 	var itemlist := dictionary;
-	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127)
+	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
 		if (!item.movable)
 			if ( GetObjProperty( item, "lockeddown" ) == sign.serial )
 				if (!itemlist.exists(item) )
@@ -290,7 +290,7 @@ endfunction
 
 function GetSecures (sign)
 	var itemlist := dictionary;
-	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127)
+	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
 		if (!item.movable)
 			if ( GetObjProperty (item, "secured") == sign.serial )
 				if (!itemlist.exists(item) )
@@ -342,7 +342,7 @@ endfunction
 
 function ReleaseAll (owner, sign)
 	var homeinfo := GetObjProperty (sign, "homeinfo");
-	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127)
+	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
 		if (!item.movable and item.isa (POLCLASS_ITEM))
 			if ( (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
 					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
@@ -384,7 +384,7 @@ function ReleaseLockedDownItem (owner, item)
 			return;
 		endif
 		var oldtype := GetObjProperty (item, "olditem");
-		var olditem := CreateItemAtLocation (item.x, item.y, item.z, oldtype, 1);
+		var olditem := CreateItemAtLocation (item.x, item.y, item.z, oldtype, 1, item.realm);
 		olditem.name := item.name;
 		olditem.color := item.color;
 		olditem.graphic := item.graphic;
@@ -592,7 +592,8 @@ endfunction
 
 function IsInside (owner, sign, item)
 	var homeinfo := GetObjProperty (sign, "homeinfo");
-	if ( (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
+	if ( (item.realm == sign.realm) and
+	     (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
 	     (item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
 		return 1;
 	else
@@ -637,7 +638,8 @@ function IsInsideTheHouse (character, sign)
 		return;
 	endif
 
-	if ( (character.x >= homeinfo[2] and character.x <= homeinfo[4]) and
+	if ( (character.realm == sign.realm) and
+		 (character.x >= homeinfo[2] and character.x <= homeinfo[4]) and
 	     (character.y >= homeinfo[3] and character.y <= homeinfo[5]) )
 		return 1;
 	else
