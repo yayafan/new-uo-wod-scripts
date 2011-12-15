@@ -374,52 +374,52 @@ endfunction
 function DetermingMiningGroupType (character, tool)
 
 	case (tool.objtype)
-		0x07091:		//iron shovel
+		0x17091:		//iron shovel
 			bad_event_chance := 6;
 			return GROUP_IRON;
-		0x07092:		//bronze shovel
+		0x17092:		//bronze shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 40)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 7;
 			return GROUP_BRONZE;
-		0x07093:		//dull copper shovel
+		0x17093:		//dull copper shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 50)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 7;
 			return GROUP_DULL_COPPER;
-		0x07094:		//copper shovel
+		0x17094:		//copper shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 60)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 7;
 			return GROUP_COPPER;
-		0x07095:		//onyx shovel
+		0x17095:		//onyx shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 70)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 8;
 			return GROUP_ONYX;
-		0x07096:		//pyrite shovel
+		0x17096:		//pyrite shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 80)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 8;
 			return GROUP_PYRITE;
-		0x07097:		//malachite shovel
+		0x17097:		//malachite shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 90)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
 			endif
 			bad_event_chance := 9;
 			return GROUP_MALACHITE;
-		0x07098:		//azurite shovel
+		0x17098:		//azurite shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 90)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
@@ -431,7 +431,7 @@ function DetermingMiningGroupType (character, tool)
 			endif
 			bad_event_chance := 10;
 			return GROUP_AZURITE;
-		0x07099:		//rubysteel shovel
+		0x17099:		//rubysteel shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 90)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
@@ -442,7 +442,7 @@ function DetermingMiningGroupType (character, tool)
 			endif
 			bad_event_chance := 10;
 			return GROUP_RUBYSTEEL;
-		0x0709a:		//bluesteel shovel
+		0x1709a:		//bluesteel shovel
 			if (GetAttribute (character, ATTRIBUTEID_MINING) < 90)
 				SendSysMessage (character, "Your skill isn't high enough to use this item.");
 				return 0;
@@ -766,9 +766,9 @@ function DoRandomEvent (me, tool)
 				return 0;
 			3:
 				if ( CheckSkill(me, SKILLID_MINING, 90,0) and RandomInt (2) )
-					var maptype := 0x6003;
+					var maptype := 0x16003;
 					if ( randomint(5) == 1 )
-						maptype := 0x6004;
+						maptype := 0x16004;
 					endif
 					CreateIteminContainer (craftingbag, maptype, 1);
 					SendSysMessage (me, "You discover a tattered old map!");
@@ -818,9 +818,9 @@ function DoRandomEvent (me, tool)
 				return 0;
 			2:
 				if ( CheckSkill(me, SKILLID_MINING, 90,0) and RandomInt (2) )
-					var maptype := 0x6005;
+					var maptype := 0x16005;
 					if ( randomint(5) == 1 )
-						maptype := 0x6006;
+						maptype := 0x16006;
 					endif
 					CreateIteminContainer (craftingbag, maptype, 1);
 					SendSysMessage (me, "You discover a tattered old map!");
@@ -853,7 +853,7 @@ function DoRandomEvent (me, tool)
 			10:
 				it := SpawnNPCInArea ("graniteelemental", me.x, me.y, 4, 20, me.realm);
 				if (it)
-					SendSysmessage(me, "Oh no!  An earth elemental!");
+					SendSysmessage(me, "Oh no!  A granite elemental!");
 					return 1;
 				endif
 				return 0;
@@ -877,9 +877,9 @@ function DoRandomEvent (me, tool)
 				return 0;
 			3:
 				if ( CheckSkill(me, SKILLID_MINING, 90,0) and RandomInt (2) )
-					var maptype := 0x6004;
+					var maptype := 0x16004;
 					if ( randomint(5) == 1 )
-						maptype := 0x6005;
+						maptype := 0x16005;
 					endif
 					CreateIteminContainer (craftingbag, maptype, 1);
 					SendSysMessage (me, "You discover a tattered old map!");
@@ -910,7 +910,7 @@ function DoRandomEvent (me, tool)
 				if ( randomint(2) )
 					it := SpawnNPCInArea ("graniteelemental", me.x, me.y, 4, 20, me.realm);
 					if (it)
-						SendSysmessage(me, "Oh no!  An earth elemental!");
+						SendSysmessage(me, "Oh no!  A granite elemental!");
 						return 1;
 					else
 						return 0;

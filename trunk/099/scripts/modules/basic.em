@@ -38,6 +38,10 @@ const OT_ITEMREF          := 31;
 const OT_BOATREF          := 32;
 const OT_MULTIREF         := 33;
 const OT_CLIENTREF        := 34;
+	// Only applicable if SQL is active and compiled.
+const OT_SQLCONN          := 35;
+const OT_SQLRESULT        := 36;
+const OT_SQLROW           := 37;
 
 	// returns the one-based index of Search within Str after position Start
 Find( Str, Search, Start );
@@ -60,7 +64,7 @@ CStr( expr );           // Convert to string
 CAsc( str );            // Convert first character to Ascii value (0-255)
 CChr( number );         // Convert Ascii value to character (type: string)
 CAscZ( str, nullterm := 0 );           // Convert string to array of Ascii values (0-255)
-CChrZ( intarray );      // Convert array of Ascii values to a string
+CChrZ( intarray, break_at_first_null := 0 );      // Convert array of Ascii values to a string
 
 Bin( number) ;			// Convert 25 to 11001
 Hex( number );          // Convert to 0x[hex val] - 0x0 to 0xFFFFFFFF

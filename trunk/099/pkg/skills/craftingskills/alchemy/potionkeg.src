@@ -41,7 +41,7 @@ program potionkeg (character, keg)
 	var targetted_objtype := targetted.objtype;
 
 	//whole lotta possible errors
-	if (targetted.objtype == 0x7059)
+	if (targetted.objtype == 0x17059)
 		SendSysMessage (character, "You cannot put the old potions in a keg anymore");
 		SendSysMessage (character, "Double-click them to turn them into new potions.");
 		return;

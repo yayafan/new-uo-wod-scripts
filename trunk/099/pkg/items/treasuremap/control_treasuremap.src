@@ -45,11 +45,11 @@ endprogram
 function GetMapDesc (map)
 	//undecoded maps get their name by objtype
 	case (map.objtype)
-		0x6003:	return "tattered";
-		0x6004:	return "frazzled";
-		0x6005:	return "frayed";
-		0x6006:	return "worn";
-		0x6007:	return "ragged";
+		0x16003:	return "tattered";
+		0x16004:	return "frazzled";
+		0x16005:	return "frayed";
+		0x16006:	return "worn";
+		0x16007:	return "ragged";
 	endcase
 
 	//decoded maps are all the same objype, so we figure out their level by a CProp

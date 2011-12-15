@@ -72,10 +72,10 @@ program use_essense_potion (character, potion)
 		If (CheckSkill (character, SKILLID_ALCHEMY, 50, 0) )
 		
 			//either fire or frost arrows
-			if (potion.objtype == 0x709b)
+			if (potion.objtype == 0x1709b)
 				SendSysMessage (character, "You put some fire arrows into your backpack");
 				CreateItemInBackpack (character, UOBJ_FIRE_ARROW, arrow_amount);
-			elseif (potion.objtype == 0x709d)
+			elseif (potion.objtype == 0x1709d)
 				SendSysMessage (character, "You put some frost arrows into your backpack");
 				CreateItemInBackpack (character, UOBJ_FROST_ARROW, arrow_amount);
 			else
@@ -110,10 +110,10 @@ program use_essense_potion (character, potion)
 
 		If (CheckSkill (character, SKILLID_ALCHEMY, 50, 0) )
 			//either fire or frost bolts
-			if (potion.objtype == 0x709b)
+			if (potion.objtype == 0x1709b)
 				SendSysMessage (character, "You put some fire bolts into your backpack");
 				CreateItemInBackpack (character, UOBJ_FIRE_BOLT, arrow_amount);
-			elseif (potion.objtype == 0x709d)
+			elseif (potion.objtype == 0x1709d)
 				SendSysMessage (character, "You put some frost bolts into your backpack");
 				CreateItemInBackpack (character, UOBJ_FROST_BOLT, arrow_amount);
 			else

@@ -57,74 +57,75 @@ function BuildHouseLockdownArea (sign, housetype)
 	var homeinfo := array {};
 	homeinfo[1] := 0;
 	case (housetype)
-		16484:	//
-		16486:	//
-		16490:	//The small houses
-		16492:	//
-		16494:	//
+		69732:	//
+		69734:	//
+		69736:  //
+		69738:	//The small houses
+		69740:	//
+		69742:	//
 			homeinfo[2] := sign.x - 6;
 			homeinfo[3] := sign.y - 8;
 			homeinfo[4] := sign.x + 2;
 			homeinfo[5] := sign.y + 1;
-		16500:	//large brick house
+		69748:	//large brick house
 			homeinfo[2] := sign.x - 11;
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 4;
 			homeinfo[5] := sign.y + 1;
-		16502:	//Two story houses
-		16504:
+		69750:	//Two story houses
+		69752:
 			homeinfo[2] := sign.x - 9;
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 6;
 			homeinfo[5] := sign.y + 1;
-		16506:	//tower
+		69754:	//tower
 			homeinfo[2] := sign.x - 14;
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 9;
 			homeinfo[5] := sign.y + 1;
-		16508:	//keep
+		69756:	//keep
 			homeinfo[2] := sign.x - 16;
 			homeinfo[3] := sign.y - 23;
 			homeinfo[4] := sign.x + 9;
 			homeinfo[5] := sign.y + 2;
-		16510:	//castle
+		69758:	//castle
 			homeinfo[2] := sign.x - 20;
 			homeinfo[3] := sign.y - 32;
 			homeinfo[4] := sign.x + 12;
 			homeinfo[5] := sign.y + 1;
-		16524:	//large patio house
-		16525:	//ranch house
+		69772:	//large patio house
+		69773:	//ranch house
 			homeinfo[2] := sign.x - 8;
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 8;
 			homeinfo[5] := sign.y + 1;
-		16544:	//small stone shop
-		16546:	//small marble shop
+		69792:	//small stone shop
+		69794:	//small marble shop
 			homeinfo[2] := sign.x - 7;
 			homeinfo[3] := sign.y - 8;
 			homeinfo[4] := sign.x + 1;
 			homeinfo[5] := sign.y + 1;
-		16536:	//small tower
+		69784:	//small tower
 			homeinfo[2] := sign.x - 5;
 			homeinfo[3] := sign.y - 8;
 			homeinfo[4] := sign.x + 4;
 			homeinfo[5] := sign.y + 1;
-		16540:	//sandstone patio house
+		69788:	//sandstone patio house
 			homeinfo[2] := sign.x - 9;
 			homeinfo[3] := sign.y - 10;
 			homeinfo[4] := sign.x + 4;
 			homeinfo[5] := sign.y + 1;
-		16538:	//2 story log cabin
+		69786:	//2 story log cabin
 			homeinfo[2] := sign.x - 8;
 			homeinfo[3] := sign.y - 14;
 			homeinfo[4] := sign.x + 1;
 			homeinfo[5] := sign.y + 1;
-		16542:	//2 story villa
+		69790:	//2 story villa
 			homeinfo[2] := sign.x - 7;
 			homeinfo[3] := sign.y - 12;
 			homeinfo[4] := sign.x + 5;
 			homeinfo[5] := sign.y + 1;
-		16534:	//marble patio house
+		69782:	//marble patio house
 			homeinfo[2] := sign.x - 8;
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 8;
