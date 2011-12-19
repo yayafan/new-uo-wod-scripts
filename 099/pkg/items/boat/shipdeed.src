@@ -92,6 +92,23 @@ program useshipdeed( character, deed )
 		return; 
 	endif
 
+	created.ship.color := deed.color;
+	foreach compo in (created.ship.hull)
+		compo.color := deed.color;
+	endforeach
+	foreach compo in (created.ship.wheel)
+		compo.color := deed.color;
+	endforeach
+	foreach compo in (created.ship.sails)
+		compo.color := deed.color;
+	endforeach
+	foreach compo in (created.ship.storage)
+		compo.color := deed.color;
+	endforeach
+	foreach compo in (created.ship.weaponslot)
+		compo.color := deed.color;
+	endforeach
+
 	var deedtype := deed.objtype;
 
 	if (deed.name != "a toy boat" and !deed.name["deed"])
@@ -152,38 +169,6 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z, rlm )
 		DestroyItem( packkey );
 		return 0;
 	endif
-/*
-	var ropezoffset := 0;
-	case (shiptype)
-		0x11018:
-		0x11019:
-		0x1101a:
-		0x1101b: ropezoffset := 14;
-		0x11024:
-		0x11025:
-		0x11026:
-		0x11027: ropezoffset := 16;
-		0x11030:
-		0x11031:
-		0x11032:
-		0x11033: ropezoffset := 7;
-		         var whl := ship.wheel[1];
-		         whl.movable := 1;
-		         MoveObjectToLocation( whl, whl.x, whl.y, whl.z + 1, whl.realm, MOVEOBJECT_FORCELOCATION );
-		         whl.movable := 0;
-		0x11040:
-		0x11041:
-		0x11042:
-		0x11043: ropezoffset := 18;
-	endcase
-	PrintTextAbovePrivate( character, "Rope's Z Offset: " + ropezoffset, character );
-	
-	foreach item in ( ship.rope )
-		item.movable := 1;
-		MoveObjectToLocation( item, item.x, item.y, item.z + ropezoffset, item.realm, MOVEOBJECT_FORCELOCATION );
-		item.movable := 0;
-	endforeach
-*/
 	SetObjProperty( ship.hold,"owner", character.serial );
 	if(!getObjProperty (ship.hold,"owner"))
 		PrintTextAbovePrivate (character, "I can't place the ship there.", character);
