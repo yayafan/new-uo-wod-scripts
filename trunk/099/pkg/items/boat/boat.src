@@ -375,6 +375,7 @@ function DryDock (event)
 	endif
 
 	newboat.graphic := 0x14f3;
+	newboat.color := boat.color;
 	if (boat.tillerman.name)
 		newboat.name := boat.tillerman.name;
 	else
