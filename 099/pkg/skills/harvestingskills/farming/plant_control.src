@@ -70,16 +70,16 @@ function SetFinalPlantGraphic (plant)
 		//hops
 		0x1a9e:	plant.graphic := 0x1a9e;
 		//lettuce
-		0x708e:	plant.graphic := 0x0ca7;
+		0x1708e:	plant.graphic := 0x0ca7;
 				plant.color := 270;
 		//cabbage
-		0x708f:	plant.graphic := 0x0d04;
+		0x1708f:	plant.graphic := 0x0d04;
 				plant.color := 276;
 		//potato
-		0x70c0:	plant.graphic := 3332;
+		0x170c0:	plant.graphic := 3332;
 				plant.color := 0;
 		//lemon tree
-		0x2EE1:	plant.graphic := 0x2EE1;
+		0xa096:	plant.graphic := 0x2EE1;
 		//apple tree bottom
 		0x0d98:
 			var planttopserial := GetObjProperty (plant, "planttop");
@@ -137,7 +137,7 @@ function SetFinalPlantGraphic (plant)
 				return;
 			endif
 		//lime tree bottom
-		0x2EE5:
+		0xa097:
 			var plantbottomserial := GetObjProperty (plant, "planttop");
 			var plantbottom := SystemFindObjectBySerial (plantbottomserial);
 			if (!plantbottom)
@@ -146,7 +146,7 @@ function SetFinalPlantGraphic (plant)
 				return;
 			endif
 		//lime tree top
-		0x2EE7:
+		0xa099:
 			var plantbottomserial := GetObjProperty (plant, "plantbottom");
 			var plantbottom := SystemFindObjectBySerial (plantbottomserial);
 			if (!plantbottom)
@@ -154,9 +154,9 @@ function SetFinalPlantGraphic (plant)
 				DestroyItem (plant);
 				return;
 			endif
-			plant.graphic := 0x2EE7;
+			plant.graphic := 0xa099;
 		//orange tree bottom
-		0x2EEA:
+		0xa09a:
 			var plantbottomserial := GetObjProperty (plant, "planttop");
 			var plantbottom := SystemFindObjectBySerial (plantbottomserial);
 			if (!plantbottom)
@@ -165,7 +165,7 @@ function SetFinalPlantGraphic (plant)
 				return;
 			endif
 		//orange tree top
-		0x2EEC:
+		0xa09c:
 			var plantbottomserial := GetObjProperty (plant, "plantbottom");
 			var plantbottom := SystemFindObjectBySerial (plantbottomserial);
 			if (!plantbottom)
@@ -173,7 +173,7 @@ function SetFinalPlantGraphic (plant)
 				DestroyItem (plant);
 				return;
 			endif
-			plant.graphic := 0x2EEC;
+			plant.graphic := 0xa09c;
 		default:
 	endcase;
 endfunction
@@ -254,19 +254,19 @@ function GrowPlant (byref plant)
 				sleep (NEW_PLANT_GROW_TIME);
 				plant.graphic := 0x1a9f;
 		//lettuce
-		0x708e:	plant.graphic := 0x0cb5;
+		0x1708e:	plant.graphic := 0x0cb5;
 				plant.name := "lettuce";
 				sleep (NEW_PLANT_GROW_TIME);
 				plant.graphic := 0x0c93;
 				plant.color := 270;
 		//cabbage
-		0x708f:	plant.graphic := 0x0cb5;
+		0x1708f:	plant.graphic := 0x0cb5;
 				plant.name := "cabbage";
 				sleep (NEW_PLANT_GROW_TIME);
 				plant.graphic := 0x0c93;
 				plant.color := 276;
 		//potato
-		0x70c0:	plant.graphic := 0x0cb6;
+		0x170c0:	plant.graphic := 0x0cb6;
 				plant.name := "potato plant";
 				sleep (NEW_PLANT_GROW_TIME);
 				plant.graphic := 3332;
@@ -280,10 +280,10 @@ function GrowPlant (byref plant)
 				sleep (NEW_PLANT_GROW_TIME);
 				plant.graphic := 0x0caa;
 		//lemon tree
-		0x2EE1:	plant.graphic := 0x0ce9;
+		0xa096:	plant.graphic := 0x0ce9;
 				plant.name := "a lemon tree";
 				sleep (NEW_PLANT_GROW_TIME);
-				plant.graphic := 0x2EE0;
+				plant.graphic := 0xa095;
 		//apple tree
 		0x0d98:	var planttopserial := GetObjProperty (plant, "planttop");
 				var planttop := SystemFindObjectBySerial (planttopserial);
@@ -336,7 +336,7 @@ function GrowPlant (byref plant)
 				plant.graphic := 0x0da4;
 				planttop.graphic := 0x0da5;
 		//lime tree
-		0x2EE5:	var planttopserial := GetObjProperty (plant, "planttop");
+		0xa097:	var planttopserial := GetObjProperty (plant, "planttop");
 				var planttop := SystemFindObjectBySerial (planttopserial);
 				if (!planttop)
 					Syslog ("destroying a lime tree at " + plant.x + ", " + plant.y + " - no top");
@@ -351,10 +351,10 @@ function GrowPlant (byref plant)
 				plant.graphic := 0x0d94;
 				planttop.graphic := 0x0d95;
 				sleep (NEW_PLANT_GROW_TIME);
-				plant.graphic := 0x2EE5;
-				planttop.graphic := 0x2EE6;
+				plant.graphic := 0xa097;
+				planttop.graphic := 0xa098;
 		//orange tree
-		0x2EEA:	var planttopserial := GetObjProperty (plant, "planttop");
+		0xa09a:	var planttopserial := GetObjProperty (plant, "planttop");
 				var planttop := SystemFindObjectBySerial (planttopserial);
 				if (!planttop)
 					Syslog ("destroying an orange tree at " + plant.x + ", " + plant.y + " - no top");
@@ -369,14 +369,14 @@ function GrowPlant (byref plant)
 				plant.graphic := 0x0d94;
 				planttop.graphic := 0x0d95;
 				sleep (NEW_PLANT_GROW_TIME);
-				plant.graphic := 0x2EEA;
-				planttop.graphic := 0x2EEB;
+				plant.graphic := 0xa09a;
+				planttop.graphic := 0xa09b;
 		//treetops - make sure there's no floating ones
 		0x0d9a:
 		0x0d9e:
 		0x0da6:
-		0x2EE7:
-		0x2EEC:
+		0xa099:
+		0xa09c:
 				var plantbottomserial := GetObjProperty (plant, "plantbottom");
 				var plantbottom := SystemFindObjectBySerial (plantbottomserial);
 				if (!plantbottom)
@@ -437,9 +437,9 @@ function IsAPlant (byref item)
 		0x1a9f:
 		0x1aa0:
 		0x1aa1:
-		0x708e:
-		0x708f:
-		0x7090:
+		0x1708e:
+		0x1708f:
+		0x17090:
 			return 1;
 	endcase
 	return 0;

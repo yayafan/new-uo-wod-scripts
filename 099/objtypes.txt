@@ -1567,9 +1567,7 @@
 0x26ce PaladinSword weapons
 # 0x26cf - 0x2776 unused
 0x2777 PlateJingasa2 armor
-# 0x2778 - 0x278a unused
-0x278b stocking containers
-# 0x278c - 0x27be unused
+# 0x2778 - 0x27be unused
 0x27bf MailHatsuburi armor
 0x27c0 PlateHatsuburi armor
 0x27c1 LeatherJingasa armor
@@ -1616,38 +1614,7 @@
 0x27ec JinBaori armor
 # 0x27ed - 0x27ef unused
 0x27f0 Yumi weapons
-# 0x27f1 - 0x2831 unused
-0x2832 present_red_bow giftwrapper
-0x2833 present_yellow_bow giftwrapper
-0x2834 present_blue_bow giftwrapper
-0x2835 present_pink_bow giftwrapper
-0x2836 present_green_bow giftwrapper
-0x2837 present_white_bow giftwrapper
-0x2838 present_light_blue_bow giftwrapper
-0x2839 present_purple_bow giftwrapper
-# 0x283a - 0x284f unused
-0x2850 jackolantern lighting
-# 0x2851 - 0x2859 unused
-0x285a birdbath decorations
-# 0x285b - 0x2864 unused
-0x2865 copperteakettle decorations
-0x2866 broom weapons
-# 0x2867 unused
-0x2868 wickerbasket containers
-0x2869 largeflowervase decorations
-0x286a largedecoratedvase decorations
-0x286b largeflowerurn decorations
-# 0x286c - 0x2881 unused
-0x2882 ghostcutout decorations
-# 0x2883 - 0x289f unused
-0x28a0 winerack containers
-# 0x28a1 - 0x28a9 unused
-0x28aa giantcake cooking
-0x28ab giantcakeslice cooking
-# 0x28ac - 0x29cc unused
-0x29cd candycane cooking
-0x29ce gingerbreadman cooking
-# 0x29cf - 0x2b66 unused
+# 0x27f1 - 0x2b66 unused
 0x2b67 WoodlandChest armor
 # 0x2b68 unused
 0x2b69 WoodlandGorget armor
@@ -1667,7 +1634,13 @@
 0x2b77 HidePauldrons armor
 0x2b78 HideLeggings armor
 0x2b79 FemaleHideTunic armor
-# 0x2b7a - 0x2d29 unused
+# 0x2b7a - 0x2bda unused
+0x2bdb stocking containers
+# 0x2bdc unused
+0x2bdd candycane cooking
+# 0x2bde - 0x2be1 unused
+0x2be2 gingerbreadman cooking
+# 0x2be3 - 0x2d29 unused
 0x2d2a longbow weapons
 0x2d2b shortbow weapons
 # 0x2d2c - 0x2d9c unused
@@ -1690,17 +1663,7 @@
 0x2dad risingcolossusscroll mysticism
 # 0x2dae - 0x2dda unused
 0x2ddb elvenoven cooking
-# 0x2ddc - 0x2ee0 unused
-0x2ee1 lemontree farming
-# 0x2ee2 - 0x2ee4 unused
-0x2ee5 limetree farming
-# 0x2ee6 unused
-0x2ee7 limetreetop farming
-# 0x2ee8 - 0x2ee9 unused
-0x2eea orangetree farming
-# 0x2eeb unused
-0x2eec orangetreetop farming
-# 0x2eed - 0x2fb7 unused
+# 0x2ddc - 0x2fb7 unused
 0x2fb8 ElvenGlasses armor
 # 0x2fb9 - 0x2fc4 unused
 0x2fc5 LeafTunic armor
@@ -1821,47 +1784,102 @@
 0x574e PerseveranceScroll bardmasteries
 0x574f TribulationScroll bardmasteries
 0x5750 DespairScroll bardmasteries
-# 0x5751 - 0x7080 unused
-0x7081 magictrap traps
-0x7082 manastone magic
-0x7083 ChestSpawnerChest lockpicking
-0x7084 lavafield magiceffects
-0x7085 frostfield1 magiceffects
-0x7086 frostfield2 magiceffects
-0x7087 maskclaimdeed drocket
-0x7088 laminatingkit quest_rewards
-0x7089 leatherdyes quest_rewards
-# 0x708a - 0x708c unused
-0x708d druidcloak magiceffects
-0x708e lettuceplant farming
-0x708f cabbageplant farming
-0x7090 FurnitureDyeTub carpentry
-# 0x7091 - 0x709e unused
-0x709f repairkit quest_rewards
-# 0x70a0 unused
-0x70a1 DisplayCase decorations
-0x70a2 decoratortool decorations
-0x70a3 magical_essence_potion magic_dealer
-0x70a4 questitem quests
-0x70a5 scriptbook quests
-# 0x70a6 - 0x70af unused
-0x70b0 checkerboard games
-0x70b1 chessboard games
-0x70b2 backgammon games
-0x70b3 dontcreateme_gamepiece games
-0x70b4 giftwrapped_present giftwrapper
-0x70b5 statbonus_item world_items
-# 0x70b6 - 0x70bb unused
-0x70bc ShrunkNPC shrunknpcs
-# 0x70bd - 0x70bf unused
-0x70c0 potatoplant farming
-# 0x70c1 - 0x70cf unused
-0x70d0 BlacksmithySpecialOrderContract blacksmithy
-# 0x70d1 - 0x8889 unused
-0x888a infernotrap gmtools
-0x888b chestspawner gmtools
-0x888c campspawner gmtools
-# 0x888d - 0xa0ff unused
+# 0x5751 - 0xa01a unused
+0xa01b fishtank1 decorations
+0xa01c fishtank2 decorations
+0xa01d fishtank3 decorations
+0xa01e fishtank4 decorations
+0xa01f fishtank5 decorations
+0xa020 fishtank6 decorations
+0xa021 teddybear decorations
+0xa022 teddybearshirt decorations
+0xa023 smallfishtank decorations
+0xa024 stuffedbunny decorations
+0xa025 spicerack1 decorations
+0xa026 spicerack2 decorations
+0xa027 piano1 decorations
+0xa028 piano2 decorations
+0xa029 piano3 decorations
+0xa02a piano4 decorations
+0xa02b piano5 decorations
+0xa02c piano6 decorations
+0xa02d present_red_bow giftwrapper
+0xa02e present_yellow_bow giftwrapper
+0xa02f present_blue_bow giftwrapper
+0xa030 present_pink_bow giftwrapper
+0xa031 present_green_bow giftwrapper
+0xa032 present_white_bow giftwrapper
+0xa033 present_light_blue_bow giftwrapper
+0xa034 present_purple_bow giftwrapper
+0xa035 giantcake cooking
+0xa036 giantcakeslice cooking
+# 0xa037 unused
+0xa038 jackolantern lighting
+# 0xa039 - 0xa041 unused
+0xa042 birdbath decorations
+# 0xa043 - 0xa047 unused
+0xa048 copperteakettle decorations
+# 0xa049 unused
+0xa04a broom decorations
+# 0xa04b unused
+0xa04c wickerbasket containers
+0xa04d largeflowervase decorations
+0xa04e largedecoratedvase decorations
+0xa04f largeflowerurn decorations
+# 0xa050 - 0xa053 unused
+0xa054 toysoldier1 decorations
+0xa055 toysoldier2 decorations
+0xa056 toysoldier3 decorations
+0xa057 toysoldier4 decorations
+0xa058 toysoldier5 decorations
+0xa059 ghostcutout decorations
+# 0xa05a unused
+0xa05b cornucopia decorations
+0xa05c giantspider1 decorations
+0xa05d giantspider2 decorations
+0xa05e winerack containers
+# 0xa05f - 0xa067 unused
+0xa068 curtains1 decorations
+# 0xa069 unused
+0xa06a curtains3 decorations
+# 0xa06b unused
+0xa06c curtains5 decorations
+# 0xa06d unused
+0xa06e curtains7 decorations
+# 0xa06f unused
+0xa070 marblehorse1 decorations
+0xa071 marblehorse2 decorations
+0xa072 marblehorse3 decorations
+0xa073 marblehorse4 decorations
+# 0xa074 - 0xa095 unused
+0xa096 lemontree farming
+0xa097 limetree farming
+# 0xa098 unused
+0xa099 limetreetop farming
+0xa09a orangetree farming
+# 0xa09b unused
+0xa09c orangetreetop farming
+0xa09d dragonstatue1 decorations
+0xa09e dragonstatue2 decorations
+0xa09f dragonstatue3 decorations
+0xa0a0 dragonstatue4 decorations
+0xa0a1 dragonstatue5 decorations
+0xa0a2 dragonstatue6 decorations
+0xa0a3 dragonstatue7 decorations
+0xa0a4 dragonstatue8 decorations
+0xa0a5 dragonstatue9 decorations
+0xa0a6 dragonstatue10 decorations
+0xa0a7 dragonstatue11 decorations
+0xa0a8 dragonstatue12 decorations
+0xa0a9 dragonstatue13 decorations
+0xa0aa dragonstatue14 decorations
+0xa0ab dragonstatue15 decorations
+0xa0ac dragonstatue16 decorations
+0xa0ad dragonstatue17 decorations
+0xa0ae dragonstatue18 decorations
+0xa0af dragonstatue19 decorations
+0xa0b0 dragonstatue20 decorations
+# 0xa0b1 - 0xa0ff unused
 0xa100 CodexDamnorum necromancy
 0xa101 CommuneScroll necromancy
 0xa102 AnimateDeadScroll necromancy
@@ -2118,7 +2136,9 @@
 0x110a0 SmallStoneShop housing
 # 0x110a1 unused
 0x110a2 SmallMarbleShop housing
-# 0x110a3 - 0x15014 unused
+# 0x110a3 - 0x1147a unused
+0x1147b foundation18x18 housing
+# 0x1147c - 0x15014 unused
 0x15015 wristwatch tinkering
 # 0x15016 - 0x16000 unused
 0x16001 blankmap cartography
@@ -2191,7 +2211,8 @@
 0x1622d largemarblepatiohousedeed housing
 0x1622e ranchhousedeed housing
 0x1622f smallbrickhousedeed housing
-# 0x16230 - 0x17007 unused
+0x16230 foundation18x18deed housing
+# 0x16231 - 0x17007 unused
 0x17008 employmentcontract player_merchants
 0x17009 publicmallsign merchants
 # 0x1700a - 0x1701f unused
@@ -2245,11 +2266,22 @@
 0x1707e druidrunee druid
 0x1707f druidrunef druid
 0x17080 druidhenge druid
-# 0x17081 - 0x17089 unused
+0x17081 magictrap traps
+0x17082 manastone magic
+0x17083 ChestSpawnerChest lockpicking
+0x17084 lavafield magiceffects
+0x17085 frostfield1 magiceffects
+0x17086 frostfield2 magiceffects
+0x17087 maskclaimdeed drocket
+0x17088 laminatingkit quest_rewards
+0x17089 leatherdyes quest_rewards
 0x1708a forsalesign housing
 0x1708b StuddedCap armor
 0x1708c RingmailCoif armor
-# 0x1708d - 0x17090 unused
+0x1708d druidcloak magiceffects
+0x1708e lettuceplant farming
+0x1708f cabbageplant farming
+0x17090 FurnitureDyeTub carpentry
 0x17091 IronShovel mining
 0x17092 BronzeShovel mining
 0x17093 DullCopperShovel mining
@@ -2264,11 +2296,33 @@
 0x1709c EssenceOfElectricity alchemy
 0x1709d EssenceOfFrost alchemy
 0x1709e protparapotion alchemy
-# 0x1709f - 0x170a5 unused
+0x1709f repairkit quest_rewards
+# 0x170a0 unused
+0x170a1 DisplayCase decorations
+0x170a2 decoratortool decorations
+0x170a3 magical_essence_potion magic_dealer
+0x170a4 questitem quests
+0x170a5 scriptbook quests
 0x170a6 MerchantJobBag merchants
-# 0x170a7 - 0x170b5 unused
+# 0x170a7 - 0x170af unused
+0x170b0 checkerboard games
+0x170b1 chessboard games
+0x170b2 backgammon games
+0x170b3 dontcreateme_gamepiece games
+0x170b4 giftwrapped_present giftwrapper
+0x170b5 statbonus_item world_items
 0x170b6 totemrepairkit tinkering
-# 0x170b7 - 0x1f00f unused
+# 0x170b7 - 0x170bb unused
+0x170bc ShrunkNPC shrunknpcs
+# 0x170bd - 0x170bf unused
+0x170c0 potatoplant farming
+# 0x170c1 - 0x170cf unused
+0x170d0 BlacksmithySpecialOrderContract blacksmithy
+# 0x170d1 - 0x18889 unused
+0x1888a infernotrap gmtools
+0x1888b chestspawner gmtools
+0x1888c campspawner gmtools
+# 0x1888d - 0x1f00f unused
 0x1f010 Tillerman boat
 0x1f011 gangplank boat
 0x1f012 gangplank2 boat

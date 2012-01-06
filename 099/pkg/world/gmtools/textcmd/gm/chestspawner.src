@@ -89,18 +89,18 @@ program chestspawner(who)
       SendSysMessage(who,"Duration Error: Aborting");
       return;
     endif
-    var item := CreateItemAtLocation(targ.x, targ.y, targ.z, 0x888b, 1);
+    var item := CreateItemAtLocation(targ.x, targ.y, targ.z, 0x1888b, 1, targ.realm);
     SetObjProperty(item,"level", level);
     SetObjProperty(item,"range", range);
     SetObjProperty(item,"amount", amount);
     SetObjProperty(item,"duration", CInt(newduration));
     EraseObjProperty(item,"waiting");
   elseif(res[0] == 89)
-    foreach item in ListItemsNearLocationOfType( who.x, who.y, who.z, 5, 0x888b);
+    foreach item in ListItemsNearLocationOfType( who.x, who.y, who.z, 5, 0x1888b, who.realm);
       item.graphic := 4483;
     endforeach
   else
-    foreach item in ListItemsNearLocationOfType( who.x, who.y, who.z, 5, 0x888b);
+    foreach item in ListItemsNearLocationOfType( who.x, who.y, who.z, 5, 0x1888b, who.realm);
       item.graphic := 1;
     endforeach
   endif

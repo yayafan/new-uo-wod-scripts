@@ -1,0 +1,5 @@
+use uo;
+
+program customhouse_commit ( who, house, houseelemarray )
+	house.acceptcommit(who, 1);
+endprogram

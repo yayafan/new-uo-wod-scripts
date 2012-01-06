@@ -82,7 +82,7 @@ Const UOBJ_SPELLBOOK		:= 0x0EFA;
 Const UOBJ_CODEX_DAMNORUM	:= 0xA100;
 Const UOBJ_DRUIDBAG			:= 0x1706b;
 Const UOBJ_RECALL_RUNE		:= 0x1F14;
-Const UOBJ_RUNEBOOK			:= 0x6100;
+Const UOBJ_RUNEBOOK			:= 0x16100;
 
 Const UOBJ_MORTAR			:= 0x0e9b;
 Const UOBJ_HEATINGSTAND		:= 0x1849;
@@ -673,7 +673,7 @@ const UOBJ_CONTRACT_BLACKSMITHY := 0x170d0;
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// 0xF000 to 0xFFFF - Reserved by system
+// 0x1F000 to 0x1FFFF - Reserved by system
 //
 /////////////////////////////////////////////////////////////////////////////
 

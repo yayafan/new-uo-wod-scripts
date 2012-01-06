@@ -99,8 +99,8 @@ function IsBottomOfTwoPartPlant (plant)
 		0x0d98:
 		0x0d9c:
 		0x0da4:
-		0x2EE5:
-		0x2EEA:
+		0xa097:
+		0xa09a:
 			return 1;
 		default:
 			return 0;
@@ -166,15 +166,15 @@ function ChangePlantGraphic (plant)
 		//hops
 		0x1a9e:	plant.graphic := 0x1a9f;
 		//lettuce
-		0x708e:	plant.graphic := 0x0c93;
+		0x1708e:	plant.graphic := 0x0c93;
 				plant.color := 270;
 		//cabbage
-		0x708f:	plant.graphic := 0x0c93;
+		0x1708f:	plant.graphic := 0x0c93;
 				plant.color := 276;
 		//potato
-		0x70c0:	plant.graphic := 0x0cb6;
+		0x170c0:	plant.graphic := 0x0cb6;
 		//lemon tree
-		0x2EE1:	plant.graphic := 0x2EE0;
+		0xa096:	plant.graphic := 0xa095;
 		//apple tree
 		0x0d9a:	plant.graphic := 0x0d99;
 		//peach tree
@@ -182,9 +182,9 @@ function ChangePlantGraphic (plant)
 		//pear tree
 		0x0da6:	plant.graphic := 0x0da5;
 		//lime tree
-		0x2EE7:	plant.graphic := 0x2EE6;
+		0xa099:	plant.graphic := 0xa098;
 		//orange tree
-		0x2EEC:	plant.graphic := 0x2EEB;
+		0xa09c:	plant.graphic := 0xa09b;
 		default:
 	endcase;
 endfunction

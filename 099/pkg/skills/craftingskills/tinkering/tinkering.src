@@ -592,7 +592,7 @@ function MakeManaStone (character, potion)
 	PlaySoundEffect (character, 0x104);
 	sleep (3);
 
-	var mana_stone := CreateItemInContainer (FindCraftingBag (character), 0x7082, 1);
+	var mana_stone := CreateItemInContainer (FindCraftingBag (character), 0x17082, 1);
 	if (!mana_stone)
 		PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
 		return;

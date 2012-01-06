@@ -9,32 +9,32 @@ program view_painting (character, painting)
 	};
 	var gump_data := {""};
 	case (painting.graphic)
-		10602:
-		10603:
+		0xa083:
+		0xa084:
 			gump_layout.append ("gumppic 50 50 7425");
-		10604:
-		10605:
+		0xa085:
+		0xa086:
 			gump_layout.append ("gumppic 50 50 7426");
-		10606:
-		10607:
+		0xa087:
+		0xa088:
 			gump_layout.append ("gumppic 50 50 7427");
-		10608:
-		10609:
+		0xa089:
+		0xa08a:
 			gump_layout.append ("gumppic 50 50 7428");
-		10610:
-		10611:
+		0xa08b:
+		0xa08c:
 			gump_layout.append ("gumppic 50 50 7429");
-		10612:
-		10613:
+		0xa08d:
+		0xa08e:
 			gump_layout.append ("gumppic 50 50 7430");
-		10614:
-		10615:
+		0xa08f:
+		0xa090:
 			gump_layout.append ("gumppic 50 50 7431");
-		10616:
-		10617:
+		0xa091:
+		0xa092:
 			gump_layout.append ("gumppic 50 50 7432");
-		10618:
-		10619:
+		0xa093:
+		0xa094:
 			gump_layout.append ("gumppic 50 50 7433");
 	
 		default:

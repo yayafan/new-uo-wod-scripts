@@ -129,16 +129,16 @@ program torch( character , item )
 		0x1811:	item.graphic := 0x1810;
 
 		//jack-o-lantern
-		0x2850:	item.graphic := 0x2851;
+		0xa038:	item.graphic := 0xa039;
 				item.facing := 29;
 				PlaySoundEffect (item, 0x226);
-		0x2851:	item.graphic := 0x2850;
+		0xa039:	item.graphic := 0xa038;
 				item.facing := 29;
 
-		0x2854:	item.graphic := 0x2855;
+		0xa03c:	item.graphic := 0xa03d;
 				item.facing := 29;
 				PlaySoundEffect (item, 0x226);
-		0x2855:	item.graphic := 0x2854;
+		0xa03d:	item.graphic := 0xa03c;
 				item.facing := 29;
 
 		default:

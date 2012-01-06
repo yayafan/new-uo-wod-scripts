@@ -34,7 +34,7 @@ program spawnchest(who, text)
 		return;
 	endif
 
-	var chest := CreateItemAtLocation( where.x , where.y , where.z , selection.objtype , 1 );
+	var chest := CreateItemAtLocation( where.x , where.y , where.z , selection.objtype , 1, where.realm );
 	if (!chest)
 		return;
 	endif

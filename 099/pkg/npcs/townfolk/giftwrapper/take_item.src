@@ -38,14 +38,14 @@ program giftwrap (parms)
 	
 	var package_objtype := 10290;
 	case (bow_selection.index)
-		1:		package_objtype := 10290;
-		2:		package_objtype := 10291;
-		3:		package_objtype := 10292;
-		4:		package_objtype := 10293;
-		5:		package_objtype := 10294;
-		6:		package_objtype := 10295;
-		7:		package_objtype := 10296;
-		default:	package_objtype := 10297;
+		1:		package_objtype := 41005;
+		2:		package_objtype := 41006;
+		3:		package_objtype := 41007;
+		4:		package_objtype := 41008;
+		5:		package_objtype := 41009;
+		6:		package_objtype := 41010;
+		7:		package_objtype := 41011;
+		default:	package_objtype := 41012;
 	endcase
 	
 	var packagemenu := CreateMenu ("Select the present color:");

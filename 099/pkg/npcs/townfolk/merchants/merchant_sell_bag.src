@@ -132,15 +132,15 @@ function SellBag (merchant, player)
 			var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, 60000);
 			if (!thegold)
 				PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
-				CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, 60000);
+				CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, 60000, player.realm);
 			endif
 			totalsale := totalsale - 60000;
 		until (totalsale <= 60000);
 	endif
-	var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, totalsale);
+	var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, totalsale, player.realm);
 	if (!thegold)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
-		CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, totalsale);
+		CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, totalsale, player.realm);
 	endif
 endfunction
 

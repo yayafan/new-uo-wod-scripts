@@ -13,7 +13,7 @@ var gump_data := {};
 
 program use_house_sign (character, sign)
 	//If its a deeded house, make sure its house exists...
-	if (sign.objtype != 0x7060)
+	if (sign.objtype != 0x17060)
 		var hserial := GetObjProperty (sign, "house_serial");
 		if (!hserial)
 			return;
@@ -39,7 +39,7 @@ program use_house_sign (character, sign)
 	case (result[0])
 		1:
 			//disown or demolish the house, depending on if its static or deeded
-			if (sign.objtype == 0x7060)
+			if (sign.objtype == 0x17060)
 				DisownHouse (character, sign);
 			else
 				var hserial := GetObjProperty (sign, "house_serial");
@@ -64,6 +64,9 @@ program use_house_sign (character, sign)
 			set_critical (0);
 		6:
 			ChangeHouseSign (character, sign);
+		7:
+			var customhouse := SystemFindObjectBySerial (GetObjProperty (sign, "house_serial"));
+			SendHousingTool(character, customhouse);
 		101:
 		102:
 		103:
@@ -173,7 +176,7 @@ function DisownHouse (character, sign)
 	endif
 
 	//make a new forsale sign
-	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x708a, 1);
+	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x708a, 1, sign.realm);
 	if (!newsign)
 		return;
 	endif
@@ -372,12 +375,13 @@ function BuildHouseSignGump (character, sign)
 		"text 20 207 40 27",
 		"text 20 237 40 11",
 		"text 20 267 40 16",
-
+		"text 20 297 40 28",
 		"button 200 145 2640 2641 0 4",
 		"button 200 175 2640 2641 1 3 2",
 		"button 200 205 2640 2641 1 3 6",
 		"button 200 235 2640 2641 1 3 3",
 		"button 200 265 2640 2641 1 3 5",
+		"button 200 295 2640 2641 1 3 7",
 
 		"page 4",
 		"text 55 183 40 8",
@@ -412,14 +416,15 @@ function BuildHouseSignGump (character, sign)
 		"New Friend",			//24 - friend 8
 		"New Friend",			//25 - friend 9
 		"New Friend",			//26 - friend 10
-		"Change Signs"			//27
+		"Change Signs",			//27
+		"Customize House"		//28
 	};
 
 	gump_data[14] := CSTR(GetLockdowns (sign)) + " / " + CSTR(GetMaxLockdowns (sign));
 	gump_data[16] := CSTR(GetSecures (sign))+ " / " +  CSTR(GetMaxSecures (sign));
 
 	//a couple of changes for static houses...
-	if (sign.objtype == 0x7060)
+	if (sign.objtype == 0x17060)
 		gump_data[7] := "Disown this House";
 	endif
 

@@ -57,7 +57,10 @@ program spiritspeak (me)
 	//now see if they are near a necro gravestone:
 	var stonelevel := FindNecroGravestone(me);
 	if (stonelevel)
-		ContactUndead(me, stonelevel);
+		if (GetObjProperty(me, "#contactedgravestone") < ReadGameClock())
+			SetObjProperty(me, "#contactedgravestone", ReadGameClock() + 120);
+			ContactUndead(me, stonelevel);
+		endif
 	endif
 	
 	detach();

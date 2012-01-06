@@ -10,7 +10,7 @@ var mobarray := {};
 
 program spawntest(item)
   var rng := GetObjProperty(item,"range");
-  foreach thing in ListItemsNearLocation(item.x, item.y, item.z, 20)
+  foreach thing in ListItemsNearLocation(item.x, item.y, item.z, 20, item.realm)
     if(GetObjProperty(thing,"link") == item.serial)
       DestroyItem(thing);
     endif
@@ -19,14 +19,14 @@ program spawntest(item)
     SetObjProperty(item,"waiting", 1);
     foreach char in EnumerateOnlineCharacters()
       if(char.cmdlevel > 1)
-        SendSysMessage(char,"ERROR: Camp Spawner at " + item.x + " " + item.y + " is not functioning properly.");
+        SendSysMessage(char,"ERROR: Camp Spawner at " + item.x + " " + item.y + " " + item.realm + "is not functioning properly.");
       endif
     endforeach
   endif
   while(GetObjProperty(item,"waiting"))
     foreach char in EnumerateOnlineCharacters()
       if(char.cmdlevel > 1)
-        SendSysMessage(char,"ERROR: Camp Spawner at " + item.x + " " + item.y + " is not functioning properly.");
+        SendSysMessage(char,"ERROR: Camp Spawner at " + item.x + " " + item.y + " " + item.realm + " is not functioning properly.");
       endif
     endforeach
     sleep(5);
@@ -68,7 +68,7 @@ program spawntest(item)
     create_standards(item);
     create_guardians(item);
     sleep(frq);
-    foreach thing in ListItemsNearLocation(item.x, item.y, item.z, CInt(20))
+    foreach thing in ListItemsNearLocation(item.x, item.y, item.z, CInt(20), item.realm)
       if(GetObjProperty(thing,"link") == item.serial)
         DestroyItem(thing);
       endif
@@ -88,10 +88,10 @@ function process_move(item)
     newx := anchor[1] + RandomInt(100) - RandomInt(100);
     newy := anchor[2] + RandomInt(100) - RandomInt(100);
     newz := GetWorldHeight(newx, newy);
-    if(MoveObjectToLocation( item, newx, newy, newz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL ))
+    if(MoveObjectToLocation( item, newx, newy, newz, item.realm, flags := MOVEOBJECT_NORMAL ))
       foreach char in EnumerateOnlineCharacters()
         if(char.cmdlevel > 1)
-          SendSysMessage(char, "moving Camp Spawner " + item.serial + " to " + item.x + " " + item.y, 3, 38);
+          SendSysMessage(char, "moving Camp Spawner " + item.serial + " to " + item.x + " " + item.y + " " + item.realm, 3, 38);
         endif
       endforeach
       check := 1;
@@ -108,7 +108,7 @@ function create_guardians(item)
   if(!cfgfile)
     foreach char in EnumerateOnlineCharacters()
       if(char.cmdlevel > 1)
-        SendSysMessage(char,"ERROR: Camp Spawner " + item.serial + " at " + item.x + " " + item.y + " is not functioning properly.");
+        SendSysMessage(char,"ERROR: Camp Spawner " + item.serial + " at " + item.x + " " + item.y + " " + item.realm + " is not functioning properly.");
       endif
     endforeach
     return;
@@ -126,7 +126,7 @@ function create_guardians(item)
   if(!elem)
     foreach char in EnumerateOnlineCharacters()
       if(char.cmdlevel > 1)
-        SendSysMessage(char,"ERROR: Camp Spawner " + item.serial + " at " + item.x + " " + item.y + " is not functioning properly.");
+        SendSysMessage(char,"ERROR: Camp Spawner " + item.serial + " at " + item.x + " " + item.y + " " + item.realm + " is not functioning properly.");
       endif
     endforeach
     return;

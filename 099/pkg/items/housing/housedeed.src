@@ -58,26 +58,16 @@ program usehousedeed (character, deed)
 		return;
 	endif
 
-    	DestroyItem (deed);
+   	DestroyItem (deed);
 	SetObjProperty (created.house, "ownerserial", character.serial);
 	var lockid := AllocLockId ();
 	SetObjProperty (created.packkey, "lockid", lockid);
 	SetObjProperty (created.bankkey, "lockid", lockid);
 
-	foreach item in (created.house.components)
-		if (item.isa (POLCLASS_DOOR))
-			item.locked := 1;
-			SetObjProperty (item, "lockid", lockid);
-		elseif (item.objtype == UOBJECT_BRASS_SIGN or item.objtype == UOBJECT_WOOD_SIGN)
-			SetObjProperty (item, "lockid", lockid );
-			SetObjProperty (item, "account", character.acctname );
-		endif
-	endforeach
-
 	//now we add some special stuff based on what kind of a house it is
 	var item, component := array { };
 	case (housetype)
-		72632:	//log home (we don't actually use this one right now)
+		84920:	//log home (we don't actually use this one right now)
 			item :=CreateItemAtLocation (where.x+4, where.y, where.z, 0x06ad, 1, where.realm);
 			component.append (item.serial);
 			item.locked := 1;
@@ -162,11 +152,43 @@ program usehousedeed (character, deed)
 			component.append(item.serial);
 			item:=CreateItemAtLocation( where.x+2, where.y+1, where.z+7, 0xb42, 1, where.realm );
 			component.append(item.serial);
+		70779:  // 18x18 foundation
+			created.house.setcustom(1);
+			item :=CreateItemAtLocation( where.x-8, where.y+10, where.z+7, 0x0bd2, 1, where.realm );
+			SetObjProperty(item, "house_serial", created.house.serial);
+			item.movable:=0;
+			component.append (item.serial);
+			SetObjProperty (item, "lockid", lockid );
+			SetObjProperty (item, "account", character.acctname );
+//			created.house.add_component (item);
+			item :=CreateItemAtLocation( where.x-8, where.y+10, where.z+7, 0x0b9c, 1, where.realm );
+			SetObjProperty(item, "house_serial", created.house.serial);
+			item.movable:=0;
+			component.append (item.serial);
+//			created.house.add_component (item);
+			item :=CreateItemAtLocation( where.x-8, where.y+9, where.z+7, 0x09, 1, where.realm );
+			SetObjProperty(item, "house_serial", created.house.serial);
+			item.movable:=0;
+			component.append (item.serial);
+//			created.house.add_component (item);
+//			MoveObjectToLocation(character, created.house.x, created.house.y, created.house.z+10, created.house.realm);
+//			SendHousingTool(character, created.house);
 	endcase
 
 	if (component.size())
 		SetObjProperty (created.house, "components", component);
 	endif
+	foreach item in (created.house.components)
+		if (item.isa (POLCLASS_DOOR))
+			item.locked := 1;
+			SetObjProperty (item, "lockid", lockid);
+		elseif (item.objtype == UOBJECT_BRASS_SIGN or item.objtype == UOBJECT_WOOD_SIGN)
+			SetObjProperty (item, "lockid", lockid );
+			SetObjProperty (item, "account", character.acctname );
+		endif
+	endforeach
+
+
 endprogram
 
 
