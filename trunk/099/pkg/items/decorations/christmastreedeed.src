@@ -76,7 +76,7 @@ program Place_Deed (character, deed)
 			PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
 			return;
 		endif
-		item.graphic := 10250;
+		item.graphic := 40984;
 		item.name := "a menorah";
 		item.script := ":lighting:torch";
 		item.movable := 1;
@@ -162,26 +162,26 @@ program Place_Deed (character, deed)
 	set_critical (1);
 
 	var item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
-	item.graphic := 0x274f + treetype;
+	item.graphic := 0x9fff + treetype;
 	item.name := "a Christmas Tree";
 	itemserials.append (item.serial);
 	item.movable := 0;
 	item.facing := 29;
 
 	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
-	item.graphic := 0x275f + balltype;
+	item.graphic := 0xa001 + balltype;
 	item.name := "Christmas decorations";
 	itemserials.append (item.serial);
 	item.movable := 0;
 
 	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
-	item.graphic := 0x276f + tinseltype;
+	item.graphic := 0xa00a + tinseltype;
 	item.name := "tinsel";
 	itemserials.append (item.serial);
 	item.movable := 0;
 
 	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
-	item.graphic := 0x277f + toppertype;
+	item.graphic := 0xa010+ toppertype;
 	item.name := "a Christmas Tree";
 	itemserials.append (item.serial);
 	item.movable := 0;

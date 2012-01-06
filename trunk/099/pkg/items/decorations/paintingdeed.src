@@ -9,15 +9,15 @@ program painting_deed (character, deed)
 	
 	SendSysMessage (character, "Remember, your choice is final");
 	var select_menu := CreateMenu ("Select a painting:");
-	AddMenuItem (select_menu, 10602, "Winter Wonderland");
-	AddMenuItem (select_menu, 10604, "Van Gogh - Starry Night");
-	AddMenuItem (select_menu, 10606, "Picasso - Enable Saucepan");
-	AddMenuItem (select_menu, 10608, "Dogs Playing Poker");
-	AddMenuItem (select_menu, 10610, "Okeeffe - Blue Morning Glories");
-	AddMenuItem (select_menu, 10612, "Monet - Sunflowers");
-	AddMenuItem (select_menu, 10614, "Lunar View");
-	AddMenuItem (select_menu, 10616, "Horse at Sunset");
-	AddMenuItem (select_menu, 10618, "Castle");
+	AddMenuItem (select_menu, 41091, "Winter Wonderland");
+	AddMenuItem (select_menu, 41093, "Van Gogh - Starry Night");
+	AddMenuItem (select_menu, 41095, "Picasso - Enable Saucepan");
+	AddMenuItem (select_menu, 41097, "Dogs Playing Poker");
+	AddMenuItem (select_menu, 41099, "Okeeffe - Blue Morning Glories");
+	AddMenuItem (select_menu, 41101, "Monet - Sunflowers");
+	AddMenuItem (select_menu, 41103, "Lunar View");
+	AddMenuItem (select_menu, 41105, "Horse at Sunset");
+	AddMenuItem (select_menu, 41107, "Castle");
 
 	var selected_item := SelectMenuItem2 (character, select_menu);
 	if (!selected_item.index)

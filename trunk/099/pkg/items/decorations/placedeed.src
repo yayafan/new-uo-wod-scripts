@@ -804,10 +804,10 @@ program Place_Deed (character, deed)
 
 			AddMenuItem (select_menu, 5645, "curtains");
 			AddMenuItem (select_menu, 5646, "curtains");
-			AddMenuItem (select_menu, 10420, "curtains");
-			AddMenuItem (select_menu, 10422, "curtains");
-			AddMenuItem (select_menu, 10424, "curtains");
-			AddMenuItem (select_menu, 10426, "curtains");
+			AddMenuItem (select_menu, 41064, "curtains");
+			AddMenuItem (select_menu, 41066, "curtains");
+			AddMenuItem (select_menu, 41068, "curtains");
+			AddMenuItem (select_menu, 41070, "curtains");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)
@@ -837,8 +837,8 @@ program Place_Deed (character, deed)
 
 		0xB019:	//	large stone dragon statue
 			var select_menu := CreateMenu ("Select direction:");
-			AddMenuItem (select_menu, 10300, "NS");
-			AddMenuItem (select_menu, 10319, "EW");
+			AddMenuItem (select_menu, 41117, "NS");
+			AddMenuItem (select_menu, 41136, "EW");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)
@@ -860,8 +860,8 @@ program Place_Deed (character, deed)
 
 		0xB020:	//	large marble horse statue
 			var select_menu := CreateMenu ("Select direction:");
-			AddMenuItem (select_menu, 10430, "NS");
-			AddMenuItem (select_menu, 10433, "EW");
+			AddMenuItem (select_menu, 41072, "NS");
+			AddMenuItem (select_menu, 41075, "EW");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)

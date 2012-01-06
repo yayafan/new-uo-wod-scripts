@@ -60,9 +60,9 @@ program display_forsale_items (parms)
 	SetAccountProperty (player.acctname, monthly_string, monthly_potions);
 
 	//create the potion
-	var the_potion := CreateItemInContainer (player.backpack, 0x70a3, 1);
+	var the_potion := CreateItemInContainer (player.backpack, 0x170a3, 1);
 	if (!the_potion)
-		CreateItemAtLocation (player.x, player.y, player.z, 0x70a3, 1);
+		CreateItemAtLocation (player.x, player.y, player.z, 0x170a3, 1, player.realm);
 	endif	
 	PrintTextAbove (magic_dealer, "Good luck with that!");
 	set_critical (0);

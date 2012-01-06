@@ -227,7 +227,7 @@ function MakeLockedChest (container, chest_chance, chest_quality)
 		base_quality := 10;
 	endif
 
-	var chest := CreateItemInContainer (container, 0x7083, 1);
+	var chest := CreateItemInContainer (container, 0x17083, 1);
 	if (!chest)
 		return 0;
 	endif

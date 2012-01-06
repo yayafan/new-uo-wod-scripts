@@ -36,16 +36,17 @@ program plant_seed(character, seed)
 	var location_x := character.x;
 	var location_y := character.y;
 	var location_z := character.z;
+	var location_r := character.realm;
 
 	var sign;
-	if (!is_plantable (getmapinfo (location_x, location_y).landtile))
+	if (!is_plantable (getmapinfo (location_x, location_y, location_r).landtile))
 		SendSysMessage(character, "You cannot plant here!");
 		sign := FindHouseSign (character);
 		if (!sign)
 			return;
 		endif
 
-		if (GetMapInfo (location_x, location_y).z != character.z or character.multi)
+		if (GetMapInfo (location_x, location_y, location_r).z != character.z or character.multi)
 			return;
 		endif
 
@@ -56,7 +57,7 @@ program plant_seed(character, seed)
 			return;
 		endif
 
-		if (!is_plantable_for_trees (getmapinfo (location_x, location_y).landtile))
+		if (!is_plantable_for_trees (getmapinfo (location_x, location_y, location_r).landtile))
 			return;
 		endif
 
@@ -78,7 +79,7 @@ program plant_seed(character, seed)
 	subtractamount(seed,1);
 	sendsysmessage(character, "You plant the seed");
 
-	var plant := CreateItemAtLocation (location_x, location_y, location_z, plant_type, 1);
+	var plant := CreateItemAtLocation (location_x, location_y, location_z, plant_type, 1, location_r);
 	plant.graphic := 1;
 	SetObjProperty (plant, "new", 1);
 	if (sign)
@@ -136,9 +137,9 @@ endfunction
 //  Counts the plants directly surrounding player
 ///////////////////
 
-function CountPlantsInArea (x, y, z, range)
+function CountPlantsInArea (x, y, z, range, rlm)
 	var plant_count := 0;
-	foreach item in ListItemsNearLocation (x, y, z, range)
+	foreach item in ListItemsNearLocation (x, y, z, range, rlm)
 		if (plant_cfg_file[item.objtype].product)
 			plant_count := plant_count + 1;
 		endif
@@ -321,23 +322,24 @@ function PlantATree (character, seed)
 	var location_x := character.x;
 	var location_y := character.y;
 	var location_z := character.z;
+	var location_r := character.realm;
 
-	if (!is_plantable_for_trees (getmapinfo (location_x, location_y).landtile))
+	if (!is_plantable_for_trees (getmapinfo (location_x, location_y, location_r).landtile))
 		SendSysMessage(character, "You cannot plant a tree here!");
 		return;
 	endif
 
-	if (GetMapInfo (location_x, location_y).z != character.z or character.multi)
+	if (GetMapInfo (location_x, location_y, location_r).z != character.z or character.multi)
 		SendSysMessage(character, "You cannot plant a tree here!");
 		return;
 	endif
 
-	if (CountPlantsInArea (character.x, character.y, character.z, 3))
+	if (CountPlantsInArea (character.x, character.y, character.z, 3, , character.realm))
 		SendSysMessage (character, "There's too many other plants in the area!");
 		return;
 	endif
 
-	if (CountPlantsInArea (character.x, character.y, character.z, 1))
+	if (CountPlantsInArea (character.x, character.y, character.z, 1, character.realm))
 		SendSysMessage (character, "There's already another plant here!");
 		return;
 	endif
@@ -348,11 +350,11 @@ function PlantATree (character, seed)
 	subtractamount (seed, 1);
 	sendsysmessage (character, "You plant the seed");
 
-	var plant := CreateItemAtLocation (location_x, location_y, location_z, plant_type, 1);
+	var plant := CreateItemAtLocation (location_x, location_y, location_z, plant_type, 1, location_r);
 	SetObjProperty (plant, "new", 1);
 	plant.graphic := 1;
 	if (plant_top)
-		var planttop := CreateItemAtLocation (location_x, location_y, location_z, plant_top, 1);
+		var planttop := CreateItemAtLocation (location_x, location_y, location_z, plant_top, 1, location_r);
 		SetObjProperty (planttop, "new", 1);
 		planttop.graphic := 1;
 		SetObjProperty (plant, "planttop", planttop.serial);

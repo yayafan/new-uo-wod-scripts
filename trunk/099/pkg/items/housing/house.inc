@@ -178,7 +178,7 @@ endfunction
 
 function GetHouseValueOfSign (sign)
 	//static houses:
-	if (sign.objtype == 0x7060)
+	if (sign.objtype == 0x17060)
 		if (GetObjProperty (sign, "housevalue"))
 			return CINT (GetObjProperty (sign, "housevalue"));
 		endif
@@ -226,6 +226,7 @@ function GetDeedType (house)
 		69782:	deed := 0x1622D;
 		69773:	deed := 0x1622E;
 		69736:	deed := 0x1622F;
+		70779:  deed := 0x16230;
 	endcase
 	return deed;
 
@@ -612,7 +613,7 @@ endfunction
 function FindHouseSign (character)
 	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127, character.realm)
 		case (item.objtype)
-			0x7060:
+			0x17060:
 			0x0bd2:
 			0x0bd0:
 				if (IsAFriend (item, character) or character.cmdlevel)
