@@ -64,12 +64,12 @@ program plant_seed(character, seed)
 		SendSysMessage(character, "But since its your house, why not?");
 	endif
 
-	if (CountPlantsInArea (location_x, location_y, location_z, 1) > 4)
+	if (CountPlantsInArea (location_x, location_y, location_z, 1, location_r) > 4)
 		SendSysMessage (character, "There's too many other plants in the area!");
 		return;
 	endif
 
-	if (CountPlantsInArea (location_x, location_y, location_z, 0))
+	if (CountPlantsInArea (location_x, location_y, location_z, 0, location_r))
 		SendSysMessage (character, "There's already another plant here!");
 		return;
 	endif
@@ -334,7 +334,7 @@ function PlantATree (character, seed)
 		return;
 	endif
 
-	if (CountPlantsInArea (character.x, character.y, character.z, 3, , character.realm))
+	if (CountPlantsInArea (character.x, character.y, character.z, 3, character.realm))
 		SendSysMessage (character, "There's too many other plants in the area!");
 		return;
 	endif
