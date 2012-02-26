@@ -32,6 +32,8 @@ const SENDDIALOGMENU_FORCE_OLD  := 0x01;    // send UnCompressed Gump
 
 // RegisterForSpeechEvents flags
 const LISTENPT_HEAR_GHOSTS      := 0x01;    // hear ghost speech in addition to living speech
+const LISTENPT_HEAR_TOKENS      := 0x02;    // hear also speechtokens (only with ssopt.SeperateSpeechTokens)
+const LISTENPT_NO_SPEECH        := 0x04;    // hear no normal speech (only with ssopt.SeperateSpeechTokens)
 
 // List[Statics/Items]* flags
 const ITEMS_IGNORE_STATICS      := 0x01;    // Don't list Static Items
@@ -192,6 +194,7 @@ const _DEFAULT_TEXT_COLOR    := 1000;
 // Realms
 const _DEFAULT_REALM  := "britannia";
 const REALM_BRITANNIA := _DEFAULT_REALM;
+//const REALM_BRITANNIA := "britannia";
 const REALM_ILSHENAR  := "ilshenar";
 const REALM_MALAS     := "malas";
 const REALM_TOKUNO    := "tokuno";
@@ -282,7 +285,7 @@ GetGlobalPropertyNames();
 GetHarvestDifficulty( resource, x, y, tiletype, realm := _DEFAULT_REALM );
 GetMapInfo( x, y, realm := _DEFAULT_REALM );
 GetMenuObjTypes( menuname );
-GetMultiDimensions( graphic );
+GetMultiDimensions( multiid );
 GetObjProperty( object, property_name );
 GetObjPropertyNames( object );
 GetObjType( object );

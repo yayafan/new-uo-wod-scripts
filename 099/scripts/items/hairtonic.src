@@ -49,7 +49,7 @@ program growhair(me, tonic)
 	endcase
 
 	DestroyItem(hair);
-	var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1);
+	var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1, me.realm);
 	EquipItem(me,newdoo);
 	newdoo.color := haircolor;
 
@@ -85,7 +85,7 @@ program growhair(me, tonic)
 	endcase
 
 	DestroyItem(hair);
-	newdoo := createitematlocation(me.x, me.y, me.z, newhair,1);
+	newdoo := createitematlocation(me.x, me.y, me.z, newhair,1, me.realm);
 	EquipItem(me,newdoo);
 	newdoo.color := haircolor;
 

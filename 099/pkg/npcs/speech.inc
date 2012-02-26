@@ -403,7 +403,7 @@ function TakeItem (you, item)
 		setobjproperty (me, "serial", me.serial);
 	endif
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (me.x, me.y, me.z, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (me.x, me.y, me.z, UOBJ_BACKPACK, 1, me.realm);
 		if (!EquipItem (me, newbackpack))
 			DestroyItem (newbackpack);
 			return;

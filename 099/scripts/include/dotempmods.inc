@@ -189,14 +189,14 @@ function DoPersistedMod (byref who, prop, newvalue, oldvalue, duration, descript
 		"hair":
 			DestroyItem (GetEquipmentByLayer (who, LAYER_HAIR));
 			if (newvalue)
-				var newhair := CreateItemAtLocation (5288 , 1176 , 0, newvalue, 1);
+				var newhair := CreateItemAtLocation (5288 , 1176 , 0, newvalue, 1, REALM_BRITANNIA);
 				newhair.color := RandomHairColor();
 				EquipItem(who,newhair);
 			endif
 		"beard":
 			DestroyItem (GetEquipmentByLayer (who, LAYER_BEARD));
 			if (newvalue)
-				var newhair := CreateItemAtLocation (5288, 1176, 0, newvalue, 1);
+				var newhair := CreateItemAtLocation (5288, 1176, 0, newvalue, 1, REALM_BRITANNIA);
 				newhair.color := GetObjProperty (who, "beardcolor");
 				EquipItem (who, newhair);
 			endif
@@ -359,14 +359,14 @@ function UndoTheMod (byref who, prop, amt )
 		"hair":
 			DestroyItem(GetEquipmentByLayer(who,LAYER_HAIR));
 			if (oldvalue)
-				var newhair := CreateItemAtLocation(5288 , 1176 , 0, oldvalue, 1);
+				var newhair := CreateItemAtLocation(5288 , 1176 , 0, oldvalue, 1, REALM_BRITANNIA);
 				newhair.color := GetObjProperty(who,"haircolor");
 				EquipItem(who,newhair);
 			endif
 		"beard":
 			DestroyItem(GetEquipmentByLayer(who,LAYER_BEARD));
 			if (oldvalue)
-				var newhair := CreateItemAtLocation(5288 , 1176 , 0, oldvalue, 1);
+				var newhair := CreateItemAtLocation(5288 , 1176 , 0, oldvalue, 1, REALM_BRITANNIA);
 				newhair.color := GetObjProperty(who,"haircolor");
 				EquipItem(who,newhair);
 			endif

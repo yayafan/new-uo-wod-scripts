@@ -241,7 +241,7 @@ endfunction
 ///////////////////
 
 function CheckForNoLogoutArea (character)
-	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127)
+	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127, character.realm)
 		case (item.objtype)
 			0x7060:
 			0x0bd2:
@@ -297,7 +297,7 @@ function TeleportFromNoLogoutArea (byref character)
 		if (elem)
 			elemrealm := elem.Realm;
 			if (!elemrealm)
-				elemrealm := _DEFAULT_REALM;
+				elemrealm := REALM_BRITANNIA;
 			endif
 			if (character.realm == elemrealm)
 				if (character.x > elem.MinX)

@@ -59,7 +59,7 @@ function FindTeleporterToPlayer (opponent)
 		var desty := GetObjProperty (gate, "DestY");
 		var destr := GetObjProperty (gate, "DestR");
 		if (!destr)
-			destr := _DEFAULT_REALM;
+			destr := REALM_BRITANNIA;
 		endif
 		if (destx and desty and destr == opponent.realm)
 			if (CoorDist (opponent.x, opponent.y, destx, desty) < 10)
@@ -137,7 +137,7 @@ function OpenDoors (byref opponent)
 	foreach item in nearbydoors
 		//make sure its helpful and we're not running in the opposite direction or something, and that we can probably get there
 		if (item.x > lesserxpos or item.y > lesserypos)
-			if (CheckLOSAt (me, item.x, me.y, (GetMapInfo(item.x, me.y).z) ) or CheckLOSAt (me, me.x, item.y, (GetMapInfo(me.x, item.y).z)))
+			if (CheckLOSAt (me, item.x, me.y, (GetMapInfo(item.x, me.y, me.realm).z) ) or CheckLOSAt (me, me.x, item.y, (GetMapInfo(me.x, item.y, me.realm).z)))
 				OpenSelectedDoor (item);
 				SetObjProperty(me, "#opendoors", ReadGameClock() + 30 );
 				return 1;
@@ -259,9 +259,9 @@ function RunRandom (byref opponent, numruns := 2)
 	endif
 
 	if ( highy > highx )	//we want to run along the x access
-		if (!CheckLOSAt (me, (me.x - stepstotake), me.y, (GetMapInfo ((me.x - stepstotake), me.y).z)))
+		if (!CheckLOSAt (me, (me.x - stepstotake), me.y, (GetMapInfo ((me.x - stepstotake), me.y, me.realm).z)))
 			tox := (me.x + stepstotake);
-		elseif (!CheckLOSAt (me, (me.x + stepstotake), me.y, (GetMapInfo ((me.x + stepstotake), me.y).z)))
+		elseif (!CheckLOSAt (me, (me.x + stepstotake), me.y, (GetMapInfo ((me.x + stepstotake), me.y, me.realm).z)))
 			tox := (me.x - stepstotake);
 		elseif (RandomInt (2) )	//to the right
 			tox := (me.x - stepstotake);
@@ -272,9 +272,9 @@ function RunRandom (byref opponent, numruns := 2)
 			toy := opponent.y;
 		endif
 	else		//run along the y access
-		if (!CheckLOSAt (me, me.x, (me.y - stepstotake), (GetMapInfo (me.x, (me.y - stepstotake)).z)))
+		if (!CheckLOSAt (me, me.x, (me.y - stepstotake), (GetMapInfo (me.x, (me.y - stepstotake), me.realm).z)))
 			toy := (me.y + stepstotake);
-		elseif (!CheckLOSAt (me, me.x, (me.y + stepstotake), (GetMapInfo (me.x, (me.y + stepstotake)).z)))
+		elseif (!CheckLOSAt (me, me.x, (me.y + stepstotake), (GetMapInfo (me.x, (me.y + stepstotake), me.realm).z)))
 			toy := (me.y - stepstotake);
 		elseif (RandomInt (2) )	//run to the right
 			toy := (me.y - stepstotake);

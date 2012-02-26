@@ -135,7 +135,7 @@ function FinishSailing (who)
 		var sailto := getobjproperty (who, "sailto");
 		var sailtor := sailto[4];
 		if (!sailtor)
-			sailtor := _DEFAULT_REALM;
+			sailtor := REALM_BRITANNIA;
 		endif
 		MoveObjectToLocation( who, sailto[1], sailto[2], sailto[3], sailtor, MOVEOBJECT_FORCELOCATION );
 		EraseObjProperty (who, "sailto");

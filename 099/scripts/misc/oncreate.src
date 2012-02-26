@@ -16,6 +16,8 @@ include "include/skills";
 include "../pkg/combat/loot/loot";
 include "../pkg/skills/skillpick";
 
+var starteqp_cfg;
+
 program oncreate (character, skillids)
 	Print ("Character created: " + character.name);
 	CreateStartingEquipment (character, skillids);
@@ -34,9 +36,12 @@ endprogram
 //  create the character's starting equipment
 ///////////////////
 
-var starteqp_cfg := ReadConfigFile ("::starteqp");
-
 function CreateStartingEquipment (character, skillids);
+	case (character.race)
+		RACE_HUMAN: starteqp_cfg := ReadConfigFile ("::starteqp");
+		RACE_ELF: starteqp_cfg := ReadConfigFile ("::starteqp_elf");
+		RACE_GARGOYLE: starteqp_cfg := ReadConfigFile ("::starteqp_garg");
+	endcase
 	foreach skillid in skillids
 		var skillname := GetSkillName (CInt (skillid) );
 		CreateFromGroup (character.backpack, skillname);

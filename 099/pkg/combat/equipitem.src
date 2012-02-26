@@ -16,6 +16,10 @@ program double_clicked_item (character, item)
 		SendSysMessage (character, "You cannot equip that item!");
 		return;
 	endif
+	if(!IsOfAppropriateRace(character, item))
+		SendSysMessage (character, "The item isn't appropriate for your race!");
+		return 0;
+	endif
 
 	//the item needs to be in their inventory
 	if (!InInventory (character.backpack, item))

@@ -107,7 +107,7 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z )
         return 0;
     endif
 
-	var ship := CreateMultiAtLocation( x, y, z, shiptype );
+	var ship := CreateMultiAtLocation( x, y, z, shiptype, 0, character.realm );
 	if (!ship)
 		PrintTextAbovePrivate( character, "I can't place the ship there.", character );
 		DestroyItem( packkey );

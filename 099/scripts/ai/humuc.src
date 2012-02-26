@@ -17,7 +17,7 @@ var nextwatch := ReadGameClock ();
 
 program humuc_ai ()
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288, 1176, 0,UOBJ_BACKPACK, 1, _DEFAULT_REALM);
+		var newbackpack := CreateItemAtLocation (5288, 1176, 0,UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (me, newbackpack))
 			DestroyItem (newbackpack);
 		endif

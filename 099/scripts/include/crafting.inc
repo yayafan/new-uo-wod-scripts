@@ -15,7 +15,7 @@
 function FindCraftingBag (character)
 	//Make absolutely certain that they have a backpack
 	if (!character.backpack)
-		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (character, newbackpack))
 			DestroyItem (newbackpack);
 		endif

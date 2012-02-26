@@ -7,7 +7,7 @@
 // 	IsMetalWeapon(weapon) 	IsBow(weapon) 		IsArmor(armor)		//
 //	IsLeatherArmor(armor) 	IsMetalArmor(armor)	IsShield(shield)		//
 //	IsMetalShield(shield) 	IsWoodenShield(Shield)	IsClothing(clothes)	//
-//													//
+//	IsGargishItem(item)	 IsOfAppropriateRace(item) IsWand(wand)											//
 //													//
 //													//
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,9 @@ endfunction
 
 function IsWeapon (byref weapon)
 
-	if (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF5)
+	if (weapon.graphic >= 0x08fd and weapon.graphic <= 0x090c)
+		return 1;
+	elseif (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF5)
 		return 1;
 	elseif (weapon.graphic >= 0x0E81 and weapon.graphic <= 0x0E8A and weapon.graphic != 0x0E83)
 		return 1;
@@ -111,7 +113,17 @@ function IsWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x26BA and weapon.graphic <= 0x26CF)
 		return 1;
-	endif
+	elseif (weapon.graphic >= 0x27A2 and weapon.graphic <= 0x27AF)
+		return 1;
+	elseif (weapon.graphic >= 0x27ED and weapon.graphic <= 0x27FA)
+		return 1;
+	elseif (weapon.graphic >= 0x2D1E and weapon.graphic <= 0x2D35)
+		return 1;
+	elseif (weapon.graphic >= 0x4067 and weapon.graphic <= 0x4076)
+		return 1;
+	elseif (weapon.graphic >= 0x48ae and weapon.graphic <= 0x48d1)
+		return 1;
+endif
 		return 0;
 endfunction
 
@@ -133,13 +145,29 @@ function IsWoodenWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x13FC and weapon.graphic <= 0x13FD)
 		return 1;
-	elseif (weapon.graphic == 0x7068 or weapon.graphic == 0x706a)
+	elseif (weapon.graphic == 0x26C2)
+    return 1;
+  elseif (weapon.graphic == 0x26C3)
 		return 1;
-	elseif (weapon.graphic == 0x7065)
+	elseif (weapon.graphic == 0x26CC)
+    return 1;
+  elseif (weapon.graphic == 0x26CD)
 		return 1;
-	elseif (weapon.graphic == 0x26C2 or weapon.graphic == 0x26C3)
+	elseif (weapon.graphic == 0x27A5)
 		return 1;
-	elseif (weapon.graphic == 0x26CC or weapon.graphic == 0x26CD)
+	elseif (weapon.graphic == 0x27A8)
+		return 1;
+	elseif (weapon.graphic == 0x27AA)
+		return 1;
+	elseif (weapon.graphic == 0x27AE)
+		return 1;
+	elseif (weapon.graphic == 0x27F0)
+		return 1;
+	elseif (weapon.graphic == 0x27F3)
+		return 1;
+	elseif (weapon.graphic == 0x27F5)
+		return 1;
+	elseif (weapon.graphic == 0x27F9)
 		return 1;
 	endif
 		return 0;
@@ -330,6 +358,12 @@ function IsShield (byref shield)
 	if (shield.graphic >= 0x1B72 and shield.graphic <= 0x1B7B)
 		return 1;
 	elseif (shield.graphic >= 0x1BC3 and shield.graphic <= 0x1BC5)
+		return 1;
+	elseif (shield.graphic >= 0x4200 and shield.graphic <= 0x420B)
+		return 1;
+	elseif (shield.graphic >= 0x4228 and shield.graphic <= 0x422a)
+		return 1;  
+	elseif (shield.graphic == 0x422c)
 		return 1;
 	endif
 		return 0;
@@ -731,3 +765,68 @@ function IsAKey (byref item)
 	endcase
 	return 0;
 endfunction
+
+function IsGargishItem(byref item)
+	if(item.graphic >= 0x0301 and item.graphic <= 0x0311)
+		return 1;
+	elseif(item.graphic >= 0x08fd and item.graphic <= 0x090c)
+		return 1;
+	elseif(item.graphic >= 0x4000 and item.graphic <= 0x4003)
+		return 1;
+	elseif(item.graphic >= 0x4047 and item.graphic <= 0x4076)
+		return 1;
+	elseif(item.graphic >= 0x41d8 and item.graphic <= 0x41d9)
+		return 1;
+	elseif(item.graphic >= 0x4200 and item.graphic <= 0x420b)
+		return 1;
+	elseif(item.graphic >= 0x4210 and item.graphic <= 0x4213)
+		return 1;
+	elseif(item.graphic >= 0x4228 and item.graphic <= 0x422c)
+		return 1;
+	elseif(item.graphic >= 0x42de and item.graphic <= 0x42df)
+		return 1;
+	elseif(item.graphic >= 0x450d and item.graphic <= 0x450e)
+		return 1;
+	elseif(item.graphic >= 0x457e and item.graphic <= 0x457f)
+		return 1;
+	elseif(item.graphic >= 0x45a4 and item.graphic <= 0x45a5)
+		return 1;
+	elseif(item.graphic >= 0x4644 and item.graphic <= 0x4645)
+		return 1;
+	elseif(item.graphic >= 0x46aa and item.graphic <= 0x46ab)
+		return 1;
+	elseif(item.graphic >= 0x46b4 and item.graphic <= 0x46b5)
+		return 1;
+	elseif(item.graphic >= 0x48ae and item.graphic <= 0x48d1)
+		return 1;
+	elseif(item.graphic >= 0x50d8 and item.graphic <= 0x50d9)
+		return 1;
+	endif
+	return 0;
+endfunction
+
+function IsOfAppropriateRace(byref who, byref item)
+	if (who.race == RACE_GARGOYLE)
+		if (IsGargishItem(item))
+			return 1;
+		elseif (IsJewelry(item))
+			return 1;
+    elseif (IsWand(item))
+      return 1;
+    elseif (item.graphic == 0x1f03 || item.graphic == 0x1f04)
+      return 1;
+		endif
+    return 0;
+	elseif (!IsGargishItem(item))
+		return 1;
+	endif
+	return 0;
+endfunction
+
+function IsWand(byref item)
+	if(item.graphic >= 0x0df2 and item.graphic <= 0x0df5)
+		return 1;
+  endif
+  return 0;
+endfunction
+

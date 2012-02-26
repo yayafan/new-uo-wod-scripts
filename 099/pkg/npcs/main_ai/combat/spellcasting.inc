@@ -82,7 +82,7 @@ function cast_offensive_spell (byref caster, byref cast_on)
 		elseif (thespell == ":damage_spells:explosion" or thespell == ":damage_spells:meteor_swarm")
 			var good_npcs := 0;
 			var evil_npcs := 0;
-			foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 4, 0x03)
+			foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 4, 0x03, cast_on.realm)
 				if (IsHostile (mobile) and GetVital (mobile, "Life") > 5000)
 					evil_npcs := evil_npcs + 1;
 				elseif (IsGood (mobile))
@@ -96,7 +96,7 @@ function cast_offensive_spell (byref caster, byref cast_on)
 			var good_npcs := 0;
 			var evil_npcs := 0;
 			var range := CINT (GetAttribute (caster, ATTRIBUTEID_MAGERY)/15);
-			foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, 0x03)
+			foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, 0x03, cast_on.realm)
 				if (IsHostile (mobile) and GetVital (mobile, "Life") > 5000)
 					evil_npcs := evil_npcs + 1;
 				elseif (IsGood (mobile))

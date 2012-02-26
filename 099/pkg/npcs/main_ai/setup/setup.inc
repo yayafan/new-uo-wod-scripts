@@ -50,7 +50,7 @@ function DoOnCreationSetup ()
 	//The NPC will normally try to walk around a bit when created to make sure they
 	//weren't spawned somewhere where they'd be stuck, but skip that if there's a player
 	//around
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 10)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 10, me.realm)
 		if (mobile.acctname)
 			return;
 		endif

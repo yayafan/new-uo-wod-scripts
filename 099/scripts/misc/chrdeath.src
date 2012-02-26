@@ -36,13 +36,13 @@ program chrdeath (corpse, ghost)
 	DismountGhost (ghost, corpse);
 
 	//The arena
-	if (ghost.x >= 1385 and ghost.x <= 1414 and ghost.y >= 3729 and ghost.y <= 3758 and ghost.realm == _DEFAULT_REALM)
+	if (ghost.x >= 1385 and ghost.x <= 1414 and ghost.y >= 3729 and ghost.y <= 3758 and ghost.realm == REALM_BRITANNIA)
 		AutoRes (ghost, corpse);
 		foreach reportable in (ghost.reportables)
 			ghost.RemoveReportable (reportable.serial, reportable.gameclock);
 		endforeach
 		return;
-	elseif (ghost.x >= 4413 and ghost.x <= 4428 and ghost.y >= 1152 and ghost.y <= 1162)
+	elseif (ghost.x >= 4413 and ghost.x <= 4428 and ghost.y >= 1152 and ghost.y <= 1162 and ghost.realm == REALM_BRITANNIA)
 		return;
 	endif
 
@@ -51,7 +51,7 @@ program chrdeath (corpse, ghost)
 		if (mob.npctemplate["humuc"] and GetObjProperty (mob, "master") == ghost.serial)
 			set_critical (1);
 			MoveObjectToLocation( ghost, mob.x, mob.y, mob.z, mob.realm, MOVEOBJECT_FORCELOCATION );
-			MoveObjectToLocation( mob, 5288, 1176, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( mob, 5288, 1176, 0, REALM_BRITANNIA, MOVEOBJECT_FORCELOCATION );
 			Resurrect (ghost);
 
 			DoPersistedMod (ghost, "color", mob.color, ghost.color, 2400, "Humunculus");
@@ -139,7 +139,7 @@ endfunction
 function AutoRes ( ghost, corpse )
 	set_script_option (SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES, 1);
 	sleep (5);
-	MoveObjectToLocation( ghost, 1379, 3744, 0, _DEFAULT_REALM, MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( ghost, 1379, 3744, 0, REALM_BRITANNIA, MOVEOBJECT_FORCELOCATION );
 	Resurrect (ghost);
 	ghost.hp := CINT (ghost.maxhp/2);
 	ghost.stamina := CINT (ghost.maxstamina/2);
