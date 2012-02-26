@@ -514,7 +514,7 @@ function AbovePetCount (range := 10)
 
 	var normal_pets := 0;
 	var summoned_pets := 0;
-	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, range)
+	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, range, me.realm)
 		if ( (mob.script["tamed"]) and (GetObjProperty (mob, "master") == masterserial) )
 			//If there's 2 daemons, they always fight one another
 			if (me.npctemplate["daemon"])
@@ -570,7 +570,7 @@ function AbovePetCount (range := 10)
 				return;
 			endif
 	
-			foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, range)
+			foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, range, me.realm)
 				if ( (mob.script["tamed"]) and (GetObjProperty (mob, "master") == masterserial) )
 					if (GetObjProperty (mob, "summoned"))
 						return 1;
@@ -756,7 +756,7 @@ function poop();
 				0xc8:
 				0xe2:
 				0x123:
-					var poopoo := CreateItemAtLocation (me.x, me.y, me.z, 0x0f3c, 1);
+					var poopoo := CreateItemAtLocation (me.x, me.y, me.z, 0x0f3c, 1, me.realm);
 					poopoo.decayat := ReadGameClock() + 300;
 					poopoo.movable := 0;
 				default:
@@ -820,7 +820,7 @@ function DoDoubleClickEvent ();
 		CID_PACK_HORSE:
 		CID_PACK_LLAMA:
 			if (!me.backpack)
-				var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+				var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 				if (!EquipItem (me, newbackpack))
 					DestroyItem (newbackpack);
 				endif
@@ -898,7 +898,7 @@ function DoDoubleClickEvent ();
 			drop();
 			set_critical (1);
 			master.facing := me.facing;
-			var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, _DEFAULT_REALM);
+			var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, REALM_BRITANNIA);
 			if (!mount)
 				set_critical(0);
 				return;
@@ -970,7 +970,7 @@ function TakeItem (ev)
 	//pack animal put anything other than food in their backpacks
 	if ( (me.graphic == CID_PACK_HORSE ) or (me.graphic == CID_PACK_LLAMA) )
 		if (!me.backpack)
-			var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+			var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 			EquipItem (me, newbackpack);
 		endif
 		MoveItemToContainer (ev.item, me.backpack);
@@ -1384,7 +1384,7 @@ function CastHealingSpells (me, opponent)
 		endif
 	endforeach
 
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15, me.realm)
 		if (mobile.acctname or GetObjProperty (mobile, "master"))
 			if (GetVital (mobile, "Life") * 2 < GetVitalMaximumValue (mobile, "Life"))
 				CastSpell (me, mobile, ":misc_spells:gheal");

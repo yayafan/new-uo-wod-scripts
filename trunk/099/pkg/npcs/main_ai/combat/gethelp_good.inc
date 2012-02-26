@@ -9,7 +9,7 @@ function GetHelpFromAllies ( byref opponent )
 	ev.+source := opponent;
 
 	var foundhelper := 0;
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD, me.realm )
 		if ( IsGood (mobile) and !mobile.warmode and mobile != me and mobile.npctemplate)
 			SendEvent (mobile, ev);
 			foundhelper := 1;

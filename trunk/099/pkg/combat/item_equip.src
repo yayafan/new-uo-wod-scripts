@@ -10,6 +10,10 @@ include "../pkg/character/virtue/virtue";
 var itemdesc := ReadConfigFile (":*:itemdesc");
 
 program equip_item (who, item )
+	if(!IsOfAppropriateRace(who, item))
+		SendSysMessage (who, "The item isn't appropriate for your race!");
+		return 0;
+	endif
 	//Can't equip unidentified items
 	if (who.acctname or GetObjProperty (who, "master"))
 		if (!who.cmdlevel)
@@ -49,8 +53,6 @@ program equip_item (who, item )
 	DoEquipSpell (who, item);
 	return 1;
 endprogram
-
-
 
 
 ///////////////////

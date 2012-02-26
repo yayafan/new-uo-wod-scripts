@@ -38,14 +38,14 @@ WriteHTML ("Searching for boats owned by " + serialnumber + "...<br>");
 var x, y, found := 0;
 for (x := 6144 ; x > 64 ; x := x  - 128)
 	for( y := 64; y < 4096; y := y + 128 )
-		foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127)
+		foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127, REALM_BRITANNIA)
 			//look for holds
 			if (item.objtype == 0xF013)
 				var ownerserial := GetObjProperty (item, "owner");
 				if (!ownerserial)
-					WriteHTML ("Unowned boat at " + item.x + ", " + item.y + "<br>");
+					WriteHTML ("Unowned boat at " + item.x + ", " + item.y + ", " + item.realm + "<br>");
 				elseif (ownerserial == serialnumber)
-					WriteHTML ("Found a match at " + item.x + ", " + item.y + "<br>");
+					WriteHTML ("Found a match at " + item.x + ", " + item.y + ", " + item.realm + "<br>");
 					found := found + 1;
 				endif
 			endif

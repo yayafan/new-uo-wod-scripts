@@ -62,7 +62,7 @@ program npcdeath (corpse)
 		//gotta do special stuff for doppelgangers
 		if (npctemplate["doppelganger"])
 			set_critical (1);
-			var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+			var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 			if (!EquipItem (horse, newbackpack))
 				DestroyItem (newbackpack);
 			endif
@@ -166,7 +166,7 @@ program npcdeath (corpse)
 	endif
 
 	if ( getobjproperty (corpse, "diseased") )
-		foreach mob in listmobilesnearlocation (corpse.x, corpse.y, corpse.z, 10)
+		foreach mob in listmobilesnearlocation (corpse.x, corpse.y, corpse.z, 10, corpse.realm)
 			if ( (mob.script == "barker") or (mob.script == "animal") or
 				(mob.script == "wolf") or (mob.script == "sheep") or (mob.script == "dumbkillpcs") )
 				mob.name := "a diseased " + TruncateArticle(mob.name);
@@ -236,7 +236,7 @@ endfunction
 
 function RemakeTotem (corpse, npctemplate)
 	PlaySoundEffect (corpse, SFX_SPELL_DISPEL);
-	PlayStationaryEffect (corpse.x, corpse.y, corpse.z, FX_SMOKE, 0xA, 0xA );
+	PlayStationaryEffect (corpse.x, corpse.y, corpse.z, FX_SMOKE, 0xA, 0xA, 0, corpse.realm );
 	EraseObjProperty (corpse, "totemdeaths");
 
 	var totemtype := GetObjProperty (corpse, "totem");

@@ -65,7 +65,7 @@ function DoStartupSetup ()
 	endif
 
 	if (!me.backpack)
-		var newpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+		var newpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (me, newpack))
 			DestroyItem (newpack);
 		endif
@@ -127,7 +127,7 @@ function DoStartupSetup ()
 	//light source for NPCs that should glow
 	if ( MyTemplateElem.light )
 		var light_type := MyTemplateElem.light;
-		var light := CreateItemAtLocation (5288, 1176, 0, light_type, 1);
+		var light := CreateItemAtLocation (5288, 1176, 0, light_type, 1, REALM_BRITANNIA);
 		light.newbie := 1;
 		light.facing := 29;
 		if (!EquipItem (me, light))

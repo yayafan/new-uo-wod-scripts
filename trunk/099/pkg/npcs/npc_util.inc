@@ -120,15 +120,15 @@ endfunction
 ///////////////////
 
 function grabloot()
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 6)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 6, me.realm)
 		if (item.movable or item.objtype == UOBJ_CORPSE)
 			if (CheckLineOfSight (me, item) )
-				var sh := GetStandingHeight (item.x, item.y, item.z);
+				var sh := GetStandingHeight (item.x, item.y, item.z, item.realm);
 				if (sh.multi or sh.multi.serial)
 					break;
 				endif
 
-				var info := cint(GetMapInfo( item.x , item.y ).landtile);
+				var info := cint(GetMapInfo( item.x , item.y, item.realm ).landtile);
 				if (info > cint(0x405) and info < cint(0x456))
 					break;
 				endif

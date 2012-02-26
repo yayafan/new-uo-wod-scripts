@@ -241,7 +241,7 @@ function CarveTree (user, tree)
 		return;
 	endif
 
-	var wood_amount := HarvestResource ("wood", tree.x, tree.y, 2, 3);
+	var wood_amount := HarvestResource ("wood", tree.x, tree.y, 2, 3, tree.realm);
 	if (!wood_amount)
 		SendSysmessage (user, "There's no kindling left.");
 		return 0;
@@ -315,11 +315,11 @@ function CarveCorpse (character, cadaver)
 endfunction
 
 function CheckBlood (corpse)
-	foreach item in ListItemsNearLocationOfType (corpse.x, corpse.y, corpse.z, 0, UOBJ_BLOOD)
+	foreach item in ListItemsNearLocationOfType (corpse.x, corpse.y, corpse.z, 0, UOBJ_BLOOD, corpse.realm)
 		item.graphic := 0x122a;
 		return;
 	endforeach
-	var item := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, UOBJ_BLOOD, 1);
+	var item := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, UOBJ_BLOOD, 1, corpse.realm);
 	item.graphic := 0x122a;
 endfunction
 
@@ -370,7 +370,7 @@ function shavebeard (me)
 	DestroyItem(beard);
 
 	if (newbeard)
-		var newdoo := createitematlocation(me.x, me.y, me.z, newbeard,1);
+		var newdoo := createitematlocation(me.x, me.y, me.z, newbeard,1, me.realm);
 		if (newdoo)
 			EquipItem(me,newdoo);
 			newdoo.color := newbeardcolor;
@@ -415,7 +415,7 @@ function shavestache (me)
 	DestroyItem(beard);
 
 	if (newbeard)
-		var newdoo := createitematlocation(me.x, me.y, me.z, newbeard,1);
+		var newdoo := createitematlocation(me.x, me.y, me.z, newbeard,1, me.realm);
 		if (newdoo)
 			EquipItem(me,newdoo);
 			newdoo.color := newbeardcolor;
@@ -463,7 +463,7 @@ function CombHair(me)
 	DestroyItem(hair);
 
 	if (newhair)
-		var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1);
+		var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1, me.realm);
 		if (newdoo)
 			EquipItem(me,newdoo);
 			newdoo.color := newhaircolor;
