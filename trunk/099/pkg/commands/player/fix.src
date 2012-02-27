@@ -16,7 +16,7 @@ program fixme (character)
 		return;
 	endif
 
-	var z := GetMapInfo (character.x, character.y).z;
+	var z := GetMapInfo (character.x, character.y, character.realm).z;
 	MoveObjectToLocation( character, character.x, character.y, z, character.realm, flags := MOVEOBJECT_NORMAL );
 
 endprogram

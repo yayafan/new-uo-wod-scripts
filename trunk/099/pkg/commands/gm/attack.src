@@ -32,7 +32,7 @@ program bard_provoke (speaker, text)
 		ev.+source := speaker;
 		ev.+target := targetted;
 
-		foreach mobile in ListMobilesNearLocation (speaker.x, speaker.y, speaker.z, 20)
+		foreach mobile in ListMobilesNearLocation (speaker.x, speaker.y, speaker.z, 20, speaker.realm)
 			if (mobile.script == "tamed")
 				var master := GetObjProperty (mobile, "master");
 				if (master and master == speaker.serial)

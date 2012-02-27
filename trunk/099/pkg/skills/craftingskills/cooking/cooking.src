@@ -600,7 +600,7 @@ function can_be_cooked (byref character, byref current_recipe)
 
 	//else if it requires a fire, search through all var items for a fire
 	elseif (current_recipe.cooking_method == 1)
-		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2)
+		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2, character.realm)
 			if ((item.objtype >= 0x045d) and (item.objtype <= 0x0460))
 				return 1;
 			elseif ((item.objtype >= 0x0475) and (item.objtype <= 0x048e))
@@ -615,7 +615,7 @@ function can_be_cooked (byref character, byref current_recipe)
 
 	//else if it requires an oven, search for an oven
 	elseif (current_recipe.cooking_method == 2)
-		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2)
+		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2, character.realm)
 			if ((item.objtype >= 0x0461) and (item.objtype <= 0x046f))
 				return 1;
 			elseif ((item.objtype >= 0x092b) and (item.objtype <= 0x0934))
@@ -626,7 +626,7 @@ function can_be_cooked (byref character, byref current_recipe)
 
 	//else if it can be made in either a fire of an oven, check for both
 	elseif (current_recipe.cooking_method == 3)
-		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2)
+		foreach item in ListItemsNearLocation(character.x, character.y, character.z,2, character.realm)
 			if ((item.objtype >= 0x0461) and (item.objtype <= 0x046f))
 				return 1;
 			elseif ((item.objtype >= 0x092b) and (item.objtype <= 0x0934))

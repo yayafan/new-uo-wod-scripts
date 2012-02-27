@@ -55,7 +55,7 @@ program forsalesign( who , sign )
 	endif
 
 	set_critical (1);
-	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x7060, 1);
+	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x17060, 1, sign.realm);
 	if (!newsign)
 		SendSysMessage (who, "Unable to create a sign there!");
 		return;
@@ -88,7 +88,7 @@ function ChangeTheLocks (who, sign)
 	SetObjProperty (newkey, "lockid", lockid);
  
 	var z;
-	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127)
+	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
 		if (item.isa (POLCLASS_DOOR))
 			if ((item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
 					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )

@@ -11,7 +11,7 @@ program itemaddset( who, item)
   var where := TargetCoordinates(who);
   for (i:=1;i<=itemtotal;i:=i+1)
     var iteminfo := GetObjProperty(item, "iteminfo" +i);
-    var theitem := CreateItemAtLocation(where.x+iteminfo[1], where.y+iteminfo[2], where.z+iteminfo[3], totalthings[i], 1);
+    var theitem := CreateItemAtLocation(where.x+iteminfo[1], where.y+iteminfo[2], where.z+iteminfo[3], totalthings[i], 1, where.realm);
     theitem.color := iteminfo[4];
     theitem.movable := iteminfo[5];
   endfor

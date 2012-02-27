@@ -13,7 +13,7 @@ program restart_AI (character, text)
 
 	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
 		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, REALM_BRITANNIA)
 				if (GetObjProperty (item, "master"))
 					if (GetObjProperty (item, "master") == searchserial)
 						number_found := number_found + 1;

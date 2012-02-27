@@ -661,7 +661,7 @@ endfunction
 ///////////////////
 
 function SearchForOvenInArea (character)
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
 		if ((item.objtype >= 0x0461) and (item.objtype <= 0x046f))
 			return 1;
 		elseif ((item.objtype >= 0x092b) and (item.objtype <= 0x0934))

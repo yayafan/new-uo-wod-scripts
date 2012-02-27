@@ -32,7 +32,7 @@ program summonnpc(who,item)
       9:  newx := who.x + RandomInt( 9) - RandomInt( 9);    newy := who.y + RandomInt( 9) - RandomInt( 9);
      10:  newx := who.x + RandomInt(10) - RandomInt(10);    newy := who.y + RandomInt(10) - RandomInt(10);
     endcase
-    newz:= GetWorldHeight(newx, newy);
+    newz:= GetWorldHeight(newx, newy, who.realm);
     if(!MoveObjectToLocation( monstr, newx, newy, newz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION ))
 	  SendSysMessage(who, "NPC no longer exists.");
 	  return;

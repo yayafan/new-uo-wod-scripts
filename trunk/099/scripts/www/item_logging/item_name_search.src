@@ -77,7 +77,7 @@ endforeach
 var x, y;
 for (x := 6144 ; x > 64 ; x := x  - 128)
 	for( y := 64; y < 4096; y := y + 128 )
-		foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127)
+		foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127, REALM_BRITANNIA)
 			loweredname := Lower (item.desc);
 			if (loweredname[itemname])
 				WriteHTML ("Found a match at " + item.x + ", " + item.y + ", " + item.z + ", " + item.desc + "<br>");

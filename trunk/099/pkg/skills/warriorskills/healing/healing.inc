@@ -335,7 +335,7 @@ function ResurrectPet (healer, corpse, bandages)
 		return;
 	endif
 
-	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (new_npc, newbackpack))
 		DestroyItem (newbackpack);
 	endif

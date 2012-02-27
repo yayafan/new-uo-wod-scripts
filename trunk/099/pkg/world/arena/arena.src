@@ -115,7 +115,7 @@ function DoBasicPVMBattle (character, arena_stone)
 	var npcelem := FindConfigElem (cfgfile, npcarray[npcselection]);
 	var npctemplate := npcelem.npctemplate;
 	
-	var opponent := CreateNPCFromTemplate (npctemplate, 1406, 3751, -21);
+	var opponent := CreateNPCFromTemplate (npctemplate, 1406, 3751, -21, 0, REALM_BRITANNIA);
 	if (!opponent)
 		SendSysMessage (character, "Error creating NPC.");
 		return;

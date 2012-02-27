@@ -58,7 +58,7 @@ program unshrink_npcs (character, dolly)
 	mobile.script := GetObjProperty (dolly, "script");
 	RestartScript (mobile);
 	if (!mobile.backpack)
-		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK,1);
+		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK,1, REALM_BRITANNIA);
 		if (!EquipItem (mobile, newbackpack));
 			DestroyItem (newbackpack);
 		endif

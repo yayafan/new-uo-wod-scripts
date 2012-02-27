@@ -18,7 +18,7 @@ program destroy_radius ( character, radius )
 	endif
 
 	var item_count := 0;
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, radius)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, radius, character.realm)
 		DestroyItem (item);
 		item_count := item_count + 1;
 	endforeach

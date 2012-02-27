@@ -98,6 +98,7 @@ program merchant_gate (player)
 	var xgateloc := 0;
 	var ygateloc := 0;
 	var zgateloc := 0;
+	var rgateloc := REALM_BRITANNIA;
 	case (gump_return[0])
 		1:	//Covetous
 			xgateloc := 2524;
@@ -148,19 +149,20 @@ program merchant_gate (player)
 	var casterx := merchant.x;
 	var castery := merchant.y;
 	var casterz := merchant.z;
+	var casterr := merchant.realm;
 
 	set_critical (1);
-	var pregate := CreateItemAtLocation (casterx, castery, casterz, 0x1af3, 1);
+	var pregate := CreateItemAtLocation (casterx, castery, casterz, 0x1af3, 1, casterr);
 	pregate.movable := 0;
 	pregate.facing := 1;
 	PlaySoundEffect (merchant, SFX_SPELL_GATE_TRAVEL);
 	sleepms (1500);
 	DestroyItem (pregate);
 
-	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1);
+	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1, casterr);
 	gate1.movable := 0;
 	gate1.facing := 1;
-	var gate2 := CreateItemAtLocation (xgateloc, ygateloc, zgateloc, UOBJ_BLUE_MOONGATE, 1);
+	var gate2 := CreateItemAtLocation (xgateloc, ygateloc, zgateloc, UOBJ_BLUE_MOONGATE, 1, rgateloc);
 	gate2.movable := 0;
 	gate2.facing := 1;
 	if (!gate1 or !gate2)
@@ -170,15 +172,17 @@ program merchant_gate (player)
 	SetObjProperty (gate1, "GateDestX", gate2.x);
 	SetObjProperty (gate1, "GateDestY", gate2.y);
 	SetObjProperty (gate1, "GateDestZ", gate2.z);
+	SetObjProperty (gate1, "GateDestR", gate2.realm);
 	SetObjProperty (gate2, "GateDestX", gate1.x);
 	SetObjProperty (gate2, "GateDestY", gate1.y);
 	SetObjProperty (gate2, "GateDestZ", gate1.z);
+	SetObjProperty (gate2, "GateDestR", gate1.realm);
 
 	SetObjProperty (gate1, "summoned_field", 1);
 	SetObjProperty (gate2, "summoned_field", 1);
 	
 	var forbidden_gaters := {};
-	foreach mob in ListMobilesNearLocation (merchant.x, merchant.y, merchant.z, 10)
+	foreach mob in ListMobilesNearLocation (merchant.x, merchant.y, merchant.z, 10, merchant.realm)
 		if (mob.npctemplate)
 			if (GetObjProperty (mob, "myhome"))
 				forbidden_gaters.append (mob);

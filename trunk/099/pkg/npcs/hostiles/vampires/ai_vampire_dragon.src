@@ -47,7 +47,7 @@ function SuckBlood (byref opponent)
 	PerformAction (me, 0xc3);
 	PlaySoundEffect (me, 0xfc);
 
-	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 4, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 4, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm)
 		if (!IsAnUndeadCreature (mobile.npctemplate) or !mobile.npctemplate)
 			var damage_done := RandomInt (vampire_drain) + vampire_drain;
 			var total_hp := GetVital (me, "Life") + damage_done * 100;

@@ -39,7 +39,7 @@ program ai_grasping_roots ()
 			return;
 		endif
 
-		foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 1)
+		foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 1, me.realm)
 			if (critter != me)
 				if (!CheckSkill (critter, SKILLID_MAGICRESISTANCE, difficulty, 0))
 					PerformAction (me, RandomInt (3) + 4);

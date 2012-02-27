@@ -168,7 +168,7 @@ function PlantFlowers (character, seed)
 		return;
 	endif
 
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1, character.realm)
  		If (IsDoor(item))
     			SendSysMessage (character, "You are too close to a door!");
     			return;
@@ -193,6 +193,7 @@ function PlantFlowers (character, seed)
 	var x := character.x;
 	var y := character.y;
 	var z := character.z;
+	var rlm := character.realm;
 	if (targetted != character)
 		case (targetted.objtype)
 			0x0b45:
@@ -217,6 +218,7 @@ function PlantFlowers (character, seed)
 		endif
 		x := targetted.x;
 		y := targetted.y;
+		rlm := targetted.realm;
 	endif
 
 	var flowertype := SelectFlowerType (character);
@@ -228,7 +230,7 @@ function PlantFlowers (character, seed)
 		return;
 	endif
 	
-	var item := CreateItemAtLocation (x, y, z, flowertype, 1);
+	var item := CreateItemAtLocation (x, y, z, flowertype, 1, rlm);
 	if (item)
 		item.movable := 0;
 		SetObjProperty (item, "lockeddown", sign.serial);
@@ -286,21 +288,21 @@ function PlaceBeehive (character, starterhive)
 		return;
 	endif
 	
-	foreach item in ListItemsNearLocation (starterhive.x, starterhive.y, starterhive.z, 2)
+	foreach item in ListItemsNearLocation (starterhive.x, starterhive.y, starterhive.z, 2, starterhive.realm)
 		if (item.isa (POLCLASS_DOOR))
 			SendSysMessage (character, "You're too close to a door!");
 			return;
 		endif
 	endforeach
 
-	foreach item in ListItemsNearLocation (starterhive.x, starterhive.y, starterhive.z, 1)
+	foreach item in ListItemsNearLocation (starterhive.x, starterhive.y, starterhive.z, 1, starterhive.realm)
 		if (item.objtype == 0x091a)
 			SendSysMessage (character, "You're too close to another beehive!");
 			return;
 		endif
 	endforeach
 
-	var newbeehive := CreateItemAtLocation (starterhive.x, starterhive.y, starterhive.z, 0x091a, 1);
+	var newbeehive := CreateItemAtLocation (starterhive.x, starterhive.y, starterhive.z, 0x091a, 1, starterhive.realm);
 	if (!newbeehive)
 		SendSysMessage (character, "You can't place the beehive there!");
 		return;

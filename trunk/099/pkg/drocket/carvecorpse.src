@@ -34,10 +34,10 @@ program carve_corpse (parms)
 endprogram
 
 function CheckBlood (corpse)
-	foreach item in ListItemsNearLocationOfType (corpse.x, corpse.y, corpse.z, 0, UOBJ_BLOOD)
+	foreach item in ListItemsNearLocationOfType (corpse.x, corpse.y, corpse.z, 0, UOBJ_BLOOD, corpse.realm)
 		item.graphic := 0x122a;
 		return;
 	endforeach
-	var item := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, UOBJ_BLOOD, 1);
+	var item := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, UOBJ_BLOOD, 1, corpse.realm);
 	item.graphic := 0x122a;
 endfunction

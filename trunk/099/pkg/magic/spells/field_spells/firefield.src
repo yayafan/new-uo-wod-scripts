@@ -19,7 +19,7 @@ program spell_firefield( parms, spellid )
 	endif
 
 	var duration := 20 + CINT (caster_magery/4);
-	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "fire", duration);
+	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "fire", duration, 0, cast_loc.realm);
 	return 1;
 endprogram
 

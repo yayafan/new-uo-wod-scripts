@@ -80,7 +80,7 @@ program copy_item (character, text)
 			return;
 		endif
 		
-		var item := CreateItemAtLocation (location.x + x_offset, location.y + y_offset, location.z + z_offset, what.objtype, 1);
+		var item := CreateItemAtLocation (location.x + x_offset, location.y + y_offset, location.z + z_offset, what.objtype, 1, location.realm);
 		item.movable := what.movable;
 		item.color := what.color;
 	until (done or !character);

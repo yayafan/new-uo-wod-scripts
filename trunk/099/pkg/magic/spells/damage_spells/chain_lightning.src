@@ -23,7 +23,7 @@ program cast_chainlightning (parms, spellid)
 
 	var range := CINT (caster_magery/15);
 	var dmg := 0;
-	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, cast_on.realm)
 		if (!mobile.hidden or !GetObjProperty (mobile, "#specialhidden_nodamage"))
 			dmg := Resisted (caster, mobile, CalcSpellDamageByCircle (spell_circle-1));
 			if (caster.acctname)

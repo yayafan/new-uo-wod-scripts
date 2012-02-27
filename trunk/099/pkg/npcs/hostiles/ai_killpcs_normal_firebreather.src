@@ -97,7 +97,7 @@ function BreathFire (byref opponent)
 		firedamage := "4d6";
 	endif
 
-	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 5, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm)
 		if (!mobile.hidden or !GetObjProperty (mobile, "#specialhidden_nodamage"))
 			if (mobile != me and !mobile.npctemplate["humuc"])
 				var dmg := CINT (RandomDiceRoll (firedamage) * percent_modifier);

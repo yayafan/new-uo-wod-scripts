@@ -37,7 +37,7 @@ program bard_peacemake (character)
 	var elem, difficulty;
 	var succeeded := 0;
 	set_critical (1);
-	foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, range)
+	foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, range, character.realm)
 		if (mobile.warmode and mobile.npctemplate and !GetObjProperty (mobile, "master"))
 			var last_peacemade := GetObjProperty (mobile, "#peacemade");
 			if (!last_peacemade)

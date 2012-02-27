@@ -227,7 +227,7 @@ function JoinPlayer (byref player)
 
 	set_critical (1);
 	var men := 0;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 20)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 20, me.realm)
 		if (mobile.script[":guards:henchman"] and GetObjProperty (mobile, "master") == player.serial)
 			men := men + 1;
 		endif

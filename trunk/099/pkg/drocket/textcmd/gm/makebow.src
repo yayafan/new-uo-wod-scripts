@@ -8,7 +8,7 @@ program make_bow (character)
 		return;
 	endif
 	
-	var thebow := CreateItemAtLocation (targetted.x, targetted.y, targetted.z+8, 0xB010, 1);
+	var thebow := CreateItemAtLocation (targetted.x, targetted.y, targetted.z+8, 0xB010, 1, targetted.realm);
 	if (!thebow)
 		SendSysMessage (character, "Error creating bow");
 		return;

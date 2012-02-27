@@ -90,7 +90,7 @@ function ProcessSpeechEvent (staff, event)
 			if (!lvl)
 				SendSysMessage (event.source, "Canceled");
 			else
-				var blight := CreateItemAtLocation (event.source.x, event.source.y, event.source.z, 0x706d, 1);
+				var blight := CreateItemAtLocation (event.source.x, event.source.y, event.source.z, 0x1706d, 1, event.source.realm);
 				SetObjProperty (blight, "difficulty", lvl);
 			endif
 	elseif (lower(event.text) == "nigh tir")

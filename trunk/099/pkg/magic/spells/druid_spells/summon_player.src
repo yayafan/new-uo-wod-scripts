@@ -103,8 +103,8 @@ function OpenDruidGate (caster, caston)
 		return;
 	endif
 
-	var pregate := CreateItemAtLocation (caston.x, caston.y, caston.z, 0x1af3, 1);
-	var pregate2 := CreateItemAtLocation (caster.x, caster.y, caster.z, 0x1af3, 1);
+	var pregate := CreateItemAtLocation (caston.x, caston.y, caston.z, 0x1af3, 1, caston.realm);
+	var pregate2 := CreateItemAtLocation (caster.x, caster.y, caster.z, 0x1af3, 1, caster.realm);
 	pregate.facing := 1;
 	pregate.movable := 0;
 	pregate.color := 1435;
@@ -122,9 +122,10 @@ function OpenDruidGate (caster, caston)
 	var castonx := pregate.x;
 	var castony := pregate.y;
 	var castonz := pregate.z;
+	var castonr := pregate.realm;
 	DestroyItem (pregate);
 
-	var gate := CreateItemAtLocation (castonx, castony, castonz, UOBJ_BLUE_MOONGATE, 1);
+	var gate := CreateItemAtLocation (castonx, castony, castonz, UOBJ_BLUE_MOONGATE, 1, castonr);
 	if (!gate) return; endif
 	gate.facing := 1;
 	gate.movable := 0;
@@ -134,6 +135,7 @@ function OpenDruidGate (caster, caston)
 	SetObjProperty (gate, "GateDestX", caster.x);
 	SetObjProperty (gate, "GateDestY", caster.y);
 	SetObjProperty (gate, "GateDestZ", caster.z);
+	SetObjProperty (gate, "GateDestR", caster.realm);
 
 	SetObjProperty (gate, "summoned_field", 1);
 	SetObjProperty (pregate2, "summoned_field", 1);

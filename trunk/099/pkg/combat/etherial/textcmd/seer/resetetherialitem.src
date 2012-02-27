@@ -17,7 +17,7 @@ program reset_etherial_item (character)
 	SetObjProperty (targetted, "returntime", ReadGameClock() + 604800);
 
 	SetObjProperty (targetted, "tname", GetObjProperty (targetted, "etherialname"));
-	var newitem := CreateItemAtLocation (1, 1, 1, targetted.objtype, 1);
+	var newitem := CreateItemAtLocation (1, 1, 1, targetted.objtype, 1, REALM_BRITANNIA);
 	if (newitem)
 		targetted.name := CSTR ("a magic " + TruncateArticle (newitem.desc));
 		DestroyItem (newitem);

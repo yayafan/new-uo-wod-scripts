@@ -36,7 +36,7 @@ program player_listener (character)
 				//henchman resurrection
 				if (character.dead)
 					if (evtext["heal me"])
-						foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, 8)
+						foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, 8, character.realm)
 							if (mobile.npctemplate)
 								if (GetObjProperty (mobile, "master"))
 									if (GetObjProperty (mobile, "master") == character.serial)

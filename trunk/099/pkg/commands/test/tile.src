@@ -94,7 +94,7 @@ program textcmd_tile( who, input )
 
     while ( startX <= endX )
         while ( startY <= endY )
-           CreateItemAtLocation( startX , startY , tileZ, tileItem , 1 );
+           CreateItemAtLocation( startX , startY , tileZ, tileItem , 1, coordStructOne.realm );
            startY := startY + 1;
         endwhile
         startY := fooY;

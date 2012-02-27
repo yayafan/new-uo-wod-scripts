@@ -19,7 +19,7 @@ program cast_archcure( parms, spellid )
 	endif
 
 	var range := CINT (caster_magery/15);
-	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, range)
+	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, range, cast_loc.realm)
 		if (mobile.poisoned)
 			var diffi := (GetPoisonLevel(mobile) * 5)+50;
 			PlayObjectCenteredEffect(mobile, FX_BLESS_EFFECT, 5, 5);

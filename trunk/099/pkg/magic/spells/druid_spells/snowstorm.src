@@ -54,7 +54,7 @@ program cast_frost_shield (parms)
 	var snowsquall := {};
 	for i := 1 to (CINT (range*range/4))
 		var tempitem := 
-		tempitem := CreateItemAtLocation (0, 0, 0, 0x706c, 1);
+		tempitem := CreateItemAtLocation (0, 0, 0, 0x1706c, 1, REALM_BRITANNIA);
 		tempitem.graphic := 0x376a;
 		if (RandomInt (3) == 1)
 			tempitem.graphic := 0x375a;

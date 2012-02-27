@@ -74,7 +74,7 @@ function FindNecroGravestone(me)
 	//create item 0xED6 and set it in a graveyard
 	//set cprop "necro" to the highest level scroll (1 through 16) that can be found
 
-	foreach stone in ListItemsNearLocationOfType(me.x, me.y, me.z, 15, 0xED6 );
+	foreach stone in ListItemsNearLocationOfType(me.x, me.y, me.z, 15, 0xED6, me.realm );
 		if (GetObjProperty (stone, "necro"))
 			return GetObjProperty (stone, "necro");
 		endif
@@ -135,13 +135,13 @@ function ContactUndead(me, stonelevel)
 		PrintTextAbove (it, "I give you only this!");
 		var scroll := GetScrollType(stonelevel);
 		if (RandomInt(20) > stonelevel)
-			CreateItemAtLocation(it.x, it.y, it.z, scroll, 1);
+			CreateItemAtLocation(it.x, it.y, it.z, scroll, 1, it.realm);
 		endif
 		MakeAMess(it, stonelevel);
 		sleep(2);
 		SetObjProperty (it, "guardkill",1);
 		PlaySoundEffect( me, SFX_SPELL_DISPEL );
-		PlayStationaryEffect( it.x, it.y, it.z, FX_SMOKE, 0xA, 0xA );
+		PlayStationaryEffect( it.x, it.y, it.z, FX_SMOKE, 0xA, 0xA, 0, it.realm );
 		KillNPC (it);
 	endif
 
@@ -219,7 +219,7 @@ function MakeAMess(me, stonelevel)
 				maxamt := 2;
 			default: stuff := 0x0F7E;	//Bone
 		endcase
-		CreateItemAtLocation (me.x, me.y, me.z, stuff, randomint(maxamt));
+		CreateItemAtLocation (me.x, me.y, me.z, stuff, randomint(maxamt), me.realm);
 	endfor
 
 endfunction
@@ -240,7 +240,7 @@ function DrainVitae(me)
 	var maxhealamount := (necromancyskill/10) + 4;
 	var minhealamount := 1 + (maxhealamount/2);
 	var healamount := 0;
-	foreach freshcorpse in ListItemsNearLocationOfType(me.x, me.y, me.z, 3, 0x2006 );
+	foreach freshcorpse in ListItemsNearLocationOfType(me.x, me.y, me.z, 3, 0x2006, me.realm );
 		if (!GetObjProperty (freshcorpse, "drainedvitae"))
 			SetObjProperty (freshcorpse, "drainedvitae", 1);
 			freshcorpse.set_member("color", COLOR_GRAY);

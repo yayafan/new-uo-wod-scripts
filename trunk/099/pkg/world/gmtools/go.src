@@ -82,7 +82,7 @@ program textcmd_go( who, text )
       traveler := who;
     endif
     // Teleport moble
-    MoveObjectToLocation( traveler, dest.X, dest.Y, GetMapInfo(dest.X,dest.Y).z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+    MoveObjectToLocation( traveler, dest.X, dest.Y, GetMapInfo(dest.X,dest.Y, dest.realm).z, REALM_BRITANNIA, flags := MOVEOBJECT_NORMAL );
   else
     text := lower( text );
     // Open files and set veriables

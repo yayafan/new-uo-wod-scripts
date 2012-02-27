@@ -22,7 +22,7 @@ program cast_wraithbreath (parms)
 	var manadrained := 0;
 	var tmpdmg;
 
-	foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, range)
+	foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, range, caster.realm)
 		if ((mobile != caster) and (!mobile.dead))
 			var Dmg := RandomDiceRoll (DamageDie);
 			PlayObjectCenteredEffect (mobile, FX_CURSE_EFFECT, 7, 0x10);

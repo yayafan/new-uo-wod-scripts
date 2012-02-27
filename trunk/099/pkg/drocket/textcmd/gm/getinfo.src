@@ -247,7 +247,7 @@ function DoFullItemcount (character)
 	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
 		SendSysMessage (character, "Searching near X=" + xmid );
 		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, REALM_BRITANNIA)
 				var more_items := EnumerateItemsInContainer (item);
 				if (len(more_items))
 					total_item_count := total_item_count + len(more_items);
@@ -473,7 +473,7 @@ function SearchForItemByName (character, itemname)
 	var x, y;
 	for (x := 6144 ; x > 64 ; x := x  - 128)
 		for( y := 64; y < 4096; y := y + 128 )
-			foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127)
+			foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127, REALM_BRITANNIA)
 				if (Lower (item.desc)[itemname])
 					LogFoundItem (character, "Found a match at " + item.x + ", " + item.y + ", " + item.desc);
 					matches := matches + 1;
@@ -588,7 +588,7 @@ function SearchForItemByObjtype (character, itemobjtype)
 	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
 		SendSysMessage (character, "Searching near X=" + xmid );
 		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, REALM_BRITANNIA)
 				if (item.objtype == itemobjtype)
 					SendSysMessage (character, "Found a match at " + item.x + ", " + item.y + ", " + item.desc);
 					matches := matches + 1;
@@ -629,7 +629,7 @@ function SearchForNPCByName (character, itemname)
 	for( x := 6144 ; x > 16 ; x := x  - 128)
 		for( y := 16; y < 4096; y := y + 128 )
 			for( z := -60; z <= 60; z := z + 30 )
-				foreach mob in ListMobilesNearLocationEx ( x, y, z, 64, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN )
+				foreach mob in ListMobilesNearLocationEx ( x, y, z, 64, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, REALM_BRITANNIA )
 					if (Lower (mob.name)[itemname])
 						SendSysMessage (character, "Found a match at " + mob.x + ", " + mob.y + ", " + mob.name);
 						matches := matches + 1;

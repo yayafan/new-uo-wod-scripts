@@ -37,54 +37,54 @@ program make_trap (seer, text)
 
 	case (selection.index)
 		1:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "flamestrike");
 
 		2:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "darkness");
 
 		3:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "poisonfield_ns");
 
 		4:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "poisonfield_ew");
 
 		5:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "firefield_ns");
 
 		6:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "firefield_ew");
 
 		7:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "energyfield_ns");
 
 		8:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "energyfield_ew");
 
 		9:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "parafield_ns");
 
 		10:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "parafield_ew");
 
 		11:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "stonewall_ns");
 
 		12:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "stonewall_ew");
 		13:
-			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1);
+			var trap := CreateItemAtLocation (seer.x, seer.y, seer.z, UOBJ_MAGICTRAP, 1, seer.realm);
 			SetObjProperty (trap, "traptype", "explosion");
 
 		default:

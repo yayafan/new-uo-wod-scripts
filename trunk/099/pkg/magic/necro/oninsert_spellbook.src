@@ -5,7 +5,7 @@ program on_insert_spellbook (character, spellbook, movetype, null_value, scroll,
 	//we only need one of each spell
 	if (scroll.amount > 1)
 		if (!CreateItemInContainer (character.backpack, scroll.objtype, (scroll.amount-1)))
-			CreateItemAtLocation (character.x, character.y, character.z, scroll.objtype, (scroll.amount-1));
+			CreateItemAtLocation (character.x, character.y, character.z, scroll.objtype, (scroll.amount-1), character.realm);
 		endif
 		SubtractAmount (scroll, (scroll.amount-1));
 	endif

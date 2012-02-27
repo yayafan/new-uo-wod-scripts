@@ -33,7 +33,7 @@ foreach item in stuff
                 stuffelem.y + startloc.y,
                 stuffelem.z + startloc.z,
                 stuffelem.objtype,
-                1);
+                1, startloc.realm);
                 
       
          
@@ -48,7 +48,7 @@ foreach item in stuff
                   stuffelem.objtype,
                 stuffelem.x + startloc.x,
                 stuffelem.y + startloc.y,
-                stuffelem.z + startloc.z);
+                stuffelem.z + startloc.z, 0, startloc.realm);
                 
       
          

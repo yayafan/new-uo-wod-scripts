@@ -703,7 +703,7 @@ function IsStackableItem (byref item)
 
 	//Already went through the common stackable items and still haven't been able to figure out if its stackable or not, so
 	//we'll see if we can create 2 of the item as a last resort.
-	var newitem := CreateItemAtLocation (0, 0, 0, item.objtype, 2);
+	var newitem := CreateItemAtLocation (0, 0, 0, item.objtype, 2, REALM_BRITANNIA);
 	if (newitem)
 		DestroyItem (newitem);
 		globalstackdict.insert (item.objtype, 1);

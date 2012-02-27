@@ -244,7 +244,7 @@ function trappedswitch(who, item, mid, stt, snd)
          var dmg :=(RandomInt(20) + CInt(trapstrength));
          ApplyRawDamage(who, dmg);
     4:   var dmg;
-         var victims := ListMobilesNearLocation( item.x, item.y, item.z, 5);
+         var victims := ListMobilesNearLocation( item.x, item.y, item.z, 5, item.realm);
          Detach();
          foreach mob in victims
          var dmg :=(RandomInt(20) + CInt(trapstrength));
@@ -275,7 +275,7 @@ function alterpassage(who, item, stt, snd);
   var x := speaker[1];
   var y := speaker[2];
   var z := speaker[3];
-  var speakr :=CreateItemAtLocation( x, y, z, 0xeed, 1);
+  var speakr :=CreateItemAtLocation( x, y, z, 0xeed, 1, who.realm);
   speakr.movable := 0;
   speakr.graphic := 0x1;
   var pl := GetObjProperty(item,"partsarray");
@@ -288,7 +288,7 @@ function alterpassage(who, item, stt, snd);
       foreach entry in pl
         obj := SystemFindObjectBySerial(CInt(entry));
         obj.movable := 1;
-        MoveObjectToLocation( obj, obj.x, obj.y, obj.z-2, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+        MoveObjectToLocation( obj, obj.x, obj.y, obj.z-2, obj.realm, MOVEOBJECT_FORCELOCATION );
         obj.movable := 0;
       endforeach
       if(a == 2)
@@ -310,7 +310,7 @@ function alterpassage(who, item, stt, snd);
       foreach entry in pl
         obj := SystemFindObjectBySerial(CInt(entry));
         obj.movable := 1;
-        MoveObjectToLocation( obj, obj.x, obj.y, obj.z+2, realm := _DEFAULT_REALM, flags := MOVEOBJECT_FORCELOCATION );
+        MoveObjectToLocation( obj, obj.x, obj.y, obj.z+2, obj.realm, MOVEOBJECT_FORCELOCATION );
         obj.movable := 0;
       endforeach
       if(a == 2)
@@ -434,7 +434,7 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0);
+    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0, tile.realm);
       visual := person.graphic;
       SetObjProperty(person, "inside", 1);
       SetObjProperty(person, "visual", visual);
@@ -442,8 +442,8 @@ function teleporter(who, item, mid, stt, snd)
       person.frozen :=1;
       PlaySoundEffect(person, 0x210);
     endforeach
-    origin1      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x373a, 1);
-    destination1 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x373a, 1);
+    origin1      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x373a, 1, tile.realm);
+    destination1 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x373a, 1, tile.realm);
     origin1.movable := 0;
     destination1.movable := 0;
   endforeach
@@ -451,8 +451,8 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    origin2      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x374a, 1);
-    destination2 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x374a, 1);
+    origin2      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x374a, 1, tile.realm);
+    destination2 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x374a, 1, tile.realm);
     origin2.movable := 0;
     destination2.movable := 0;
   endforeach
@@ -460,13 +460,13 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0);
+    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0, tile.realm);
       if(GetObjProperty(person, "inside") == 1)
         person.graphic := 0x33;
       endif
     endforeach
-    origin3      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x375a, 1);
-    destination3 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x375a, 1);
+    origin3      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x375a, 1, tile.realm);
+    destination3 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x375a, 1, tile.realm);
     origin3.movable := 0;
     destination3.movable := 0;
   endforeach
@@ -474,8 +474,8 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    origin4      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x3779, 1);
-    destination4 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x3779, 1);
+    origin4      := CreateItemAtLocation( tile.x,  tile.y,  tile.z, 0x3779, 1, tile.realm);
+    destination4 := CreateItemAtLocation(tilea.x, tilea.y, tilea.z, 0x3779, 1, tilea.realm);
     origin4.movable := 0;
     destination4.movable := 0;
   endforeach
@@ -487,9 +487,9 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0);
+    foreach person in ListMobilesNearLocation( tile.x, tile.y, tile.z, 0, tile.realm);
       if(GetObjProperty(person, "inside") == 1)
-        MoveObjectToLocation( person, tilea.x, tilea.y, tilea.z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+        MoveObjectToLocation( person, tilea.x, tilea.y, tilea.z, tilea.realm, MOVEOBJECT_NORMAL );
       endif
     endforeach
   endforeach
@@ -497,10 +497,10 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x373a )
+    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x373a, tile.realm )
       DestroyItem(thingie);
     endforeach
-    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x373a )
+    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x373a, tilea.realm )
       DestroyItem(thingie);
     endforeach
   endforeach
@@ -508,10 +508,10 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x374a )
+    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x374a, tile.realm )
       DestroyItem(thingie);
     endforeach
-    foreach person in ListMobilesNearLocation( tilea.x, tilea.y, tilea.z, 0);
+    foreach person in ListMobilesNearLocation( tilea.x, tilea.y, tilea.z, 0, tilea.realm);
       if(GetObjProperty(person, "inside") == 1)
         EraseObjProperty(person, "inside");
         PlaySoundEffect(person, 0x1fd);
@@ -522,7 +522,7 @@ function teleporter(who, item, mid, stt, snd)
         endif
       endif
     endforeach
-    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x374a )
+    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x374a, tilea.realm )
       DestroyItem(thingie);
     endforeach
   endforeach
@@ -530,10 +530,10 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x375a )
+    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x375a, tile.realm )
       DestroyItem(thingie);
     endforeach
-    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x375a )
+    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x375a, tilea.realm )
       DestroyItem(thingie);
     endforeach
   endforeach
@@ -541,13 +541,13 @@ function teleporter(who, item, mid, stt, snd)
   foreach obj in tiled
     tile := SystemFindObjectBySerial(CInt(obj));
     tilea := SystemFindObjectBySerial(CInt(GetObjProperty(tile,"link")));
-    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x3779 )
+    foreach thingie in ListItemsNearLocationOfType(tile.x, tile.y, tile.z, 0, 0x3779, tile.realm )
       DestroyItem(thingie);
     endforeach
-    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x3779)
+    foreach thingie in ListItemsNearLocationOfType(tilea.x, tilea.y, tilea.z, 0, 0x3779, tilea.realm)
       DestroyItem(thingie);
     endforeach
-    foreach person in ListMobilesNearLocation( tilea.x, tilea.y, tilea.z, 0);
+    foreach person in ListMobilesNearLocation( tilea.x, tilea.y, tilea.z, 0, tilea.realm);
       EraseObjProperty(person, "recallgraphic");
       EraseObjProperty(person, "visual");
       person.frozen := 0;

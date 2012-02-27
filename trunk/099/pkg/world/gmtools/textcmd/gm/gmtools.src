@@ -170,16 +170,22 @@ function permgate(caster)
   var tox := CInt(GetObjProperty(cast_on, "x"));
   var toy := CInt(GetObjProperty(cast_on, "y"));
   var toz := CInt(GetObjProperty(cast_on, "z"));
-  var gate1 := CreateItemAtLocation(caster.x, caster.y, caster.z, 0x6008, 1);
+  var tor := GetObjProperty(cast_on, "realm");
+  if (!tor)
+	tor := REALM_BRITANNIA;
+  endif
+  var gate1 := CreateItemAtLocation(caster.x, caster.y, caster.z, 0x6008, 1, caster.realm);
   gate1.movable := 0;
-  var gate2 := CreateItemAtLocation(tox, toy, toz, 0x6008, 1);
+  var gate2 := CreateItemAtLocation(tox, toy, toz, 0x6008, 1, tor);
   gate2.movable := 0;
   SetObjProperty(gate1, "GateDestX", gate2.x);
   SetObjProperty(gate1, "GateDestY", gate2.y);
   SetObjProperty(gate1, "GateDestZ", gate2.z);
+  SetObjProperty(gate1, "GateDestR", gate2.realm);
   SetObjProperty(gate2, "GateDestX", gate1.x);
   SetObjProperty(gate2, "GateDestY", gate1.y);
   SetObjProperty(gate2, "GateDestZ", gate1.z);
+  SetObjProperty(gate2, "GateDestR", gate1.realm);
   maintaingump(caster);
 endfunction
 
@@ -189,17 +195,23 @@ function gate(caster)
   var tox := CInt(GetObjProperty(cast_on, "x"));
   var toy := CInt(GetObjProperty(cast_on, "y"));
   var toz := CInt(GetObjProperty(cast_on, "z"));
+  var tor := GetObjProperty(cast_on, "realm");
+  if (!tor)
+	tor := REALM_BRITANNIA;
+  endif
   set_critical(1);
-  var gate1 := CreateItemAtLocation(caster.x, caster.y, caster.z, UOBJ_BLUE_MOONGATE, 1);
+  var gate1 := CreateItemAtLocation(caster.x, caster.y, caster.z, UOBJ_BLUE_MOONGATE, 1, caster.realm);
   gate1.movable := 0;
-  var gate2 := CreateItemAtLocation(tox, toy, toz, UOBJ_BLUE_MOONGATE, 1);
+  var gate2 := CreateItemAtLocation(tox, toy, toz, UOBJ_BLUE_MOONGATE, 1, tor);
   gate2.movable := 0;
   SetObjProperty(gate1, "GateDestX", gate2.x);
   SetObjProperty(gate1, "GateDestY", gate2.y);
   SetObjProperty(gate1, "GateDestZ", gate2.z);
+  SetObjProperty(gate1, "GateDestR", gate2.realm);
   SetObjProperty(gate2, "GateDestX", gate1.x);
   SetObjProperty(gate2, "GateDestY", gate1.y);
   SetObjProperty(gate2, "GateDestZ", gate1.z);
+  SetObjProperty(gate2, "GateDestR", gate1.realm);
   Detach();
   set_critical(0);
   sleep(10);
@@ -216,7 +228,8 @@ function mark(caster)
   SetObjProperty(cast_on, "x", caster.x);
   SetObjProperty(cast_on, "y", caster.y);
   SetObjProperty(cast_on, "z", caster.z);
-  SendSysMessage(caster, "You marked: " +  caster.x + " " + caster.y + " " + caster.z);
+  SetObjProperty(cast_on, "realm", caster.realm);
+  SendSysMessage(caster, "You marked: " +  caster.x + " " + caster.y + " " + caster.z + " " + caster.realm);
   SetName(cast_on, "a Marked Recall Rune");
   maintaingump(caster);
 endfunction
@@ -227,7 +240,8 @@ function recall(caster)
   var tox := CInt(GetObjProperty(cast_on, "x"));
   var toy := CInt(GetObjProperty(cast_on, "y"));
   var toz := CInt(GetObjProperty(cast_on, "z"));
-  MoveObjectToLocation( caster, tox, toy, toz, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+  var tor := GetObjProperty(cast_on, "realm");
+  MoveObjectToLocation( caster, tox, toy, toz, tor, MOVEOBJECT_NORMAL );
   maintaingump(caster);
 endfunction
 
@@ -290,7 +304,7 @@ endfunction
 
 function hidespawn(who, range)
   var i := 0;
-  foreach x in ListItemsNearLocationOfType(who.x, who.y, who.z, range, 0xa401)
+  foreach x in ListItemsNearLocationOfType(who.x, who.y, who.z, range, 0xa401, who.realm)
     x.graphic := 0x0001;
 	i := i + 1;
   endforeach
@@ -300,7 +314,7 @@ endfunction
 
 function showspawn(who, range)
   var i := 0;
-  foreach x in ListItemsNearLocationOfType(who.x, who.y, who.z, range, 0xa401)
+  foreach x in ListItemsNearLocationOfType(who.x, who.y, who.z, range, 0xa401, who.realm)
     x.graphic := 0x1ea7;
 	PrintTextAbove(x, "Hello, I am a spawnpoint!");
 	i := i + 1;
@@ -315,7 +329,7 @@ function spawnpoint(who)
   if(!tar)
     SendSysMessage(who,"canceled");
   else
-    var doodad := CreateItemAtLocation(tar.x, tar.y, tar.z, 0xa401, 1);
+    var doodad := CreateItemAtLocation(tar.x, tar.y, tar.z, 0xa401, 1, tar.realm);
     doodad.movable := 0;
   endif
   maintaingump(who);
@@ -355,7 +369,7 @@ function setsummongroup(who)
   var boxnw := TargetCoordinates(who);
   SendSysMessage(who,"now target the southwest corner of the ares your NPCs are stored");
   var boxse := TargetCoordinates(who);
-  var box := ListObjectsInBox(boxnw.x, boxnw.y, boxnw.z, boxse.x, boxse.y, boxse.z);
+  var box := ListObjectsInBox(boxnw.x, boxnw.y, boxnw.z, boxse.x, boxse.y, boxse.z, boxnw.realm);
   foreach item in box
     if(item.isA(POLCLASS_NPC))
       mobilearray.append(item.serial);
@@ -385,7 +399,7 @@ function itemaddset(who)
   var targetitem := Target(who);
   SendSysMessage(who, "Select the center of the set area(radius " + range + ")");
   var whereleft := TargetCoordinates(who);
-  var stuff := ListItemsNearLocation(whereleft.x,whereleft.y,whereleft.z, CInt(range));
+  var stuff := ListItemsNearLocation(whereleft.x,whereleft.y,whereleft.z, CInt(range), whereleft.realm);
   var numthings := 1;
   var totalthings := {};
   foreach thing in stuff
@@ -561,7 +575,7 @@ function invokegomenu(who)
     else
       traveler := who;
     endif
-    MoveObjectToLocation( traveler, dest.x, dest.y, GetMapInfo(dest.X, dest.Y).z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+    MoveObjectToLocation( traveler, dest.x, dest.y, GetMapInfo(dest.X, dest.Y, dest.realm).z, dest.realm, MOVEOBJECT_NORMAL );
     UnloadConfigFile("::golocs");
   endif
   maintaingump(who);

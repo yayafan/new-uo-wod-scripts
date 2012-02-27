@@ -44,7 +44,7 @@ program use_fishingnet (character, net )
 	PerformAction (character, UACTION_FISH);
 	sleep (2);
 	PlaySoundEffect (character, SFX_26);
-	MakeSplashTile (targetted_location.x, targetted_location.y, targetted_location.z);
+	MakeSplashTile (targetted_location.x, targetted_location.y, targetted_location.z, targetted_location.realm);
 
 	sleep ( RandomInt (6) + 4 );
 
@@ -56,8 +56,8 @@ program use_fishingnet (character, net )
 	sleep (1);
 	PlaySoundEffect (character, SFX_27);
 
-	if (!HarvestResource ("wood", targetted_location.x, targetted_location.y, RandomInt(5)+5, RandomInt(5)+5)
-			or !HarvestResource ("wood", character.x, character.y, RandomInt(5)+5, RandomInt(5)+5))
+	if (!HarvestResource ("wood", targetted_location.x, targetted_location.y, RandomInt(5)+5, RandomInt(5)+5, targetted_location.realm)
+			or !HarvestResource ("wood", character.x, character.y, RandomInt(5)+5, RandomInt(5)+5, character.realm))
 		SendSysMessage (character, "Doesn't seem to be anything around here.");
 		return;
 	endif
@@ -261,7 +261,7 @@ function DoRandomEvent (character)
 		4:
 		5:
 		6:
-			var water_elem := CreateNPCFromTemplate (":elementals:waterelemental", nearby_x_loc, nearby_y_loc, character.z);
+			var water_elem := CreateNPCFromTemplate (":elementals:waterelemental", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 			if (water_elem)
 				water_elem.name := "a wave elemental";
 				SendSysmessage (character, "You attract the attention of a wave elemental!");
@@ -272,7 +272,7 @@ function DoRandomEvent (character)
 		7:
 		8:
 		9:
-			var water_elem := CreateNPCFromTemplate (":dragons:tentaclebeast", nearby_x_loc, nearby_y_loc, character.z);
+			var water_elem := CreateNPCFromTemplate (":dragons:tentaclebeast", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 			if (water_elem)
 				SendSysmessage (character, "You dredge up a tentacle beast!");
 				SetObjProperty (water_elem, "boatspawn", 1);
@@ -280,7 +280,7 @@ function DoRandomEvent (character)
 			endif
 			return 0;
 		10:
-			var water_elem := CreateNPCFromTemplate (":dragons:seaserpent", nearby_x_loc, nearby_y_loc, character.z);
+			var water_elem := CreateNPCFromTemplate (":dragons:seaserpent", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 			if (water_elem)
 				SendSysmessage (character, "You've disturbed a sea serpant!");
 				SetObjProperty (water_elem, "boatspawn", 1);
@@ -312,27 +312,27 @@ function IsDeepWater (targetted_location)
 		return 0;
 	endif
 
-	var info := GetMapInfo (targetted_location.x, targetted_location.y);
+	var info := GetMapInfo (targetted_location.x, targetted_location.y, targetted_location.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (targetted_location.x + 25, targetted_location.y);
+	info := GetMapInfo (targetted_location.x + 25, targetted_location.y, targetted_location.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (targetted_location.x, targetted_location.y + 25);
+	info := GetMapInfo (targetted_location.x, targetted_location.y + 25, targetted_location.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (targetted_location.x - 25, targetted_location.y);
+	info := GetMapInfo (targetted_location.x - 25, targetted_location.y, targetted_location.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (targetted_location.x, targetted_location.y - 25);
+	info := GetMapInfo (targetted_location.x, targetted_location.y - 25, targetted_location.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
@@ -371,9 +371,9 @@ endfunction
 //  makes, animates and then destroys the splash tile
 ///////////////////
 
-function MakeSplashTile (x, y, z)
+function MakeSplashTile (x, y, z, rlm)
 
-	var splash_tile := CreateItemAtLocation (x, y, z, UOBJ_SPLASH_TILE, 1);
+	var splash_tile := CreateItemAtLocation (x, y, z, UOBJ_SPLASH_TILE, 1, rlm);
 	splash_tile.movable := 0;
 	splash_tile.decayat := ReadGameClock() + 200;
 	sleepms (200);

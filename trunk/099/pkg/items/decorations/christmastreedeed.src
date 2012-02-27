@@ -32,7 +32,7 @@ program Place_Deed (character, deed)
 			return;
 		endif
 
-		foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1)
+		foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1, character.realm)
  			If (item.isa (POLCLASS_DOOR))
     				SendSysMessage (character, "You are too close to a door!");
     				return;
@@ -161,26 +161,26 @@ program Place_Deed (character, deed)
 	var itemserials := {};
 	set_critical (1);
 
-	var item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
+	var item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1, character.realm);
 	item.graphic := 0x9fff + treetype;
 	item.name := "a Christmas Tree";
 	itemserials.append (item.serial);
 	item.movable := 0;
 	item.facing := 29;
 
-	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
+	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1, character.realm);
 	item.graphic := 0xa001 + balltype;
 	item.name := "Christmas decorations";
 	itemserials.append (item.serial);
 	item.movable := 0;
 
-	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
+	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1, character.realm);
 	item.graphic := 0xa00a + tinseltype;
 	item.name := "tinsel";
 	itemserials.append (item.serial);
 	item.movable := 0;
 
-	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1);
+	item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1, character.realm);
 	item.graphic := 0xa010+ toppertype;
 	item.name := "a Christmas Tree";
 	itemserials.append (item.serial);

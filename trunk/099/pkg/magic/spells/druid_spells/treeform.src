@@ -71,15 +71,15 @@ program treeform (parms)
 	var difficulty_counter := 0;
 
 	//create the tree and hide the caster
-	PlayStationaryEffect (caster.x, caster.y, caster.z+1, FX_SMOKE, 0xA, 0xA);
+	PlayStationaryEffect (caster.x, caster.y, caster.z+1, FX_SMOKE, 0xA, 0xA, 0, caster.realm);
 	var oldgraphic := caster.graphic;
 	DoPersistedMod (caster, "graphic", 11, caster.graphic, 60, "Treeform Spell");
 
 	sleepms(250);
-	var item_trunk := CreateItemAtLocation (caster.x, caster.y, caster.z, UOBJ_SPLASH_TILE, 1);
+	var item_trunk := CreateItemAtLocation (caster.x, caster.y, caster.z, UOBJ_SPLASH_TILE, 1, caster.realm);
 	item_trunk.graphic := trunk_objtype;
 	item_trunk.movable := 0;
-	var item_leaves := CreateItemAtLocation (caster.x, caster.y, caster.z, UOBJ_SPLASH_TILE, 1);
+	var item_leaves := CreateItemAtLocation (caster.x, caster.y, caster.z, UOBJ_SPLASH_TILE, 1, caster.realm);
 	item_leaves.graphic := leaves_objtype;
 	item_leaves.movable := 0;
 	caster.hidden := 1;
@@ -103,7 +103,7 @@ program treeform (parms)
 
 	//destroy the tree and unhide the caster
 	SendSysMessage (caster, "You lose your concentration.");
-	PlayStationaryEffect( casterx, castery, caster.z, FX_SMOKE, 0xA, 0xA );
+	PlayStationaryEffect( casterx, castery, caster.z, FX_SMOKE, 0xA, 0xA, 0, caster.realm );
 	DestroyItem (item_trunk);
 	DestroyItem (item_leaves);
 	caster.hidden := 0;
@@ -116,10 +116,10 @@ program treeform (parms)
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := caster;
 
-	foreach mobile in ListMobilesNearLocationEx( caster.x, caster.y, caster.z, 15, LISTEX_FLAG_NORMAL)
+	foreach mobile in ListMobilesNearLocationEx( caster.x, caster.y, caster.z, 15, LISTEX_FLAG_NORMAL, caster.realm)
 		SendEvent(mobile, ev);
 	endforeach
-	foreach mobile in ListMobilesNearLocationEx( caster.x, caster.y, caster.z, 9, LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx( caster.x, caster.y, caster.z, 9, LISTEX_FLAG_HIDDEN, caster.realm)
 		SendEvent(mobile, ev);
 	endforeach
 

@@ -1,7 +1,7 @@
 
 function sleepmode ()
 	foreach critter in ListMobilesNearLocationEx (me.x, me.y, me.z, 20,
-			LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST);
+			LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST, me.realm);
 		if (!critter.npctemplate)
 			return 0;
 		endif

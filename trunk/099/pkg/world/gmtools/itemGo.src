@@ -79,7 +79,7 @@ program go(who)
     else
       traveler := who;
     endif
-    MoveObjectToLocation( traveler, dest.x, dest.y, GetMapInfo(dest.X,dest.Y).z, realm := _DEFAULT_REALM, flags := MOVEOBJECT_NORMAL );
+    MoveObjectToLocation( traveler, dest.x, dest.y, GetMapInfo(dest.X,dest.Y, dest.realm).z, REALM_BRITANNIA, MOVEOBJECT_NORMAL );
     UnloadConfigFile("::golocs");
 endprogram
 

@@ -87,7 +87,7 @@ function process_move(item)
   while((check == 0) && (counter <= 20))
     newx := anchor[1] + RandomInt(100) - RandomInt(100);
     newy := anchor[2] + RandomInt(100) - RandomInt(100);
-    newz := GetWorldHeight(newx, newy);
+    newz := GetWorldHeight(newx, newy, REALM_BRITANNIA);
     if(MoveObjectToLocation( item, newx, newy, newz, item.realm, flags := MOVEOBJECT_NORMAL ))
       foreach char in EnumerateOnlineCharacters()
         if(char.cmdlevel > 1)
@@ -172,7 +172,7 @@ function create_standards(item)
       9:  newx := item.x + RandomInt( 9) - RandomInt( 9);    newy := item.y + RandomInt( 9) - RandomInt( 9);
      10:  newx := item.x + RandomInt(10) - RandomInt(10);    newy := item.y + RandomInt(10) - RandomInt(10);
     endcase
-    newz:= GetWorldHeight(newx, newy);
+    newz:= GetWorldHeight(newx, newy, REALM_BRITANNIA);
     if((item.x == newx) && (item.y == newy))
       checker := 0;
     endif
@@ -192,7 +192,7 @@ function create_standards(item)
     "bandit"    : gfx1 := 0xe56;   gfx2 := 0xe57;   gfx3 := 0x0974;
     "gypsie"    : gfx1 := 0xe58;   gfx2 := 0xe59;   gfx3 := 0x0975;
   endcase
-  var chest := CreateItemAtLocation( newx, newy, newz, gfx1, 1);
+  var chest := CreateItemAtLocation( newx, newy, newz, gfx1, 1, REALM_BRITANNIA);
   SetObjProperty(chest,"link", item.serial);
   chest.movable := 0;
   chestarray.append(chest.serial);
@@ -208,7 +208,7 @@ function create_standards(item)
     9:  newx := item.x + RandomInt( 9) - RandomInt( 9);    newy := item.y + RandomInt( 9) - RandomInt( 9);
    10:  newx := item.x + RandomInt(10) - RandomInt(10);    newy := item.y + RandomInt(10) - RandomInt(10);
   endcase
-  chest := CreateItemAtLocation( newx, newy, newz, gfx2, 1);
+  chest := CreateItemAtLocation( newx, newy, newz, gfx2, 1, REALM_BRITANNIA);
   SetObjProperty(chest,"link", item.serial);
   chest.movable := 0;
   chestarray.append(chest.serial);
@@ -224,7 +224,7 @@ function create_standards(item)
     9:  newx := item.x + RandomInt( 9) - RandomInt( 9);    newy := item.y + RandomInt( 9) - RandomInt( 9);
    10:  newx := item.x + RandomInt(10) - RandomInt(10);    newy := item.y + RandomInt(10) - RandomInt(10);
   endcase
-  chest := CreateItemAtLocation( newx, newy, newz, gfx3, 1);
+  chest := CreateItemAtLocation( newx, newy, newz, gfx3, 1, REALM_BRITANNIA);
   SetObjProperty(chest,"link", item.serial);
   chest.movable := 0;
   chestarray.append(chest.serial);
@@ -255,7 +255,7 @@ function CreateTreasureChest(item)
       9:  newx := item.x + RandomInt( 9) - RandomInt( 9);    newy := item.y + RandomInt( 9) - RandomInt( 9);
      10:  newx := item.x + RandomInt(10) - RandomInt(10);    newy := item.y + RandomInt(10) - RandomInt(10);
     endcase
-    newz:= GetWorldHeight(newx, newy);
+    newz:= GetWorldHeight(newx, newy, REALM_BRITANNIA);
     if((item.x == newx) && (item.y == newy))
       checker := 0;
     endif
@@ -273,7 +273,7 @@ function CreateTreasureChest(item)
       4: gfx := 3648;
       5: gfx := 3708;
     endcase
-    chest := CreateItemAtLocation( newx, newy, newz, gfx, 1 );
+    chest := CreateItemAtLocation( newx, newy, newz, gfx, 1, REALM_BRITANNIA );
     if(chest)
       checker := 1;
     endif
@@ -322,7 +322,7 @@ endfunction
 function CreateGuardian(chest, template)
   var dx := RandomInt( 8 ) - 4;
   var dy := RandomInt( 8 ) - 4;
-  var nasty := CreateNpcFromTemplate( template, chest.x+dx, chest.y+dy, chest.z, 0 );
+  var nasty := CreateNpcFromTemplate( template, chest.x+dx, chest.y+dy, chest.z, 0, chest.realm );
   return nasty.serial;
 endfunction
 

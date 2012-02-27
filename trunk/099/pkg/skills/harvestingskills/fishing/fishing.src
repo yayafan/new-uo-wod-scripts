@@ -91,8 +91,8 @@ program use_fishpole (character, pole)
 			return;
 		endif
 
-		if (!HarvestResource ("wood", splashx, splashy, RandomInt(3)+1, RandomInt(3)+1)
-				or !HarvestResource ("wood", character.x, character.y, RandomInt(3)+1, RandomInt(3)+1))
+		if (!HarvestResource ("wood", splashx, splashy, RandomInt(3)+1, RandomInt(3)+1, targetted_location.realm)
+				or !HarvestResource ("wood", character.x, character.y, RandomInt(3)+1, RandomInt(3)+1, character.realm))
 			SendSysMessage (character, "The fish don't seem to be biting here.");
 			return;
 		endif
@@ -187,7 +187,7 @@ function SpawnChest (character, map)
 		return 0;
 	endif
 
-	var chest := CreateItemAtLocation (character.x, character.y, character.z, 0x0E7C, 1);
+	var chest := CreateItemAtLocation (character.x, character.y, character.z, 0x0E7C, 1, character.realm);
 	if (!chest)
 		return 0;
 	endif
@@ -296,7 +296,7 @@ function DoRandomEvent (character, pole)
 	case (RandomInt (10))
 		0:
 		1:
-			var walrus := CreateNPCFromTemplate (":wild_animals:walrus", nearby_x_loc, nearby_y_loc, character.z);
+			var walrus := CreateNPCFromTemplate (":wild_animals:walrus", nearby_x_loc, nearby_y_loc, character.z, 0, character.realm);
 			if (walrus)
 				SendSysMessage (character, "A walrus comes by to see what you're doing.");
 				setobjproperty (walrus, "boatspawn", 1);

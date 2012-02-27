@@ -232,9 +232,9 @@ function follow (byref mmaster)
 	while (mmaster)
 		d:= distance (mmaster, me);
 		if (d > 20)
-			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, speed:=0xA, loop:=0xA);
+			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, 0xA, 0xA, 0, me.realm);
 			MoveObjectToLocation (me, mmaster.x, mmaster.y, mmaster.z, mmaster.realm, MOVEOBJECT_FORCELOCATION);
-			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, speed:=0xA, loop:=0xA);
+			PlayStationaryEffect (me.x, me.y, me.z, FX_SMOKE, 0xA, 0xA, 0, me.realm);
 			PlaySoundEffect (mmaster, SFX_SPELL_TELEPORT);
 		elseif (d > 1)
 			RunToward (mmaster);
@@ -479,7 +479,7 @@ endfunction
 
 function strip_items (mmaster)
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (me, newbackpack))
 			DestroyItem (newbackpack);
 		endif
@@ -861,7 +861,7 @@ endfunction
 
 function undress_items (byref you)
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem(me, newbackpack))
 			DestroyItem (newbackpack);
 		endif
@@ -928,7 +928,7 @@ function DoMerchantOnCreationSetup ()
 	endif
 
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (me, newbackpack))
 			DestroyItem (newbackpack);
 		endif

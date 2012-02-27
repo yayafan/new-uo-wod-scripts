@@ -32,7 +32,7 @@ program checketherialitems (character)
 	SetObjProperty (targetted, "tname", msg);
 	SetObjProperty (targetted, "etherialname", msg);
 	
-	var newitem := CreateItemAtLocation (character.x, character.y, character.x, targetted.objtype, 1);
+	var newitem := CreateItemAtLocation (character.x, character.y, character.x, targetted.objtype, 1, character.realm);
 	if (newitem)
 		targetted.name := CSTR ("a magic " + TruncateArticle (newitem.desc));
 		DestroyItem (newitem);

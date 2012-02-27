@@ -19,6 +19,6 @@ program efield( parms, spellid )
 	endif
 
 	var duration := 20 + CInt (caster_magery/4);
-	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "energy", duration);
+	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "energy", duration, 0, cast_loc.realm);
 	return 1;
 endprogram

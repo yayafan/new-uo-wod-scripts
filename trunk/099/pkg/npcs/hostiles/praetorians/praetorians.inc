@@ -12,7 +12,7 @@ function GetHelpFromAllies (byref opponent)
 	endif
 
 	var found_friend := 0;
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD, me.realm )
 		if (mobile.npctemplate["praetorian"] and mobile != me)
 			if (distance (mobile, opponent) < 16 )
 				found_friend := 1;
@@ -22,7 +22,7 @@ function GetHelpFromAllies (byref opponent)
 			endif
 		endif
 	endforeach
-	foreach mobile in ListMobilesNearLocation ( opponent.x, opponent.y, opponent.z, HALT_THRESHOLD )
+	foreach mobile in ListMobilesNearLocation ( opponent.x, opponent.y, opponent.z, HALT_THRESHOLD, opponent.realm )
 		if (mobile.npctemplate["praetorian"] and mobile != me)
 			found_friend := 1;
 			if (!mobile.warmode)
@@ -39,7 +39,7 @@ function GetHelpFromAllies (byref opponent)
 	endif
 
 	found_friend := 0;
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, (HALT_THRESHOLD*2) )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, (HALT_THRESHOLD*2), me.realm )
 		if (mobile.npctemplate["praetorian"] and !mobile.warmode and mobile != me)
 			if (distance (mobile, opponent) > distance (me, opponent) )
 				found_friend := 1;
@@ -63,7 +63,7 @@ function GetHelpFromAllies (byref opponent)
 		return 0;
 	endif
 
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, HALT_THRESHOLD, me.realm )
 		if (mobile.npctemplate["praetorian"] and !mobile.warmode and mobile != me)
 			SendEvent (mobile, ev);
 		endif
@@ -100,7 +100,7 @@ function ChangeOpponent (byref old_opponent, byref new_opponent)
 
 	//check to see if there's anyone around who's a higher rank than me
 	var mobile_count := 0;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD, me.realm)
 		if (mobile.npctemplate ["praetorian"] and !mobile.script["tamed"] and mobile != me)
 			mobile_count := mobile_count + 1;
 			var rank := GetObjProperty (mobile, "rank");
@@ -128,7 +128,7 @@ function ChangeOpponent (byref old_opponent, byref new_opponent)
 	var ev := array {};
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := new_opponent;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD, me.realm)
 		if (mobile.npctemplate ["praetorian"] and mobile != me)
 			SendEvent (mobile, ev);
 		endif

@@ -24,7 +24,7 @@ endfunction
 ///////////////////
 
 function IsPlankOccupied (plank)
-	return ListMobilesNearLocation (plank.x, plank.y, plank.z, 0).size();
+	return ListMobilesNearLocation (plank.x, plank.y, plank.z, 0, plank.realm).size();
 endfunction
 
 

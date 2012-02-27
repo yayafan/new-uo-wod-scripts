@@ -24,6 +24,7 @@ program tidal_wave ( parms )
 	var location_x := caster.x;
 	var location_y := caster.y;
 	var location_z := caster.z;
+	var location_r := caster.realm;
 
 	//this is the rock that gets saves.
 	//rock[1] is the rock objtype
@@ -72,7 +73,7 @@ program tidal_wave ( parms )
 		rock[3] := location_y + RandomInt (20) - 10;
 		rock[4] := location_z + 100;
 
-		created_rock := CreateItemAtLocation (CInt(rock[2]), Cint(rock[3]), CInt(rock[4]), CInt(rock[1]), 1);
+		created_rock := CreateItemAtLocation (CInt(rock[2]), Cint(rock[3]), CInt(rock[4]), CInt(rock[1]), 1, location_r);
 
 		rock[5] := created_rock.serial;
 		rock_array.append (rock);
@@ -83,7 +84,7 @@ program tidal_wave ( parms )
 			created_rock := SystemFindObjectBySerial (rock[5]);
 			DestroyItem (created_rock);
 			rock[4] := rock[4] - 5;
-			created_rock := CreateItemAtLocation (CInt(rock[2]), Cint(rock[3]), CInt(rock[4]), CInt(rock[1]), 1);
+			created_rock := CreateItemAtLocation (CInt(rock[2]), Cint(rock[3]), CInt(rock[4]), CInt(rock[1]), 1, location_r);
 			rock[5] := created_rock.serial;
 		endforeach
 		sleepms (100);

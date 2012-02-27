@@ -83,7 +83,7 @@ endfunction
 
 
 function post_combat()
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 1)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 1, me.realm)
 		if (GetObjProperty (item, "summoned_field"))
 			CastSpell (me, me, ":field_spells:dispel_field");
 			break;

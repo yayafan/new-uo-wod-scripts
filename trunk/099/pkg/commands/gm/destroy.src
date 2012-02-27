@@ -57,10 +57,10 @@ function DestroyBoat (character)
 	var res := DestroyMulti (BoatFromItem(mast.item));
 	if (!res or res == error)
 		SendSysMessage (character, "Basic destroy failed:  trying second method");
-		var sh := GetStandingHeight (mast.x, mast.y, mast.z);
+		var sh := GetStandingHeight (mast.x, mast.y, mast.z, mast.realm);
 		var themulti := sh.multi;
 		if (!themulti)
-			sh := GetStandingHeight (mast.x, mast.y, -2);
+			sh := GetStandingHeight (mast.x, mast.y, -2, mast.realm);
 			themulti := sh.multi;
 			SendSysMessage (character, "No Multi detected");
 			return;

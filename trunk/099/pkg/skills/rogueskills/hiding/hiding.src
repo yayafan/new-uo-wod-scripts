@@ -75,11 +75,11 @@ program skill_hide ( hider )
 	hider.hidden := 0;
 
 	//range of 4 for hidden creatures, range of 15 for others
-	foreach critter in ListMobilesNearLocationEx (hider.x, hider.y, hider.z, 15, LISTEX_FLAG_NORMAL)
+	foreach critter in ListMobilesNearLocationEx (hider.x, hider.y, hider.z, 15, LISTEX_FLAG_NORMAL, hider.realm)
 		SendEvent (critter, ev);
 	endforeach
 
-	foreach critter in ListMobilesNearLocationEx (hider.x, hider.y, hider.z, 4, LISTEX_FLAG_HIDDEN)
+	foreach critter in ListMobilesNearLocationEx (hider.x, hider.y, hider.z, 4, LISTEX_FLAG_HIDDEN, hider.realm)
 		SendEvent (critter, ev);
 	endforeach
 endprogram

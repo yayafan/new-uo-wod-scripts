@@ -90,7 +90,7 @@ function Busted (who, victim)
 	ev.+source := who;
 	SendEvent (victim, ev);
 
-	Foreach guard in ListMobilesNearLocation(victim.x, victim.y, victim.z, 20)
+	Foreach guard in ListMobilesNearLocation(victim.x, victim.y, victim.z, 20, victim.realm)
 		if (guard.npctemplate["townguard"])
 			SendEvent (guard ,ev);
 		endif

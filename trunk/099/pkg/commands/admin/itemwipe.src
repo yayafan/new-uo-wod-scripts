@@ -9,6 +9,7 @@ program itemwipe( you, text )
 
 	var wipex := you.x;
 	var wipey := you.y;
+	var wiper := you.realm;
 	var radius := 3;
 
 	if (text)
@@ -22,9 +23,9 @@ program itemwipe( you, text )
 
 	var i := 0;
 	var n := 0;
-	SendSysMessage( you, "Wiping items near " + wipex +", "+ wipey);
+	SendSysMessage( you, "Wiping items near " + wipex +", "+ wipey +", "+ wiper);
 	for (n := you.z-60; n < you.z + 60; n := n + 5 )
-		foreach item in ListItemsNearLocation( wipex, wipey, n, radius )
+		foreach item in ListItemsNearLocation( wipex, wipey, n, radius, wiper )
 			if ( (!IsDoor(item)) and (!IsSign(item)) )
 				DestroyItem( item );
 				i:=i+1;

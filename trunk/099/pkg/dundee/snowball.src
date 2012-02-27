@@ -21,7 +21,11 @@ program snowball (player, what)
 	//Only throw snowballs in the snowball fight region
 	if (LIMITED_AREA)
 		if (!player.cmdlevel)
-			if (player.x < 5720)
+			if (player.realm != REALM_BRITANNIA)
+				SendSysMessage (player, "The snowball melts when you touch it.");
+				DestroyItem (what);
+				return;
+			elseif(player.x < 5720)
 				SendSysMessage (player, "The snowball melts when you touch it.");
 				DestroyItem (what);
 				return;
@@ -45,7 +49,11 @@ program snowball (player, what)
 	//Only throw snowballs in the snowball fight region
 	if (LIMITED_AREA)
 		if (!player.cmdlevel)
-			if (player.x < 5720)
+			if (player.realm != REALM_BRITANNIA)
+				SendSysMessage (player, "The snowball melts when you touch it.");
+				DestroyItem (what);
+				return;
+			elseif(player.x < 5720)
 				SendSysMessage (player, "The snowball melts when you touch it.");
 				DestroyItem (what);
 				return;
@@ -137,7 +145,7 @@ program snowball (player, what)
 		endif
 	endif
 
-	var snow := CreateItemAtLocation ( where.x, where.y, where.z, 0x122D, 1 );
+	var snow := CreateItemAtLocation ( where.x, where.y, where.z, 0x122D, 1, where.realm );
 	if ( mob )
 		PlaySoundEffect(snow,0x138);
 	else
@@ -158,7 +166,7 @@ program snowball (player, what)
 	if (MAX_SNOWBALLS)
 		var snowball_count := 0;
 		foreach item in EnumerateItemsInContainer (player.backpack)
-			if (item.objtype == 0x705a)
+			if (item.objtype == 0x1705a)
 				snowball_count := snowball_count + 1;
 			endif
 		endforeach
@@ -169,7 +177,9 @@ program snowball (player, what)
 
 	//Only remake snowballs in the snowball fight region
 	if (LIMITED_AREA)
-		if (player.x < 5720)
+		if (player.realm != REALM_BRITANNIA)
+			return;
+		elseif(player.x < 5720)
 			return;
 		elseif(player.y < 2250 or player.y > 2600)
 			return;

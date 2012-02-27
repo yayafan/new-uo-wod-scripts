@@ -29,7 +29,7 @@ program cast_paralyze( parms, spellid )
 		duration := 30;
 	endif
 
-	PlayStationaryEffect (cast_on.x, cast_on.y, cast_on.z, FX_CURSE_EFFECT, 10, 0xa, 0);
+	PlayStationaryEffect (cast_on.x, cast_on.y, cast_on.z, FX_CURSE_EFFECT, 10, 0xa, 0, cast_on.realm);
 	PlaySoundEffect (cast_on, SFX_SPELL_PARALYZE);
 	DoMagicStatMod (cast_on, STATMOD_PARALYZE, 1, duration, "Paralysis Spell");
 	return 1;

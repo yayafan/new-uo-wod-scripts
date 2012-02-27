@@ -725,7 +725,7 @@ function ChangeHairToStyle (merchant, customer, hairstyle)
 		endif
 	endif
 
-	var new_hair := CreateItemAtLocation (0, 0, 0, hairstyle, 1);
+	var new_hair := CreateItemAtLocation (0, 0, 0, hairstyle, 1, REALM_BRITANNIA);
 	new_hair.color := old_hair_color;
 
 	DestroyItem (old_hair);
@@ -753,7 +753,7 @@ function ChangeBeardToStyle (merchant, customer, beardtype)
 		endif
 	endif
 
-	var new_beard := CreateItemAtLocation (0, 0, 0, beardtype, 1);
+	var new_beard := CreateItemAtLocation (0, 0, 0, beardtype, 1, REALM_BRITANNIA);
 	new_beard.color := old_beard_color;
 
 	DestroyItem (old_beard);

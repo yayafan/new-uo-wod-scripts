@@ -23,7 +23,7 @@ program harvest (parms)
 		return;
 	endif
 
-	var difficulty := cint (GetHarvestDifficulty ("wood", plant.x, plant.y, plant.objtype));
+	var difficulty := cint (GetHarvestDifficulty ("wood", plant.x, plant.y, plant.objtype, plant.realm));
 	if (!difficulty)
 		SendSysmessage (character, "There's nothing left to harvest right now.");
 		return;
@@ -60,7 +60,7 @@ program harvest (parms)
 			CreateItemInContainer (craftingbag, product_type, 1);
 			SendSysmessage (character, "You put the crops in your pack");
 
-			var harvest_amount := HarvestResource ("wood", plant.x, plant.y, 1, 8);
+			var harvest_amount := HarvestResource ("wood", plant.x, plant.y, 1, 8, plant.realm);
 			if (!harvest_amount)
 				SendSysmessage (character, "There's nothing left to harvest here.");
 				return;

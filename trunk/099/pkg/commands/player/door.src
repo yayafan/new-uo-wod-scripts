@@ -28,7 +28,7 @@ program textcmd_door (character, textline)
 
 	var whenopened := ReadGameClock ();
 	var OpenDoors := array;
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
 		if (item.isa (POLCLASS_DOOR))
 			if (IsLocked (character, item))
 				PrintTextAbovePrivate (item, "*Locked!*", character);

@@ -20,7 +20,7 @@ program firefield( parms, spellid )
 
 	var duration := 20 + CINT (caster_magery/4);
 	AddVirtue (caster, -1);
-	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "poison", duration);
+	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "poison", duration, 0, cast_loc.realm);
 	return 1;
 endprogram
 

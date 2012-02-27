@@ -25,9 +25,9 @@ program dispel_field( parms, spellid )
 		range := 2;
 	endif
 	PlaySoundEffect (caster, SFX_SPELL_DISPEL);
-    	foreach item in ListItemsNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, range)
+    	foreach item in ListItemsNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, range, cast_loc.realm)
 		if (GetObjProperty(item, "summoned_field"))
-			PlayStationaryEffect (item.x, item.y, item.z, FX_SMOKE, 0xA, 0xA);
+			PlayStationaryEffect (item.x, item.y, item.z, FX_SMOKE, 0xA, 0xA, 0, item.realm);
 			DestroyItem (item);
 		endif
 	endforeach   

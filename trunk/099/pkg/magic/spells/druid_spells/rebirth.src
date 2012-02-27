@@ -69,7 +69,7 @@ program tidal_wave ( parms )
 		return 0;
 	endif
 
-	foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, 10)
+	foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, 10, cast_on.realm)
 		if (!IsGood (mobile) )
 			SendSysMessage (caster, "It looks a bit too dangerous here...");
 			return 0;
@@ -81,7 +81,7 @@ program tidal_wave ( parms )
 		return 0;
 	endif
 
-	MoveObjectToLocation( ghost, cast_on.x, cast_on.y, cast_on.z, cast_on.realm, flags := MOVEOBJECT_FORCELOCATION );
+	MoveObjectToLocation( ghost, cast_on.x, cast_on.y, cast_on.z, cast_on.realm, flags := MOVEOBJECT_FORCELOCATION);
 	Resurrect (ghost);
 	ghost.hp := ghost.maxhp;
 	ghost.stamina := ghost.maxstamina;

@@ -59,13 +59,13 @@ function main_AI_loop()
 
 		if (readgameclock() > nextlay)
 			nextlay := readgameclock()+ 2600 + (3800*RandomInt(2));
-			createitematlocation (me.x, me.y, me.z, UOBJ_EGG, 1);
+			createitematlocation (me.x, me.y, me.z, UOBJ_EGG, 1, me.realm);
 			var eggcount := 0;
-			foreach item in ListItemsNearLocationOfType (me.x, me.y, me.z, 10, UOBJ_EGG)
+			foreach item in ListItemsNearLocationOfType (me.x, me.y, me.z, 10, UOBJ_EGG, me.realm)
 				eggcount := eggcount + 1;
 			endforeach
 			if (eggcount > 10)
-				foreach item in ListItemsNearLocationOfType (me.x, me.y, me.z, 10, UOBJ_EGG)
+				foreach item in ListItemsNearLocationOfType (me.x, me.y, me.z, 10, UOBJ_EGG, me.realm)
 					DestroyItem (item);
 				endforeach
 			endif

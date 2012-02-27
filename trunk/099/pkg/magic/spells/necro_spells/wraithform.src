@@ -34,7 +34,7 @@ program cast_wraithform (parms)
 	Detach();
 
 	While ( (Duration > 0) and (caster) and (!caster.dead) and (caster.graphic == WraithGraphic) )
-		foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, Range)
+		foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, Range, caster.realm)
 			if (mobile != caster and !mobile.dead and mobile.npctemplate
 					and !mobile.script["tamed"] and !mobile.script["humuc"])
 				var dmg := RandomDiceRoll (DamageDie);

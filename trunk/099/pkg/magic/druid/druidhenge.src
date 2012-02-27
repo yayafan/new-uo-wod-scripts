@@ -61,90 +61,90 @@ program create_druidhenge (character, druidhenge)
 		var column_array := {};
 
 		//main stone columns
-		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
 
-		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z, 0x1cf, 1);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z, 0x1cf, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
 
 		//smaller stones on top
-		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y-5, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+9, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x+3, druidhenge.y+9, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
 
-		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y-1, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+5, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y-1, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z+20, 0x788, 1);
+		column := CreateItemAtLocation (druidhenge.x+7, druidhenge.y+5, druidhenge.z+20, 0x788, 1, druidhenge.realm);
 		column.movable := 0;
 		column_array.append (column.serial);
 
 		//a few lights to make things look nice
-		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-1, druidhenge.z, 0x1647, 1);
+		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-1, druidhenge.z, 0x1647, 1, druidhenge.realm);
 		column.movable := 0;
 		column.facing := 29;
 		column.color := 31;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+3, druidhenge.z, 0x1647, 1);
+		column := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+3, druidhenge.z, 0x1647, 1, druidhenge.realm);
 		column.movable := 0;
 		column.facing := 29;
 		column.color := 31;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y-1, druidhenge.z, 0x1647, 1);
+		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y-1, druidhenge.z, 0x1647, 1, druidhenge.realm);
 		column.movable := 0;
 		column.facing := 29;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+3, druidhenge.z, 0x1647, 1);
+		column := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+3, druidhenge.z, 0x1647, 1, druidhenge.realm);
 		column.movable := 0;
 		column.facing := 29;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x1647, 1);
+		column := CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x1647, 1, druidhenge.realm);
 		column.movable := 0;
 		column.facing := 29;
 		column_array.append (column.serial);
 		
 		//now the last 2 pieces of the table
-		column := CreateItemAtLocation (druidhenge.x-1, druidhenge.y, druidhenge.z, 0x1dc5, 1);
+		column := CreateItemAtLocation (druidhenge.x-1, druidhenge.y, druidhenge.z, 0x1dc5, 1, druidhenge.realm);
 		SetObjProperty (column, "masteritem", druidhenge.serial);
 		column.usescript := ":druid:druidhenge";
 		column.movable := 0;
 		column_array.append (column.serial);
-		column := CreateItemAtLocation (druidhenge.x+1, druidhenge.y, druidhenge.z, 0x1dc4, 1);
+		column := CreateItemAtLocation (druidhenge.x+1, druidhenge.y, druidhenge.z, 0x1dc4, 1, druidhenge.realm);
 		SetObjProperty (column, "masteritem", druidhenge.serial);
 		column.usescript := ":druid:druidhenge";
 		column.movable := 0;
@@ -172,7 +172,7 @@ program create_druidhenge (character, druidhenge)
 			return;
 		endif
 		
-		var reaperwood := FindObjtypeInContainer (character.backpack, 0x706f);
+		var reaperwood := FindObjtypeInContainer (character.backpack, 0x1706f);
 		if (!reaperwood or reaperwood.amount < 5)
 			SendSysMessage (character, "The circle requires 5 reaper heartwoods to infuse to create the staff.");
 			EraseObjProperty (character, "#viewdruidhengegump");
@@ -180,9 +180,9 @@ program create_druidhenge (character, druidhenge)
 		endif
 		SubtractAmount (reaperwood, 5);
 		
-		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA );
+		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA, 0, druidhenge.realm );
 		PlaySoundEffect(character, SFX_SPELL_MANA_VAMPIRE);
-		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x7068, 1);
+		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x17068, 1, druidhenge.realm);
 
 	//otherwise if they wanted a runebag
 	elseif (table_return == 2)
@@ -192,7 +192,7 @@ program create_druidhenge (character, druidhenge)
 			return;
 		endif
 		
-		var silverhides := FindObjtypeInContainer (character.backpack, 0x7054);
+		var silverhides := FindObjtypeInContainer (character.backpack, 0x17054);
 		if (!silverhides or silverhides.amount < 20)
 			SendSysMessage (character, "The circle requires 20 serpent hides to infuse to create the bag.");
 			EraseObjProperty (character, "#viewdruidhengegump");
@@ -200,9 +200,9 @@ program create_druidhenge (character, druidhenge)
 		endif
 		SubtractAmount (silverhides, 20);
 		
-		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA );
+		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA, 0, druidhenge.realm );
 		PlaySoundEffect(character, SFX_SPELL_MANA_VAMPIRE);
-		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x706b, 1);
+		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x1706b, 1, druidhenge.realm);
 
 	//otherwise if its a GM wanting to destroy druidhenge
 	elseif (table_return == 101)
@@ -321,16 +321,16 @@ function ToggleDruidhenge (druidhenge)
 		endforeach
 
 		//play some special effects
-		PlayStationaryEffect (druidhenge.x-2, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x-2, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x+4, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x+4, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x-6, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x-6, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x+8, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
-		PlayStationaryEffect (druidhenge.x+8, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e);
+		PlayStationaryEffect (druidhenge.x-2, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x-2, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x+4, druidhenge.y-4, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x+4, druidhenge.y+10, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x-6, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x-6, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x+8, druidhenge.y, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
+		PlayStationaryEffect (druidhenge.x+8, druidhenge.y+6, druidhenge.z+10, 0x3709, 0x0a, 0x1e, 0, druidhenge.realm);
 
-		foreach player in ListMobilesNearLocation (druidhenge.x, druidhenge.y, druidhenge.z, 5);
+		foreach player in ListMobilesNearLocation (druidhenge.x, druidhenge.y, druidhenge.z, 5, druidhenge.realm);
 			PlaySoundEffect(player, 0x209);
 		endforeach
 
@@ -399,46 +399,46 @@ function ToggleDruidhenge (druidhenge)
 		var item;
 		var item_array := {};
 
-		item := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+10, druidhenge.z, 0xceb, 1);
+		item := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+10, druidhenge.z, 0xceb, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+9, druidhenge.z, 0xcf0, 1);
+		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y+9, druidhenge.z, 0xcf0, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y-1, druidhenge.z, 0x788, 1);
-		item.movable := 0;
-		item.color := 842;
-		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y-1, druidhenge.z, 0x788, 1);
+		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y-1, druidhenge.z, 0x788, 1, druidhenge.realm);
 		item.movable := 0;
 		item.color := 842;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y-1, druidhenge.z, 0x788, 1);
+		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y-1, druidhenge.z, 0x788, 1, druidhenge.realm);
 		item.movable := 0;
 		item.color := 842;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-5, druidhenge.z, 0xd3f, 1);
+		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y-1, druidhenge.z, 0x788, 1, druidhenge.realm);
+		item.movable := 0;
+		item.color := 842;
+		item_array.append (item.serial);
+		item := CreateItemAtLocation (druidhenge.x-2, druidhenge.y-5, druidhenge.z, 0xd3f, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+4, druidhenge.z, 0xd3f, 1);
+		item := CreateItemAtLocation (druidhenge.x+2, druidhenge.y+4, druidhenge.z, 0xd3f, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+6, druidhenge.z, 0xd3f, 1);
+		item := CreateItemAtLocation (druidhenge.x-7, druidhenge.y+6, druidhenge.z, 0xd3f, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+5, druidhenge.y-4, druidhenge.z, 0xcd0, 1);
+		item := CreateItemAtLocation (druidhenge.x+5, druidhenge.y-4, druidhenge.z, 0xcd0, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x-6, druidhenge.y+12, druidhenge.z, 0xcd3, 1);
+		item := CreateItemAtLocation (druidhenge.x-6, druidhenge.y+12, druidhenge.z, 0xcd3, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y, druidhenge.z, 0xd0c, 1);
+		item := CreateItemAtLocation (druidhenge.x+8, druidhenge.y, druidhenge.z, 0xd0c, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y, druidhenge.z, 0xd0d, 1);
+		item := CreateItemAtLocation (druidhenge.x+9, druidhenge.y, druidhenge.z, 0xd0d, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
-		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y, druidhenge.z, 0xd0e, 1);
+		item := CreateItemAtLocation (druidhenge.x+10, druidhenge.y, druidhenge.z, 0xd0e, 1, druidhenge.realm);
 		item.movable := 0;
 		item_array.append (item.serial);
 

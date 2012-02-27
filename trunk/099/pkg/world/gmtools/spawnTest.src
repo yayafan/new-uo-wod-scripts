@@ -11,7 +11,7 @@ program spawntest(item)
   var rng := GetObjProperty(item,"range");
   var amt := GetObjProperty(item,"amount");
   var frq := GetObjProperty(item,"duration");
-  foreach thing in ListItemsNearLocation(cint(item.x), cint(item.y), cint(item.z), CInt(rng))
+  foreach thing in ListItemsNearLocation(cint(item.x), cint(item.y), cint(item.z), CInt(rng), item.realm)
     if(GetObjProperty(thing,"link") == item.serial)
       DestroyItem(thing);
     endif
@@ -75,8 +75,8 @@ function CreateTreasureChests(item, amt)
       checker := 0;
       newx := cint(item.x + RandomInt(rng) - RandomInt(rng));
       newy := cint(item.y + RandomInt(rng) - RandomInt(rng));
-      newz:= cint(GetWorldHeight(newx, newy));
-      if(len(ListItemsNearLocation(newx, newy, newz, 0)) == 0)
+      newz:= cint(GetWorldHeight(newx, newy, item.realm));
+      if(len(ListItemsNearLocation(newx, newy, newz, 0, item.realm)) == 0)
 	type := RandomDiceRoll("d10");
         case(type)
           1: gfx := 3650;

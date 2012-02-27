@@ -74,7 +74,7 @@ function spellattack (byref opponent)
 		endif
 	endif
 
-	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, HALT_THRESHOLD)
+	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, HALT_THRESHOLD, opponent.realm)
 		if (mobile.npctemplate["shabooli"] and RandomInt (2))
 			if (mobile.poisoned)
 				if (CheckLineOfSight (me, mobile))
@@ -130,13 +130,13 @@ function prepare_for_fight (byref opponent)
 	if (GetVital (me, "Mana") < 8000)
 		return;
 	endif
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, CINT (HALT_THRESHOLD*2))
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, CINT (HALT_THRESHOLD*2), me.realm)
 		var masterserial := GetObjProperty (mobile, "master");
 		if (masterserial and masterserial == me.serial)
 			return;
 		endif
 	endforeach
-	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, CINT (HALT_THRESHOLD*2))
+	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, CINT (HALT_THRESHOLD*2), opponent.realm)
 		var masterserial := GetObjProperty (mobile, "master");
 		if (masterserial and masterserial == me.serial)
 			return;
@@ -160,13 +160,13 @@ function prepare_for_fight (byref opponent)
 	endif
 	sleep (1);
 
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, CINT (HALT_THRESHOLD*2))
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, CINT (HALT_THRESHOLD*2), me.realm)
 		var masterserial := GetObjProperty (mobile, "master");
 		if (masterserial and masterserial == me.serial)
 			return;
 		endif
 	endforeach
-	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, CINT (HALT_THRESHOLD*2))
+	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, CINT (HALT_THRESHOLD*2), opponent.realm)
 		var masterserial := GetObjProperty (mobile, "master");
 		if (masterserial and masterserial == me.serial)
 			return;

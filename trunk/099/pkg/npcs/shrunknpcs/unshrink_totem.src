@@ -21,14 +21,14 @@ program unshrink_totem (parms)
 		return CreateError ("Invalid location");
 	endif
 
-	var z := parms[4];
-	if (!z)
-		z:= GetMapInfo(x,y).z;
-	endif
-
 	var realm := parms[5];
 	if (!realm)
-		realm := _DEFAULT_REALM;
+		realm := REALM_BRITANNIA;
+	endif
+
+	var z := parms[4];
+	if (!z)
+		z:= GetMapInfo(x,y, realm).z;
 	endif
 
 	var npctemplate := GetObjProperty (totem, "npctemplate");
@@ -42,7 +42,7 @@ program unshrink_totem (parms)
 	endif
 
 	if (!mobile.backpack)
-		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		if (!EquipItem (mobile, newbackpack));
 			DestroyItem (newbackpack);
 		endif

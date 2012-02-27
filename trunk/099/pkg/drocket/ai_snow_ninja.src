@@ -91,7 +91,7 @@ function CheckCutOffHead ()
 	var fakesource := Array {};
 	fakesource.+npctemplate := ":drocket:snowninja";
 
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 2)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 2, me.realm)
 		if (IsGood (mobile))
 			if (GetVital (mobile, "Life") * 2 < GetVitalMaximumValue (mobile, "Life"))
 				PrintTextAbove (me, "*cuts off " + mobile.name + "'s head!*");

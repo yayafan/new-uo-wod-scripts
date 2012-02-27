@@ -38,7 +38,7 @@ function process_combat_event(ev)
 	if (ev.type == EVID_DAMAGED)
 		if (randomint(10) == 1)
 			if (!GetObjProperty (me, "guardkill") and !GetObjProperty (me, "killme") )
-				var it := createnpcfromtemplate (me.npctemplate, me.x , me.y-1, me.z);
+				var it := createnpcfromtemplate (me.npctemplate, me.x , me.y-1, me.z, 0, me.realm);
 				if (it)
 					PrintTextAbove (me, me.name + " splits when struck!");
 					SetObjProperty (it, "killme", 1);

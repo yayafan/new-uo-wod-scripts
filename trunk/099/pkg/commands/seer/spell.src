@@ -104,35 +104,35 @@ program cast_spell (character, text)
 			if (!targetted)
 				return;
 			endif
-			CreateField (0, targetted.x, targetted.y, targetted.z, "stone", 80, GetFieldDirection (character, targetted.x, targetted.y));
+			CreateField (0, targetted.x, targetted.y, targetted.z, "stone", 80, GetFieldDirection (character, targetted.x, targetted.y), targetted.realm);
 		"firefield":
 		"fire field":
 			var targetted := TargetCoordinates (character);
 			if (!targetted)
 				return;
 			endif
-			CreateField (0, targetted.x, targetted.y, targetted.z, "fire", 80, GetFieldDirection (character, targetted.x, targetted.y));
+			CreateField (0, targetted.x, targetted.y, targetted.z, "fire", 80, GetFieldDirection (character, targetted.x, targetted.y), targetted.realm);
 		"poisonfield":
 		"poison field":
 			var targetted := TargetCoordinates (character);
 			if (!targetted)
 				return;
 			endif
-			CreateField (0, targetted.x, targetted.y, targetted.z, "poison", 80, GetFieldDirection (character, targetted.x, targetted.y));
+			CreateField (0, targetted.x, targetted.y, targetted.z, "poison", 80, GetFieldDirection (character, targetted.x, targetted.y), targetted.realm);
 		"paralyzefield":
 		"paralyze field":
 			var targetted := TargetCoordinates (character);
 			if (!targetted)
 				return;
 			endif
-			CreateField (0, targetted.x, targetted.y, targetted.z, "para", 80, GetFieldDirection (character, targetted.x, targetted.y));
+			CreateField (0, targetted.x, targetted.y, targetted.z, "para", 80, GetFieldDirection (character, targetted.x, targetted.y), targetted.realm);
 		"energyfield":
 		"energy field":
 			var targetted := TargetCoordinates (character);
 			if (!targetted)
 				return;
 			endif
-			CreateField (0, targetted.x, targetted.y, targetted.z, "energy", 80, GetFieldDirection (character, targetted.x, targetted.y));
+			CreateField (0, targetted.x, targetted.y, targetted.z, "energy", 80, GetFieldDirection (character, targetted.x, targetted.y), targetted.realm);
 
 
 		"totem":
@@ -142,7 +142,7 @@ program cast_spell (character, text)
 			if (!targetted)
 				return;
 			endif
-			foreach mobile in ListMobilesNearLocation (targetted.x, targetted.y, targetted.z, 10)
+			foreach mobile in ListMobilesNearLocation (targetted.x, targetted.y, targetted.z, 10, targetted.realm)
 				if (!mobile.npctemplate)
 					PlaySoundEffect (mobile, SFX_SPELL_NIGHT_SIGHT );
 					PlayObjectCenteredEffect (mobile, FX_BLESS_EFFECT, 10, 10);
@@ -156,7 +156,7 @@ program cast_spell (character, text)
 			if (!targetted)
 				return;
 			endif
-			var bees := CreateItemAtLocation (targetted.x, targetted.y, targetted.z, 0x091b, 1);
+			var bees := CreateItemAtLocation (targetted.x, targetted.y, targetted.z, 0x091b, 1, targetted.realm);
 			PlaySoundEffect (bees, SFX_SPELL_SUMMON_ELEMENTAL);
 		"toad":
 			DoToadEffect (character);
@@ -228,7 +228,7 @@ function DoToadEffect (character)
 		return 0;
 	endif
 
-	PlayStationaryEffect (targetted.x, targetted.y, targetted.z, FX_SMOKE, 0xA, 0xA);
+	PlayStationaryEffect (targetted.x, targetted.y, targetted.z, FX_SMOKE, 0xA, 0xA, 0, targetted.realm);
 	PlaySoundEffect (targetted, SFX_SPELL_MANA_VAMPIRE);
 
 	DoTempMod (targetted, "cpoly", 0 - GetModAmount (100), 120, "Toad");
@@ -247,21 +247,21 @@ function DoTotemSpellEffect (character)
 		return;
 	endif
 
-	PlayStationaryEffect( targetted.x, targetted.y, targetted.z+1, FX_SMOKE, 0xA, 0xA );
+	PlayStationaryEffect( targetted.x, targetted.y, targetted.z+1, FX_SMOKE, 0xA, 0xA, 0, targetted.realm );
 	targetted.graphic := 100;
 	targetted.frozen := 1;
 
 	var doll;
 	if (targetted.gender)
-		doll := CreateItemAtLocation (targetted.x+1, targetted.y+1, targetted.z, 0x2107, 1);
+		doll := CreateItemAtLocation (targetted.x+1, targetted.y+1, targetted.z, 0x2107, 1, targetted.realm);
 	else
-		doll := CreateItemAtLocation (targetted.x+1, targetted.y+1, targetted.z, 0x2106, 1);
+		doll := CreateItemAtLocation (targetted.x+1, targetted.y+1, targetted.z, 0x2106, 1, targetted.realm);
 	endif
 	doll.movable := 0;
 	doll.name := "a shrunken " + targetted.name;
 
 	sleep (40);
-	PlayStationaryEffect( targetted.x, targetted.y, targetted.z+1, FX_SMOKE, 0xA, 0xA );
+	PlayStationaryEffect( targetted.x, targetted.y, targetted.z+1, FX_SMOKE, 0xA, 0xA, 0, targetted.realm );
 	DestroyItem (doll);
 	if (targetted.gender)
 		targetted.graphic := 401;
@@ -275,7 +275,7 @@ function DoTotemSpellEffect (character)
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := targetted;
 
-	foreach mobile in ListMobilesNearLocationEx( targetted.x, targetted.y, targetted.z, 15, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN )
+	foreach mobile in ListMobilesNearLocationEx( targetted.x, targetted.y, targetted.z, 15, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, targetted.realm )
 		SendEvent(mobile, ev);
 	endforeach
 endfunction

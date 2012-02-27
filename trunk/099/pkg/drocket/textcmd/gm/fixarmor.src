@@ -16,7 +16,7 @@ program fix_armor (character, text)
 	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
 		SendSysMessage (character, "Searching near X=" + xmid );
 		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, REALM_BRITANNIA)
 				if (item.isa (POLCLASS_NPC))
 					foreach subitem in EnumerateItemsInContainer (item.backpack)
 						if (IsFixableArmor (subitem))

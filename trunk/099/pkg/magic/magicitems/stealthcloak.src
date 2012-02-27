@@ -99,7 +99,7 @@ function SendEnteredAreaEvent( who )
 	ev.+source := who;
 
 	foreach critter in ListMobilesNearLocationEx( who.x, who.y, who.z, 15, 
-		LISTEX_FLAG_NORMAL )
+		LISTEX_FLAG_NORMAL, who.realm )
 		SendEvent(critter, ev);
 	endforeach
 

@@ -78,7 +78,7 @@ function CastToad(caster,cast_on)
 		return 0;
 	endif
 
-	PlayStationaryEffect (cast_on.x, cast_on.y, cast_on.z, FX_SMOKE, 0xA, 0xA);
+	PlayStationaryEffect (cast_on.x, cast_on.y, cast_on.z, FX_SMOKE, 0xA, 0xA, 0, cast_on.realm);
 	PlaySoundEffect (cast_on, SFX_SPELL_MANA_VAMPIRE);
 
 	var mod_amount := Resisted (caster, cast_on, GetModAmount (caster_magery) );
