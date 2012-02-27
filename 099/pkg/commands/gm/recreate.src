@@ -17,7 +17,7 @@ program textcmd_recreate (character)
 	endif
 
 	var npctemplate := targetted.npctemplate;
-	var newNPC := CreateNPCFromTemplate (npctemplate, targetted.x, targetted.y, targetted.z);
+	var newNPC := CreateNPCFromTemplate (npctemplate, targetted.x, targetted.y, targetted.z, 0, targetted.realm);
 	if (!newNPC)
 		SendSysMessage (character, "Unable to recreate NPC");
 		return;

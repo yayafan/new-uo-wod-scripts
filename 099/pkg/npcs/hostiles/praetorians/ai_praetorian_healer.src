@@ -77,7 +77,7 @@ function spellattack (byref opponent)
 	//look around for friends of mine in need of help
 	var total_friends := 0;
 	var friends_in_need := {};
-	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, HALT_THRESHOLD)
+	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, HALT_THRESHOLD, opponent.realm)
 		if (IsHostile (mobile))
 			total_friends := total_friends + 1;
 			if (GetVital (mobile, "Life") < CINT (GetVitalMaximumValue (mobile, "Life")*0.75) or mobile.poisoned)

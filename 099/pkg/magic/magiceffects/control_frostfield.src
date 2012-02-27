@@ -25,7 +25,7 @@ program field_control (field)
 	var loop_counter := 1;
 	PlaySoundEffect (field, 0xf7);
 	while (field)
-		foreach mobile in ListMobilesNearLocationEx (field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+		foreach mobile in ListMobilesNearLocationEx (field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, field.realm)
 			dmg := RandomInt (4) + 3;
 			dmg := Resisted (creator, mobile, dmg);
 			DoDamageByType (creator, mobile, dmg, DAMAGETYPE_COLD);

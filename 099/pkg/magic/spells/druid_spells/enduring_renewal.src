@@ -58,14 +58,14 @@ program enduring_renewal (parms)
 	//Figure out what mobs were affected, and if the spell affects good or evil
 	var affected_mobs := {};
 	if (IsGood (caster))
-		foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range)
+		foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range, cast_on.realm)
 			if (IsGood (mobile))
 				affected_mobs.append (mobile);
 				PlayObjectCenteredEffect (mobile, FX_SPARK_EFFECT, 7, 0x10);
 			endif
 		endforeach
 	else
-		foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range)
+		foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range, cast_on.realm)
 			if (IsHostile (mobile))
 				affected_mobs.append (mobile);
 				PlayObjectCenteredEffect (mobile, FX_SPARK_EFFECT, 7, 0x10);

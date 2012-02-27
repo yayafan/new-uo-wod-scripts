@@ -88,7 +88,7 @@ endfunction
 function LookAroundLocation (character, targetted)
 	var range := CINT (GetAttribute (character, ATTRIBUTEID_DETECTHIDDEN)/10) + 1;
 	var foundsomeone := 0;
-	foreach mobile in ListMobilesNearLocationEx (targetted.x, targetted.y, targetted.z, range, LISTEX_FLAG_HIDDEN )
+	foreach mobile in ListMobilesNearLocationEx (targetted.x, targetted.y, targetted.z, range, LISTEX_FLAG_HIDDEN, targetted.realm )
 		if (!GetObjProperty (mobile, "#specialhidden_nodamage"))
 			if (FoundPerson (character,mobile) )     
 				mobile.hidden := 0;
@@ -229,7 +229,7 @@ function SearchHouse (character, sign)
 	var found_someone := 0;
 	var z;
 	for ( z := -120; z <= 120; z := z + 30)
-		foreach mobile in ListMobilesNearLocationEx (character.x, character.y, z, 32, LISTEX_FLAG_HIDDEN)
+		foreach mobile in ListMobilesNearLocationEx (character.x, character.y, z, 32, LISTEX_FLAG_HIDDEN, character.realm)
 			if (!GetObjProperty (mobile, "#specialhidden_nodamage"))
 				if (IsInsideTheHouse (mobile, sign))
 					mobile.hidden := 0;

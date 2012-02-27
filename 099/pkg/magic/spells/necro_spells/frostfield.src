@@ -20,6 +20,6 @@ program cast_wyvernstrike (parms)
 
 	var duration := 20 + CINT (caster_magery/4);
 	caster_evalint := GetAttribute (caster, ATTRIBUTEID_NECROMANCY);
-	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "frost", duration);
+	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "frost", duration, 0, cast_loc.realm);
 	return 1;
 endprogram

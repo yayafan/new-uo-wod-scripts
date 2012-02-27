@@ -339,7 +339,7 @@ endfunction
 ///////////////////
 
 function SearchForAnvilInArea (byref character)
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
 		if ((item.objtype == UOBJ_ANVIL1) or (item.objtype == UOBJ_ANVIL2))
 			return 1;
 		endif

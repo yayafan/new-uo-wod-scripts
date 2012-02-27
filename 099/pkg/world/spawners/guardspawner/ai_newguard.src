@@ -302,7 +302,7 @@ endfunction
 
 function look_around()
 	PerformAction (me, UACTION_LOOK_AROUND);
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 15, me.realm)
 		var elem := GetNpcTemplateElem (mobile.npctemplate);
 		if (elem and elem.hostile and !elem.guardignore)
 			if (!mobile.script["tamed"])
@@ -451,7 +451,7 @@ function JoinGuards(byref who)
 		sleep(1);
 		if (yourtype == mytype)
 			say ("You didn't lose your shield, did you?");
-			var newshield := CreateItemAtLocation (5288, 1176, 0, myshieldtype, 1);
+			var newshield := CreateItemAtLocation (5288, 1176, 0, myshieldtype, 1, REALM_BRITANNIA);
 			if (!EquipItem (who, newshield))
 				DestroyItem (newshield);
 			endif
@@ -503,7 +503,7 @@ function JoinGuards(byref who)
 	who.title_prefix := "Squire ";
 	who.title_suffix := ", Virtue Guard";
 	var newshield := CreateItemAtLocation(who.x , who.y , who.z,
-		myshieldtype,1);
+		myshieldtype,1, who.realm);
 	EquipItem(who,newshield);
 	PlaySoundEffect(who, SFX_SPELL_BLESS);
 	PlayObjectCenteredEffect( who, FX_BLESS_EFFECT, 10,10);

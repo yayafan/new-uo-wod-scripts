@@ -101,11 +101,12 @@ function SpitWeb (byref opponent)
 	var x := opponent.x;
 	var y := opponent.y;
 	var z := opponent.z;
+	var rlm := opponent.realm;
 	PlaySoundEffect (me, 0x185);
 	PerformAction (me, 0x5bf);
 	sleep(1);
 
-	CreateItemAtLocation (x, y, z, UOBJ_SPIDERWEB, 1);
+	CreateItemAtLocation (x, y, z, UOBJ_SPIDERWEB, 1, rlm);
 	if (opponent.x == x and opponent.y == y)
 		SendSysMessage (opponent, "You are trapped in a spider web!");
 		DoMagicStatMod (opponent, STATMOD_PARALYZE, 1, 15, "A spider's web");

@@ -64,7 +64,7 @@ endfunction
 ///////////////////
 
 function YankOntoBoat (mob, plank)
-	var sh := GetStandingHeight (plank.x, plank.y, plank.z);
+	var sh := GetStandingHeight (plank.x, plank.y, plank.z, plank.realm);
 	if (sh)
 		var nx := (plank.x + plank.multi.x) / 2;
 		var ny := (plank.y + plank.multi.y) / 2;

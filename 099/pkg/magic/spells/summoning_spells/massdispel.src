@@ -21,12 +21,12 @@ program mass_dispel ( parms, spellid )
 	var resist_difficulty := caster_magery + 20;
 	var range := CINT (caster_magery/15);
 
-	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y , cast_loc.z , range)
+	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y , cast_loc.z , range, cast_loc.realm)
 		var summoned := GetObjProperty (mobile, "summoned");
 		if (summoned and CheckLosAt (mobile, cast_loc.x , cast_loc.y, cast_loc.z) )
 			PlaySoundEffect (mobile, SFX_SPELL_MASS_DISPEL);
 			if (!checkskill (mobile, SKILLID_MAGICRESISTANCE, resist_difficulty, 0) )
-				PlayStationaryEffect (mobile.x, mobile.y, mobile.z, FX_SMOKE, 0xA, 0xA);
+				PlayStationaryEffect (mobile.x, mobile.y, mobile.z, FX_SMOKE, 0xA, 0xA, 0, mobile.realm);
 				KillNPC (mobile);
 			endif
 		endif

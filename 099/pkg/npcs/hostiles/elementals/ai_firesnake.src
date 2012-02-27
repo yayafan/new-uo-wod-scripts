@@ -62,7 +62,7 @@ function BlowUp ()
 	if (!casterskill)
 		casterskill := 100;
 	endif
-	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 2, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 2, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, me.realm)
 		var dmg := RandomInt (CINT (casterskill/10) ) + 10;
 		DoDamageByType (me, mobile, dmg, DAMAGETYPE_FIRE);
 		PlaySoundEffect (mobile, SFX_SPELL_EXPLOSION);

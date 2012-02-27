@@ -88,7 +88,7 @@ function BreathFrost (byref opponent)
 		basedmg := RandomDiceRoll ("5d10");
 	endif
 
-	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 4, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mobile in ListMobilesNearLocationEx (me.x, me.y, me.z, 4, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm)
 		if (!mobile.hidden or !GetObjProperty (mobile, "#specialhidden_nodamage"))
 			if (mobile != me and !mobile.npctemplate["humuc"])
 				var dmg := RandomInt (CINT (basedmg * GetVital (me, "Life")/GetVitalMaximumValue (me, "Life")))+5;

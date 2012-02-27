@@ -25,7 +25,7 @@ program field_control (field)
 
 	PlaySoundEffect (field, SOUND_EFFECT_POISONFIELD);
 	repeat
-		foreach mobile in ListMobilesNearLocation (field.x, field.y, field.z, 0)
+		foreach mobile in ListMobilesNearLocation (field.x, field.y, field.z, 0, field.realm)
 			if (	(!checkskill (mobile, SKILLID_MAGICRESISTANCE, caster_evalint, 0)) and
 				(!mobile.concealed) )
 				SetPoison (mobile, RandomInt(5)+2, "You've been poisoned!");

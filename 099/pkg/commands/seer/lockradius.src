@@ -4,7 +4,7 @@ use uo;
 program lockradius( who, text )
     var ranget := cint( text );
     
-    foreach thingie in ListItemsNearLocation( who.x, who.y, who.z, ranget );
+    foreach thingie in ListItemsNearLocation( who.x, who.y, who.z, ranget, who.realm );
         thingie.movable := 0;
     endforeach
     

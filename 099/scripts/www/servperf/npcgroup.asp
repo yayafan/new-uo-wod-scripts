@@ -78,7 +78,7 @@ endfunction
 function GetNpcCount( xmid, ymid, range )
     var count := 0;
 	foreach obj in ListObjectsInBox( xmid-range, ymid-range, -128,
-	                                 xmid+range, ymid+range, +127 )
+	                                 xmid+range, ymid+range, +127, REALM_BRITANNIA )
 	    if (obj.npctemplate)
 		    count := count + 1;
 		endif

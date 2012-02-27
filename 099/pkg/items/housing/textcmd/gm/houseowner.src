@@ -69,7 +69,7 @@ program houseowner (who)
 	endif
 
 	set_critical (1);
-	var sign := CreateItemAtLocation (where.x, where.y, where.z, 0x7060, 1);
+	var sign := CreateItemAtLocation (where.x, where.y, where.z, 0x17060, 1, where.realm);
 	if (!sign)
 		SendSysMessage (who, "Unable to create a sign there!");
 		return;

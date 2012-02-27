@@ -280,7 +280,7 @@ endfunction
 
 function SortBank (character)
 	var found_banker := 0;
-	foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, 10)
+	foreach mobile in ListMobilesNearLocation (character.x, character.y, character.z, 10, character.realm)
 		if (mobile.npctemplate ["banker"])
 			found_banker := 1;
 		endif

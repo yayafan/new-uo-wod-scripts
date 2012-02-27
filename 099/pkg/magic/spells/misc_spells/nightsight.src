@@ -37,7 +37,7 @@ program cast_nightsight( parms, spellid )
 		daylight_brightness := 20;
 	endif
 
-	foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range);
+	foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range, cast_on.realm);
 		mobile.setlightlevel (daylight_brightness, duration);
 		PlayObjectCenteredEffect (mobile, FX_BLESS_EFFECT, 10, 10);
 	endforeach

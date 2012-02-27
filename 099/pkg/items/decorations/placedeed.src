@@ -32,14 +32,14 @@ program Place_Deed (character, deed)
 		endif
 	endif
 
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 1, character.realm)
  		If (item.isa (POLCLASS_DOOR))
 			SendSysMessage (character, "You're too close to a door!");
 			return;
   		endif
 	endforeach
 
-	foreach item in ListItemsNearLocationWithFlag (character.x, character.y, character.z, 0, TILEDATA_FLAG_IMPASSABLE)
+	foreach item in ListItemsNearLocationWithFlag (character.x, character.y, character.z, 0, TILEDATA_FLAG_IMPASSABLE, character.realm)
 		if (item.z == character.z)
 			SendSysMessage (character, "There's already an item here!");
 			return;
@@ -71,7 +71,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -103,7 +103,7 @@ program Place_Deed (character, deed)
 	
 			case (selected_item.index)
 			1:	//small forge
-				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1, character.realm);
 				if (item)
 					if (sign)
 						SetObjProperty (item, "lockeddown", sign.serial);
@@ -146,7 +146,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -173,7 +173,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -202,7 +202,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -409,7 +409,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -423,7 +423,7 @@ program Place_Deed (character, deed)
 
 			case (item.objtype)
 				0x0953:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0959, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0959, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -432,7 +432,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0961:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0967, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0967, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -441,7 +441,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0937:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x093D, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x093D, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -450,7 +450,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0945:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x094B, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x094B, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -459,7 +459,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0475:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0489, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0489, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -468,7 +468,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x047B:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0482, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0482, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -505,7 +505,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -520,7 +520,7 @@ program Place_Deed (character, deed)
 
 			case (item.objtype)
 				0x092B:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x092C, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x092C, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -530,7 +530,7 @@ program Place_Deed (character, deed)
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x0930:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0931, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0931, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -540,7 +540,7 @@ program Place_Deed (character, deed)
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x0461:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0462, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0462, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -550,7 +550,7 @@ program Place_Deed (character, deed)
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x046f:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x046e, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x046e, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -637,7 +637,7 @@ program Place_Deed (character, deed)
 					zoffset := 10;
 			endcase
 
-			item := CreateItemAtLocation (character.x, character.y, character.z+zoffset, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z+zoffset, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -669,7 +669,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -682,7 +682,7 @@ program Place_Deed (character, deed)
 			endif
 			case (item.objtype)
 				0x02:
-					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x03, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x03, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -691,7 +691,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x03:
-					var new_item := CreateItemAtLocation (character.x, character.y+1, character.z, 0x02, 1);
+					var new_item := CreateItemAtLocation (character.x, character.y+1, character.z, 0x02, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -700,7 +700,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x04:
-					var new_item := CreateItemAtLocation (character.x+1, character.y, character.z, 0x05, 1);
+					var new_item := CreateItemAtLocation (character.x+1, character.y, character.z, 0x05, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -709,7 +709,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x05:
-					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x04, 1);
+					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x04, 1, character.realm);
 					if (sign)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
@@ -776,7 +776,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, 0xB016, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, 0xB016, 1, character.realm);
 			if (item)
 				item.graphic := selected_item.objtype;
 				item.name := text;
@@ -820,7 +820,7 @@ program Place_Deed (character, deed)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, 0x12db, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, 0x12db, 1, character.realm);
 			if (item)
 				item.graphic := selected_item.objtype;
 				item.movable := 0;
@@ -903,7 +903,7 @@ function DoOldPlaceDeedStuff (character, deed, sign)
 	var item;
 	case (itemtype)
 		0x0FB1:	//small forge
-			item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, 0x0FB1, 1, character.realm);
 			if (item)
 				DestroyItem (deed);
 			else
@@ -925,7 +925,7 @@ function DoOldPlaceDeedStuff (character, deed, sign)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -946,7 +946,7 @@ function DoOldPlaceDeedStuff (character, deed, sign)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -967,7 +967,7 @@ function DoOldPlaceDeedStuff (character, deed, sign)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -988,7 +988,7 @@ function DoOldPlaceDeedStuff (character, deed, sign)
 				return;
 			endif
 
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			if (item)
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
@@ -1043,7 +1043,7 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 		var itemy := y + elem.y;
 		var itemz := z + elem.z;
 
-		var item := CreateItemAtLocation (itemx, itemy, itemz, elem.objtype, 1);
+		var item := CreateItemAtLocation (itemx, itemy, itemz, elem.objtype, 1, character.realm);
 		if (!item)
 			SendSysMessage (character, "Error creating item.");
 			return;

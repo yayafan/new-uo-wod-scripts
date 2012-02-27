@@ -37,8 +37,8 @@ function CheckAreaIfSpawnable (character, x, y, startz, rlm)
 	if (sh.multi or sh.multi.serial)
 		return "There's a multi here";
 	endif	
-	var mapinfoz := GetMapInfo(x,y).z;
-	var nextsh := GetStandingHeight (x, y, sh.z+1);
+	var mapinfoz := GetMapInfo(x,y, rlm).z;
+	var nextsh := GetStandingHeight (x, y, sh.z+1, rlm);
 	SendSysMessage (character, "Mapinfoz is " + mapinfoz + ", sh z is " + sh.z + ", nextsh.z is " + nextsh.z);
 
 	if (FindHouseSignAtLocation (x, y, rlm))

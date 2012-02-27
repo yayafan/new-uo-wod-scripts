@@ -251,7 +251,7 @@ endfunction
 ///////////////////
 
 function FindOtherMillPart (mill_part, find_objtype)
-	foreach item in ListItemsNearLocation (mill_part.x, mill_part.y, mill_part.z, 1)
+	foreach item in ListItemsNearLocation (mill_part.x, mill_part.y, mill_part.z, 1, mill_part.realm)
 		if (item.objtype == find_objtype)
 			return item;
 		endif

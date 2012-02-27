@@ -25,7 +25,7 @@ program findjunk (character)
 		SendSysMessage (character, "Searching near X=" + x );
 		for (y := 16; y < 4096; y := y + 128)
 			for (z := -120; z <= 120; z := z + 30)
-				foreach item in ListItemsNearLocation (x, y, z, 64)
+				foreach item in ListItemsNearLocation (x, y, z, 64, REALM_BRITANNIA)
 					if (item.movable)
 						if (IsStackableItem (item) )
 							if (CreateItemInContainer (bag, item.objtype, item.amount) )

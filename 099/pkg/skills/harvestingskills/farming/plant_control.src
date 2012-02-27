@@ -188,7 +188,7 @@ endfunction
 function CountPlantsInArea (byref plant, range)
 	var plant_count := 0;
 
-	foreach item in ListItemsNearLocation (plant.x, plant.y, plant.z, range)
+	foreach item in ListItemsNearLocation (plant.x, plant.y, plant.z, range, plant.realm)
 		if (IsAPlant (item))
 			plant_count := plant_count + 1;
 		endif

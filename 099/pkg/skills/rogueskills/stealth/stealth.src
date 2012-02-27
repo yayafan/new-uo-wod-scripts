@@ -61,7 +61,7 @@ program skill_stealth (hider)
 		sleepms(500);
 	endwhile
 
-	foreach critter in ListMobilesNearLocation (hider.x, hider.y, hider.z, 10)
+	foreach critter in ListMobilesNearLocation (hider.x, hider.y, hider.z, 10, hider.realm)
 		SendEvent(critter, ev);
 	endforeach
 endprogram

@@ -158,12 +158,12 @@ function SpawnNastyCreature (player, npctemplate)
 		y := y - 4;
 	endif
 
-	var z := GetMapInfo ( x, y ).z;
+	var z := GetMapInfo ( x, y, player.realm ).z;
 	if (z >= player.z)
 		return;
 	endif
 
-	var it := createnpcfromtemplate (npctemplate, x, y, z, 0);
+	var it := createnpcfromtemplate (npctemplate, x, y, z, 0, player.realm);
 	if (it)
 		var ev := array {};
 		ev.+type := EVID_ENTEREDAREA;
@@ -189,27 +189,27 @@ function IsDeepWater (player)
 		return 0;
 	endif
 
-	var info := GetMapInfo (player.x, player.y);
+	var info := GetMapInfo (player.x, player.y, player.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (player.x + 25, player.y);
+	info := GetMapInfo (player.x + 25, player.y, player.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (player.x, player.y + 25);
+	info := GetMapInfo (player.x, player.y + 25, player.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (player.x - 25, player.y);
+	info := GetMapInfo (player.x - 25, player.y, player.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif
 
-	info := GetMapInfo (player.x, player.y - 25);
+	info := GetMapInfo (player.x, player.y - 25, player.realm);
 	if ((info.landtile < 168) or (info.landtile > 171))
 		return 0;
 	endif

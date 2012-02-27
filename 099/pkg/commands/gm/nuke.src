@@ -10,7 +10,7 @@ program npcwipe( me )
 	var SpawnName;
 	var numspawns;
 
-	foreach mobile in ListMobilesNearLocationEx ( me.x, me.y, me.z, 100,0x02+0x01 )
+	foreach mobile in ListMobilesNearLocationEx ( me.x, me.y, me.z, 100, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, me.realm )
 		if (IsKillableNPC (mobile))
 			if ( GetObjProperty (mobile, "regspawn") )
 				SpawnName := GetObjProperty (mobile, "regspawn");

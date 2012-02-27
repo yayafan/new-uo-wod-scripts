@@ -103,7 +103,7 @@ endfunction
 ///////////////////
 
 function playersaround (chest)
-	foreach mob in ListMobilesNearLocationEx (chest.x, chest.y, chest.z, 9, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+	foreach mob in ListMobilesNearLocationEx (chest.x, chest.y, chest.z, 9, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, chest.realm)
 		if (!mob.npctemplate)
 			return 1;
 		endif

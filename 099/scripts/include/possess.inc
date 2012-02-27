@@ -55,7 +55,7 @@ endfunction
 
 function MoveMyPack (character)
 	if (!character.backpack)
-		var newbackpack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		EquipItem (character, newbackpack);
 	endif
 
@@ -79,7 +79,7 @@ endfunction
 
 function clone (character, npc)
 	if (!npc.backpack)
-		var newbackpack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1);
+		var newbackpack := CreateItemAtLocation (5123, 1779, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 		EquipItem (npc, newbackpack);
 	endif
 

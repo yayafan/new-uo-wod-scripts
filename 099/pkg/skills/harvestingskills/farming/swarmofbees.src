@@ -32,7 +32,7 @@ program angry_bees (bees)
 		SetScriptController(creator);
 	endif
 
-	var victims := ListMobilesNearLocation (bees.x, bees.y, bees.z, 2);
+	var victims := ListMobilesNearLocation (bees.x, bees.y, bees.z, 2, bees.realm);
 	var mainvictim := victims [Randomint (victims.size() ) + 1 ];
 	var lastattack := 0;
 	
@@ -41,14 +41,14 @@ program angry_bees (bees)
 	var start_y := bees.y;
 	repeat
 		if ( ReadGameClock() > lastattack )
-			foreach item in ListItemsNearLocationOfType (bees.x, bees.y, bees.z, 1, UOBJ_CAMPFIRE)
+			foreach item in ListItemsNearLocationOfType (bees.x, bees.y, bees.z, 1, UOBJ_CAMPFIRE, bees.realm)
 				if (!GetObjProperty (item, "#disturbed"))
 					SetObjProperty (item, "#disturbed", 1);
 					PrintTextAbove (item,  "The bees disturb the camp!");
 				endif
 			endforeach
 
-			foreach mobile in ListMobilesNearLocation( bees.x, bees.y, bees.z, 1 )
+			foreach mobile in ListMobilesNearLocation( bees.x, bees.y, bees.z, 1, bees.realm )
 				DoDamageByType (creator, mobile, (attack_damage + RandomInt (attack_damage)+1), DAMAGETYPE_PHYSICAL);
 			endforeach
 			lastattack := ReadGameClock() + time_between_attacks;

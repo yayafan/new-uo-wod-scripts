@@ -71,7 +71,7 @@ MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, fla
 		var amount := GetObjProperty (questitem, "delivery_payment");
 		var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, amount);
 		if (!thegold)
-			CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, amount);
+			CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, amount, player.realm);
 		endif
 		SendSysMessage (player, npc.name + " gives you " + amount + " gold.");
 		delivery_handled := 1;
@@ -79,7 +79,7 @@ MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, fla
 
 	if (GetObjProperty (questitem, "delivery_virtue"))
 		var amount := CINT (GetObjProperty (questitem, "delivery_virtue"));
-		foreach mobile in ListMobilesNearLocation (npc.x, npc.y, npc.z, 10)
+		foreach mobile in ListMobilesNearLocation (npc.x, npc.y, npc.z, 10, npc.realm)
 			AddVirtue (mobile, amount);
 		endforeach
 		
@@ -93,7 +93,7 @@ MoveObjectToLocation( questitem, player.x, player.y, player.z, player.realm, fla
 			foreach item in ListRootItemsInContainer (npc.backpack)
 				if (item.serial == returnitem_serial)
 					if (!MoveItemToContainer (item, player.backpack))
-MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, flags := MOVEOBJECT_FORCELOCATION );
+					MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 					endif
 					SendSysMessage (player, npc.name + " gives you " + item.desc);
 					delivery_handled := 1;

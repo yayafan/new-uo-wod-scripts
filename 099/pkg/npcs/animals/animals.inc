@@ -11,7 +11,7 @@ function GetHelpFromAllies (byref opponent )
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := opponent;
 
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, 8 )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, 8, me.realm )
 		if (mobile.npctemplate == me.npctemplate or TrimTemplate (mobile.npctemplate) in my_guardians)
 			SendEvent (mobile, ev);
 		endif

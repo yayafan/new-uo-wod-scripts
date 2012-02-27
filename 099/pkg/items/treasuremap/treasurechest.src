@@ -19,7 +19,7 @@ program treasurechest (character,  chest)
 	endif
 
 	//remove nearby gates.  Stupid cheaters...
-	foreach item in ListItemsNearLocationOfType (chest.x, chest.y, chest.z, 20, 0x0F6C)
+	foreach item in ListItemsNearLocationOfType (chest.x, chest.y, chest.z, 20, 0x0F6C, chest.realm)
 		DestroyItem (item);
 	endforeach
 

@@ -14,7 +14,7 @@ include "../pkg/items/doors/doors";
 program open_door_for_npc (me)
 	var whenopened := ReadGameClock ();
 	var OpenDoors := array;
-	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 2)
+	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 2, me.realm)
 		if (item.isa (POLCLASS_DOOR))
 			if (IsLocked (me, item))
 				PrintTextAbovePrivate (item, "*Locked!*", me);

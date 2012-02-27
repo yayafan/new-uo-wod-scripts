@@ -68,7 +68,7 @@ program use_picktool (character, tool)
 		return;
 	endif
 
-	var info := GetMapInfo (mining_loc.x , mining_loc.y);
+	var info := GetMapInfo (mining_loc.x , mining_loc.y, mining_loc.realm);
 
 	if ( IsSwampTile (info.landtile) )
 		mining_type := GROUP_CLAY;
@@ -223,7 +223,7 @@ endfunction
 ///////////////////
 
 function DigForSand (character, use_on, info)
-	var tdiff := GetHarvestDifficulty ( "sand", use_on.x , use_on.y , info.landtile );
+	var tdiff := GetHarvestDifficulty ( "sand", use_on.x , use_on.y , info.landtile, use_on.realm );
 	if( !tdiff )
 		SendSysMessage (character, "There is no sand here to mine.");
 		return 1;
@@ -236,7 +236,7 @@ function DigForSand (character, use_on, info)
 	endfor
 
 	if ( CheckSkill (character, SKILLID_MINING, tdiff, 0 ) )
-		var check_amt := HarvestResource ( "sand", use_on.x, use_on.y, 2, 2);
+		var check_amt := HarvestResource ( "sand", use_on.x, use_on.y, 2, 2, use_on.realm);
 		if (!check_amt)
 			SendSysMessage (character, "There is no sand here to mine.");
 			return 1;
@@ -266,7 +266,7 @@ endfunction
 
 function DigForClay (character, use_on, info)
 
-	var tdiff := GetHarvestDifficulty ( "clay", use_on.x , use_on.y , info.landtile );
+	var tdiff := GetHarvestDifficulty ( "clay", use_on.x , use_on.y , info.landtile, use_on.realm );
 	if( !tdiff )
 		SendSysMessage (character, "There is no clay here to mine.");
 		return 1;
@@ -280,7 +280,7 @@ function DigForClay (character, use_on, info)
 	sleep(1);
 
 	if ( CheckSkill (character, SKILLID_MINING, tdiff, 0 ) )
-		var check_amt := HarvestResource ( "clay", use_on.x, use_on.y, 2, 2);
+		var check_amt := HarvestResource ( "clay", use_on.x, use_on.y, 2, 2, use_on.realm);
 		if (!check_amt)
 			SendSysMessage (character, "There is no clay here to mine.");
 			return 1;
@@ -311,7 +311,7 @@ endfunction
 
 function DigForOre (character, use_on, info)
     
-	var mining_difficulty := GetHarvestDifficulty ( "ore", use_on.x , use_on.y , info.landtile );
+	var mining_difficulty := GetHarvestDifficulty ( "ore", use_on.x , use_on.y , info.landtile, use_on.realm );
 	if( !mining_difficulty )
 		SendSysMessage (character, "There is no ore here to mine.");
 		return 1;
@@ -334,7 +334,7 @@ function DigForOre (character, use_on, info)
 	var ore_type := DetermineOreType (character, mining_type);
 
 	var created_ore := CreateItemInContainer (craftingbag, ore_type, ore_amount);
-	HarvestResource ( "ore", use_on.x, use_on.y, 1, ore_amount );
+	HarvestResource ( "ore", use_on.x, use_on.y, 1, ore_amount, use_on.realm );
 	if (!created_ore)
 		PrintTextAbovePrivate (character, "*Your backpack is full*", character);
 		return 1;

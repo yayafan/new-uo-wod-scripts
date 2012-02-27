@@ -175,7 +175,7 @@ function CutHair (me)
 	DestroyItem(hair);
 
 	if (newhair)
-		var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1);
+		var newdoo := createitematlocation(me.x, me.y, me.z, newhair,1, me.realm);
 		if (newdoo)
 			EquipItem(me,newdoo);
 			newdoo.color := newhaircolor;

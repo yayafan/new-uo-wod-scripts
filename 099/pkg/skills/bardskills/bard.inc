@@ -69,7 +69,7 @@ endfunction
 
 function MakeSound (character, soundeffect)
 	foreach mobile in ListMobilesNearLocationEx (character.x, character.y, character.z, 15, 
-			LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST)
+			LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN+LISTEX_FLAG_GHOST, character.realm)
 		if (mobile.acct)
 			var sound_options := GetObjProperty (mobile, "sound_options");
 			if (!sound_options or !sound_options[1])

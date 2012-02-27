@@ -24,11 +24,11 @@ program control_parafield (field)
 
 	var loop_counter := 1;
 	while (field)
-		foreach mobile in ListMobilesNearLocationEx (field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN)
+		foreach mobile in ListMobilesNearLocationEx (field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, field.realm)
 			if (	CheckSkill ( mobile, SKILLID_MAGICRESISTANCE, caster_evalint, 0) )
 				PrintTextAbovePrivate (mobile, "You resist the spell", mobile);
 			elseif (!mobile.concealed and !mobile.paralyzed)
-				PlayStationaryEffect (mobile.x , mobile.y, mobile.z , FX_CURSE_EFFECT , 10 , 0xa , 0 );
+				PlayStationaryEffect (mobile.x , mobile.y, mobile.z , FX_CURSE_EFFECT , 10 , 0xa , 0, field.realm );
 				if (ReadGameClock() > soundeffecttimer)
 					PlaySoundEffect (mobile, SFX_SPELL_PARALYZE);
 					soundeffecttimer := ReadGameClock() + 2;

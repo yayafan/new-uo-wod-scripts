@@ -27,8 +27,8 @@ program track (character)
 
 	var config := ReadConfigFile ("tracking");
 	var range := 10 + CINT((GetAttribute(character, ATTRIBUTEID_TRACKING) /3));
-	var nearby := ListMobilesNearLocationEx (character.x, character.y, character.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN);
-	var corpses := ListItemsNearLocationOfType (character.x,character.y, character.z, range, UOBJ_CORPSE);
+	var nearby := ListMobilesNearLocationEx (character.x, character.y, character.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, character.realm);
+	var corpses := ListItemsNearLocationOfType (character.x,character.y, character.z, range, UOBJ_CORPSE, character.realm);
 
 	if (len (nearby) < 2)
 		if (!len (corpses))
@@ -165,7 +165,7 @@ function TrackCorpse (character, range)
 	var track_menu := CreateMenu("Select a corpse.");
 	var corpse_ids := array;
 
-	foreach corpse in ListItemsNearLocationOfType (character.x,character.y, character.z, range,UOBJ_CORPSE)
+	foreach corpse in ListItemsNearLocationOfType (character.x,character.y, character.z, range,UOBJ_CORPSE, character.realm)
 		corpse_ids.append (corpse);
 		AddMenuItem (track_menu, 0x2006, corpse.name);
 	endforeach
@@ -217,7 +217,7 @@ function TrackPlayersAndPets (character, range)
 	var track_menu := CreateMenu ("Select a creature.");
 	var critter_ids := array;
 
-	foreach mobile in ListMobilesNearLocationEx (character.x, character.y, character.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN);
+	foreach mobile in ListMobilesNearLocationEx (character.x, character.y, character.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, character.realm);
 		if (mobile.acctname or GetObjProperty (mobile, "master"))
 			if (mobile != character and !mobile.dead and !mobile.hidden)
 				var elem := FindConfigElem (config, mobile.graphic);

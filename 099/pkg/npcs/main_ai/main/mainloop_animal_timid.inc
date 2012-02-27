@@ -48,7 +48,7 @@ function main_AI_loop()
 			until (!ev);
 		endif
 		
-		foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 4)
+		foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 4, me.realm)
 			if (mobile.acctname)
 				RunFromIntruder (mobile);
 				break;

@@ -155,7 +155,7 @@ program merchant_take_bulk_order_deed (parms)
 			var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, 60000);
 			if (!thegold)
 				PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
-				CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, 60000);
+				CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, 60000, REALM_BRITANNIA);
 			endif
 			gold_reward := gold_reward - 60000;
 		until (gold_reward <= 60000);
@@ -163,7 +163,7 @@ program merchant_take_bulk_order_deed (parms)
 	var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, gold_reward);
 	if (!thegold)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
-		CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, gold_reward);
+		CreateItemAtLocation (player.x, player.y, player.z, UOBJ_GOLD_COIN, gold_reward, player.realm);
 	endif
 
 	return 1;

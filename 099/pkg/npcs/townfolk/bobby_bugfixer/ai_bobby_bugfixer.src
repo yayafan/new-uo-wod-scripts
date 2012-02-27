@@ -107,7 +107,7 @@ endfunction
 ///////////////////
 
 function DoDealerOnCreationSetup()
-	var newpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+	var newpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (me, newpack))
 		DestroyItem (newpack);
 	endif

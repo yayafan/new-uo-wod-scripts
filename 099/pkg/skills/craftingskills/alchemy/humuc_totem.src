@@ -103,9 +103,9 @@ program use_product (character, potion)
 	var parms := {};
 	parms .+ script := "humuc";
 
-	var thecritter := CreateNPCfromTemplate ("humuc", cint(character.x - 1), character.y, character.z, parms);
+	var thecritter := CreateNPCfromTemplate ("humuc", cint(character.x - 1), character.y, character.z, parms, character.realm);
 	if (!thecritter)
-		thecritter := CreateNPCfromTemplate ("humuc", character.x, cint(character.y - 1), character.z, parms);
+		thecritter := CreateNPCfromTemplate ("humuc", character.x, cint(character.y - 1), character.z, parms, character.realm);
 		if (!thecritter)
 			return 0;
 		endif

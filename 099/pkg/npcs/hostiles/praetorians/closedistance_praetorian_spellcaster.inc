@@ -10,7 +10,7 @@ function CloseDistance (byref opponent)
 	var found_praetorian := 0;
 	var nearest_praetorian := 0;
 	var old_distance := 100;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD, me.realm)
 		var masterserial := GetObjProperty (mobile, "master");
 		if (mobile.npctemplate["praetorian"] or (masterserial and masterserial == me.serial))
 			found_praetorian := 1;

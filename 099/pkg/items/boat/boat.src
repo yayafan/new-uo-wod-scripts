@@ -440,7 +440,7 @@ endfunction
 ///////////////////
 
 function DoEncounter()
-	foreach who in ListMobilesNearLocationEx (boat.x, boat.y, GetMapInfo (boat.x, boat.y).z, 4, LISTEX_FLAG_GHOST )
+	foreach who in ListMobilesNearLocationEx (boat.x, boat.y, GetMapInfo (boat.x, boat.y, boat.realm).z, 4, LISTEX_FLAG_GHOST, boat.realm )
 		if (YesNoRes (who, "Ressurect?") )
 			PlaySoundEffect (who, SFX_SPELL_RESSURECTION);
 			Resurrect (who);
@@ -470,12 +470,12 @@ function DoEncounter()
 		y := y - 5;
 	endif
 
-	var z := GetMapInfo ( x, y ).z;
+	var z := GetMapInfo ( x, y, boat.realm ).z;
 	if (z >= who.z)
 		return;
 	endif
 
-	var it := createnpcfromtemplate (getcritter(), x, y, z, 0);
+	var it := createnpcfromtemplate (getcritter(), x, y, z, 0, boat.realm);
 	if (it)
 		var ev := array {};
 		ev.+type := EVID_ENTEREDAREA;

@@ -60,12 +60,13 @@ program tidal_wave ( parms )
 	var targettedx := cast_on.x;
 	var targettedy := cast_on.y;
 	var targettedz := cast_on.z;
+	var targettedr := cast_on.realm;
 
 	//create the curved wave top
-	var wavetop1 := CreateItemAtLocation (targettedx, targettedy, targettedz+110, 0x122d, 1);
+	var wavetop1 := CreateItemAtLocation (targettedx, targettedy, targettedz+110, 0x122d, 1, targettedr);
 	wavetop1.graphic := 0x350b;
 	wavetop1.movable := 0;
-	var wavetop2 := CreateItemAtLocation (targettedx, targettedy, targettedz+110, 0x122d, 1);
+	var wavetop2 := CreateItemAtLocation (targettedx, targettedy, targettedz+110, 0x122d, 1, targettedr);
 	wavetop2.graphic := 0x34ed;
 	wavetop2.movable := 0;
 
@@ -76,11 +77,11 @@ program tidal_wave ( parms )
 
 	//create all of the waterfall effect and store them in waterfall_array
 	for(i := 10; i >= 0; i := i - 1)
-		waterfall_tile := CreateItemAtLocation (targettedx, targettedy, targettedz+i*10, 0x122d, 1);
+		waterfall_tile := CreateItemAtLocation (targettedx, targettedy, targettedz+i*10, 0x122d, 1, targettedr);
 		waterfall_tile.graphic := 0x3517;
 		waterfall_tile.movable := 0;
 		waterfall_array.append (waterfall_tile);
-		waterfall_tile := CreateItemAtLocation (targettedx, targettedy, targettedz+i*10, 0x122d, 1);
+		waterfall_tile := CreateItemAtLocation (targettedx, targettedy, targettedz+i*10, 0x122d, 1, targettedr);
 		waterfall_tile.graphic := 0x34f9;
 		waterfall_tile.movable := 0;
 		waterfall_array.append (waterfall_tile);
@@ -88,31 +89,31 @@ program tidal_wave ( parms )
 	endfor
 
 	//make the round puddle at the bottom
-	var waterfall_base1 := CreateItemAtLocation (targettedx,   targettedy+1, targettedz, 0x122d, 1);
+	var waterfall_base1 := CreateItemAtLocation (targettedx,   targettedy+1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base1.graphic := 0x17a1;
 	waterfall_base1.movable := 0;
-	var waterfall_base2 := CreateItemAtLocation (targettedx+1, targettedy,   targettedz, 0x122d, 1);
+	var waterfall_base2 := CreateItemAtLocation (targettedx+1, targettedy,   targettedz, 0x122d, 1, targettedr);
 	waterfall_base2.graphic := 0x179d;
 	waterfall_base2.movable := 0;
-	var waterfall_base3 := CreateItemAtLocation (targettedx,   targettedy-1, targettedz, 0x122d, 1);
+	var waterfall_base3 := CreateItemAtLocation (targettedx,   targettedy-1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base3.graphic := 0x179f;
 	waterfall_base3.movable := 0;
-	var waterfall_base4 := CreateItemAtLocation (targettedx-1, targettedy,   targettedz, 0x122d, 1);
+	var waterfall_base4 := CreateItemAtLocation (targettedx-1, targettedy,   targettedz, 0x122d, 1, targettedr);
 	waterfall_base4.graphic := 0x17a3;
 	waterfall_base4.movable := 0;
-	var waterfall_base5 := CreateItemAtLocation (targettedx+1, targettedy+1, targettedz, 0x122d, 1);
+	var waterfall_base5 := CreateItemAtLocation (targettedx+1, targettedy+1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base5.graphic := 0x17a7;
 	waterfall_base5.movable := 0;
-	var waterfall_base6 := CreateItemAtLocation (targettedx-1, targettedy+1, targettedz, 0x122d, 1);
+	var waterfall_base6 := CreateItemAtLocation (targettedx-1, targettedy+1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base6.graphic := 0x17a8;
 	waterfall_base6.movable := 0;
-	var waterfall_base7 := CreateItemAtLocation (targettedx+1, targettedy-1, targettedz, 0x122d, 1);
+	var waterfall_base7 := CreateItemAtLocation (targettedx+1, targettedy-1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base7.graphic := 0x17a5;
 	waterfall_base7.movable := 0;
-	var waterfall_base8 := CreateItemAtLocation (targettedx-1, targettedy-1, targettedz, 0x122d, 1);
+	var waterfall_base8 := CreateItemAtLocation (targettedx-1, targettedy-1, targettedz, 0x122d, 1, targettedr);
 	waterfall_base8.graphic := 0x17a6;
 	waterfall_base8.movable := 0;
-	var waterfall_base9 := CreateItemAtLocation (targettedx,   targettedy,   targettedz, 0x122d, 1);
+	var waterfall_base9 := CreateItemAtLocation (targettedx,   targettedy,   targettedz, 0x122d, 1, targettedr);
 	waterfall_base9.graphic := 0x1797;
 	waterfall_base9.movable := 0;
 

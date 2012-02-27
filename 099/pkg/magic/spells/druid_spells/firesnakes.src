@@ -33,8 +33,8 @@ program treeform (parms)
 		repeat
 			x := cast_loc.x + RandomInt (9) - 4;
 			y := cast_loc.y + RandomInt (9) - 4;
-			z := GetMapInfo(x,y).z;
-			thecritter := CreateNPCfromTemplate (":elementals:firesnake", cast_loc.x, cast_loc.y, cast_loc.z);
+			z := GetMapInfo(x,y, cast_loc.realm).z;
+			thecritter := CreateNPCfromTemplate (":elementals:firesnake", cast_loc.x, cast_loc.y, cast_loc.z, 0, cast_loc.realm);
 			tries := tries + 1;
 		until (thecritter or tries > 10);
 		if (thecritter)

@@ -15,7 +15,7 @@ include "../pkg/npcs/npcinfo";
 
 program npc_setup (npc)
 	var MyTemplateElem := GetNpcTemplateElem (npc.npctemplate);
-	var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (npc, newbackpack))
 		DestroyItem (newbackpack);
 	endif
@@ -132,7 +132,7 @@ program npc_setup (npc)
 		endif
 
 		if (MountTemplateElem)
-			var mymount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1);
+			var mymount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, REALM_BRITANNIA);
 			case (mountTemplateElem.objtype)
 				CID_BROWN_HORSE:
 					mymount.graphic := 0x3ea2;
@@ -160,7 +160,7 @@ program npc_setup (npc)
 	//light source for NPCs that should glow
 	if ( MyTemplateElem.light )
 		var light_type := MyTemplateElem.light;
-		var light := CreateItemAtLocation (5288, 1176, 0, light_type, 1);
+		var light := CreateItemAtLocation (5288, 1176, 0, light_type, 1, REALM_BRITANNIA);
 		light.newbie := 1;
 		light.facing := 29;
 		if (!EquipItem (npc, light))

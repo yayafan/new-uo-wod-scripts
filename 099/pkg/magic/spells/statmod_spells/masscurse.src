@@ -22,7 +22,7 @@ program cast_curse (parms, spellid)
 	var mod_amount := CalcModAmount() * 2;
 
 	PlaySoundEffect(caster, SFX_SPELL_MASS_CURSE);
-	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, 4);
+	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, 4, cast_loc.realm);
 		if (CheckLineOfSight (caster, mobile) )
 			mobile := CheckMagicReflection (caster, mobile);
 			PlaySoundEffect (mobile, SFX_SPELL_MASS_CURSE);

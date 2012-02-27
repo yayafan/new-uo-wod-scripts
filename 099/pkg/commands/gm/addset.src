@@ -18,7 +18,7 @@ program makeset( who , range)
 var thesetname := Requestinput(who, who.backpack , "What would you like to call this set?");
         
         
-        var stuff := ListItemsNearLocation( whereleft.x,whereleft.y,whereleft.z, cint(range));
+        var stuff := ListItemsNearLocation( whereleft.x,whereleft.y,whereleft.z, cint(range), whereleft.realm);
         theitem.+ objtype;
         theitem.+ x;
         theitem.+ y;
@@ -104,7 +104,7 @@ var thesetname := Requestinput(who, who.backpack , "What would you like to call 
         endforeach
         
         
-        foreach thing in listmobilesnearlocationex( whereleft.x,whereleft.y,whereleft.z, cint(range),0x01);
+        foreach thing in listmobilesnearlocationex( whereleft.x,whereleft.y,whereleft.z, cint(range), LISTEX_FLAG_NORMAL, REALM_BRITANNIA);
            if (thing.name != who.name) 
 
                 theitem.type := "setmobile";

@@ -93,7 +93,7 @@ endfunction
 
 function FindASpinningWheelNear (character)
 
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
 		if (item.objtype == 0x1015)
 			return item;
 		elseif (item.objtype == 0x1019)
@@ -122,7 +122,7 @@ endfunction
 
 function SearchForLoomNear (character)
 
-	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
 		if (item.objtype >= 0x105F and item.objtype <= 0x1066)
 			return 1;
 		endif

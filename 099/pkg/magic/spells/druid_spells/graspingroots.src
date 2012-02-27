@@ -35,7 +35,7 @@ program groots (parms)
 	var roots_array := {};
 
 	//create the summoned grasping roots
-	var graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x, cast_loc.y, cast_loc.z);
+	var graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x, cast_loc.y, cast_loc.z, 0, cast_loc.realm);
 	if (graspingroots)
 		SetObjProperty (graspingroots, "summoned", 1);
 		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
@@ -43,7 +43,7 @@ program groots (parms)
 	endif
 	roots_array.append (graspingroots);
 	
-	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y-2, GetMapInfo (cast_loc.x-2, cast_loc.y-2).z);
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y-2, GetMapInfo (cast_loc.x-2, cast_loc.y-2, cast_loc.realm).z, 0, cast_loc.realm);
 	if (graspingroots)
 		SetObjProperty (graspingroots, "summoned", 1);
 		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
@@ -51,7 +51,7 @@ program groots (parms)
 	endif
 	roots_array.append (graspingroots);
 		
-	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y+2, GetMapInfo (cast_loc.x-2, cast_loc.y+2).z);
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x-2, cast_loc.y+2, GetMapInfo (cast_loc.x-2, cast_loc.y+2, cast_loc.realm).z, 0, cast_loc.realm);
 	if (graspingroots)
 		SetObjProperty (graspingroots, "summoned", 1);
 		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
@@ -59,7 +59,7 @@ program groots (parms)
 	endif
 	roots_array.append (graspingroots);
 	
-	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y-2, GetMapInfo (cast_loc.x+2, cast_loc.y-2).z);
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y-2, GetMapInfo (cast_loc.x+2, cast_loc.y-2, cast_loc.realm).z, 0, cast_loc.realm);
 	if (graspingroots)
 		SetObjProperty (graspingroots, "summoned", 1);
 		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
@@ -67,7 +67,7 @@ program groots (parms)
 	endif
 	roots_array.append (graspingroots);
 
-	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y+2, GetMapInfo (cast_loc.x+2, cast_loc.y+2).z);
+	graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x+2, cast_loc.y+2, GetMapInfo (cast_loc.x+2, cast_loc.y+2, cast_loc.realm).z, 0, cast_loc.realm);
 	if (graspingroots)
 		SetObjProperty (graspingroots, "summoned", 1);
 		SetObjProperty (graspingroots, "endtime", ReadGameClock() + casterskill);
@@ -79,7 +79,7 @@ program groots (parms)
 
 	foreach graspingroots in roots_array
 		PlaySoundEffect (graspingroots, SFX_SPELL_MANA_VAMPIRE);
-		PlayStationaryEffect (graspingroots.x, graspingroots.y, graspingroots.z, FX_SMOKE, 0xA, 0xA);
+		PlayStationaryEffect (graspingroots.x, graspingroots.y, graspingroots.z, FX_SMOKE, 0xA, 0xA, 0, graspingroots.realm);
 		KillNPC (graspingroots);
 	endforeach
 	return 1;

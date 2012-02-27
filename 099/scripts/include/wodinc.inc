@@ -158,7 +158,7 @@ endfunction
 ///////////////////
 
 function CopyItemInContainer (item, container)
-	var newitem := CreateItemCopyAtLocation (5288, 1176, 0, item);
+	var newitem := CreateItemCopyAtLocation (5288, 1176, 0, item, REALM_BRITANNIA);
 	if (!newitem)
 		return CreateError ("Item copy failed");
 	endif

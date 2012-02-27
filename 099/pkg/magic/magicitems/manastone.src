@@ -92,8 +92,8 @@ program use_manastone (character, stone)
 		endcase
 	endif
 
-	var new_item_1 := CreateItemAtLocation (5288, 1176, 0, magic_item.objtype, 1);
-	var new_item_2 := CreateItemAtLocation (5288, 1176, 0, normal_item.objtype, 1);
+	var new_item_1 := CreateItemAtLocation (5288, 1176, 0, magic_item.objtype, 1, REALM_BRITANNIA);
+	var new_item_2 := CreateItemAtLocation (5288, 1176, 0, normal_item.objtype, 1, REALM_BRITANNIA);
 	if (!new_item_1 or !new_item_2)
 		DestroyItem (new_item_1);
 		DestroyItem (new_item_2);

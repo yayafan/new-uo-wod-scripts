@@ -19,7 +19,7 @@ program reveal_hider (parms, spellid)
 		range := 1;
 	endif
 
-	var hiders := ListMobilesNearLocationEx (caster.x, caster.y, caster.z, range, LISTEX_FLAG_HIDDEN);
+	var hiders := ListMobilesNearLocationEx (caster.x, caster.y, caster.z, range, LISTEX_FLAG_HIDDEN, caster.realm);
 	var numfound := 0;
 
 	if(len(hiders) > 0)

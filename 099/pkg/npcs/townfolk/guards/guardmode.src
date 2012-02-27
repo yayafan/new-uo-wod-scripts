@@ -150,7 +150,7 @@ function WalkToMyHome()
 		return;
 	endif
 
-	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 5)
+	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 5, me.realm)
 		if (CheckForCriminals (mob))
 			GetHelp (mob);
 			fight (mob);
@@ -580,7 +580,7 @@ function GetHelp (byref opponent)
 	eve.+source := opponent;
 	eve.+target := opponent;
 
-	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 10);
+	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 10, me.realm);
 		if (mob.npctemplate and mob.npctemplate == me.npctemplate and !mob.warmode and mob != me)
 			SendEvent (mob, eve);
 		endif
@@ -681,7 +681,7 @@ endfunction
 ///////////////////
 
 function OtherGuardHere()
-	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 0);
+	foreach mob in ListMobilesNearLocation (me.x, me.y, me.z, 0, me.realm);
 		if (mob != me)
 			return 1;
 		endif
@@ -738,7 +738,7 @@ endfunction
 ///////////////////
 
 function DoOnCreationSetup ()
-	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (me, newbackpack))
 		DestroyItem (newbackpack);
 	endif

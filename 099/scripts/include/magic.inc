@@ -494,7 +494,7 @@ endfunction
 // creates a field of length 5 centered on the target
 ///////////////////
 
-function CreateField (byref caster, targetx, targety, targetz, field_type, duration, direction := 0)
+function CreateField (byref caster, targetx, targety, targetz, field_type, duration, direction := 0, targetr)
 	if (!direction)
 		direction := GetFieldDirection (caster, targetx, targety);
 	endif
@@ -540,7 +540,7 @@ function CreateField (byref caster, targetx, targety, targetz, field_type, durat
 		if (direction == "ew")
 			if (caster)
 				if (CheckLosAt (caster, targetx + i, targety, targetz) )
-					it := CreateItemAtLocation (targetx + i, targety, targetz, field_objtype, 1);
+					it := CreateItemAtLocation (targetx + i, targety, targetz, field_objtype, 1, targetr);
 					if (it)
 						it.movable := 0;
 						if (field_graphic)
@@ -554,7 +554,7 @@ function CreateField (byref caster, targetx, targety, targetz, field_type, durat
 				endif
 
 			else	//if there is no caster, we don't need to worry about LOS
-				it := CreateItemAtLocation (targetx + i, targety, targetz, field_objtype, 1);
+				it := CreateItemAtLocation (targetx + i, targety, targetz, field_objtype, 1, targetr);
 				if (it)
 					it.movable := 0;
 					if (field_graphic)
@@ -568,7 +568,7 @@ function CreateField (byref caster, targetx, targety, targetz, field_type, durat
 		else
 			if (caster)
 				if (CheckLosAt (caster, targetx, targety + i, targetz) )
-					it := CreateItemAtLocation (targetx, targety + i, targetz, field_objtype, 1);
+					it := CreateItemAtLocation (targetx, targety + i, targetz, field_objtype, 1, targetr);
 					if (it)
 						it.movable := 0;
 						if (field_graphic)
@@ -580,7 +580,7 @@ function CreateField (byref caster, targetx, targety, targetz, field_type, durat
 					endif
 				endif
 			else	//again, if there's no caster, don't check LOS
-				it := CreateItemAtLocation (targetx, targety + i, targetz, field_objtype, 1);
+				it := CreateItemAtLocation (targetx, targety + i, targetz, field_objtype, 1, targetr);
 				if (it)
 					it.movable := 0;
 					if (field_graphic)

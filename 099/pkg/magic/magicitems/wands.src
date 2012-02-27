@@ -377,7 +377,7 @@ program use_magic_wand (character, wand)
 			sleepms (500);
 			UseCharge (character, wand);
 			ReleaseItem (wand);
-			CreateField (character, cast_on.x, cast_on.y, cast_on.z, "fire", 45);
+			CreateField (character, cast_on.x, cast_on.y, cast_on.z, "fire", 45, 0, cast_on.realm);
 			return;
 
 		default:
@@ -413,21 +413,21 @@ endfunction
 function DoFireworkEffect (character)
 	var x := character.x + RandomInt (11) - 5;
 	var y := character.y + RandomInt (11) - 5;
-	var light := CreateItemAtLocation (x, y, character.z + 20, 0x1647, 1);
+	var light := CreateItemAtLocation (x, y, character.z + 20, 0x1647, 1, character.realm);
 	light.facing := 29;
 	case (RandomInt (5))
 		0:
-			PlayStationaryEffect (x, y, character.z + 20, FX_BLESS_EFFECT, 7, 0x10);
+			PlayStationaryEffect (x, y, character.z + 20, FX_BLESS_EFFECT, 7, 0x10, 0, character.realm);
 		1:
-			PlayStationaryEffect (x, y, character.z + 20, FX_CURSE_EFFECT, 7, 0x10);
+			PlayStationaryEffect (x, y, character.z + 20, FX_CURSE_EFFECT, 7, 0x10, 0, character.realm);
 		2:
-			PlayStationaryEffect (x, y, character.z + 20, FX_SPARK_EFFECT, 7, 0x10);
+			PlayStationaryEffect (x, y, character.z + 20, FX_SPARK_EFFECT, 7, 0x10, 0, character.realm);
 		3:
-			PlayStationaryEffect (x, y, character.z + 20, FX_SPARK_EFFECT, 7, 0x10);
+			PlayStationaryEffect (x, y, character.z + 20, FX_SPARK_EFFECT, 7, 0x10, 0, character.realm);
 //		4:
 //			PlayStationaryEffect (x, y, character.z + 20, FX_HEAL_EFFECT, 7, 0x10);
 		4:
-			PlayStationaryEffect (x, y, character.z + 20, FX_MARK_EFFECT, 7, 0x10);
+			PlayStationaryEffect (x, y, character.z + 20, FX_MARK_EFFECT, 7, 0x10, 0, character.realm);
 	endcase
 	sleepms (100);
 	case (RandomInt (4))

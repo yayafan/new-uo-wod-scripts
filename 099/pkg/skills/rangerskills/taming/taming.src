@@ -166,7 +166,7 @@ endfunction
 
 function CheckIfOverPetCount (character, newmob)
 	var pets := 0;
-	foreach mob in ListMobilesNearLocation (character.x, character.y, character.z, 15)
+	foreach mob in ListMobilesNearLocation (character.x, character.y, character.z, 15, character.realm)
 		if (mob.script["tamed"] and (GetObjProperty (mob, "master") == character.serial) )
 			if (!GetObjProperty (mob, "summoned"))
 				pets := pets + GetPetCountOfNPC (mob);

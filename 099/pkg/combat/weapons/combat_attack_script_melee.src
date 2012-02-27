@@ -513,7 +513,7 @@ function DoSilverHit (byref attacker, byref defender, rawdamage);
 	if (GetObjProperty (defender, "summoned"))
 		PlaySoundEffect (attacker, SFX_SPELL_MANA_VAMPIRE);
 		if (!checkskill (defender, SKILLID_MAGICRESISTANCE, -1, 0))
-			PlayStationaryEffect (defender.x, defender.y, defender.z, FX_SMOKE, 0xA, 0xA );
+			PlayStationaryEffect (defender.x, defender.y, defender.z, FX_SMOKE, 0xA, 0xA, 0, defender.realm );
 			KillNPC (defender);
 		endif
 	endif

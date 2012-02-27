@@ -43,7 +43,7 @@ program check_etherial_items ()
 					//its time to go home
 					MoveItemToContainer (theitem, etherialbankbox);
 					SetObjProperty (theitem, "tname", GetObjProperty (theitem, "etherialname"));
-					var newitem := CreateItemAtLocation (1, 1, 1, theitem.objtype, 1);
+					var newitem := CreateItemAtLocation (1, 1, 1, theitem.objtype, 1, REALM_BRITANNIA);
 					if (newitem)
 						theitem.name := CSTR ("a magic " + TruncateArticle (newitem.desc));
 						DestroyItem (newitem);

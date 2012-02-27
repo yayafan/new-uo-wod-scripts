@@ -42,7 +42,7 @@ program tranquility (parms)
 	//the main loop
 	repeat
 		//list all the mobiles withing druidskill/10 tiles
-		foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, caster_druid_skill/10)
+		foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, caster_druid_skill/10, caster.realm)
 			//make sure they're an actual NPC and in war mode
 			if (mobile.warmode and mobile.npctemplate)
 				//if so, attempt to peacemake them

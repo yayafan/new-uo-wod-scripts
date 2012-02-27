@@ -15,13 +15,13 @@ program uncorrupt (parms)
 	var on_main_square := 0;
 
 	//look around the caster for the main corruption square
-	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION)
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION, caster.realm)
 		found_corruption := 1;
 		on_main_square := 1;
 	endforeach
 
 	//look for other corruption
-	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_CORRUPTION)
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_CORRUPTION, caster.realm)
 		found_corruption := 1;
 	endforeach
 
@@ -41,7 +41,7 @@ program uncorrupt (parms)
 	endif
 
 	//there should only be 1 main tile, hopefully.  :)
-	var main_tile := ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION)[1];
+	var main_tile := ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION, caster.realm)[1];
 	var corruption_level := 0;
 	if (GetObjProperty (main_tile, "difficulty") )
 		corruption_level := GetObjProperty (main_tile, "difficulty");
@@ -142,11 +142,11 @@ program uncorrupt (parms)
 	PlayLightningBoltEffect (caster);
 	caster.frozen := 0;
 
-	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 5, UOBJ_CORRUPTION)
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 5, UOBJ_CORRUPTION, caster.realm)
 		DestroyItem (square);
 	endforeach
 
-	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 3, UOBJ_MAIN_CORRUPTION)
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 3, UOBJ_MAIN_CORRUPTION, caster.realm)
 		DestroyItem (square);
 	endforeach
 

@@ -37,7 +37,7 @@ program recordshot( who , text)
 	var z;
 	var stuff := { };
 	foreach item in ListObjectsInBox(coordinates[1],coordinates[2],
-			-128,coordinates[3],coordinates[4],+128);
+			-128,coordinates[3],coordinates[4],+128, coords.realm);
 		if ( (!item.acctname) and (!item.npctemplate) )
 			stuff.append( item );
 		endif

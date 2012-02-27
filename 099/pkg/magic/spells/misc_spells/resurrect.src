@@ -207,7 +207,7 @@ function ResurrectPet (caster, corpse)
 		return;
 	endif
 
-	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	EquipItem (new_npc, newbackpack);
 
 	foreach item in ListRootItemsInContainer (corpse)

@@ -32,8 +32,8 @@ program harvest_honey (character, beehive)
 		SendSysmessage (character, "Do you want to destroy the beehive?");
 		var destroy := YesNo (character, "Destroy?");
 		if (destroy)
-			CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1);
-			CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1);
+			CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1, beehive.realm);
+			CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1, beehive.realm);
 			DestroyItem (beehive);
 			SendSysmessage (character, "You destroy the hive.  The bees are pretty angry...");
 		endif
@@ -69,7 +69,7 @@ program harvest_honey (character, beehive)
 		//See if they stir up any bees
 		if (!checkskill (character, SKILLID_ANIMALLORE, -1, 0))
 			if (RandomInt (4) == 1)
-				CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1);
+				CreateItemAtLocation (beehive.x, beehive.y, beehive.z, ITEM_SWARM, 1, beehive.realm);
 				SendSysmessage (character, "Uh-oh...");
 				return;
 			endif

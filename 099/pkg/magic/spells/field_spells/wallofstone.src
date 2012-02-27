@@ -20,6 +20,6 @@ program stonewall( parms, spellid )
 
 	var duration := 20 + caster_magery;
 	PlaySoundEffect (caster, SFX_SPELL_WALL_OF_STONE);
-	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "stone", duration);
+	CreateField (caster, cast_loc.x, cast_loc.y, cast_loc.z, "stone", duration, 0, cast_loc.realm);
 	return 1;
 endprogram

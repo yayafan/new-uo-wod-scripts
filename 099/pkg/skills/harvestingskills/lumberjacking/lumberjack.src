@@ -33,7 +33,7 @@ program use_axe (me , axe)
 endprogram
 
 function Do_Chops (character, axe, tree, mex, mey)
-	var difficulty := cint (GetHarvestDifficulty ("wood", tree.x, tree.y, tree.objtype));
+	var difficulty := cint (GetHarvestDifficulty ("wood", tree.x, tree.y, tree.objtype, tree.realm));
 	if (!difficulty)
 		SendSysmessage (character, "There's not enough wood here to chop");
 		return 0;
@@ -55,7 +55,7 @@ function Do_Chops (character, axe, tree, mex, mey)
 			return;
 		endif
 
-		var wood_amount := HarvestResource ("wood", tree.x, tree.y, 1, 8);
+		var wood_amount := HarvestResource ("wood", tree.x, tree.y, 1, 8, tree.realm);
 		if (!wood_amount)
 			SendSysmessage (character, "There's not enough wood here to chop.");
 			return 0;
@@ -95,7 +95,7 @@ function SelectTreeToChop (me)
 		return 0;
 	endif
 
-	var difficulty := GetHarvestDifficulty( "wood", tree.x, tree.y, tree.objtype );
+	var difficulty := GetHarvestDifficulty( "wood", tree.x, tree.y, tree.objtype, tree.realm );
 	if (difficulty == error)
 		SendSysmessage(me, "There's not enough wood here to chop.");
 		return 0;

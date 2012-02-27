@@ -72,7 +72,7 @@ function clone (byref character)
 
 	var it;
 	foreach thing in ListEquippedItems (character)
-		it := CreateItemAtLocation (5288, 1176, 0, thing.objtype, 1);
+		it := CreateItemAtLocation (5288, 1176, 0, thing.objtype, 1, REALM_BRITANNIA);
 		if (it)
 			it.color := thing.color;
 			it.graphic := thing.graphic;

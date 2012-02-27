@@ -9,7 +9,7 @@ function GetHelpFromAllies (byref opponent)
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := opponent;
 
-	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, 8 )
+	foreach mobile in ListMobilesNearLocation ( me.x, me.y, me.z, 8, me.realm )
 		if ( IsAnUndeadCreature (mobile.npctemplate) and !mobile.warmode and mobile != me )
 			SendEvent (mobile, ev);
 		endif

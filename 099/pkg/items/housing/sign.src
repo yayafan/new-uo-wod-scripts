@@ -115,7 +115,7 @@ function ChangeHouseLocks (character, sign)
 
 	var lockid := AllocLockId ();
 	SetObjProperty (newkey, "lockid", lockid); 
-	foreach item in ListObjectsInBox (sign.x - 32, sign.y - 32, -127, sign.x + 32, sign.y + 32, 127)
+	foreach item in ListObjectsInBox (sign.x - 32, sign.y - 32, -127, sign.x + 32, sign.y + 32, 127, sign.realm)
 		if (IsDoor (item))
 			if ((item.x >= homeinfo[2] and item.x <= homeinfo[4]) and (item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
 				item.locked := 1;
@@ -205,7 +205,7 @@ function DisownHouse (character, sign)
 	homeinfo[1] := 0;
 	SetObjProperty (newsign, "homeinfo", homeinfo);
 
-	foreach item in ListItemsNearLocation (sign.x, sign.y, sign.z, 32)
+	foreach item in ListItemsNearLocation (sign.x, sign.y, sign.z, 32, sign.realm)
 		if(Item.Isa (POLCLASS_DOOR))
 			if ((item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
 					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )

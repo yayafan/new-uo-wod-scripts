@@ -23,12 +23,6 @@ program SpawnThatStuff( me, region )
 	regspawn := ReadConfigFile( ":regionalspawner:regionspawn" );
 
 	var numregions := GetConfigMaxIntKey( regspawn );
-	var coords;
-	var x1;
-	var y1;
-	var x2;
-	var y2;
-
 	var i := cint(region);
 
         	var spawnregion := regspawn[ i ];
@@ -55,6 +49,10 @@ function SpawnThisGroup(me, regionnum, spawnregion, groupname, groupdensity)
 	var y1 := cint(coords[2]);
 	var x2 := cint(coords[3]);
 	var y2 := cint(coords[4]);
+	var rlm := spawnregion.realm;
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 
 	var spawngroup := FindConfigElem( regspawn, groupname );
 	if (!spawngroup)
@@ -118,17 +116,17 @@ function SpawnThisGroup(me, regionnum, spawnregion, groupname, groupdensity)
 
 		    x := RandomInt (x2-x1)+x1;
 		    y := RandomInt (y2-y1)+y1;
-		    z := GetMapInfo(x,y).z;
+		    z := GetMapInfo(x,y, rlm).z;
 		    tries := tries +1;
 
 		    if ((z) or (z == 0))
-			sh := GetStandingHeight( x, y, z );
+			sh := GetStandingHeight( x, y, z, rlm );
 			if (sh.multi or sh.multi.serial)
 				thecritter := 0;
 			else
-				info := hex(GetMapInfo( x , y ).landtile);
+				info := hex(GetMapInfo( x , y, rlm ).landtile);
 				if ((info < 0x406) or (info > 0x455))
-					thecritter := createnpcfromtemplate(critterlist[critnum],x,y,z);
+					thecritter := createnpcfromtemplate(critterlist[critnum],x,y,z, 0, rlm);
 					if (thecritter)
 						set_critical(1);
 						SetObjProperty(thecritter,"regspawn",SpawnName);
@@ -160,6 +158,10 @@ function NukeThisGroup(me, regionnum, spawnregion, groupname)
 	var y1 := cint(coords[2]);
 	var x2 := cint(coords[3]);
 	var y2 := cint(coords[4]);
+	var rlm:= spawnregion.realm;
+	if (!rlm)
+		rlm := _DEFAULT_REALM;
+	endif
 	var kills := 0;
 
 	var SpawnName := "r"+regionnum+"g"+groupname;
@@ -168,7 +170,7 @@ function NukeThisGroup(me, regionnum, spawnregion, groupname)
 	for( x := x2 ; x > x1 ; x := x  - 16)
     	  for( y := y1; y < y2; y := y + 16 )
 	    for( z := -60; z <= 60; z := z + 16 )
-		foreach npc in ListMobilesNearLocationEx( x, y, z, 32,0x02+0x01)
+		foreach npc in ListMobilesNearLocationEx( x, y, z, 32,0x02+0x01, rlm)
 			if ( GetObjProperty( npc, "regspawn" ) == SpawnName )
 				set_critical(1);
 				EraseObjProperty( npc, "regspawn" );

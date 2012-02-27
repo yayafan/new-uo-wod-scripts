@@ -661,7 +661,7 @@ function MountHorse (byref horse)
 	if(MoveObjectToLocation( me, horse.x, horse.y, horse.z, horse.realm, flags := MOVEOBJECT_FORCELOCATION ))
 		set_critical (1);
 		me.facing := horse.facing;
-		var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1);
+		var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, REALM_BRITANNIA);
 		mount.color := horse.color;
 		mount.graphic := mounttype;
 
@@ -1666,7 +1666,7 @@ function OpenMyPack ()
 	endif
 
 	if (!me.backpack)
-		var newbackpack := CreateItemAtLocation(5288 , 1176 , 0, 0xe75,1);
+		var newbackpack := CreateItemAtLocation(5288 , 1176 , 0, 0xe75,1, REALM_BRITANNIA);
 		EquipItem(me, newbackpack);
 	endif
 
@@ -1687,7 +1687,7 @@ function AllCommand (evtype, what)
 	eve.+target := what;
 	SendEvent (me, eve);
 
-	foreach mob in ListMobilesNearLocation (master.x, master.y, master.z, 9)
+	foreach mob in ListMobilesNearLocation (master.x, master.y, master.z, 9, master.realm)
 		if (GetObjProperty (mob, "master") == me.master.serial)
 			SendEvent (mob, eve);
 		endif
@@ -1768,7 +1768,7 @@ endfunction
 ///////////////////
 
 function DoOnCreationSetup ()
-	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (me, newbackpack))
 		DestroyItem (newbackpack);
 	endif

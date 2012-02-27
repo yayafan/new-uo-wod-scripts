@@ -94,7 +94,7 @@ endfunction
 function AboveHenchCount (countme := 1)
 	set_critical(1);
 	var men := 0;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 8)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 8, me.realm)
 		if (mobile.script[":guards:henchman"])
 			if (GetObjProperty (mobile, "master") == masterserial)
 				if (GetObjProperty (mobile, "#following") )
@@ -126,7 +126,7 @@ endfunction
 function BelowHenchCount (countme := 1)
 	set_critical(1);
 	var men := 0;
-	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 8)
+	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 8, me.realm)
 		if (mobile.script[":guards:henchman"])
 			if (GetObjProperty (mobile, "master") == masterserial)
 				if (GetObjProperty (mobile, "#following") )
@@ -246,7 +246,7 @@ function ResurrectHenchman (byref corpse)
 		parms.script := GetObjProperty (corpse, "myscript");
 	endif
 
-	var new_npc := CreateNPCFromTemplate (":guards:warrior", corpse.x, corpse.y, corpse.z, parms);
+	var new_npc := CreateNPCFromTemplate (":guards:warrior", corpse.x, corpse.y, corpse.z, parms, corpse.realm);
 	if (!new_npc)
 		set_critical(0);
 		return 0;
@@ -269,7 +269,7 @@ function ResurrectHenchman (byref corpse)
 	new_npc.name := temp_string;
 	SetObjProperty (new_npc, "rescount", rescount + 1);
 
-	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288 , 1176 , 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	if (!EquipItem (new_npc, newbackpack))
 		DestroyItem (newbackpack);
 	endif
@@ -311,14 +311,14 @@ function ResurrectHenchman (byref corpse)
 	if (GetObjProperty (corpse, "hairstyle"))
 		var hairstyle := GetObjProperty (corpse, "hairstyle");
 		if (hairstyle[1])
-			var hair := CreateItemAtLocation (5288 , 1176 , 0, CINT (hairstyle[1]), 1);
+			var hair := CreateItemAtLocation (5288 , 1176 , 0, CINT (hairstyle[1]), 1, REALM_BRITANNIA);
 			hair.color := hairstyle[2];
 			if (!EquipItem (new_npc, hair))
 				DestroyItem (hair);
 			endif
 		endif
 		if (hairstyle[3])
-			var beard := CreateItemAtLocation (5288 , 1176 , 0, CINT (hairstyle[3]), 1);
+			var beard := CreateItemAtLocation (5288 , 1176 , 0, CINT (hairstyle[3]), 1, REALM_BRITANNIA);
 			beard.color := hairstyle[4];
 			if (!EquipItem (new_npc, beard))
 				DestroyItem (beard);

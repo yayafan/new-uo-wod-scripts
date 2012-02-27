@@ -17,7 +17,7 @@ program grey(me,item)
 	var parms := {};
 	parms.+alignment := "good";
 	parms.+name := me.name + "'s whipping boy";
-	var boy := CreateNpcFromTemplate("person",5275,1174,0,parms);
+	var boy := CreateNpcFromTemplate("person",5275,1174,0,parms, REALM_BRITANNIA);
       boy.frozen := 1;
       boy.invisible := 1;
       boy.squelch(0);

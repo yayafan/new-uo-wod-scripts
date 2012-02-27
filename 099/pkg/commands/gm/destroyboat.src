@@ -26,10 +26,10 @@ endprogram
 
 function DestroyBoatFromStanding (character)
 
-	var sh := GetStandingHeight (character.x, character.y, character.z);
+	var sh := GetStandingHeight (character.x, character.y, character.z, character.realm);
 	var themulti := sh.multi;
 	if (!themulti)
-		sh := GetStandingHeight (character.x, character.y, -2);
+		sh := GetStandingHeight (character.x, character.y, -2, character.realm);
 		var themulti := sh.multi;
 		if (!themulti)
 			SendSysMessage (character, "No Multi detected");

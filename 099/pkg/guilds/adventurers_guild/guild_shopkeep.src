@@ -163,7 +163,7 @@ endfunction
 ///////////////////
 
 function DoMerchantOnCreationSetup()
-	var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1);
+	var newbackpack := CreateItemAtLocation (5288, 1176, 0, UOBJ_BACKPACK, 1, REALM_BRITANNIA);
 	EquipItem (me, newbackpack);
 
 	me.gender := RandomInt (2);

@@ -21,7 +21,10 @@ program recreateshot( who, text )
 
 	for key :=  1 to GetConfigMaxIntKey (cfg)
 		elem := FindConfigElem( cfg, key );
-		var item := CreateItemAtLocation( elem.x, elem.y, elem.z, elem.objtype, elem.amount );
+		if (!elem.realm)
+			elem.realm := REALM_BRITANNIA;
+		endif
+		var item := CreateItemAtLocation( elem.x, elem.y, elem.z, elem.objtype, elem.amount, elem.realm );
 		if (item)
 			if ( item.desc != elem.desc )
 				item.name := elem.desc;

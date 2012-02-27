@@ -34,10 +34,10 @@ program cast_invis ( parms, spellid )
 	endwhile
 	cast_on.hidden := 0;
 
-	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 15, LISTEX_FLAG_NORMAL)
+	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 15, LISTEX_FLAG_NORMAL, cast_on.realm)
 		SendEvent (mobile, ev);
 	endforeach
-	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 6, LISTEX_FLAG_HIDDEN )
+	foreach mobile in ListMobilesNearLocationEx (cast_on.x, cast_on.y, cast_on.z, 6, LISTEX_FLAG_HIDDEN, cast_on.realm )
 		SendEvent (mobile, ev);
 	endforeach
 	return 1;

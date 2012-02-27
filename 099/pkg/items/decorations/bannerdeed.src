@@ -101,7 +101,7 @@ program Place_Deed (character, deed)
 
 			DestroyItem (deed);
 			var z_offset := (selected_height.index*10)-10;
-			item := CreateItemAtLocation (character.x, character.y, character.z+z_offset, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z+z_offset, selected_item.objtype, 1, character.realm);
 			item.movable := 0;
 			SetObjProperty (item, "lockeddown", sign.serial);
 		5:
@@ -135,20 +135,20 @@ program Place_Deed (character, deed)
 			endif
 
 			var itemserials := {};
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			itemserials.append (item.serial);
 			item.movable := 0;
 			SetObjProperty (item, "lockeddown", sign.serial);
 			SetObjProperty (item, "deedobjtype", deed.objtype);
 
 			if (offset)
-				item := CreateItemAtLocation (character.x, character.y-1, character.z, selected_item.objtype+1, 1);
+				item := CreateItemAtLocation (character.x, character.y-1, character.z, selected_item.objtype+1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
 				SetObjProperty (item, "deedobjtype", deed.objtype);
 			else
-				item := CreateItemAtLocation (character.x+1, character.y, character.z, selected_item.objtype+1, 1);
+				item := CreateItemAtLocation (character.x+1, character.y, character.z, selected_item.objtype+1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
@@ -188,32 +188,32 @@ program Place_Deed (character, deed)
 			endif
 
 			var itemserials := {};
-			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1);
+			item := CreateItemAtLocation (character.x, character.y, character.z, selected_item.objtype, 1, character.realm);
 			itemserials.append (item.serial);
 			item.movable := 0;
 			SetObjProperty (item, "lockeddown", sign.serial);
 			SetObjProperty (item, "deedobjtype", deed.objtype);
 
 			if (offset)
-				item := CreateItemAtLocation (character.x, character.y-1, character.z, selected_item.objtype+1, 1);
+				item := CreateItemAtLocation (character.x, character.y-1, character.z, selected_item.objtype+1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
 				SetObjProperty (item, "deedobjtype", deed.objtype);
 
-				item := CreateItemAtLocation (character.x, character.y+1, character.z, selected_item.objtype-1, 1);
+				item := CreateItemAtLocation (character.x, character.y+1, character.z, selected_item.objtype-1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
 				SetObjProperty (item, "deedobjtype", deed.objtype);
 			else
-				item := CreateItemAtLocation (character.x-1, character.y, character.z, selected_item.objtype-1, 1);
+				item := CreateItemAtLocation (character.x-1, character.y, character.z, selected_item.objtype-1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
 				SetObjProperty (item, "deedobjtype", deed.objtype);
 
-				item := CreateItemAtLocation (character.x+1, character.y, character.z, selected_item.objtype+1, 1);
+				item := CreateItemAtLocation (character.x+1, character.y, character.z, selected_item.objtype+1, 1, character.realm);
 				itemserials.append (item.serial);
 				item.movable := 0;
 				SetObjProperty (item, "lockeddown", sign.serial);
