@@ -1567,7 +1567,22 @@
 0x26ce PaladinSword weapons
 # 0x26cf - 0x2776 unused
 0x2777 PlateJingasa2 armor
-# 0x2778 - 0x27be unused
+# 0x2778 - 0x27a1 unused
+0x27a2 Nodachi weapons
+0x27a3 Tessen weapons
+0x27a4 Wakizashi weapons
+# 0x27a5 unused
+0x27a6 Tetsubo weapons
+0x27a7 Lajatang weapons
+0x27a8 Bokuto weapons
+0x27a9 Daisho weapons
+# 0x27aa unused
+0x27ab Tekagi weapons
+# 0x27ac unused
+0x27ad Kama weapons
+0x27ae Nunchaku weapons
+0x27af Sai weapons
+# 0x27b0 - 0x27be unused
 0x27bf MailHatsuburi armor
 0x27c0 PlateHatsuburi armor
 0x27c1 LeatherJingasa armor
@@ -1643,7 +1658,17 @@
 # 0x2be3 - 0x2d29 unused
 0x2d2a longbow weapons
 0x2d2b shortbow weapons
-# 0x2d2c - 0x2d9c unused
+0x2d2c Spellblade weapons
+0x2d2d AssassinSpike weapons
+0x2d2e Leafblade weapons
+0x2d2f WarCleaver weapons
+0x2d30 DiamondMace weapons
+0x2d31 WildStaff weapons
+0x2d32 RuneBlade weapons
+0x2d33 RadiantScimitar weapons
+0x2d34 OrnateAxe weapons
+0x2d35 ElvenMachete weapons
+# 0x2d36 - 0x2d9c unused
 0x2d9d MysticismSpellbook mysticism
 0x2d9e netherboltscroll mysticism
 0x2d9f healingstonescroll mysticism
@@ -1736,9 +1761,36 @@
 0x4064 GargishClothKilt2 armor
 0x4065 GargishClothLeggings armor
 0x4066 GargishClothLeggings2 armor
-# 0x4067 - 0x41d7 unused
+0x4067 Boomerang weapons
+0x4068 DualShortAxes weapons
+# 0x4069 unused
+0x406a GargishDagger weapons
+0x406b SoulGlaive weapons
+0x406c Cyclone weapons
+0x406d DualPointedSpear weapons
+0x406e DiscMace weapons
+0x406f SerpentstoneStaff weapons
+0x4070 GlassStaff weapons
+0x4071 StoneWarSword weapons
+0x4072 Bloodblade weapons
+0x4073 GlassSword weapons
+0x4074 DreadSword weapons
+0x4075 GargishTalwar weapons
+0x4076 Shortblade weapons
+# 0x4077 - 0x41d7 unused
 0x41d8 LeatherTalons armor
-# 0x41d9 - 0x4257 unused
+# 0x41d9 - 0x41ff unused
+0x4200 GargishWoodenShield armor
+0x4201 GargishKiteShield armor
+0x4202 GargishSmallPlateShield armor
+0x4203 GargishMediumPlateShield armor
+0x4204 GargishLargePlateShield armor
+0x4205 GargishLargeStoneShield armor
+# 0x4206 - 0x4227 unused
+0x4228 GargishChaosshield armor
+# 0x4229 unused
+0x422a GargishOrdershield armor
+# 0x422b - 0x4257 unused
 0x4258 HornStyle1 barber
 0x4259 HornStyle2 barber
 0x425a HornStyle3 barber
@@ -1775,7 +1827,43 @@
 0x46aa GargoyleBodySash armor
 # 0x46ab - 0x46b3 unused
 0x46b4 GargoyleBodySash2 armor
-# 0x46b5 - 0x50d7 unused
+# 0x46b5 - 0x48ad unused
+0x48ae GargishCleaver weapons
+# 0x48af unused
+0x48b0 GargishBattleAxe weapons
+# 0x48b1 unused
+0x48b2 GargishAxe weapons
+# 0x48b3 unused
+0x48b4 GargishBardiche weapons
+# 0x48b5 unused
+0x48b6 GargishButcherKnife weapons
+# 0x48b7 unused
+0x48b8 GargishGnarledStaff weapons
+# 0x48b9 unused
+0x48ba GargishKatana weapons
+# 0x48bb unused
+0x48bc GargishKryss weapons
+# 0x48bd unused
+0x48be GargishWarFork weapons
+# 0x48bf unused
+0x48c0 GargishWarHammer weapons
+# 0x48c1 unused
+0x48c2 GargishMaul weapons
+# 0x48c3 unused
+0x48c4 GargishScythe weapons
+# 0x48c5 unused
+0x48c6 GargishBoneHarvester weapons
+# 0x48c7 unused
+0x48c8 GargishPike weapons
+# 0x48c9 unused
+0x48ca GargishLance weapons
+# 0x48cb unused
+0x48cc GargishTessen weapons
+# 0x48cd unused
+0x48ce GargishTekagi weapons
+# 0x48cf unused
+0x48d0 GargishDaisho weapons
+# 0x48d1 - 0x50d7 unused
 0x50d8 GargoyleHalfApron armor
 # 0x50d9 - 0x574a unused
 0x574b InspireScroll bardmasteries
