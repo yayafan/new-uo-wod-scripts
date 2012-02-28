@@ -227,7 +227,7 @@ endprogram
 
 function PerformAttackAnimation ()
 	//If they're not human, use different attack animations based on their graphic
-	if (attacker.graphic != 400 and attacker.graphic != 401)
+	if (attacker.graphic != 400 and attacker.graphic != 401 and attacker.graphic != 605 and attacker.graphic != 606 and attacker.graphic != 666 and attacker.graphic != 667 and attacker.graphic != 744 and attacker.graphic != 745)
 		case (attacker.graphic)
 			CID_ALLIGATOR:
 			CID_PIG:
@@ -275,10 +275,10 @@ function PerformAttackAnimation ()
 	//or a default animation if one isn't defined
 	var anim := attacker_weapon_elem.Anim;
 	if (anim)
-		PerformAction (attacker, anim);
+		PerformAction (attacker, anim, 7);
 		return;
 	endif
-	PerformAction (attacker, 0x09);
+	PerformAction (attacker, 0x09, 7);
 	return;
 endfunction
 

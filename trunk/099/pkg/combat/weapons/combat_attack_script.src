@@ -182,7 +182,7 @@ endprogram
 
 function PerformAttackAnimation ()
 	//If they're not human, use different attack animations based on their graphic
-	if (attacker.graphic != 400 and attacker.graphic != 401)
+	if (attacker.graphic != 400 and attacker.graphic != 401 and attacker.graphic != 605 and attacker.graphic != 606 and attacker.graphic != 666 and attacker.graphic != 667 and attacker.graphic != 744 and attacker.graphic != 745)
 		case (attacker.graphic)
 			CID_ALLIGATOR:
 			CID_PIG:
@@ -221,10 +221,10 @@ function PerformAttackAnimation ()
 			return;
 		else
 			if (RandomInt (2))
-				PerformAction (attacker, 0x0A);
+				PerformAction (attacker, 0x0A, 7);
 				return;
 			else
-				PerformAction (attacker, 0x0B);
+				PerformAction (attacker, 0x0B, 7);
 				return;
 			endif
 		endif
@@ -250,7 +250,7 @@ function PerformAttackAnimation ()
 		PerformAction (attacker, anim);
 		return;
 	endif
-	PerformAction (attacker, 0x09);
+	PerformAction (attacker, 0x09, 7);
 	return;
 endfunction
 

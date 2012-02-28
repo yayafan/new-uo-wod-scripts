@@ -257,10 +257,10 @@ function PerformAttackAnimation ()
 	//or a default animation if one isn't defined
 	var anim := attacker_weapon_elem.Anim;
 	if (anim)
-		PerformAction (attacker, anim);
+		PerformAction (attacker, anim, 7);
 		return;
 	endif
-	PerformAction (attacker, 0x09);
+	PerformAction (attacker, 0x09, 7);
 	return;
 endfunction
 
@@ -414,15 +414,15 @@ function PerformArrowAttackAnim ()
 	//try to figure out the anim based on the ammo used
 	if (ammo_objtype)
 		case (ammo_objtype)
-			0x6051:	//firearrow
-			0x6053:	//firebolt
+			0x16051:	//firearrow
+			0x16053:	//firebolt
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x36D4, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x15F);
 				sleepms (40*Distance(attacker,defender));
 				return;
-			0x6052:	//frostarrow
-			0x6054:	//frostbolt
+			0x16052:	//frostarrow
+			0x16054:	//frostbolt
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x1bfe, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x2b3);
