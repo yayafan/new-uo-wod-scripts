@@ -435,6 +435,33 @@ function BuildGump (character, thetarget)
 		"text 14 140 40 126",
 		"text 175 140 40 127",
 		"radio 280 145 2362 2361 0 1048",
+		"text 14 155 40 148",
+		"text 175 155 40 149",
+		"radio 280 160 2362 2361 0 1049",
+		"text 14 170 40 150",
+		"text 175 170 40 151",
+		"radio 280 175 2362 2361 0 1050",
+		"text 14 185 40 152",
+		"text 175 185 40 153",
+		"radio 280 190 2362 2361 0 1051",
+		"text 14 200 40 154",
+		"text 175 200 40 155",
+		"radio 280 205 2362 2361 0 1052",
+		"text 14 215 40 156",
+		"text 175 215 40 157",
+		"radio 280 220 2362 2361 0 1053",
+		"text 14 230 40 158",
+		"text 175 230 40 159",
+		"radio 280 235 2362 2361 0 1054",
+		"text 14 245 40 160",
+		"text 175 245 40 161",
+		"radio 280 250 2362 2361 0 1055",
+		"text 14 260 40 162",
+		"text 175 260 40 163",
+		"radio 280 265 2362 2361 0 1056",
+		"text 14 275 40 164",
+		"text 175 275 40 165",
+		"radio 280 280 2362 2361 0 1057",
 		"button 285 85 2650 2651 0 3",
 		"button 215 460 2130 2129 3 2 16", //okay
 		"button 150 460 2121 2120 1 2 -1",  //cancel
@@ -613,7 +640,25 @@ function BuildGump (character, thetarget)
 		"CmdLevel:",			//144
 		"",
 		"Position (x/y/z)",		//146
-		CSTR (thetarget.x + " / " + thetarget.y + " / " + thetarget.z)
+		CSTR (thetarget.x + " / " + thetarget.y + " / " + thetarget.z),
+		"49 AoS Necromancy",		//148
+		"",
+		"50 Focus",			//150
+		"",
+		"51 Chivalry",			//152
+		"",
+		"52 Bushido",			//154
+		"",
+		"53 Ninjitsu",			//156
+		"",
+		"54 Spellweaving",			//158
+		"",
+		"55 Mysticism",			//160
+		"",
+		"56 Imbuing",			//162
+		"",
+		"57 Throwing",			//164
+		""
 	};
 	
 	
@@ -662,6 +707,29 @@ function FillInSkills (who)
 			endif
 		endif
 		var arraypos := i*2 + 32;
+		var bonus := GetAttributeTemporaryMod (who, GetAttributeIDBySkillID (i));
+		if (bonus)
+			bonus := CSTR (bonus);
+			bonus [len(bonus), 1] := "."+ bonus [len(bonus), 1];
+			if (CDBL (bonus) < 1 and CDBL (bonus) > 0)
+				str := "0" + bonus;
+			endif
+			str := str + " (" + bonus + ")";
+		endif
+		
+		data[arraypos] := str;
+	endfor
+	for i := 49 to 57
+		var str := CSTR (GetAttributeBaseValue (who, GetAttributeIDBySkillID (i)));
+		if (!str or !len (str))
+			str := "0.0";
+		else
+			str [len(str), 1] := "."+ str [len(str), 1];
+			if (CDBL (str) < 1)
+				str := "0" + str;
+			endif
+		endif
+		var arraypos := i*2 + 52;
 		var bonus := GetAttributeTemporaryMod (who, GetAttributeIDBySkillID (i));
 		if (bonus)
 			bonus := CSTR (bonus);
