@@ -5,6 +5,7 @@ use cfgfile;
 
 include "include/packets";
 include "../pkg/combat/weapons/combat_attack_script";
+include "include/newperformaction";
 
 var attacker, defender;
 var weaponcfgfile := ReadConfigFile (":weapons:itemdesc");
@@ -119,6 +120,7 @@ program combat_attack_script (parms)
 			modified_damage := modified_damage - shield.ar;
 			SendSysMessage (defender, "You parry the attack!");
 			QuickAwardRawAttributePoints (defender, ATTRIBUTEID_PARRY, 30);
+			NewPerformAction(defender, 1+RandomInt(2), 0, 0);
 			PlaySoundEffect (defender, 0x143);
 
 			//Do some damage to the shield
@@ -161,13 +163,13 @@ program combat_attack_script (parms)
 	//fake hitscript stuff
 	//different arrows do different damage types
 	case (ammo_objtype)
-			0x6051:	//firearrow
-			0x6053:	//firebolt
+			0x16051:	//firearrow
+			0x16053:	//firebolt
 				var half_damage := CINT (modified_damage/2);
 				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
 				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_FIRE);
-			0x6052:	//frostarrow
-			0x6054:	//frostbolt
+			0x16052:	//frostarrow
+			0x16054:	//frostbolt
 				var half_damage := CINT (modified_damage/2);
 				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
 				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_COLD);
@@ -209,7 +211,7 @@ endprogram
 
 function PerformAttackAnimation ()
 	//If they're not human, use different attack animations based on their graphic
-	if (attacker.graphic != 400 and attacker.graphic != 401)
+	if (attacker.graphic != 400 and attacker.graphic != 401 and attacker.graphic != 605 and attacker.graphic != 606 and attacker.graphic != 666 and attacker.graphic != 667 and attacker.graphic != 744 and attacker.graphic != 745)
 		case (attacker.graphic)
 			CID_ALLIGATOR:
 			CID_PIG:
@@ -242,25 +244,30 @@ function PerformAttackAnimation ()
 
 	//If the player is mounted, use special mount animations, if they're defined in
 	//the weapon's itemdesc.cfg entry, or a default animation if not
-	if (GetEquipmentByLayer (attacker, LAYER_MOUNT))
-		var anim := CINT (attacker_weapon_elem.MountedAnim);
-		if (anim)
-			PerformAction (attacker, anim);
-			return;
-		endif
-
-		PerformAction (attacker, 0x1A);
-		return;
-	endif
+//	if (GetEquipmentByLayer (attacker, LAYER_MOUNT))
+//		var anim := CINT (attacker_weapon_elem.MountedAnim);
+//		if (anim)
+//			PerformAction (attacker, anim);
+//			return;
+//		endif
+//
+//		PerformAction (attacker, 0x1A);
+//		return;
+//	endif
 	
 	//Otherwise, if they're not mounted, use the animation defined in the itemdesc.cfg file
 	//or a default animation if one isn't defined
 	var anim := attacker_weapon_elem.Anim;
-	if (anim)
-		PerformAction (attacker, anim, 7);
-		return;
-	endif
-	PerformAction (attacker, 0x09, 7);
+//	if (anim)
+//		PerformAction (attacker, anim, 7);
+//		return;
+//	endif
+//	PerformAction (attacker, 0x09, 7);
+	case (anim)
+		0x12: NewPerformAction(attacker, 0, 1, 0);
+		0x13: NewPerformAction(attacker, 0, 2, 0);
+		default: NewPerformAction(attacker, 0, 0, 0);
+	endcase
 	return;
 endfunction
 
@@ -638,7 +645,7 @@ function DoEtherialEffect (attacker, defender, weapon, rawdamage)
 	case (GetObjProperty (weapon, "specialweaponeffect"))
 		"lightning":
 			if (RandomInt (10) == 1)
-				var spellparms := { };
+				var spellparms := array { };
 				spellparms[1] := "#SPECIALNONE";
 				spellparms[2] := defender;
 				start_script (":damage_spells:lightning", spellparms);		
@@ -776,7 +783,7 @@ function DoHitSpell (byref attacker, byref defender, byref weapon)
 		endif
 	endif
 
-	var spellparms := { };
+	var spellparms := array { };
 	spellparms[1] := "#MOB";
 	spellparms[2] := attacker;
 	spellparms[3] := defender;

@@ -4,6 +4,7 @@ use util;
 use cfgfile;
 
 include "../pkg/combat/weapons/combat_attack_script";
+include "include/newperformaction";
 
 var attacker, defender;
 var armorcfgfile := ReadConfigFile (":armor:itemdesc");
@@ -87,6 +88,7 @@ program combat_attack_script (parms)
 			modified_damage := modified_damage - shield.ar;
 			SendSysMessage (defender, "You parry the attack!");
 			QuickAwardRawAttributePoints (defender, ATTRIBUTEID_PARRY, 30);
+			NewPerformAction(defender, 1+RandomInt(2), 0, 0);
 			PlaySoundEffect (defender, 0x143);
 
 			//Do some damage to the shield
@@ -198,18 +200,23 @@ function PerformAttackAnimation ()
 	endif
 
 	//Wrestling animations for humans
-	var mount := GetEquipmentByLayer (attacker, LAYER_MOUNT);
-	if (mount)
-		PerformAction (attacker, 0x09, 7);
+//	var mount := GetEquipmentByLayer (attacker, LAYER_MOUNT);
+//	if (mount)
+//		PerformAction (attacker, 0x09, 7);
+//		return;
+//	endif
+//	if (RandomInt (2))
+//		PerformAction (attacker, 0x0A, 7);
+//		return;
+//	else
+//		PerformAction (attacker, 0x0B, 7);
+//		return;
+//	endif
+	if(attacker.graphic == 666 or attacker.graphic == 667)
+		NewPerformAction(attacker, 0, 4, RandomInt(3));
 		return;
 	endif
-	if (RandomInt (2))
-		PerformAction (attacker, 0x0A, 7);
-		return;
-	else
-		PerformAction (attacker, 0x0B, 7);
-		return;
-	endif
+	NewPerformAction(attacker, 0, 3+RandomInt(3), 0);
 	return;
 endfunction
 

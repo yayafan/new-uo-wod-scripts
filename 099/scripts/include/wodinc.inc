@@ -21,7 +21,7 @@ Const DAMAGETYPE_UNRESISTABLE	:= 5;
 ///////////////////
 
 function DoDamageByType (caster, cast_on, damage_amount, damage_type := 0)
-	var parms := {};
+	var parms := array {};
 	parms[1] := caster;
 	parms[2] := cast_on;
 	parms[3] := damage_amount;
