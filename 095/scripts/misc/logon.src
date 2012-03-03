@@ -91,7 +91,8 @@ program logon (character)
 	RecordPlayerLogin (character);
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
-	MakeChristmasTreeDeed (character);
+//	MakeChristmasTreeDeed (character);
+//	MakeChristmasGift (character);
 endprogram
 
 
