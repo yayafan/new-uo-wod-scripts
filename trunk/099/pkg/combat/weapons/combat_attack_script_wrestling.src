@@ -343,7 +343,8 @@ endfunction
 ///////////////////
 
 function PlayHitSoundEffect ()
-	PlaySoundEffect (defender, 0x13E);
+//	PlaySoundEffect (defender, 0x13E);
+	PlaySoundEffect (defender, 0x534 + RandomInt(2));
 	return 1;
 endfunction
 

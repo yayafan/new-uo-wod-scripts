@@ -96,10 +96,12 @@ function PlayDoorOpenSound (door)
 	case (doordesc[door.objtype].doortype)
 		"wood":
 			PlaySoundEffect (door, SFX_OPEN_WOODEN_DOOR);
+    "stone":
+      PlaySoundEffect (door, SFX_OPEN_STONE_DOOR);
 		"metal": 
 			PlaySoundEffect (door, SFX_OPEN_METAL_DOOR);
     "sliding":
-      PlaySoundEffect (door, 0x53A);
+      PlaySoundEffect (door, SFX_OPEN_SLIDING_DOOR);
 		default:
 			PlaySoundEffect (door, SFX_OPEN_METAL_DOOR);
 	endcase
@@ -116,8 +118,12 @@ function PlayDoorCloseSound (door)
 	case (doordesc[door.objtype].doortype)
 		"wood":
 			PlaySoundEffect (door, SFX_CLOSE_WOODEN_DOOR);
+    "stone":
+      PlaySoundEffect (door, SFX_CLOSE_STONE_DOOR);
 		"metal": 
 			PlaySoundEffect (door, SFX_CLOSE_METAL_DOOR);
+    "sliding":
+      PlaySoundEffect (door, SFX_CLOSE_SLIDING_DOOR);
 		default:
 			PlaySoundEffect (door, SFX_CLOSE_METAL_DOOR);
 	endcase
