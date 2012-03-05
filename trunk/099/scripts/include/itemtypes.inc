@@ -129,7 +129,9 @@ endfunction
 
 function IsWoodenWeapon (byref weapon)
 
-	if (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF1)
+	if (weapon.graphic == 0x906)
+    return 1;
+  elseif (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF1)
 		return 1;
 	elseif (weapon.graphic >= 0x0E81 and weapon.graphic <= 0x0E82)
 		return 1;
@@ -145,15 +147,11 @@ function IsWoodenWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x13FC and weapon.graphic <= 0x13FD)
 		return 1;
-	elseif (weapon.graphic == 0x26C2)
-    return 1;
-  elseif (weapon.graphic == 0x26C3)
+	elseif (weapon.graphic >= 0x26C2 and weapon.graphic <= 0x26C3)
 		return 1;
-	elseif (weapon.graphic == 0x26CC)
-    return 1;
-  elseif (weapon.graphic == 0x26CD)
+	elseif (weapon.graphic >= 0x26CC and weapon.graphic <= 0x26CD)
 		return 1;
-	elseif (weapon.graphic == 0x27A5)
+	elseif (weapon.graphic >= 0x27A5 and weapon.graphic <= 0x27A6)
 		return 1;
 	elseif (weapon.graphic == 0x27A8)
 		return 1;
@@ -161,7 +159,7 @@ function IsWoodenWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic == 0x27AE)
 		return 1;
-	elseif (weapon.graphic == 0x27F0)
+	elseif (weapon.graphic >= 0x27F0 and weapon.graphic <= 0x27F1)
 		return 1;
 	elseif (weapon.graphic == 0x27F3)
 		return 1;
@@ -169,13 +167,54 @@ function IsWoodenWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic == 0x27F9)
 		return 1;
+	elseif (weapon.graphic >= 0x2D1E and weapon.graphic <= 0x2D1F)
+		return 1;
+	elseif (weapon.graphic == 0x2D25)
+		return 1;
+	elseif (weapon.graphic >= 0x2D2A and weapon.graphic <= 0x2D2B)
+		return 1;
+	elseif (weapon.graphic == 0x2D31)
+		return 1;
+	elseif (weapon.graphic == 0x406F)
+		return 1;
+	elseif (weapon.graphic >= 0x48B8	and weapon.graphic <= 0x48B9)
+		return 1;
 	endif
 		return 0;
 endfunction
 
+function IsStoneWeapon (byref weapon)
+  if (weapon.graphic == 0x900)
+    return 1;
+  elseif (weapon.graphic == 0x4071)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function IsGlassWeapon (byref weapon)
+  if (weapon.graphic == 0x905)
+    return 1;
+  elseif (weapon.graphic == 0x90c)
+    return 1;
+  elseif (weapon.graphic == 0x4070)
+    return 1;
+  elseif (weapon.graphic == 0x4073)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+
 function IsMetalWeapon (byref weapon)
 
-	if (weapon.graphic >= 0x0DF2 and weapon.graphic <= 0x0DF5)
+	if (weapon.graphic >= 0x08fd and weapon.graphic <= 0x08ff)
+    return 1;
+  elseif (weapon.graphic >= 0x0901 and weapon.graphic <= 0x0904)
+		return 1;
+  elseif (weapon.graphic >= 0x0907 and weapon.graphic <= 0x090b)
+		return 1;
+  elseif (weapon.graphic >= 0x0DF2 and weapon.graphic <= 0x0DF5)
 		return 1;
 	elseif (weapon.graphic >= 0x0E85 and weapon.graphic <= 0x0E88)
 		return 1;
@@ -205,6 +244,46 @@ function IsMetalWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x26C4 and weapon.graphic <= 0x26CB)
 		return 1;
+	elseif (weapon.graphic >= 0x26CE and weapon.graphic <= 0x26CF)
+		return 1;
+	elseif (weapon.graphic >= 0x27a2 and weapon.graphic <= 0x27a4)
+		return 1;
+	elseif (weapon.graphic == 0x27a7)
+		return 1;
+	elseif (weapon.graphic == 0x27a9)
+		return 1;
+	elseif (weapon.graphic >= 0x27ab and weapon.graphic <= 0x27ad)
+		return 1;
+	elseif (weapon.graphic == 0x27af)
+		return 1;
+	elseif (weapon.graphic >= 0x27ed and weapon.graphic <= 0x27ef)
+		return 1;
+	elseif (weapon.graphic == 0x27f2)
+		return 1;
+	elseif (weapon.graphic == 0x27f4)
+		return 1;
+	elseif (weapon.graphic >= 0x27f6 and weapon.graphic <= 0x27f8)
+		return 1;
+	elseif (weapon.graphic == 0x27fa)
+		return 1;
+	elseif (weapon.graphic >= 0x2d20 and weapon.graphic <= 0x2d24)
+		return 1;
+	elseif (weapon.graphic >= 0x2d26 and weapon.graphic <= 0x2d29)
+		return 1;
+	elseif (weapon.graphic >= 0x2d2c and weapon.graphic <= 0x2d30)
+		return 1;
+	elseif (weapon.graphic >= 0x2d32 and weapon.graphic <= 0x2d35)
+		return 1;
+  elseif (weapon.graphic >= 0x4067 and weapon.graphic <= 0x406e)
+		return 1;
+  elseif (weapon.graphic == 0x4072)
+		return 1;
+  elseif (weapon.graphic >= 0x4074 and weapon.graphic <= 0x4076)
+		return 1;
+  elseif (weapon.graphic >= 0x48ae and weapon.graphic <= 0x48b7)
+		return 1;
+  elseif (weapon.graphic >= 0x48ba and weapon.graphic <= 0x48d1)
+		return 1;
 	endif
 		return 0;
 endfunction
@@ -232,9 +311,32 @@ function IsBow (byref weapon)
 		return 0;
 endfunction
 
+function IsThrowingWeapon (byref weapon)
+  if (weapon.graphic == 0x8ff)
+    return 1;
+  elseif (weapon.graphic == 0x901)
+    return 1;
+  elseif (weapon.graphic == 0x90a)
+    return 1;
+  elseif (weapon.graphic == 0x4067)
+    return 1;
+  elseif (weapon.graphic >= 0x406b and weapon.graphic <= 0x406c)
+    return 1;
+  endif
+  return 0;
+endfunction
+
 function IsArmor (byref armor)
 
-	if (armor.graphic == 0x13BB)
+	if (armor.graphic >= 0x283 and armor.graphic <= 0x28a)
+    return 1;
+	elseif (armor.graphic >= 0x301 and armor.graphic <= 0x30e)
+		return 1;
+	elseif (armor.graphic >= 0x310 and armor.graphic <= 0x311)
+		return 1;
+	elseif (armor.graphic >= 0x403 and armor.graphic <= 0x40a)
+		return 1;
+  elseif (armor.graphic == 0x13BB)
 		return 1;
 	elseif (armor.graphic >= 0x13BE and armor.graphic <= 0x13C0)
 		return 1;
@@ -260,9 +362,17 @@ function IsArmor (byref armor)
 		return 1;
 	elseif (armor.graphic >= 0x2641 and armor.graphic <= 0x2648)
 		return 1;
+	elseif (armor.graphic >= 0x264b and armor.graphic <= 0x264c)
+		return 1;
 	elseif (armor.graphic >= 0x2657 and armor.graphic <= 0x2658)
 		return 1;
 	elseif (armor.graphic >= 0x2689 and armor.graphic <= 0x268a)
+		return 1;
+	elseif (armor.graphic >= 0x2774 and armor.graphic <= 0x2781)
+		return 1;
+	elseif (armor.graphic >= 0x2784 and armor.graphic <= 0x2794)
+		return 1;
+	elseif (armor.graphic == 0x279d)
 		return 1;
 	elseif (armor.graphic >= 0x27bf and armor.graphic <= 0x27cc)
 		return 1;
@@ -276,7 +386,15 @@ function IsArmor (byref armor)
 		return 1;
 	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
 		return 1;
+	elseif (armor.graphic >= 0x315e and armor.graphic <= 0x3170)
+		return 1;
+	elseif (armor.graphic >= 0x317b and armor.graphic <= 0x3181)
+		return 1;
 	elseif (armor.graphic >= 0x4047 and armor.graphic <= 0x4066)
+		return 1;
+	elseif (armor.graphic >= 0x457e and armor.graphic <= 0x457f)
+		return 1;
+	elseif (armor.graphic >= 0x45a4 and armor.graphic <= 0x45a5)
 		return 1;
 	endif
 		return 0;
@@ -284,7 +402,11 @@ endfunction
 
 function IsLeatherArmor (byref armor)
 
-	if (armor.graphic >= 0x13C5 and armor.graphic <= 0x13C7)
+	if (armor.graphic >= 0x301 and armor.graphic <= 0x306)
+		return 1;
+	elseif (armor.graphic >= 0x310 and armor.graphic <= 0x311)
+		return 1;
+	elseif (armor.graphic >= 0x13c5 and armor.graphic <= 0x13c7)
 		return 1;
 	elseif (armor.graphic >= 0x13CB and armor.graphic <= 0x13CE)
 		return 1;
@@ -302,38 +424,66 @@ function IsLeatherArmor (byref armor)
 		return 1;
 	elseif (armor.graphic == 0x1DB9 or armor.graphic == 0x1DBA)
 		return 1;
-	elseif (armor.graphic == 0x27c3 or armor.graphic == 0x27c5)
+	elseif (armor.graphic == 0x2776)
+    return 1;
+  elseif (armor.graphic == 0x2778)
+    return 1;
+  elseif (armor.graphic >= 0x277a and armor.graphic <= 0x277c)
 		return 1;
-	elseif (armor.graphic >= 0x27c6 and armor.graphic <= 0x27c7)
+	elseif (armor.graphic >= 0x277e and armor.graphic <= 0x277f)
+		return 1;
+	elseif (armor.graphic == 0x2784)
+		return 1;
+	elseif (armor.graphic >= 0x2786 and armor.graphic <= 0x2787)
+		return 1;
+	elseif (armor.graphic >= 0x2789 and armor.graphic <= 0x278b)
+		return 1;
+	elseif (armor.graphic == 0x278e)
+		return 1;
+	elseif (armor.graphic >= 0x2790 and armor.graphic <= 0x2793)
+		return 1;
+	elseif (armor.graphic == 0x279d)
+    return 1;
+  elseif (armor.graphic == 0x27c1)
+    return 1;
+  elseif (armor.graphic == 0x27c3)
+    return 1;
+  elseif (armor.graphic >= 0x27c5 and armor.graphic <= 0x27c7)
 		return 1;
 	elseif (armor.graphic >= 0x27c9 and armor.graphic <= 0x27ca)
 		return 1;
-	elseif (armor.graphic == 0x27c1 or armor.graphic == 0x27cf)
+	elseif (armor.graphic == 0x27cf)
 		return 1;
 	elseif (armor.graphic >= 0x27d1 and armor.graphic <= 0x27d2)
 		return 1;
 	elseif (armor.graphic >= 0x27d4 and armor.graphic <= 0x27d6)
 		return 1;
-	elseif (armor.graphic == 0x27d9 or armor.graphic == 0x27e8)
+	elseif (armor.graphic == 0x27d9)
 		return 1;
 	elseif (armor.graphic >= 0x27db and armor.graphic <= 0x27de)
 		return 1;
+  elseif (armor.graphic == 0x27e8)
+    return 1;
 	elseif (armor.graphic >= 0x2b74 and armor.graphic <= 0x2b79)
 		return 1;
 	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
 		return 1;
+	elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
+		return 1;
+	elseif (armor.graphic >= 0x317b and armor.graphic <= 0x3181)
+		return 1;
 	elseif (armor.graphic >= 0x4047 and armor.graphic <= 0x404e)
 		return 1;
-	elseif (armor.graphic == 0x457e)
-		return 1;
-	elseif (armor.graphic == 0x708b)
+	elseif (armor.graphic >= 0x457e and armor.graphic <= 0x457f)
 		return 1;
 	endif
 		return 0;
 endfunction
 
 function IsMetalArmor (byref armor)
-	if (armor.graphic == 0x13BB)
+	if (armor.graphic >= 0x307 and armor.graphic <= 0x30e)
+    return 1;
+  elseif (armor.graphic == 0x13BB)
 		return 1;
 	elseif (armor.graphic >= 0x13BE and armor.graphic <= 0x13C0)
 		return 1;
@@ -347,7 +497,43 @@ function IsMetalArmor (byref armor)
 		return 1;
 	elseif (armor.objtype == UOBJ_CHAINMAIL_GLOVES and armor.graphic == 0x13c6)
 		return 1;
-	elseif (armor.objtype == UOBJ_RINGMAIL_COIF and armor.graphic == 0x13bb)
+	elseif (armor.graphic >= 0x2641 and armor.graphic <= 0x2648)
+		return 1;
+	elseif (armor.graphic >= 0x2657 and armor.graphic <= 0x2658)
+		return 1;
+	elseif (armor.graphic >= 0x2774 and armor.graphic <= 0x2775)
+		return 1;
+	elseif (armor.graphic == 0x2777)
+		return 1;
+	elseif (armor.graphic == 0x2779)
+		return 1;
+	elseif (armor.graphic == 0x277d)
+		return 1;
+	elseif (armor.graphic >= 0x2780 and armor.graphic <= 0x2781)
+		return 1;
+	elseif (armor.graphic == 0x2785)
+		return 1;
+	elseif (armor.graphic == 0x2788)
+		return 1;
+	elseif (armor.graphic == 0x278d)
+		return 1;
+	elseif (armor.graphic >= 0x27bf and armor.graphic <= 0x27c0)
+		return 1;
+	elseif (armor.graphic == 0x27c2)
+		return 1;
+	elseif (armor.graphic == 0x27c4)
+		return 1;
+	elseif (armor.graphic == 0x27c8)
+		return 1;
+	elseif (armor.graphic >= 0x27cb and armor.graphic <= 0x27cc)
+		return 1;
+	elseif (armor.graphic == 0x27d0)
+		return 1;
+	elseif (armor.graphic == 0x27d3)
+		return 1;
+	elseif (armor.graphic == 0x27d8)
+		return 1;
+	elseif (armor.graphic >= 0x404f and armor.graphic <= 0x4056)
 		return 1;
 	endif
 	return 0;
@@ -392,13 +578,7 @@ function IsWoodenShield (byref shield)
 endfunction
 
 function IsClothing (byref clothes)
-	//special handling for chainmail gloves
-	if (clothes.graphic == 0x13c6)
-		if (clothes.objtype == UOBJ_CHAINMAIL_GLOVES)
-			return 0;
-		endif
-		return 1; 
-	elseif (clothes.graphic >= 0x1515 and clothes.graphic <= 0x1518)
+	if (clothes.graphic >= 0x1515 and clothes.graphic <= 0x1518)
  		return 1;
 	elseif (clothes.graphic >= 0x152E and clothes.graphic <= 0x1531)
  		return 1;
@@ -485,7 +665,7 @@ endfunction
 function IsMusicalInstrument (byref item)
 
 	case(item.objtype)
-		0x7067:    //FLUTE	
+		0x17067:    //FLUTE	
 		0x0e9d:    //TAMBORINE
 		0x0e9e:    //TAMBORINE2
 		0x0eb3:    //LUTE
@@ -767,7 +947,9 @@ function IsAKey (byref item)
 endfunction
 
 function IsGargishItem(byref item)
-	if(item.graphic >= 0x0301 and item.graphic <= 0x0311)
+	if(item.graphic >= 0x0283 and item.graphic <= 0x028a)
+		return 1;
+	elseif(item.graphic >= 0x0301 and item.graphic <= 0x0311)
 		return 1;
 	elseif(item.graphic >= 0x08fd and item.graphic <= 0x090c)
 		return 1;
@@ -790,6 +972,10 @@ function IsGargishItem(byref item)
 	elseif(item.graphic >= 0x457e and item.graphic <= 0x457f)
 		return 1;
 	elseif(item.graphic >= 0x45a4 and item.graphic <= 0x45a5)
+		return 1;
+	elseif(item.graphic == 0x45b1)
+    return 1;
+  elseif(item.graphic == 0x45b3)
 		return 1;
 	elseif(item.graphic >= 0x4644 and item.graphic <= 0x4645)
 		return 1;
