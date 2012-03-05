@@ -327,7 +327,11 @@ endfunction
 
 function shavebeard (me)
 
-//using Item 0x7055 straight razor or
+//using Item 0x17055 straight razor or
+	if(me.race == RACE_GARGOYLE)
+		SendSysMessage(me, "Your race doesn't have any facial hair!");
+		return;
+	endif
 
 	var beard := GetEquipmentByLayer( me, LAYER_BEARD );
 	if (!beard)
@@ -386,6 +390,10 @@ endfunction
 
 function shavestache (me)
 //	Item 0xEC4  skinning knife
+	if (me.race == RACE_GARGOYLE)
+		SendSysMessage(me, "Your race doesn't have any facial hair!");
+		return;
+	endif
 
 	var beard := GetEquipmentByLayer( me, LAYER_BEARD );
 	if (!beard)
@@ -427,6 +435,10 @@ function shavestache (me)
 endfunction
 
 function CombHair(me)
+   	if (me.race == RACE_GARGOYLE)
+		SendSysMessage(me, "Your race doesn't have any hair!");
+		return;
+	endif
 
 	var hair := GetEquipmentByLayer( me, LAYER_HAIR );
 
