@@ -4,6 +4,7 @@ use util;
 use cfgfile;
 
 include "../pkg/combat/weapons/combat_attack_script";
+include "include/newperformaction";
 
 var attacker, defender;
 var armorcfgfile := ReadConfigFile (":armor:itemdesc");
@@ -149,7 +150,7 @@ endprogram
 
 function PerformAttackAnimation ()
 	//If they're not human, use different attack animations based on their graphic
-	if (attacker.graphic != 400 and attacker.graphic != 401)
+	if (attacker.graphic != 400 and attacker.graphic != 401 and attacker.graphic != 605 and attacker.graphic != 606 and attacker.graphic != 666 and attacker.graphic != 667 and attacker.graphic != 744 and attacker.graphic != 745)
 		case (attacker.graphic)
 			CID_ALLIGATOR:
 			CID_PIG:
@@ -181,18 +182,23 @@ function PerformAttackAnimation ()
 	endif
 
 	//Wrestling animations for humans
-	if (GetEquipmentByLayer (attacker, LAYER_MOUNT))
-		PerformAction (attacker, 0x09);
-	else
-		if (RandomInt (2))
-			PerformAction (attacker, 0x0A);
-			return;
-		else
-			PerformAction (attacker, 0x0B);
-			return;
-		endif
+//	if (GetEquipmentByLayer (attacker, LAYER_MOUNT))
+//		PerformAction (attacker, 0x09);
+//	else
+//		if (RandomInt (2))
+//			PerformAction (attacker, 0x0A);
+//			return;
+//		else
+//			PerformAction (attacker, 0x0B);
+//			return;
+//		endif
+//	endif
+//	PerformAction (attacker, 0x09);
+	if(attacker.graphic == 666 or attacker.graphic == 667)
+		NewPerformAction(attacker, 0, 4, RandomInt(3));
+		return;
 	endif
-	PerformAction (attacker, 0x09);
+	NewPerformAction(attacker, 0, 3+RandomInt(3), 0);
 	return;
 endfunction
 
@@ -283,7 +289,7 @@ endfunction
 function PlayHitSoundEffect ()
 	var sound_effect := attacker_npcdesc_elem.AttackHitSound;
 	if (!sound_effect)
-		sound_effect := 0x13E;
+		sound_effect := 0x534 + RandomInt(2);
 	endif
 	PlaySoundEffect (defender, sound_effect);
 	return 1;

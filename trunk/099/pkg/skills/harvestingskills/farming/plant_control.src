@@ -79,7 +79,7 @@ function SetFinalPlantGraphic (plant)
 		0x170c0:	plant.graphic := 3332;
 				plant.color := 0;
 		//lemon tree
-		0xa096:	plant.graphic := 0x2EE1;
+		0xa096:	plant.graphic := 0xa096;
 		//apple tree bottom
 		0x0d98:
 			var planttopserial := GetObjProperty (plant, "planttop");

@@ -189,7 +189,7 @@ function ProcessEvent (byref ev)
 
 			if (GetObjProperty (ev.item, "merchant"))
 				PayForJobCompleted (ev);
-			elseif (ev.item.objtype == 0x70d0)	//blacksmithy special order deed
+			elseif (ev.item.objtype == 0x170d0)	//blacksmithy special order deed
 				start_script (":blacksmithy:merchant_take_bulk_order_deed", {ev.source, me, ev.item});
 			elseif (GetObjProperty (ev.item, "deliverto") and GetObjProperty (ev.item, "deliverto") == me.serial)
 				if (GetObjProperty (ev.item, "sentfromname"))

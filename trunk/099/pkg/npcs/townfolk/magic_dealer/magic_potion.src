@@ -60,7 +60,8 @@ program display_forsale_items (player, potion)
 				endif
 			default:
 				SendSysMessage (player, "You must use an exceptional item");
-				return;
+				SendSysMessage (player, "But we are in the Test Server, so whatever");
+//				return;
 		endcase
 	endif
 

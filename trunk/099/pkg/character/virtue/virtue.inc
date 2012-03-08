@@ -9,6 +9,8 @@ const ORDERGUARDTYPE := 1;
 const CHAOSGUARDTYPE := 2;
 const CHAOSSHIELDTYPE := 0x1bc3;
 const ORDERSHIELDTYPE := 0x1bc4;
+const GARGCHAOSSHIELDTYPE := 0x4228;
+const GARGORDERSHIELDTYPE := 0x422a;
 
 function AddVirtue (who, amount := 1, nomsg:=0)
 	if (!amount)
@@ -364,6 +366,13 @@ function CanJoin(guard, recruit, guardtype, shieldtype)
 	if (recruit.npctemplate) return; endif
 	if (!recruit.acctname) return; endif
 	if (guard == recruit) return; endif
+  if(recruit.race == RACE_GARGOYLE)
+    if(guardtype == CHAOSGUARDTYPE)
+      shieldtype := 0x4228;
+    else
+      shieldtype := 0x422a;
+    endif
+  endif
 
 	var yourtype := GetObjProperty(recruit,"guardtype");
 	if (yourtype)

@@ -22,7 +22,7 @@ program find_account_houses (character, text)
 
 		var selection := SelectMenuItem2 (character, optionmenu);
 		if (!selection)
-			SendSysMessage (character, "Canceled");
+			SendSysMessage (character, "Canceled: "+ selection + optionmenu);
 			return;
 		endif
 		

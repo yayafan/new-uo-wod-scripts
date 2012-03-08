@@ -52,7 +52,7 @@ function sleepmode ()
 				EnableMainEvents ();
 				return ev;
 			EVID_ENTEREDAREA:
-				if (!ev.source.dead and (!ev.source.cmdlevel or GetObjProperty (ev.source, "attackable")))
+				if (!ev.source.dead and !ev.source.concealed and (!ev.source.cmdlevel or GetObjProperty (ev.source, "attackable")))
 					if ( (GetVital (me, "Life") > CINT (GetVitalMaximumValue (me, "Life")/2)) or (!me.hidden) )
 						if (!ev.source.npctemplate or ev.source.script["tamed"])
 							if (me.hidden)

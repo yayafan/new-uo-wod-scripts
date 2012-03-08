@@ -323,11 +323,19 @@ function JoinGuards(byref who)
 	endif
 
 	var myshieldtype := 0x1bc4; //order
+	
 	var otherguards := "Chaos";
 	if (mytype == 2)
 		myshieldtype := 0x1bc3;//chaos
 		otherguards := "Order";
 	endif //chaos
+	if (who.race == RACE_GARGOYLE)
+		if (mytype == 1)
+			myshieldtype := 0x422a;
+		else
+			myshieldtype := 0x4228;
+		endif
+	endif
 
 	TurnToward(who);
 
@@ -389,7 +397,7 @@ function JoinGuards(byref who)
 	who.title_prefix := "Squire ";
 	who.title_suffix := ", Virtue Guard";
 	var newshield := CreateItemAtLocation(who.x , who.y , who.z,
-		myshieldtype,1, REALM_BRITANNIA);
+		myshieldtype,1, who.realm);
 	EquipItem(who,newshield);
 	PlaySoundEffect(who, SFX_SPELL_BLESS);
 	PlayObjectCenteredEffect( who, FX_BLESS_EFFECT, 10,10);

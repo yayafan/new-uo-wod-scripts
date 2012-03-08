@@ -21,7 +21,7 @@ program summon_creature (parms)
 	var IsMob := 0;
 	var magery := GetAttribute (caster, ATTRIBUTEID_MAGERY);
 
-	var npc_parms := {};
+	var npc_parms := struct;
 	if (npc_name)
 		npc_parms.+name := npc_name;
 	endif
@@ -76,7 +76,7 @@ program summon_creature (parms)
 	sleep(3);
 	thecritter.frozen := 0;
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENGAGED;
 	ev.+source := 0;
 
