@@ -19,13 +19,18 @@ function savemdb();
 	var playermerchantlist := GetGlobalProperty ("#playermerchantlist");
 	if (!playermerchantlist)
 		output_text[1] := "Unable to find any merchants.";
-      else
+	else
 		var storage := FindStorageArea( "Merchant Storage" );
 		if (!storage)
 			output_text[1] := "Error opening merchant storage!";
 		else
+			var scriptcounter :=0;
 			var counter := 1;
 			foreach merchantserial in playermerchantlist
+				scriptcounter := scriptcounter+1;
+				if (!(scriptcounter%200))
+					sleepms(1);
+				endif
 				var merchant := SystemFindObjectBySerial (merchantserial);
 				if (merchant)
 					var inv_fs := FindRootItemInStorageArea (storage, merchantserial + " FS");
@@ -37,6 +42,10 @@ function savemdb();
 								output_text[counter] := merchant.name + " at " + merchant.x + ", " + merchant.y + ", " + item.desc + " at " + item.sellprice;
 							endif
 							counter := counter+1;
+							scriptcounter := scriptcounter+1;
+							if (!(scriptcounter%200))
+								sleepms(1);
+							endif
 						endforeach
 					endif
 				endif

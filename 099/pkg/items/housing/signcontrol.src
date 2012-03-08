@@ -130,6 +130,11 @@ function BuildHouseLockdownArea (sign, housetype)
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 8;
 			homeinfo[5] := sign.y + 1;
+		0x1147b:	//foundation 18x18
+			homeinfo[2] := sign.x - 1;
+			homeinfo[3] := sign.y - 19;
+			homeinfo[4] := sign.x + 18;
+			homeinfo[5] := sign.y;
 		default:
 //			//
 //			homeinfo[2] := sign.x - ;
@@ -138,6 +143,6 @@ function BuildHouseLockdownArea (sign, housetype)
 //			homeinfo[5] := sign.y + ;
 
 	endcase
-
+	homeinfo[6] := sign.realm;
 	SetObjProperty (sign, "homeinfo", homeinfo);
 endfunction

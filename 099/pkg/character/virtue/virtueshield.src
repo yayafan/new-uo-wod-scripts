@@ -11,7 +11,7 @@ program virtueshield(me, shield)
 		return;
 	endif
 
-	if ( shield.objtype == ORDERSHIELDTYPE )
+	if ( shield.objtype == ORDERSHIELDTYPE or shield.objtype == GARGORDERSHIELDTYPE)
 		DoOrderMenu(me);
 	else
 		DoChaosMenu(me);

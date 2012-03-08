@@ -193,13 +193,15 @@ function CanWearVirtueShield (byref who, byref it)
 	var guardtype := 0;
 	var guardname;
 	case (it.objtype)
-	0x1bc4: 
-		guardtype := 1; //order
-		guardname := "an Order";
-	0x1bc3:	
-		guardtype := 2; //chaos
-		guardname := "a Chaos";
-	default: return 1;
+		0x1bc4: 
+		0x422a:
+			guardtype := 1; //order
+			guardname := "an Order";
+		0x1bc3:
+		0x4228:
+			guardtype := 2; //chaos
+			guardname := "a Chaos";
+		default: return 1;
 	endcase
 
 	var guard := GetObjProperty (who, "guardtype");

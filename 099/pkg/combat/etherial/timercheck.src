@@ -52,7 +52,7 @@ program check_etherial_items ()
 			endif
 		else
 			SendGMErrorMessage ("Can't find etherial item of serial number " + serial, 1);
-//			allserials.erase (serial);
+			allserials.erase (serial);
 			SetGlobalProperty ("etherialitems", allserials);
 		endif
 	endforeach

@@ -1736,7 +1736,12 @@
 0x2ddb elvenoven cooking
 # 0x2ddc - 0x2fb7 unused
 0x2fb8 ElvenGlasses armor
-# 0x2fb9 - 0x2fc4 unused
+# 0x2fb9 - 0x2fbe unused
+0x2fbf elfmidlong barber
+0x2fc0 elflongfeather barber
+0x2fc1 elfshort barber
+0x2fc2 elfmullet barber
+# 0x2fc3 - 0x2fc4 unused
 0x2fc5 LeafTunic armor
 0x2fc6 LeafGloves armor
 0x2fc7 LeafGorget armor
@@ -1744,7 +1749,13 @@
 0x2fc9 LeafLeggings armor
 0x2fca LeafTonlet armor
 0x2fcb FemaleLeafTunic armor
-# 0x2fcc - 0x2fe1 unused
+0x2fcc elfflower barber
+0x2fcd elflonghair barber
+0x2fce elftopknot barber
+0x2fcf elflongbraid barber
+0x2fd0 elfbuns barber
+0x2fd1 elfspikedhair barber
+# 0x2fd2 - 0x2fe1 unused
 0x2fe2 ElvenMoonDoorESW doors
 # 0x2fe3 unused
 0x2fe4 ElvenMoonDoorSNW doors
@@ -1925,30 +1936,30 @@
 # 0x4229 unused
 0x422a GargishOrdershield armor
 # 0x422b - 0x4257 unused
-0x4258 HornStyle1 barber
-0x4259 HornStyle2 barber
-0x425a HornStyle3 barber
-0x425b HornStyle4 barber
-0x425c HornStyle5 barber
-0x425d HornStyle6 barber
-0x425e HornStyle7 barber
-0x425f HornStyle8 barber
+0x4258 MaleHornStyle1 barber
+0x4259 MaleHornStyle2 barber
+0x425a MaleHornStyle3 barber
+0x425b MaleHornStyle4 barber
+0x425c MaleHornStyle5 barber
+0x425d MaleHornStyle6 barber
+0x425e MaleHornStyle7 barber
+0x425f MaleHornStyle8 barber
 # 0x4260 unused
-0x4261 HornStyle9 barber
-0x4262 HornStyle10 barber
+0x4261 FemaleHornStyle1 barber
+0x4262 FemaleHornStyle2 barber
 # 0x4263 - 0x4272 unused
-0x4273 HornStyle11 barber
-0x4274 HornStyle12 barber
-0x4275 HornStyle13 barber
+0x4273 FemaleHornStyle3 barber
+0x4274 FemaleHornStyle4 barber
+0x4275 FemaleHornStyle5 barber
 # 0x4276 - 0x42a9 unused
-0x42aa HornStyle14 barber
-0x42ab HornStyle15 barber
+0x42aa FemaleHornStyle6 barber
+0x42ab FemaleHornStyle7 barber
 # 0x42ac unused
 0x42ad FacialHornStyle1 barber
 0x42ae FacialHornStyle2 barber
 0x42af FacialHornStyle3 barber
 0x42b0 FacialHornStyle4 barber
-0x42b1 HornStyle16 barber
+0x42b1 FemaleHornStyle8 barber
 # 0x42b2 - 0x42dd unused
 0x42de PlateTalons armor
 # 0x42df - 0x436d unused

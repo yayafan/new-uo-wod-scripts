@@ -73,13 +73,15 @@ program textcmd_change_title (character, text)
 	case (command_word)
 		"prefix":
 			if (new_title)
-				targetted.title_prefix := new_title + " ";
+//				targetted.title_prefix := new_title + " ";
+				targetted.title_prefix := new_title;
 			else
 				targetted.title_prefix := "";
 			endif
 		"suffix":
 			if (new_title)
-				targetted.title_suffix := ", " + new_title;
+//				targetted.title_suffix := ", " + new_title;
+				targetted.title_suffix := new_title;
 			else
 				targetted.title_suffix := "";
 			endif
