@@ -182,7 +182,10 @@ program create_druidhenge (character, druidhenge)
 		
 		PlayStationaryEffect (druidhenge.x, druidhenge.y+1, druidhenge.z, FX_SMOKE, 0xA, 0xA, 0, druidhenge.realm );
 		PlaySoundEffect(character, SFX_SPELL_MANA_VAMPIRE);
-		CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x17068, 1, druidhenge.realm);
+		var druidstaff := CreateItemAtLocation (druidhenge.x, druidhenge.y+1, druidhenge.z, 0x17068, 1, druidhenge.realm);
+		if (character.race == RACE_GARGOYLE)
+			druidstaff.graphic := 0x48b9;
+		endif
 
 	//otherwise if they wanted a runebag
 	elseif (table_return == 2)

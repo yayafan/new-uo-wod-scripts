@@ -44,7 +44,7 @@ endprogram
 ///////////////////
 
 function SearchBackpackForRune (character, rune_objtype )
-	foreach bag in ListRootItemsInContainerOfObjtype (character.backpack, 0x706b)
+	foreach bag in ListRootItemsInContainerOfObjtype (character.backpack, 0x1706b)
 		if (CheckForRuneInBag (bag, rune_objtype) )
 			return 1;
 		endif
