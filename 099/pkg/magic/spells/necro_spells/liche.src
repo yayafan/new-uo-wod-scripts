@@ -76,16 +76,20 @@ program cast_liche (parms)
 
 	var weaponone := GetEquipmentByLayer (caster,  LAYER_HAND1);
 	var weapontwo := GetEquipmentByLayer (caster,  LAYER_HAND2);
-	if (weaponone.objtype == 0x706a or weapontwo.objtype == 0x706a)
+	if (weaponone.objtype == 0x1706a or weapontwo.objtype == 0x1706a)
 		return 1;
 	else
-		var staff := CreateItemInContainer (caster.backpack, 0x706a, 1);
+		var staff := CreateItemInContainer (caster.backpack, 0x1706a, 1);
 		if (staff)
 			if (weaponone)
 				moveitemtocontainer(weaponone,caster.backpack);
 			endif
 			if (weapontwo)
 				moveitemtocontainer(weapontwo,caster.backpack);
+			endif
+			if (caster.race == RACE_GARGOYLE)
+				staff.graphic := 0x905;
+				staff.color := 1109;
 			endif
 			EquipItem (caster, staff);
 		endif
