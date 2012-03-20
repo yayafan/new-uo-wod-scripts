@@ -22,7 +22,7 @@ program textcmd_paintboat( who, text )
 		endif
 	endif
 	
-	if(!(boat.graphic >= 0x4018 && boat.graphic <= 0x403B) && !(boat.graphic >= 0x4040 && boat.graphic <= 0x4047))
+	if(!(boat.multiid >= 0x18 && boat.multiid <= 0x3B) && !(boat.multiid >= 0x40 && boat.multiid <= 0x47))
 		return;
 	endif
 	

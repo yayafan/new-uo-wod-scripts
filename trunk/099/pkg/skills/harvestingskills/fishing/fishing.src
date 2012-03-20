@@ -36,11 +36,17 @@ program use_fishpole (character, pole)
 
 	var castxoffset := targetted_location.x - character.x;
 	var castyoffset := targetted_location.y - character.y;
-    
+	if (targetted_location.multi)
+		SendSysMessage (character, "That's too close to the ship's hull!");
+		return;
+	endif
 	if ( !IsLocationAccessibleForFishing (character, targetted_location.x, targetted_location.y, targetted_location.z) )
         	SendSysmessage (character, "That's too far away!");
         	return;
-    	endif
+	elseif ( !CheckLosAt (character, targetted_location.x, targetted_location.y, targetted_location.z) )
+        	SendSysmessage (character, "You can't see that! Maybe it's too close to the hull.");
+        	return;
+	endif
 
 	craftingbag := FindCraftingBag (character);
 	var x := character.x;
@@ -431,11 +437,9 @@ function IsLocationAccessibleForFishing ( me, x, y, z )
 		return 0;
 	endif
 
-	return CheckLosAt ( me, x, y, z );
+	return 1;
 
 endfunction
-
-
 
 
 ///////////////////

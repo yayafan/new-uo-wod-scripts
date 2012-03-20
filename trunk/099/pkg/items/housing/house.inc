@@ -10,7 +10,7 @@ Const HOUSE_RAISE_ITEM		:= 5;
 Const HOUSE_LOWER_ITEM		:= 6;
 Const HOUSE_DISPLAY_ITEM		:= 7;
 
-Const HOUSE_VALUE_LIMIT		:= 5;
+Const HOUSE_VALUE_LIMIT		:= 10;
 
 ///////////////////
 //  gets the housevalue of the given account

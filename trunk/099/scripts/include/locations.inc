@@ -2,6 +2,7 @@ Const TOWN_BRITAIN			:= 1;
 Const TOWN_COVE			:= 2;
 Const TOWN_JHELOM			:= 3;
 Const TOWN_MAGINCIA			:= 4;
+Const TOWN_NEW_MAGINCIA			:= 4;
 Const TOWN_MINOC			:= 5;
 Const TOWN_MOONGLOW			:= 6;
 Const TOWN_NUJELM			:= 7;
@@ -11,9 +12,18 @@ Const TOWN_SKARA_BRAE		:= 10;
 Const TOWN_TRINSIC			:= 11;
 Const TOWN_VESPER			:= 12;
 Const TOWN_YEW				:= 13;
+Const TOWN_HEARTWOOD			:= 14;
+Const TOWN_SEA_MARKET			:= 15;
+Const TOWN_VER_LOR_REG := 16;
+Const TOWN_LUNA			:= 17;
+Const TOWN_UMBRA			:= 18;
+Const TOWN_ZENTO			:= 19;
+Const TOWN_ROYAL_CITY			:= 20;
+Const TOWN_HOLY_CITY			:= 21;
+
 
 Const TOWN_START			:= 1;
-Const TOWN_END				:= 13;
+Const TOWN_END				:= 21;
 
 
 
@@ -22,35 +32,68 @@ Const TOWN_END				:= 13;
 //  Figures out out if a location is within a town, and if so, what town
 ///////////////////
 
-function FindTownFromLocation (x, y)
-	if (x >= 1275 and x <= 1720 and y >= 1500 and y <= 1800)
-		return TOWN_BRITAIN;
-	elseif (x >= 2200 and x <= 2300 and y >= 1100 and y <= 1250)
-		return TOWN_COVE;
-	elseif (x >= 1050 and x <= 1525 and y >= 3350 and y <= 4050)
-		return TOWN_JHELOM;
-	elseif (x >= 3525 and x <= 3825 and y >= 2000 and y <= 2300)
-		return TOWN_MAGINCIA;
-	elseif (x >= 2400 and x <= 2650 and y >= 250 and y <= 700)
-		return TOWN_MINOC;
-	elseif (x >= 4250 and x <= 4725 and y >= 775 and y <= 1525)
-		return TOWN_MOONGLOW;
-	elseif (x >= 2475 and x <= 3825 and y >= 1025 and y <= 1425)
-		return TOWN_NUJELM;
-	elseif (x >= 3350 and x <= 3800 and y >= 2350 and y <= 2950)
-		return TOWN_OCLLO;
-	elseif (x >= 2750 and x <= 3075 and y >= 3325 and y <= 3650)
-		return TOWN_SERPENTS_HOLD;
-	elseif (x >= 530 and x <= 680 and y >= 2100 and y <= 2290)
-		return TOWN_SKARA_BRAE;
-	elseif (x >= 1800 and x <= 2150 and y >= 2625 and y <= 2950)
-		return TOWN_TRINSIC;
-	elseif (x >= 2750 and x <= 3050 and y >= 600 and y <= 1020)
-		return TOWN_VESPER;
-	elseif (x >= 250 and x <= 750 and y >= 750 and y <= 1250)
-		return TOWN_YEW;
-	endif
-	return 0;
+function FindTownFromLocation (x, y, realm)
+  case (realm)
+    "britannia":
+      if (x >= 1275 and x <= 1720 and y >= 1500 and y <= 1800)
+        return TOWN_BRITAIN;
+      elseif (x >= 2200 and x <= 2300 and y >= 1100 and y <= 1250)
+        return TOWN_COVE;
+      elseif (x >= 1050 and x <= 1525 and y >= 3350 and y <= 4050)
+        return TOWN_JHELOM;
+      elseif (x >= 3525 and x <= 3825 and y >= 2000 and y <= 2300)
+        return TOWN_MAGINCIA;
+      elseif (x >= 2400 and x <= 2650 and y >= 250 and y <= 700)
+        return TOWN_MINOC;
+      elseif (x >= 4250 and x <= 4725 and y >= 775 and y <= 1525)
+        return TOWN_MOONGLOW;
+      elseif (x >= 2475 and x <= 3825 and y >= 1025 and y <= 1425)
+        return TOWN_NUJELM;
+      elseif (x >= 3350 and x <= 3800 and y >= 2350 and y <= 2950)
+        return TOWN_OCLLO;
+      elseif (x >= 2750 and x <= 3075 and y >= 3325 and y <= 3650)
+        return TOWN_SERPENTS_HOLD;
+      elseif (x >= 530 and x <= 680 and y >= 2100 and y <= 2290)
+        return TOWN_SKARA_BRAE;
+      elseif (x >= 1800 and x <= 2150 and y >= 2625 and y <= 2950)
+        return TOWN_TRINSIC;
+      elseif (x >= 2750 and x <= 3050 and y >= 600 and y <= 1020)
+        return TOWN_VESPER;
+      elseif (x >= 250 and x <= 750 and y >= 750 and y <= 1250)
+        return TOWN_YEW;
+      elseif (x >= 6911 and x <= 7167 and y >= 255 and y <= 511)
+        return TOWN_HEARTWOOD;
+      elseif (x >= 4504 and x <= 4584 and y >= 1584 and y <= 2417)
+        return TOWN_SEA_MARKET;
+      endif
+      return 0;
+    "ilshenar":
+      if (x >= 752 and x <= 926 and y >= 556 and y <= 728)
+        return TOWN_VER_LOR_REG;
+      endif
+      return 0;
+    "malas":
+      if (x >= 872 and x <= 1107 and y >= 420 and y <= 652)
+        return TOWN_LUNA;
+      elseif (x >= 1931 and x <= 2137 and y >= 1224 and y <= 1438)
+        return TOWN_UMBRA;
+      endif
+      return 0;
+    "tokuno":
+      if (x >= 500 and x <= 965 and y >= 1125 and y <= 1360)
+        return TOWN_ZENTO;
+      endif
+      return 0;
+    "termur":
+      if (x >= 602 and x <= 1042 and y >= 3253 and y <= 3612)
+        return TOWN_ROYAL_CITY;
+      elseif(x >= 855 and x <= 1132 and y >= 3840 and y <= 4026)
+        return TOWN_HOLY_CITY;
+      endif
+      return 0;
+    default:
+      return 0;
+  endcase
 endfunction
 
 
@@ -61,7 +104,7 @@ endfunction
 ///////////////////
 
 function FindMyTown (npc)
-	return FindTownFromLocation (npc.x, npc.y);
+	return FindTownFromLocation (npc.x, npc.y, npc.realm);
 endfunction
 
 
@@ -80,7 +123,7 @@ function GetNameOfTown (townnum)
 		TOWN_JHELOM:
 			return "Jhelom";
 		TOWN_MAGINCIA:
-			return "Magincia";
+			return "New Magincia";
 		TOWN_MINOC:
 			return "Minoc";
 		TOWN_MOONGLOW:
@@ -99,6 +142,22 @@ function GetNameOfTown (townnum)
 			return "Vesper";
 		TOWN_YEW:
 			return "Yew";
+		TOWN_HEARTWOOD:
+			return "Heartwood";
+		TOWN_SEA_MARKET:
+			return "Sea Market";
+		TOWN_VER_LOR_REG:
+			return "Ver Lor Reg";
+		TOWN_LUNA:
+			return "Luna";
+		TOWN_UMBRA:
+			return "Umbra";
+		TOWN_ZENTO:
+			return "Zento";
+		TOWN_HOLY_CITY:
+			return "Holy City";
+		TOWN_ROYAL_CITY:
+			return "Royal City";
 		default:
 			return "";
 	endcase

@@ -21,6 +21,7 @@ program make_a_tele( seer )
 	SetObjProperty( rune, "x", seer.x );
 	SetObjProperty( rune, "y", seer.y );
 	SetObjProperty( rune, "z", seer.z );
+	SetObjProperty( rune, "realm", seer.realm);
 	rune.newbie := 1;
 
 	SendSysmessage(seer, "Marked and newbiedied!");
