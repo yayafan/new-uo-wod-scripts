@@ -21,7 +21,7 @@ const DELAY_DRIFTING		:= 15000;
 var state := STATE_STATIONARY;
 var relative_direction;
 var ms_delay_between_moves := DELAY_FULL_SPEED;
-var boat, tillerman, owner;
+var boat, tillerman, owner, wheel;
 
 program autostart_boat (param)
 	boat := param;
@@ -31,7 +31,8 @@ program autostart_boat (param)
 	endif
 
 	tillerman := boat.tillerman;
-	if (!tillerman)
+	wheel := boat.wheel;
+	if (!tillerman and !wheel.size())
 		syslog ("No tillerman for boat " + hex(boat.serial) + "! WTF?" );
 		var destroyreturn := DestroyMulti (boat);
 		if (destroyreturn == error)
@@ -39,8 +40,14 @@ program autostart_boat (param)
 		endif
 		return;
 	endif
+	if (!tillerman)
+		tillerman := wheel[1];
+	endif
 	
 	owner := GetObjProperty (boat.hold, "owner");
+	if (!owner)
+		owner := GetObjProperty (tillerman, "owner");
+	endif
 	AddBoatToGlobalRegistry ();
 
 	RegisterForSpeechEvents (tillerman, 14, LISTENPT_HEAR_GHOSTS);
@@ -319,6 +326,9 @@ function CanCommandBoat (who)
 	if (!owner)
 		owner := GetObjProperty (boat.hold, "owner");
 	endif
+	if (!owner)
+		owner := GetObjProperty (tillerman, "owner");
+	endif
 
 	//If we're the owner, we can always control the boat
 	if (who.serial == owner)
@@ -368,6 +378,9 @@ function DryDock (event)
 	endif
 
 	var shiptype := GetObjProperty (boat.hold, "shiptype");
+	if (!shiptype)
+		shiptype := GetObjProperty (tillerman, "shiptype");
+	endif
 	var newboat := CreateItemInContainer (player.backpack, shiptype, 1);
 	if (!newboat)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
@@ -376,8 +389,8 @@ function DryDock (event)
 
 	newboat.graphic := 0x14f3;
 	newboat.color := boat.color;
-	if (boat.tillerman.name)
-		newboat.name := boat.tillerman.name;
+	if (tillerman.name)
+		newboat.name := tillerman.name;
 	else
 		newboat.name := "a toy boat";
 	endif

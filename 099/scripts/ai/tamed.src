@@ -894,7 +894,10 @@ function DoDoubleClickEvent ();
 	endcase
 
 	if (mounttype)
-		if (MoveObjectToLocation (master, me.x, me.y, me.z, me.realm, 0))
+		if (master.race == RACE_GARGOYLE)
+			SendSysMessage(master, "You would rather fly than ride.");
+			return;
+		elseif (MoveObjectToLocation (master, me.x, me.y, me.z, me.realm, 0))
 			drop();
 			set_critical (1);
 			master.facing := me.facing;

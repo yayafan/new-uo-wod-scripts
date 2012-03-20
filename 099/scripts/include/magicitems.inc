@@ -202,6 +202,9 @@ function DoWeaponSkillModifier (item, modifier)
 		elseif ( elem.Attribute == "Fencing" )
 			skillname := "fencing";
 			skillnum := 42;
+		elseif ( elem.Attribute == "Throwing" )
+			skillname := "throwing";
+			skillnum := 57;
 		else
 			return;
 		endif

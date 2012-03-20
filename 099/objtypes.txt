@@ -1533,7 +1533,7 @@
 0x23a5 surpriseattackscroll ninjitsu
 0x23a6 backstabscroll ninjitsu
 0x23a7 shadowjumpscroll ninjitsu
-0x23a8 mirrorimagecroll ninjitsu
+0x23a8 mirrorimagescroll ninjitsu
 # 0x23a9 - 0x241e unused
 0x241f BlackWoodenDoorENE doors
 # 0x2420 unused
@@ -1702,7 +1702,25 @@
 0x2d46 ElvenWoodenDoorENW doors
 # 0x2d47 unused
 0x2d48 ElvenWoodenDoorESW doors
-# 0x2d49 - 0x2d62 unused
+# 0x2d49 - 0x2d4f unused
+0x2d50 spellweavingspellbook spellweaving
+0x2d51 arcanecirclescroll spellweaving
+0x2d52 giftofrenewalscroll spellweaving
+0x2d53 immolatingweaponscroll spellweaving
+0x2d54 attunementscroll spellweaving
+0x2d55 thunderstormscroll spellweaving
+0x2d56 naturesfuryscroll spellweaving
+0x2d57 summonfeyscroll spellweaving
+0x2d58 summonfiendscroll spellweaving
+0x2d59 reaperformscroll spellweaving
+0x2d5a wildfirescroll spellweaving
+0x2d5b essenceofwindscroll spellweaving
+0x2d5c dryadallurescroll spellweaving
+0x2d5d etherealvoyagescroll spellweaving
+0x2d5e wordofdeathscroll spellweaving
+0x2d5f giftoflifescroll spellweaving
+0x2d60 arcaneempowermentscroll spellweaving
+# 0x2d61 - 0x2d62 unused
 0x2d63 ElvenSimpleDoorESW doors
 # 0x2d64 unused
 0x2d65 ElvenSimpleDoorSNW doors

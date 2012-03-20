@@ -7,6 +7,7 @@ include "include/utility";
 include "include/itemtypes";
 include "include/gumps";
 include "../pkg/items/housing/house";
+include "../pkg/items/doors/doors";
 
 var gump_layout := {};
 var gump_data := {};
@@ -68,6 +69,11 @@ program use_house_sign (character, sign)
 			var customhouse := SystemFindObjectBySerial (GetObjProperty (sign, "house_serial"));
 			if (customhouse.custom)
 				var homeinfo := GetObjProperty (sign, "homeinfo");
+				if (!homeinfo)
+					SendSysMessage (character, "Error finding house definition.");
+					return;	
+				endif
+				CloseHouseDoors (character, sign);
 				MoveObjectToLocation(character, (homeinfo[4] + homeinfo[2]) / 2, (homeinfo[5] + homeinfo[3]) / 2, sign.z, sign.realm, MOVEOBJECT_FORCELOCATION);
 				SendHousingTool(character, customhouse);
 			else
@@ -89,6 +95,19 @@ program use_house_sign (character, sign)
 endprogram
 
 
+function CloseHouseDoors (character, sign)
+	var homeinfo := GetObjProperty (sign, "homeinfo");
+	if (!homeinfo)
+		SendSysMessage (character, "Error finding house definition.");
+		return;	
+	endif
+	foreach item in ListObjectsInBox (homeinfo[2], homeinfo[3], -127, homeinfo[4], homeinfo[5], 127, sign.realm)
+		if (IsDoor (item))
+			CloseDoor(item);
+		endif
+	endforeach
+
+endfunction
 
 
 ///////////////////

@@ -992,14 +992,26 @@ function IsGargishItem(byref item)
 endfunction
 
 function IsOfAppropriateRace(byref who, byref item)
-	if (who.race == RACE_GARGOYLE)
+  if (who.npctemplate)
+    return 1;
+	elseif (who.race == RACE_GARGOYLE)
 		if (IsGargishItem(item))
 			return 1;
 		elseif (IsJewelry(item))
 			return 1;
     elseif (IsWand(item))
       return 1;
-    elseif (item.graphic == 0x1f03 || item.graphic == 0x1f04)
+    elseif (item.graphic >= 0x1f03 and item.graphic <= 0x1f04)
+      return 1;
+    elseif (item.graphic >= 0x0dbf and item.graphic <= 0x0dc0)
+      return 1;
+    elseif (item.graphic >= 0x13e3 and item.graphic <= 0x13e4)
+      return 1;
+    elseif (item.graphic >= 0xe81 and item.graphic <= 0xe82)
+      return 1;
+    elseif (item.graphic >= 0xe85 and item.graphic <= 0xe86)
+      return 1;
+    elseif (item.graphic >= 0xfb4 and item.graphic <= 0xfb5)
       return 1;
 		endif
     return 0;

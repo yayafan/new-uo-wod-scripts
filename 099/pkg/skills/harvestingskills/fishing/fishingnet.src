@@ -38,6 +38,9 @@ program use_fishingnet (character, net )
 	if ( !IsLocationAccessibleForFishing (character, targetted_location.x, targetted_location.y, targetted_location.z) )
         	SendSysmessage (character, "That's too far away!");
         	return;
+	elseif (!CheckLosAt ( character, targetted_location.x, targetted_location.y, targetted_location.z ))
+        	SendSysmessage (character, "You can't see that! Maybe it's too close to the hull.");
+        	return;	
     	endif
 
 	craftingbag := FindCraftingBag (character);
@@ -351,16 +354,16 @@ endfunction
 function IsLocationAccessibleForFishing ( me, x, y, z )
 
 	var xd := me.x - x;
-	if (xd < -2 or xd > 2) 
+	if (xd < -4 or xd > 4) 
 		return 0;
 	endif
 
 	var yd := me.y - y;
-	if (yd < -2 or yd > 2) 
+	if (yd < -4 or yd > 4) 
 		return 0;
 	endif
 
-	return CheckLosAt ( me, x, y, z );
+	return 1;
 
 endfunction
 

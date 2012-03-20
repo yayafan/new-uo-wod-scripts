@@ -174,8 +174,8 @@ endfunction
 ///////////////////
 
 function ChangeArcheryAmmo (character, thebow)
-	var valid_arrows := {0x0f3f, 0x6051, 0x6052};
-	var valid_bolts := {0x1bfb, 0x6053, 0x6054};
+	var valid_arrows := {0x0f3f, 0x16051, 0x16052};
+	var valid_bolts := {0x1bfb, 0x16053, 0x16054};
 
 	SendSysMessage (character, "Target the ammo that you want to use:");
 	var theammo := Target (character);
@@ -195,6 +195,9 @@ function ChangeArcheryAmmo (character, thebow)
 	case (thebow.objtype)
 		0x13B2:
 		0x26C2:
+		0x27f0:
+		0x2d2a:
+		0x2d2b:
 			if (!(theammo.objtype in valid_arrows))
 				SendSysMessage (character, "Bows need arrows for ammo");
 				return;

@@ -112,12 +112,18 @@ program useshipdeed( character, deed )
 	var deedtype := deed.objtype;
 
 	if (deed.name != "a toy boat" and !deed.name["deed"])
-		created.ship.tillerman.name := deed.name;
-		created.packkey.name := "a key for " + deed.name;
+		if (created.ship.tillerman)
+			created.ship.tillerman.name := deed.name;
+		else
+			foreach wheel in (created.ship.wheel)
+				wheel.name := deed.name;
+			endforeach
+			created.packkey.name := "a key for " + deed.name;
+		endif
 	else
 		created.packkey.name := "a boat key";
 	endif
-	DestroyItem (deed);
+
 
 	created.ship.starboardplank.locked := 1;
 	created.ship.portplank.locked := 1;
@@ -131,6 +137,15 @@ program useshipdeed( character, deed )
 	SetObjProperty (created.ship.hold,			"shiptype", deedtype ); 
 	SetObjProperty (created.ship.tillerman,		"owner", character.serial );
 	SetObjProperty (created.packkey,			"lockid", lockid );
+	foreach wheel in (created.ship.wheel)
+		SetObjProperty (wheel,			"owner", character.serial );
+		SetObjProperty (wheel,			"shiptype", deedtype ); 
+		wheel.usescript := ":boat:tillerman";
+//		created.ship.tillerman := wheel;
+	endforeach
+
+
+	DestroyItem (deed);
 
 	created.ship.tillerman.usescript := ":boat:tillerman";
 
@@ -170,7 +185,7 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z, rlm )
 		return 0;
 	endif
 	SetObjProperty( ship.hold,"owner", character.serial );
-	if(!getObjProperty (ship.hold,"owner"))
+	if(!getObjProperty (ship.hold,"owner") and !ship.wheel.size())
 		PrintTextAbovePrivate (character, "I can't place the ship there.", character);
 		DestroyItem (packkey);
 		return 0;

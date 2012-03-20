@@ -17,6 +17,8 @@ exported function NewCombat (attacker, defender)
 	if (attacker.weapon)
 		if (IsBow(attacker.weapon))
 			start_script (":weapons:combat_attack_script_archery", {attacker, defender});
+		elseif (IsThrowingWeapon(attacker.weapon))
+			start_script (":weapons:combat_attack_script_throwing", {attacker, defender});
 		elseif (attacker.weapon.objtype == UOBJ_FIST)
 			if (attacker.npctemplate)
 				start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});

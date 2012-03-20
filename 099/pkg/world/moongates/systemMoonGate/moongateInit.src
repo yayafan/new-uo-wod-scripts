@@ -115,8 +115,10 @@ function BuildGumpForGate( gate, byref town_name, byref config )
 			else
 				GFRadioButton( gump, 150, y_pos, 210, 211, 0, btn_id+MG_LOCATION_START );
 			endif
+			
+			var newtownname := StrReplace (_entry_iter, "_", " ");
    
-			GFTextLine( gump, 173, y_pos, 2100, _entry_iter );
+			GFTextLine( gump, 173, y_pos, 2100, newtownname );
 			y_pos += 20;
 			btn_id += 1;
    
