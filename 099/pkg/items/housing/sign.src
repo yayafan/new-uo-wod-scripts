@@ -75,6 +75,7 @@ program use_house_sign (character, sign)
 				endif
 				CloseHouseDoors (character, sign);
 				MoveObjectToLocation(character, (homeinfo[4] + homeinfo[2]) / 2, (homeinfo[5] + homeinfo[3]) / 2, sign.z, sign.realm, MOVEOBJECT_FORCELOCATION);
+				SendPacket (character, "B9000F97DF");
 				SendHousingTool(character, customhouse);
 			else
 				SendSysMessage (character, "Your house can't be customized.");

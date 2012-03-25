@@ -2002,7 +2002,11 @@
 0x457e LeatherWingArmor armor
 # 0x457f - 0x45a3 unused
 0x45a4 ClothWingArmor armor
-# 0x45a5 - 0x46a9 unused
+# 0x45a5 - 0x45b0 unused
+0x45b1 GargishGlasses armor
+# 0x45b2 - 0x4643 unused
+0x4644 GargishGlasses2 armor
+# 0x4645 - 0x46a9 unused
 0x46aa GargoyleBodySash armor
 # 0x46ab - 0x46b3 unused
 0x46b4 GargoyleBodySash2 armor

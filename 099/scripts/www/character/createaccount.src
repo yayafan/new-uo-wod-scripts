@@ -56,6 +56,8 @@ program account_add()
 	endif
 
 	SetAccountProperty (acctname, "account_email", acctemail);
+	ret.set_uo_expansion("HSA");
+
 		
 	writehtml("Account added successfully. Press the link and attach login.cfg file to email player");
 	writehtml("<br><a href=\"mailto:" + acctemail + "?subject=Welcome to the World of Dreams\">email player</a>");

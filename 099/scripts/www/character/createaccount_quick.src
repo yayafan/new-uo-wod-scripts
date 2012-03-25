@@ -84,6 +84,8 @@ program account_add ()
 		writehtml("</body></html>");
 		return;
 	endif
+	ret.set_uo_expansion("HSA");
+
 
 	SetAccountProperty (acctname, "account_email", acctemail);
 		

@@ -266,7 +266,8 @@ function DoArmorSkillModifier (item, modifier)
 					SKILLID_LUMBERJACKING,
 					SKILLID_MINING,
 					SKILLID_MEDITATION,
-					SKILLID_STEALTH
+					SKILLID_STEALTH,
+          SKILLID_DISCHORDANCE
 	};
 
 	var skillnamelist := { "alchemy",
@@ -306,7 +307,8 @@ function DoArmorSkillModifier (item, modifier)
 						"lumberjacking",
 						"mining",
 						"meditation",
-						"stealth"
+						"stealth",
+            "dischordance"
 	};
 
 	var skillnum := -1;
