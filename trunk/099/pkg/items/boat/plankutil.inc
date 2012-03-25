@@ -87,7 +87,7 @@ function PlankPartner (planktype)
 		GID_PLANK_RETRACTED_FACING_SOUTH: return GID_PLANK_EXTENDED_FACING_SOUTH;
             
 		default:
-			syslog ("Unknown plank type 0x" + Hex (planktype));
+			syslog ("Unknown plank type " + Hex (planktype));
 			return error;
     endcase
 endfunction

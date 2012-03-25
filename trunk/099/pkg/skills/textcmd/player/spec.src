@@ -173,7 +173,7 @@ function GetStrCap (skillid)
 		SKILLID_ITEMID:		retname :=  60;
 		SKILLID_ARMSLORE:		retname :=  80;
 		SKILLID_PARRY:			retname :=  120;
-		SKILLID_BEGGING:		retname :=  70;
+		SKILLID_LEADERSHIP:		retname :=  90;
 		SKILLID_BLACKSMITHY:	retname :=  110;
 		SKILLID_BOWCRAFT:		retname :=  95;
 		SKILLID_PEACEMAKING:	retname :=  80;
@@ -182,7 +182,7 @@ function GetStrCap (skillid)
 		SKILLID_CARTOGRAPHY:	retname :=  75;
 		SKILLID_COOKING:		retname :=  80;
 		SKILLID_DETECTINGHIDDEN:	retname :=  70;
-		SKILLID_LEADERSHIP:		retname :=  90;
+		SKILLID_DISCHORDANCE:	retname :=  75;
 		SKILLID_INVOCATION:		retname :=  60;
 		SKILLID_HEALING:		retname :=  80;
 		SKILLID_FISHING:		retname :=  75;
@@ -271,9 +271,9 @@ function GetDexCap (skillid)
 		SKILLID_TINKERING:		retname :=  75;
 		SKILLID_TRACKING:		retname :=  65;
 		SKILLID_WRESTLING:		retname :=  110;
+		SKILLID_DISCHORDANCE:	retname :=  70;
 
 		SKILLID_ARMSLORE:		retname :=  55;
-		SKILLID_BEGGING:		retname :=  65;
 		SKILLID_BOWCRAFT:		retname :=  80;
 		SKILLID_FORENSICS:		retname :=  60;
 		SKILLID_HERDING:		retname :=  65;
@@ -337,9 +337,9 @@ function GetIntCap(skillid)
 		SKILLID_TINKERING:		retname :=  75;
 		SKILLID_TRACKING:		retname :=  80;
 		SKILLID_WRESTLING:		retname :=  0;
+		SKILLID_DISCHORDANCE:	retname :=  80;
 
 		SKILLID_ARMSLORE:		retname :=  90;
-		SKILLID_BEGGING:		retname :=  90;
 		SKILLID_BOWCRAFT:		retname :=  50;
 		SKILLID_FORENSICS:		retname :=  90;
 		SKILLID_HERDING:		retname :=  80;

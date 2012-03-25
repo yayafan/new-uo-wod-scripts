@@ -535,7 +535,7 @@ function BuildGump (character, thetarget)
 		"",
 		"5 Parry",			//40
 		"",
-		"6 Begging",			//42
+		"6 Leadership",			//42
 		"",
 		"7 Blacksmithy",		//44
 		"",
@@ -553,7 +553,7 @@ function BuildGump (character, thetarget)
 		"",
 		"14 Detect Hidden",		//58
 		"",
-		"15 Leadership",		//60
+		"15 Dischordance",		//60
 		"",
 		"16 Invocation",		//62
 		"",

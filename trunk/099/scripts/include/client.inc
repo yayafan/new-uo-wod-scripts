@@ -1049,6 +1049,8 @@ const SKILLID_BATTLE_DEFENSE    := 5;
 const SKILLID_PARRY             := 5;
 
 const SKILLID_BEGGING           := 6;
+const SKILLID_LEADERSHIP        := 6;
+const SKILLID_TAUNT             := 6;
 const SKILLID_BLACKSMITHY       := 7;
 const SKILLID_BOWCRAFT          := 8;
 const SKILLID_PEACEMAKING       := 9;
@@ -1060,9 +1062,8 @@ const SKILLID_COOKING           := 13;
 const SKILLID_DETECTINGHIDDEN   := 14;
 const SKILLID_DETECTHIDDEN 	  := 14;
 
-const SKILLID_ENTICEMENT        := 15;
-const SKILLID_LEADERSHIP        := 15;
-const SKILLID_TAUNT             := 15;
+//const SKILLID_ENTICEMENT        := 15;
+const SKILLID_DISCHORDANCE := 15;
 
 const SKILLID_EVALINT           := 16;
 const SKILLID_INVOCATION        := 16;
