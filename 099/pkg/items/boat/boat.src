@@ -369,6 +369,10 @@ function DryDock (event)
 	endif
 
 	owner := GetObjProperty (boat.hold, "owner");
+	if (!owner)
+		owner := GetObjProperty (tillerman, "owner");
+	endif
+	
 	if (owner != player.serial and !player.cmdlevel)
 		return;
 	endif

@@ -1,0 +1,30 @@
+use os;
+use uo;
+
+Const UOBJECT_BRASS_SIGN := 0x0bd2;
+Const UOBJECT_WOOD_SIGN := 0x0bd0;
+
+exported function CloseCustomHouse ( who, house)
+	var components := GetObjProperty (house, "components");
+	var lockid := 0;
+	foreach compo in (components)
+		var sign := SystemFindObjectBySerial(compo);
+		if (sign.objtype == UOBJECT_BRASS_SIGN or sign.objtype == UOBJECT_WOOD_SIGN)
+			lockid := GetObjProperty (sign, "lockid");
+			if (lockid)
+				foreach item in (house.components)
+					if (item.isa (POLCLASS_DOOR))
+						item.locked := 1;
+						SetObjProperty (item, "lockid", lockid);
+					endif
+				endforeach
+				return;
+			endif
+		endif
+	endforeach
+endfunction
+
+program SyshookCloseCustomHouse ()
+	Syslog ("Installing CloseCustomHouse syshook...");
+	return 1;
+endprogram
