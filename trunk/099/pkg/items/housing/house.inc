@@ -147,6 +147,7 @@ endfunction
 function GetHouseValueByDeed (deed)
 	case (deed)
 		0x16023: //tower
+    0x16230: //foundation18x18
 			return 3;
 		0x16024: //keep
 		0x16025: //castle
@@ -658,7 +659,7 @@ endfunction
 function FindHouseSignAtLocation (x, y, realm)
 	foreach item in ListObjectsInBox (x-32, y-32, -128, x+32, y+32, +127, realm)
 		case (item.objtype)
-			0x7060:
+			0x17060:
 			0x0bd2:
 			0x0bd0:
 				if (IsLocationWithinHouseSign (item, x, y, realm))

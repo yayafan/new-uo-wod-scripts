@@ -187,7 +187,7 @@ function GetStrCap (skillid)
 		SKILLID_HEALING:		retname :=  80;
 		SKILLID_FISHING:		retname :=  75;
 		SKILLID_FORENSICS:		retname :=  75;
-		SKILLID_HERDING:		retname :=  80;
+		SKILLID_HERDING:		retname :=  90;
 		SKILLID_HIDING:		retname :=  70;
 		SKILLID_PROVOCATION:	retname :=  70;
 		SKILLID_INSCRIPTION:	retname :=  60;
@@ -275,7 +275,7 @@ function GetDexCap (skillid)
 
 		SKILLID_ARMSLORE:		retname :=  55;
 		SKILLID_BOWCRAFT:		retname :=  80;
-		SKILLID_FORENSICS:		retname :=  60;
+		SKILLID_FORENSICS:		retname :=  65;
 		SKILLID_HERDING:		retname :=  65;
 		SKILLID_ITEMID:		retname :=  55;
 		SKILLID_REMOVETRAP:		retname :=  75;
@@ -342,7 +342,7 @@ function GetIntCap(skillid)
 		SKILLID_ARMSLORE:		retname :=  90;
 		SKILLID_BOWCRAFT:		retname :=  50;
 		SKILLID_FORENSICS:		retname :=  90;
-		SKILLID_HERDING:		retname :=  80;
+		SKILLID_HERDING:		retname :=  70;
 		SKILLID_ITEMID:		retname :=  110;
 		SKILLID_REMOVETRAP:		retname :=  75;
 		SKILLID_SNOOPING:		retname :=  75;
