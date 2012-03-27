@@ -373,6 +373,7 @@ function ProcessEvent (byref ev)
 			if (RandomInt (20) == 1)
 				say ("hehe");
 			endif
+			OpenPaperdoll (ev.source, me);
 			if (ev.source == master)
 				OpenMyPack();
 			endif

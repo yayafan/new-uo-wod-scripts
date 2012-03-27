@@ -5,7 +5,7 @@ include "include/skills";
 include "include/attributes";
 
 function DoSkillCap (who)
-	for skillid := 0 to 48
+	for skillid := 0 to 57
 		SetSkillToCap (who, skillid);
 	endfor
 endfunction

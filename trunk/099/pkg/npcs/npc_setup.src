@@ -56,11 +56,11 @@ program npc_setup (npc)
 	if (npc.gender == 2)
 		npc.gender := RandomInt (2);
 		if (npc.graphic == 400 or npc.graphic == 401)
-			if (npc.gender == 1)
-				npc.graphic := 401;
-			else
-				npc.graphic := 400;
-			endif
+			npc.graphic := 400+npc.gender;
+		elseif (npc.graphic == 605 or npc.graphic == 606)
+			npc.graphic := 605+npc.gender;
+		elseif (npc.graphic == 666 or npc.graphic == 667)
+			npc.graphic := 666+npc.gender;
 		endif
 	endif
 
