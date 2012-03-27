@@ -42,14 +42,6 @@ program useshipdeed( character, deed )
 		return; 
 	endif
 
-	if (character.x > 5120)
-		SendSysMessage (character, "You can't place a boat here!");
-		if (!character.cmdlevel)
-			return;
-		endif
-		SendSysMessage (character, "But since you're a GM, I'll forgive you.");
-	endif
-	
 	if (where.x == deed.x and where.y == deed.y)
 		if ( deed.graphic == 5363 )
 			deed.graphic := 5364;
