@@ -56,7 +56,7 @@ program do_inscription (character, targetted_item)
 		InscribeNecroSpell(character, targetted_item);
 	elseif (targetted_item.objtype >= 0xff0 and targetted_item.objtype <= 0xff4)
 		CopyBook (character, targetted_item);
-	elseif (targetted_item.objtype >= 0x7020 and targetted_item.objtype <= 0x7023)
+	elseif (targetted_item.objtype >= 0x17020 and targetted_item.objtype <= 0x17023)
 		CopyBook (character, targetted_item);
 	elseif (targetted_item.usescript == ":fishing:readnote")
 		CopyNote (character, targetted_item);
@@ -341,13 +341,24 @@ Function SelectSpellToInscribe (character)
 	var scrolls := dictionary;
 	var circles := {};
 	foreach item in EnumerateItemsInContainer (character.backpack)
-		if (item.container.objtype == UOBJ_SPELLBOOK)
-			if (!scrolls.exists (item.objtype))
-				scrolls.insert (item.objtype, 1);
-				var elem := FindConfigElem (config_file, item.objtype);
-				var thecircle := GetConfigInt (elem, "circle");
-				circles[thecircle] := 1;
-			endif
+//		if (item.container.objtype == UOBJ_SPELLBOOK)
+//			if (!scrolls.exists (item.objtype))
+//				scrolls.insert (item.objtype, 1);
+//				var elem := FindConfigElem (config_file, item.objtype);
+//				var thecircle := GetConfigInt (elem, "circle");
+//				circles[thecircle] := 1;
+//			endif
+//		endif
+		if (item.objtype == UOBJ_SPELLBOOK)
+			var containedspells := item.spells();
+			foreach spell in containedspells
+				if (!scrolls.exists (spell + 7980))
+					scrolls.insert (spell + 7980, 1);
+					var elem := FindConfigElem (config_file, spell + 7980);
+					var thecircle := GetConfigInt (elem, "circle");
+					circles[thecircle] := 1;
+				endif
+			endforeach
 		endif
 	endforeach
 	

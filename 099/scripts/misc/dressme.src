@@ -29,7 +29,6 @@ program Dress (parms)
 	var gender := me.gender;
 
 	PlaceHair(me,gender);
-
 	if (text=="poor")
 		DressPoor(me,gender);
 		return;
@@ -43,6 +42,51 @@ program Dress (parms)
 		DressLeather(me,gender);
 		return;
 	elseif (text=="mage")
+		DressMage(me,gender);
+		return;
+	elseif (text=="poortokuno")
+		DressPoor(me,gender);
+		return;
+	elseif (text=="richtokuno")
+		DressRich(me,gender);
+		return;
+	elseif (text=="warriortokuno")
+		DressWar(me,gender);
+		return;
+	elseif (text=="weakwarriortokuno")
+		DressLeather(me,gender);
+		return;
+	elseif (text=="magetokuno")
+		DressMage(me,gender);
+		return;
+	elseif (text=="poorelf")
+		DressPoor(me,gender);
+		return;
+	elseif (text=="richelf")
+		DressRich(me,gender);
+		return;
+	elseif (text=="warriorelf")
+		DressWar(me,gender);
+		return;
+	elseif (text=="weakwarriorelf")
+		DressLeather(me,gender);
+		return;
+	elseif (text=="mageelf")
+		DressMage(me,gender);
+		return;
+	elseif (text=="poorgarg")
+		DressPoor(me,gender);
+		return;
+	elseif (text=="richgarg")
+		DressRich(me,gender);
+		return;
+	elseif (text=="warriorgarg")
+		DressWar(me,gender);
+		return;
+	elseif (text=="weakwarriorgarg")
+		DressLeather(me,gender);
+		return;
+	elseif (text=="magegarg")
 		DressMage(me,gender);
 		return;
 	endif
@@ -66,9 +110,12 @@ endfunction
 
 function PlaceHair(me,gender)
 
-	var haircolor := MakeHairColor();
+	var haircolor := 0;
 	var hair := 0;
-	if (!gender)
+	case (me.graphic)
+		400:
+//	if (!gender)
+		haircolor := MakeHairColor();
 		PlaceBeard(me, haircolor);
 		case (RandomInt(11))
 			0:	Hair := 0x203b;
@@ -83,7 +130,9 @@ function PlaceHair(me,gender)
 			9:	Hair := 0x203b;
 			10:	Hair := 0;
 		endcase
-	else
+//	else
+		401:
+		haircolor := MakeHairColor();
 		case (RandomInt(10))
 			0:	Hair := 0x203b;
 			1:	Hair := 0x203C;
@@ -96,7 +145,57 @@ function PlaceHair(me,gender)
 			8:	Hair := 0x204a;
 			9:	Hair := 0x203C;
 		endcase
-	endif
+		605:
+		haircolor := MakeElfHairColor();
+		case (RandomInt(8))
+			0:	Hair := 0x2fbf;
+			1:	Hair := 0x2fc0;
+			2:	Hair := 0x2fc1;
+			3:	Hair := 0x2fc2;
+			4:	Hair := 0x2fcd;
+			5:	Hair := 0x2fce;
+			6:	Hair := 0x2fcf;
+			7:	Hair := 0x2fd1;
+		endcase
+		606:
+		haircolor := MakeElfHairColor();
+		case (RandomInt(8))
+			0:	Hair := 0x2fc0;
+			1:	Hair := 0x2fc1;
+			2:	Hair := 0x2fc2;
+			3:	Hair := 0x2fcc;
+			4:	Hair := 0x2fce;
+			5:	Hair := 0x2fcf;
+			6:	Hair := 0x2fd0;
+			7:	Hair := 0x2fd1;
+		endcase
+		666:
+		haircolor := MakeHornColor();
+		PlaceBeard(me, haircolor);
+		case (RandomInt(8))
+			0:	Hair := 0x4258;
+			1:	Hair := 0x4259;
+			2:	Hair := 0x425a;
+			3:	Hair := 0x425b;
+			4:	Hair := 0x425c;
+			5:	Hair := 0x425d;
+			6:	Hair := 0x425e;
+			7:	Hair := 0x425f;
+		endcase
+		667:
+		haircolor := MakeHornColor();
+		case (RandomInt(8))
+			0:	Hair := 0x4261;
+			1:	Hair := 0x4262;
+			2:	Hair := 0x4273;
+			3:	Hair := 0x4274;
+			4:	Hair := 0x4275;
+			5:	Hair := 0x42aa;
+			6:	Hair := 0x42ab;
+			7:	Hair := 0x42b1;
+		endcase
+//	endif
+	endcase
 
 	CreateAndEquip(me,hair,haircolor);
 
@@ -105,18 +204,27 @@ endfunction
 function PlaceBeard(me,haircolor)
 
 	var Beard := 0;
-	case (RandomInt(18))
-	0:	Beard := 0x203e;//longbeard
-	1:	Beard := 0x203f;//shorbeard
-	2:	Beard := 0x2040;//goatee
-	3:	Beard := 0x2041;//mustache
-	4:	Beard := 0x204b;//shortbeardnstache
-	5:	Beard := 0x204c;//longbeardnstache
-	6:	Beard := 0x204d;//vandyke
-	7:	Beard := 0x2041;//mustache
-	8:	Beard := 0x204b;//shortbeardnstache
-	9:	Beard := 0x204d;//vandyke
-	endcase
+	if (me.graphic == 666)
+		case (RandomInt(8))
+			0:	Beard := 0x42ad;
+			1:	Beard := 0x42ae;
+			2:	Beard := 0x42af;
+			3:	Beard := 0x42b0;
+		endcase
+	else
+		case (RandomInt(18))
+			0:	Beard := 0x203e;//longbeard
+			1:	Beard := 0x203f;//shorbeard
+			2:	Beard := 0x2040;//goatee
+			3:	Beard := 0x2041;//mustache
+			4:	Beard := 0x204b;//shortbeardnstache
+			5:	Beard := 0x204c;//longbeardnstache
+			6:	Beard := 0x204d;//vandyke
+			7:	Beard := 0x2041;//mustache
+			8:	Beard := 0x204b;//shortbeardnstache
+			9:	Beard := 0x204d;//vandyke
+		endcase
+	endif
 
 	CreateAndEquip(me,Beard,haircolor);
 		
@@ -125,6 +233,32 @@ endfunction
 function MakeHairColor()
 
 	return RandomInt(46)+1102;
+
+endfunction
+
+function MakeElfHairColor()
+	var elvenhaircolors := array {
+					0x034, 0x035, 0x036, 0x037, 0x038, 0x039, 0x058, 0x08E,
+					0x08F, 0x090, 0x091, 0x092, 0x101, 0x159, 0x15A, 0x15B,
+					0x15C, 0x15D, 0x15E, 0x128, 0x12F, 0x1BD, 0x1E4, 0x1F3,
+					0x207, 0x211, 0x239, 0x251, 0x26C, 0x2C3, 0x2C9, 0x31D,
+					0x31E, 0x31F, 0x320, 0x321, 0x322, 0x323, 0x324, 0x325,
+					0x326, 0x369, 0x386, 0x387, 0x388, 0x389, 0x38A, 0x59D,
+					0x6B8, 0x725, 0x853
+				};
+
+	return elvenhaircolors[RandomInt(51)+1];
+
+endfunction
+
+function MakeHornColor()
+	var gargoylehorncolors := array {
+				0x709, 0x70B, 0x70D, 0x70F, 0x711, 0x763, 
+				0x765, 0x768, 0x76B, 0x6F3, 0x6F1, 0x6EF, 
+				0x6E4, 0x6E2, 0x6E0, 0x709, 0x70B, 0x70D
+			};
+
+	return gargoylehorncolors[RandomInt(18)+1];
 
 endfunction
 

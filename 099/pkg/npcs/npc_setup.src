@@ -19,17 +19,23 @@ program npc_setup (npc)
 	if (!EquipItem (npc, newbackpack))
 		DestroyItem (newbackpack);
 	endif
-
+	
 	//Some NPCs can be colored a range of colors
 	if (MyTemplateElem.colorrange)
 		if (MyTemplateElem.colorrange == "human")
 			if (RandomInt (2))
-				npc.color := 1002 + RandomInt (56);
+				npc.color := 1002 + RandomInt (57);
 				SetObjProperty (npc, "color", npc.color);
 			else
 				npc.color := 33784;
 				SetObjProperty (npc, "color", npc.color);
 			endif
+		elseif (MyTemplateElem.colorrange == "elf")
+			npc.color := RandomElfSkinHue();
+			SetObjProperty (npc, "color", npc.color);
+		elseif (MyTemplateElem.colorrange == "gargoyle")
+			npc.color := 1755 + RandomInt (25);
+			SetObjProperty (npc, "color", npc.color);
 		else
 			//if there's multiple color ranges, pick one
 			var colorarray := GetConfigStringArray (MyTemplateElem, "colorrange");
@@ -93,13 +99,17 @@ program npc_setup (npc)
 	endif
 
 	//dress them
+	var templatesuffix := "";
+	if (npc.realm == "tokuno")
+		templatesuffix := "tokuno";
+	endif
 	if (MyTemplateElem.dress)
 		var parms := {};
 		parms[1]:= npc;
-		parms[2]:= MyTemplateElem.dress;
+		parms[2]:= MyTemplateElem.dress + templatesuffix;
 		run_script_to_completion ("::/misc/dressme", parms);
 	elseif (MyTemplateElem.equip)
-    		EquipFromTemplate (npc, MyTemplateElem.equip);
+    		EquipFromTemplate (npc, MyTemplateElem.equip + templatesuffix);
 	endif
 
 	//give them a bow and ammo, if they're missle users
@@ -150,6 +160,38 @@ program npc_setup (npc)
 					mymount.graphic := 0x3ea4;
 				CID_FOREST_OSTARD:
 					mymount.graphic := 0x3ea5;
+				CID_REPTALON:
+					mymount.graphic := 0x3e90;
+				CID_CU_SIDHE:
+					mymount.graphic := 0x3e91;
+				CID_CHARGER_HORSE:
+					mymount.graphic := 0x3e92;
+				CID_HIRYU:
+					mymount.graphic := 0x3e94;
+				CID_GIANT_BEETLE:
+					mymount.graphic := 0x3ebc;
+				CID_FIRE_BEETLE:
+					mymount.graphic := 0x3e95;
+				CID_SWAMP_DRAGON:
+					mymount.graphic := 0x3ebd;
+				CID_RIDGEBACK:
+					mymount.graphic := 0x3eba;
+				CID_UNICORN:
+					mymount.graphic := 0x3eb4;
+				CID_KIRIN:
+					mymount.graphic := 0x3ead;
+				CID_FIRESTEED:
+					mymount.graphic := 0x3e9e;
+				CID_SAVAGE_RIDGEBACK:
+					mymount.graphic := 0x3eb8;
+				CID_HELLSTEED:
+					mymount.graphic := 0x3ebb;
+				CID_ARMORED_SWAMP_DRAGON:
+					mymount.graphic := 0x3ebe;
+				CID_POLAR_BEAR:
+					mymount.graphic := 0x3ec5;
+				CID_ARMORED_BOURA:
+					mymount.graphic := 0x3ec6;
 			endcase
 			mymount.color := MountTemplateElem.TrueColor;
 			SetObjProperty (mymount, "npctemplate", mount_template);
@@ -173,8 +215,8 @@ program npc_setup (npc)
 		SetObjProperty (npc.weapon, "poison_level", MyTemplateElem.weapon_poison);
 	endif
 	
-	//make sure the ladies didn't get a beard
-	if (npc.graphic == 401)
+	//make sure the ladies and elves didn't get a beard
+	if (npc.graphic == 401 or npc.graphic == 605 or npc.graphic == 606 or npc.graphic == 667)
 		if (GetEquipmentByLayer (npc, LAYER_BEARD))
 			DestroyItem (GetEquipmentByLayer (npc, LAYER_BEARD));
 		endif
@@ -190,3 +232,12 @@ program npc_setup (npc)
 	endforeach
 endprogram
 
+function RandomElfSkinHue()
+	var elfskinhues := array {
+					0x0BF, 0x24D, 0x24E, 0x24F, 0x353, 0x361, 0x367, 0x374,
+					0x375, 0x376, 0x381, 0x382, 0x383, 0x384, 0x385, 0x389,
+					0x3DE, 0x3E5, 0x3E6, 0x3E8, 0x3E9, 0x430, 0x4A7, 0x4DE,
+					0x51D, 0x53F, 0x579, 0x76B, 0x76C, 0x76D, 0x835, 0x903
+				};
+	return elfskinhues[RandomInt(32)+1];
+endfunction
