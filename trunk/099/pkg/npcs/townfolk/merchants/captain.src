@@ -130,6 +130,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Skara Brae";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif (text["britain"])
 		parms[1] := 1499;//x
@@ -138,6 +139,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Britain";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif (text["vesper"])
 		parms[1] := 3044;//x
@@ -146,6 +148,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Vesper";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif (text["moonglow"])
 		parms[1] := 4426;//x
@@ -154,6 +157,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Moonglow";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( (text["occlo"]) or (text["ocllo"]) )
 		parms[1] := 3662;//x
@@ -162,6 +166,7 @@ function GetDestination (player, text)
 		parms[4] := 20;//duration
 		parms[5] := "Ocllo";//destination
 		parms[6] := 300;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["nujel"] )
 		parms[1] := 3806;//x
@@ -170,6 +175,7 @@ function GetDestination (player, text)
 		parms[4] := 20;//duration
 		parms[5] := "Nujel'M";//destination
 		parms[6] := 300;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["den"] )
 		parms[1] := 2760;//x
@@ -178,6 +184,7 @@ function GetDestination (player, text)
 		parms[4] := 22;//duration
 		parms[5] := "Buccaneer's Den";//destination
 		parms[6] := 500;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["magincia"] )
 		parms[1] := 3693;//x
@@ -186,6 +193,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Magincia";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["jhelom"] )
 		parms[1] := 1512;//x
@@ -194,6 +202,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Jhelom";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["hold"] )
 		parms[1] := 2941;//x
@@ -202,6 +211,7 @@ function GetDestination (player, text)
 		parms[4] := 20;//duration
 		parms[5] := "Serpent's Hold";//destination
 		parms[6] := 200;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["trinsic"] )
 		parms[1] := 2085;//x
@@ -210,6 +220,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Trinsic";//destination
 		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	elseif ( text["cove"] )
 		parms[1] := 2256;//x
@@ -218,6 +229,7 @@ function GetDestination (player, text)
 		parms[4] := 15;//duration
 		parms[5] := "Cove";//destination
 		parms[6] := 250;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
 	endif	
 

@@ -4,7 +4,7 @@ use util;
 
 
 program maketestloot (character)
-	var item := Target (character);
+	var item := Target (character, TGTOPT_NOCHECK_LOS);
 	if (!item)
 		SendSysMessage (character, "Canceled.");
 		return;

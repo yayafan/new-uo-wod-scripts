@@ -48,11 +48,11 @@ program walk_on_moongate( mobile, gate )
 	if (GetObjProperty (gate, "makesnowballs"))
 		RemoveSnowballs (mobile);
 		if (mobile.acctname)
-			CreateItemInContainer (mobile.backpack, 0x705a, 1);
-			CreateItemInContainer (mobile.backpack, 0x705a, 1);
-			CreateItemInContainer (mobile.backpack, 0x705a, 1);
-			CreateItemInContainer (mobile.backpack, 0x705a, 1);
-			CreateItemInContainer (mobile.backpack, 0x705a, 1);			
+			CreateItemInContainer (mobile.backpack, 0x1705a, 1);
+			CreateItemInContainer (mobile.backpack, 0x1705a, 1);
+			CreateItemInContainer (mobile.backpack, 0x1705a, 1);
+			CreateItemInContainer (mobile.backpack, 0x1705a, 1);
+			CreateItemInContainer (mobile.backpack, 0x1705a, 1);			
 		endif
 	elseif (GetObjProperty (gate, "removesnowballs"))
 		RemoveSnowballs (mobile);
@@ -64,7 +64,7 @@ endprogram
 
 function RemoveSnowballs (mobile)
 	foreach item in EnumerateItemsInContainer (mobile.backpack)
-		if (item.objtype == 0x705a)
+		if (item.objtype == 0x1705a)
 			DestroyItem (item);
 		endif
 	endforeach

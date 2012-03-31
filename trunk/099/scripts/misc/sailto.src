@@ -29,7 +29,7 @@ program SailToDestination(parms)
 	sleep(3);
 
 	if ( StillAboard(you) )
-		var sailtorealm := sailto[5];
+		var sailtorealm := sailto[7];
 		if (!sailtorealm)
 			sailtorealm := REALM_BRITANNIA;
 		endif

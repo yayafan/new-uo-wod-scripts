@@ -867,17 +867,17 @@ function DoDoubleClickEvent ();
 		CID_HIRYU:
 			mounttype := 0x3e94;
 		CID_GIANT_BEETLE:
-			mounttype := 0x3e95;
+			mounttype := 0x3ebc;
 		CID_FIRE_BEETLE:
-			mounttype := 0x3e97;
+			mounttype := 0x3e95;
 		CID_SWAMP_DRAGON:
-			mounttype := 0x3e98;
+			mounttype := 0x3ebd;
 		CID_RIDGEBACK:
-			mounttype := 0x3e9a;
+			mounttype := 0x3eba;
 		CID_UNICORN:
-			mounttype := 0x3e9b;
+			mounttype := 0x3eb4;
 		CID_KIRIN:
-			mounttype := 0x3e9c;
+			mounttype := 0x3ead;
 		CID_FIRESTEED:
 			mounttype := 0x3e9e;
 		CID_SAVAGE_RIDGEBACK:

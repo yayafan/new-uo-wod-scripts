@@ -21,7 +21,13 @@ function RandomName (byref me)
 		CID_DRAGON_RED:		name_index := 3;
 		CID_DRAGON_GREY: 		name_index := 3;
 		CID_HUMAN_MALE: 		name_index := 5;
+                                  if (me.realm == "tokuno")
+                                    name_index := 13;
+                                  endif
 		CID_HUMAN_FEMALE:		name_index := 6;
+                                  if (me.realm == "tokuno")
+                                    name_index := 14;
+                                  endif
 		CID_LIZARDMAN:			name_index := 9;
 		CID_LIZARDMAN_W_MACE:	name_index := 9;
 		CID_LIZARDMAN_W_SPEAR:	name_index := 9;
@@ -32,6 +38,10 @@ function RandomName (byref me)
 		CID_RATMAN:			name_index := 12;
 		CID_RATMAN_W_SWORD:		name_index := 12;
 		CID_RATMAN_W_AXE:		name_index := 12;
+    CID_ELF_MALE:   name_index := 15;
+    CID_ELF_FEMALE:   name_index := 16;
+    CID_GARGOYLE_MALE:   name_index := 17;
+    CID_GARGOYLE_FEMALE:   name_index := 18;
 		default:				return;
 	endcase
 

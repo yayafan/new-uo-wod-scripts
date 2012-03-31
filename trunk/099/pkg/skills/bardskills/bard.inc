@@ -14,7 +14,7 @@ function findinstrument (character)
 
 	foreach item in EnumerateItemsInContainer (character.backpack)
 		case (item.objtype)
-			0x7067:
+			0x17067:
 			0x0e9d:
 			0x0e9e:
 			0x0eb3:
