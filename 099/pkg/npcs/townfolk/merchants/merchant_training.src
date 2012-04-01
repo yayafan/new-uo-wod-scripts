@@ -346,6 +346,7 @@ function DetermineMerchantsSkills (byref merchant)
 
 		"bard":
 			skills_trained := array {
+				SKILLID_DISCORDANCE,
 				SKILLID_MUSICIANSHIP,
 				SKILLID_PEACEMAKING,
 				SKILLID_PROVOCATION,

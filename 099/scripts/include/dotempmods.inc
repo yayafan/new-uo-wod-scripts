@@ -121,6 +121,7 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				DoSkillMod (who, SKILLID_TACTICS, amt, duration);
 				DoSkillMod (who, SKILLID_PARRY, amt, duration);
 				DoSkillMod (who, SKILLID_ARCHERY, amt, duration);
+				DoSkillMod (who, SKILLID_THROWING, amt, duration);
 		"natures_curse":
 				DoSkillMod (who, 100+SKILLID_SWORDSMANSHIP, amt, duration);
 				DoSkillMod (who, 100+SKILLID_MACEFIGHTING, amt, duration);
@@ -129,6 +130,18 @@ function DoTempMod (byref who, stat, amt, duration, description)
 				DoSkillMod (who, 100+SKILLID_TACTICS, amt, duration);
 				DoSkillMod (who, 100+SKILLID_PARRY, amt, duration);
 				DoSkillMod (who, 100+SKILLID_ARCHERY, amt, duration);
+				DoSkillMod (who, 100+SKILLID_THROWING, amt, duration);
+		"discordance":
+				DoSkillMod (who, 100+SKILLID_SWORDSMANSHIP, amt, duration);
+				DoSkillMod (who, 100+SKILLID_MACEFIGHTING, amt, duration);
+				DoSkillMod (who, 100+SKILLID_WRESTLING, amt, duration);
+				DoSkillMod (who, 100+SKILLID_FENCING, amt, duration);
+				DoSkillMod (who, 100+SKILLID_TACTICS, amt, duration);
+				DoSkillMod (who, 100+SKILLID_PARRY, amt, duration);
+				DoSkillMod (who, 100+SKILLID_ARCHERY, amt, duration);
+				DoSkillMod (who, 100+SKILLID_THROWING, amt, duration);
+				DoSkillMod (who, 100+SKILLID_MAGERY, amt, duration);
+				DoSkillMod (who, 100+SKILLID_MAGICRESISTANCE, amt, duration);
 		default:
 				Syslog ("Error:  Invalid Statmod");
 	endcase

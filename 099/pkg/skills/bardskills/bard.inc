@@ -1,5 +1,10 @@
 include "../pkg/character/skillcheck/skillcheck";
 
+const SNDTYPE_PROVOCATION := 1;
+const SNDTYPE_DISCORDANCE := 2;
+const SNDTYPE_PEACEMAKING := 3;
+
+
 function findinstrument (character)
 	if (GetObjProperty (character, "instrument"))
 		var instrument_serial := GetObjProperty (character, "instrument");
@@ -22,6 +27,10 @@ function findinstrument (character)
 			0x0e9c:
 			0x0eb2:
 			0x0eb1:
+      0x2805:
+      0x2807:
+      0x403b:
+      0x403c:
 				if (ReserveItem (item))
 					SetObjProperty (character, "instrument", item.serial);
 					return item;
@@ -44,15 +53,24 @@ function can_sing (me, circle)
 	return 1;
 endfunction
 
-function PlayNoise (me, instrument, difficulty)
+function PlayNoise (me, instrument, difficulty, soundtype := 0)
 	var cfg := ReadConfigFile (":musicianship:itemdesc");
 	var elem := FindConfigElem (cfg, instrument.objtype);
+  var sound := 0;
+  case (soundtype)
+    SNDTYPE_PROVOCATION: sound := elem.provocation;
+    SNDTYPE_DISCORDANCE: sound := elem.discordance;
+    SNDTYPE_PEACEMAKING: sound := elem.peacemaking;
+  endcase
+  if (!sound)
+    sound := elem.succeed;
+  endif
 
 	if (!difficulty)
-		MakeSound (me, elem.succeed);
+		MakeSound (me, sound);
 		return 1;
 	elseif (CheckSkillWithItem (me, instrument, SKILLID_MUSICIANSHIP, difficulty))
-		MakeSound (me, elem.succeed);
+		MakeSound (me, sound);
 		return 1;
 	else
 		MakeSound (me, elem.fail);

@@ -1635,7 +1635,11 @@
 0x27ec JinBaori armor
 # 0x27ed - 0x27ef unused
 0x27f0 Yumi weapons
-# 0x27f1 - 0x2a04 unused
+# 0x27f1 - 0x2804 unused
+0x2805 bambooflute musicianship
+# 0x2806 unused
+0x2807 bambooflute2 musicianship
+# 0x2808 - 0x2a04 unused
 0x2a05 PaperSlidingDoorSW doors
 # 0x2a06 unused
 0x2a07 PaperSlidingDoorSE doors
@@ -1859,7 +1863,10 @@
 0x4000 GargishRobe armor
 # 0x4001 unused
 0x4002 GargishFancyRobe armor
-# 0x4003 - 0x4046 unused
+# 0x4003 - 0x403a unused
+0x403b audchar musicianship
+0x403c audchar2 musicianship
+# 0x403d - 0x4046 unused
 0x4047 GargishLeatherArms armor
 0x4048 GargishLeatherArms2 armor
 0x4049 GargishLeatherChest armor

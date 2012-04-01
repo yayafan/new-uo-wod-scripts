@@ -36,7 +36,7 @@ program use_blade (user, blade)
 		CarveTree (user,use_on.item);
 	elseif (IsTypeOfHide (use_on.item))
 		MakeBlankScrolls (user, use_on.item);
-	elseif ((blade.objtype == 0x7055) and (use_on.mobile == user))
+	elseif ((blade.objtype == 0x17055) and (use_on.mobile == user))
 		ShaveBeard (user);
 	elseif ((blade.objtype == 0xEC4) and (use_on.mobile == user))
 		ShaveStache (user);
@@ -46,7 +46,7 @@ program use_blade (user, blade)
 		HarvestStaticPlant (user, use_on);
 	elseif (use_on.item.objtype == 0xC6A)
 		CarvePumpkin (user, use_on.item);
-	elseif (use_on.item.objtype == 0x28aa)
+	elseif (use_on.item.objtype == 0xa035)
 		SliceCake (user, use_on.item);
 	else
 		SendSysmessage( user, "I don't know how to use those items together." );
@@ -58,7 +58,7 @@ function TryToEquipItem (character, item)
 	//Some items don't need equipped
 	case (item.objtype)
 		0x1372:
-		0x7055:
+		0x17055:
 		UOBJ_SKINNING_KNIFE:
 			return 1;
 		UOBJ_DAGGER:
@@ -178,7 +178,7 @@ function RemoveBridle (user, packanimal)
 	if (packanimal.graphic == CID_PACK_LLAMA)
 		SendSysMessage (user, "You cut the pack off the animal.");
 		foreach item in ListRootItemsInContainer (packanimal.backpack)
-	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
+			MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
 		endforeach
 
 		packanimal.graphic := CID_LLAMA;
@@ -189,7 +189,7 @@ function RemoveBridle (user, packanimal)
 	elseif (packanimal.graphic == CID_PACK_HORSE)
 		SendSysMessage (user, "You cut the pack off the animal.");
 		foreach item in ListRootItemsInContainer (packanimal.backpack)
-	MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
+			MoveObjectToLocation( item, packanimal.x, packanimal.y, packanimal.z, packanimal.realm, MOVEOBJECT_NORMAL );
 		endforeach
 
 		packanimal.graphic := packanimal.objtype;
@@ -469,6 +469,8 @@ function CombHair(me)
 	0x203D: newhair := 0x203C;//ponytail
 	0x2049: newhair := 0x203D;//pigtail
 	0x203C: newhair := 0x2049;//longhair
+	
+	
 	endcase
 
 
@@ -598,9 +600,9 @@ function SliceCake (character, cake)
 	//create 6 slices of cake
 	for i := 1 to 6
 		if (cake.container)
-			slice := CreateItemInContainer (cake.container, 0x28ab, 1);
+			slice := CreateItemInContainer (cake.container, 0xa036, 1);
 		else
-			slice := CreateItemAtLocation (cake.x, cake.y, cake.z, 0x28ab, 1, cake.realm);
+			slice := CreateItemAtLocation (cake.x, cake.y, cake.z, 0xa036, 1, cake.realm);
 		endif
 		slice.color := cake.color;
 		slice.name := tempstring;

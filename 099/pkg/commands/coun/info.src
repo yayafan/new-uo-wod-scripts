@@ -553,7 +553,7 @@ function BuildGump (character, thetarget)
 		"",
 		"14 Detect Hidden",		//58
 		"",
-		"15 Dischordance",		//60
+		"15 Discordance",		//60
 		"",
 		"16 Invocation",		//62
 		"",
