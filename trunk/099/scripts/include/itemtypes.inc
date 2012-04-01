@@ -665,7 +665,7 @@ endfunction
 function IsMusicalInstrument (byref item)
 
 	case(item.objtype)
-		0x17067:    //FLUTE	
+		0x17067:   //FLUTE	
 		0x0e9d:    //TAMBORINE
 		0x0e9e:    //TAMBORINE2
 		0x0eb3:    //LUTE
@@ -673,6 +673,10 @@ function IsMusicalInstrument (byref item)
 		0x0e9c:    //DRUM
 		0x0eb2:    //HARP	
 		0x0eb1:    //STANDING HARP
+    0x2805:    //BAMBOO FLUTE
+    0x2807:    //BAMBOO FLUTE2
+    0x403b:    //AUD-CHAR
+    0x403c:    //AUD-CHAR2
 		return 1;
 		default: return 0;
 	endcase
