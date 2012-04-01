@@ -70,9 +70,9 @@ program bard_peacemake (character)
 	set_critical (0);
 	if (!succeeded)
 		PrintTextAbove (character, "*"+ character.name + " plays a musical instrument.*");
-		playnoise (character, instrument, -1);
+		playnoise (character, instrument, -1, SNDTYPE_PEACEMAKING);
 	else
-		playnoise (character, instrument, 0);
+		playnoise (character, instrument, 0, SNDTYPE_PEACEMAKING);
 	endif
 
 	detach();

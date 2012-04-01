@@ -140,6 +140,8 @@ function CleanupOldMoongates()
 		var serial := CInt( elem_name );
 		var item := SystemFindObjectBySerial( serial );
 		if( !item )
+			data_file.DeleteElement( Hex( elem_name ));
+			SleepMS(10);
 			continue;
 		elseif( item.IsSystemMoongate() )
 			DestroyItem( item );
