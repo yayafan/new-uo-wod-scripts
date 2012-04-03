@@ -72,20 +72,22 @@ program bard_provoke (character)
 
 	var difficulty := 0;
 	if (elem.provoke)
-		difficulty := -1;
+//		difficulty := -1;
+		difficulty := elem.provoke - GetDiscordanceMod (thetarg);
 	else
-		difficulty := 100;
+		difficulty := 100 - GetDiscordanceMod (thetarg);
 	endif
-	
+
 	var ev := array {};
 	ev.+ type := EVID_ALL_ATTACK_CMD;
 	ev.+ source;
+	var success := 0;
 
 	if (CheckSkillWithItem (character, instrument, SKILLID_PROVOCATION, difficulty )
 			and (PlayNoise(character, instrument, -1, SNDTYPE_PROVOCATION))
-			and (RandomInt(100) < 80 ) )
+			 )
 
-		SendSysmessage (character, "Select a target");
+		SendSysmessage (character, "Provoke onto what?");
 
 		var newtarg := Target (character, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
 		if (!newtarg)
@@ -106,15 +108,28 @@ program bard_provoke (character)
 			return;
 		endif
 
-		SendSysmessage (character, "You provoke " + thetarg.name + " to attack " + newtarg.name + "!");
-		SetObjProperty (thetarg, "#provoked", ReadGameClock());
+		elem := GetNpcTemplateElem (newtarg.npctemplate);
+		if (elem.provoke)
+			difficulty := (difficulty + elem.provoke - GetDiscordanceMod (newtarg))/2;
+		else
+			difficulty := (difficulty + 100 - GetDiscordanceMod (newtarg))/2;
+		endif
+		
+		
+		if (CheckSkillWithItem (character, instrument, SKILLID_PROVOCATION, difficulty )
+			and PlayNoise(character, instrument, 0, SNDTYPE_PROVOCATION))
+			SendSysmessage (character, "You provoke " + thetarg.name + " to attack " + newtarg.name + "!");
+			SetObjProperty (thetarg, "#provoked", ReadGameClock());
 
-		ev.type := EVID_ALL_ATTACK_CMD;
-		ev.source := newtarg;
-		sendevent (thetarg, ev);
-		ev.source := thetarg;
-		sendevent (newtarg, ev);
-	else
+			ev.type := EVID_ALL_ATTACK_CMD;
+			ev.source := newtarg;
+			sendevent (thetarg, ev);
+			ev.source := thetarg;
+			sendevent (newtarg, ev);
+			success := 1;
+		endif
+	endif
+	if (!success)
 		ev.source := character;
 		ev.type := EVID_DAMAGED;
 		PrintTextAbovePrivate (thetarg, "You enrage " + thetarg.name + "!", character);

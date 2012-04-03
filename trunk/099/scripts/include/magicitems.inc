@@ -76,6 +76,10 @@ function GetItemtype (item)
 		UOBJ_DRUM:
 		UOBJ_HARP:
 		UOBJ_STANDING_HARP:
+    UOBJ_BAMBOO_FLUTE:
+    UOBJ_BAMBOO_FLUTE2:
+    UOBJ_AUDCHAR:
+    UOBJ_AUDCHAR2:
 			return ITEMTYPE_MUSICAL;
 
 		UOBJ_BUCKLER:
@@ -88,6 +92,25 @@ function GetItemtype (item)
 		UOBJ_WOODEN_SHIELD:
 		UOBJ_WOODEN_KITESHIELD:
 		UOBJ_WOODEN_KITESHIELD2:
+    UOBJ_CHAOS_SHIELD:
+    UOBJ_ORDER_SHIELD:
+    UOBJ_ORDER_SHIELD2:
+    UOBJ_G_WOODEN_SHIELD:
+    UOBJ_G_KITESHIELD:
+    UOBJ_G_SMALL_PLATESHIELD:
+    UOBJ_G_MEDIUM_PLATESHIELD:
+    UOBJ_G_LARGE_PLATESHIELD:
+    UOBJ_G_LARGE_STONESHIELD:
+    UOBJ_G_KITESHIELD2:
+    UOBJ_G_WOODEN_SHIELD2:
+    UOBJ_G_LARGE_PLATESHIELD2:
+    UOBJ_G_MEDIUM_PLATESHIELD2:
+    UOBJ_G_SMALL_PLATESHIELD2:
+    UOBJ_G_LARGE_STONESHIELD2:
+    UOBJ_G_CHAOS_SHIELD:
+    UOBJ_G_CHAOS_SHIELD2:
+    UOBJ_G_ORDER_SHIELD:
+    UOBJ_G_ORDER_SHIELD2:
 			return ITEMTYPE_SHIELD;
 
           0x1F03:
@@ -267,7 +290,8 @@ function DoArmorSkillModifier (item, modifier)
 					SKILLID_MINING,
 					SKILLID_MEDITATION,
 					SKILLID_STEALTH,
-          SKILLID_DISCORDANCE
+          SKILLID_DISCORDANCE,
+          SKILLID_THROWING
 	};
 
 	var skillnamelist := { "alchemy",
@@ -308,7 +332,8 @@ function DoArmorSkillModifier (item, modifier)
 						"mining",
 						"meditation",
 						"stealth",
-            "discordance"
+            "discordance",
+            "throwing"
 	};
 
 	var skillnum := -1;
@@ -343,6 +368,7 @@ function ValidSkill (skillnum, is_metal_armor)
 		//These can't be used or are virtually useless, so they never spawn
 		SKILLID_ANIMALLORE:
 		SKILLID_PEACEMAKING:
+		SKILLID_DISCORDANCE:
 		SKILLID_INVOCATION:
 		SKILLID_PROVOCATION:
 		SKILLID_MUSICIANSHIP:

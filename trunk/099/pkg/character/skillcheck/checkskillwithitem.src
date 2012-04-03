@@ -19,9 +19,9 @@ program skillcheck (parms)
 	endif
 
 	//for non difficulty based tasks, pass difficulty of -1 (the default)
-	if (difficulty < 0)
-		difficulty := RandomInt(100)+1;
-	endif
+//	if (difficulty < 0)
+//		difficulty := RandomInt(100)+1;
+//	endif
 	
 	//for skill-enhancing items, setobjproperty(item,"skillbonus",amount) - 
 	//the item will lower the difficulty by that amount:
@@ -33,9 +33,10 @@ program skillcheck (parms)
 			SendSysMessage (who,"[+" + skillbonus + "% " + skillcfg[skillid].desc + "]" );
 		endif
 	endif
-
+	
+	var olddifficulty := difficulty;
 	difficulty := difficulty - skillbonus;
-	if ( difficulty < 1 )
+	if ( difficulty < 1 and olddifficulty > 0)
 		difficulty := 1;
 	endif
 

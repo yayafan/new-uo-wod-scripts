@@ -36,13 +36,19 @@ program use_hammer (character, hammer)
 		return;
 	endif
 
+	if (!SearchForAnvilInArea (character) )
+		SendSysmessage (character, "You must be near an anvil to do anything.");
+		return;
+	endif
+
+
 	if (IsIngot (use_on.objtype) )
 		MakeBlacksmithyItems (character, hammer, use_on);
 		return;
 	elseif (IsMetalArmor (use_on) or IsMetalWeapon (use_on) or IsMetalShield (use_on) )
 		RepairBlacksmithyItem (character, hammer, use_on, SKILLID_BLACKSMITHY);
 		return;
-	elseif (use_on.graphic >= 0x2878 and use_on.graphic <= 0x287c)
+	elseif (use_on.graphic >= 0xa054 and use_on.graphic <= 0xa058)
 		DoColorCoating (character, use_on, SKILLID_BLACKSMITHY);
 		return;
 	else
@@ -59,11 +65,6 @@ endprogram
 ///////////////////
 
 function MakeBlacksmithyItems (byref character, byref hammer, byref material)
-	if (!SearchForAnvilInArea (character) )
-		SendSysmessage (character, "You must be near an anvil to make anything.");
-		return;
-	endif
-
 	if (!CheckSkillForDifferentMetals (character, material.objtype) )
 		SendSysmessage (character, "You have no chance to successfully work with that metal.");
 		return;
@@ -340,10 +341,40 @@ endfunction
 
 function SearchForAnvilInArea (byref character)
 	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2, character.realm)
-		if ((item.objtype == UOBJ_ANVIL1) or (item.objtype == UOBJ_ANVIL2))
-			return 1;
-		endif
+		//if ((item.objtype == UOBJ_ANVIL1) or (item.objtype == UOBJ_ANVIL2))
+		//	return 1;
+		//endif
+		case (item.objtype)
+			UOBJ_ANVIL1:
+			UOBJ_ANVIL2:
+			UOBJ_ELVEN_ANVIL1:
+			UOBJ_ELVEN_ANVIL2:
+			UOBJ_SOULFORGE_ANVIL1:
+			UOBJ_SOULFORGE_ANVIL2:
+			UOBJ_SOULFORGE_ANVIL3:
+			UOBJ_SOULFORGE_ANVIL4:
+			UOBJ_SOULFORGE_ANVIL5:
+			UOBJ_SOULFORGE_ANVIL6:
+			UOBJ_SOULFORGE_ANVIL7:
+			UOBJ_SOULFORGE_ANVIL8:
+			UOBJ_SOULFORGE_ANVIL9:
+			UOBJ_SOULFORGE_ANVIL10:
+			UOBJ_SOULFORGE_ANVIL11:
+			UOBJ_SOULFORGE_ANVIL12:
+				return 1;
+		endcase
 	endforeach
-
+	foreach item in ListStaticsNearLocation (character.x, character.y, character.z, 2, ITEMS_IGNORE_MULTIS, character.realm)
+//		if ((item.objtype == UOBJ_ANVIL1) or (item.objtype == UOBJ_ANVIL2))
+//			return 1;
+//		endif
+		case (item.objtype)
+			UOBJ_ANVIL1:
+			UOBJ_ANVIL2:
+			UOBJ_ELVEN_ANVIL1:
+			UOBJ_ELVEN_ANVIL2:
+				return 1;
+		endcase
+	endforeach
 	return 0;
 endfunction

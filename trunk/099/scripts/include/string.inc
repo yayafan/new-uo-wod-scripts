@@ -38,8 +38,8 @@ function TruncateArticle(x)
 	x := CStr(x);
 	var i := len(x);
 
-	var an_articlelist := { "an ", "An ", "AN ", "aN " };
-	var a_articlelist := { "a ", "A " };
+	var an_articlelist := array { "an ", "An ", "AN ", "aN " };
+	var a_articlelist := array { "a ", "A " };
 
 	if ( (x[1,3]) in an_articlelist )
 		x := (x[4,i-3]);
