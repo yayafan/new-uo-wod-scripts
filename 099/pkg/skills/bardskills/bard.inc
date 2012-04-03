@@ -97,3 +97,12 @@ function MakeSound (character, soundeffect)
 	endforeach
 endfunction
 
+function GetDiscordanceMod (who)
+  var mods := GetObjProperty (who, "#mods");
+  foreach onemod in mods
+    if (onemod[1] == "discordance")
+      return onemod[2];
+    endif
+  endforeach
+  return 0;
+endfunction

@@ -73,9 +73,16 @@ program bard_discord (character)
 
 	var difficulty := 0;
 	if (elem.provoke)
-		difficulty := -1;
+//		difficulty := -1;
+		difficulty := elem.provoke;
 	else
 		difficulty := 100;
+	endif
+	
+	var resistance := 1;
+	if (difficulty > 120)
+		resistance := (difficulty - 120)/2;
+		difficulty := 120;
 	endif
 	
 	if (CheckSkillWithItem (character, instrument, SKILLID_DISCORDANCE, difficulty )
@@ -86,7 +93,7 @@ program bard_discord (character)
 		SetObjProperty (thetarg, "#discorded", ReadGameClock());
 		var casterskill := GetAttribute(character, ATTRIBUTEID_DISCORDANCE);
 		var duration := casterskill/2;
-		var mod_amount := CINT (casterskill/5);
+		var mod_amount := CINT ((casterskill/5) - resistance);
 		DoTempMod (thetarg, "discordance", mod_amount, duration, "Discordance");
 	else
 		var ev := array {};

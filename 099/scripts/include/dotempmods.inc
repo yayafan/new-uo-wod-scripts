@@ -41,9 +41,9 @@ endfunction
 function DoTempMod (byref who, stat, amt, duration, description)
 	var allmods := GetObjProperty (who, "#mods");
 	if (!allmods)
-		allmods := {};
+		allmods := array {};
 	endif
-	var mmod := {};
+	var mmod := array {};
 	mmod[1] := stat;
 	mmod[2] := amt;
 	mmod[3] := ReadGameClock()+duration;
@@ -148,7 +148,7 @@ function DoTempMod (byref who, stat, amt, duration, description)
 
 	RecalcVitals (who);
 	if (who.npctemplate)
-		var parms := {};
+		var parms := array {};
 		parms[1] := who;
 		parms[2] := mmod[1];
 		parms[3] := mmod[2];

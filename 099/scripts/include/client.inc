@@ -903,8 +903,8 @@ Const CID_DRAKE_RED			:= 0x03d;
 Const CID_TERATHEN_WARRIOR	:= 0x046;
 Const CID_TERATHEN_DRONE		:= 0x047;
 Const CID_TERATHEN_MATRIARCH	:= 0x048;
-Const CID_TITAN			:= 0x04b;
-Const CID_CYCLOPS			:= 0x04c;
+Const CID_CYCLOPS			:= 0x04b;
+Const CID_TITAN			:= 0x04c;
 Const CID_GIANT_TOAD		:= 0x050;
 Const CID_BULLFROG			:= 0x051;
 Const CID_OPHIDIAN_MAGE		:= 0x055;
@@ -974,7 +974,10 @@ const CID_GARGOYLE_MALE          := 0x29a;
 const CID_GARGOYLE_FEMALE        := 0x29b;
 
 const CID_HIGH_PLAINS_BOURA        := 0x2cb;
-
+const CID_DRAGON_RUST := 0x2e;
+const CID_DRAGON_FIRE := 0xac;
+const CID_DRAGON_CRIMSON := 0xc5;
+const CID_DRAGON_BLACK := 0xc6;
 
 
 ////

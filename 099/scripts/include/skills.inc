@@ -422,7 +422,7 @@ function DoSkillMod (byref character, skillid, amount, duration)
 		tempskillmods := array;
 	endif
 
-	var newmod := {};
+	var newmod := array {};
 	newmod[1] := skillid;
 	newmod[2] := amount;
 	newmod[3] := ReadGameClock()+duration;
@@ -444,7 +444,7 @@ function DoSkillMod (byref character, skillid, amount, duration)
 	endif
 
 	//if its an NPC, sleep, start an external script
-	var parms := {};
+	var parms := array {};
 	parms[1] := character;
 	parms[2] := skillid;
 	parms[3] := amount;

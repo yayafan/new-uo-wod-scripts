@@ -10,7 +10,7 @@ program cuthair (character)
 		return;
 	endif
 
-	if (targetted.graphic != 400 and targetted.graphic != 401 and targetted.graphic != 605 and targetted.graphic != 606 and targetted.graphic != 605 and targetted.graphic != 744 and targetted.graphic != 745)
+	if (targetted.graphic != 400 and targetted.graphic != 401 and targetted.graphic != 605 and targetted.graphic != 606 and targetted.graphic != 605 and targetted.graphic != 744 and targetted.graphic != 745 and targetted.graphic != 666 and targetted.graphic != 667)
 		SendSysMessage (character, "Invalid target!");
 		return;
 	endif

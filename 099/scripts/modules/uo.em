@@ -379,7 +379,7 @@ SpeakPowerWords( who, spellid, font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEX
 StartSpellEffect( who, spellid );
 SubtractAmount( item, amount );
 SystemFindObjectBySerial( serial, sysfind_flags := 0 );
-Target( by_character, options := TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
+Target( by_character, options := TGTOPT_NOCHECK_LOS+TGTOPT_NEUTRAL);
 TargetCoordinates( by_character );
 TargetMultiPlacement( character, objtype, flags := 0, xoffset := 0, yoffset := 0 );
 UpdateItem( item );

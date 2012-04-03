@@ -48,9 +48,10 @@ program bard_peacemake (character)
 				if (!GetObjProperty (mobile, "nopeacemake") )
 					elem := GetNpcTemplateElem (mobile.npctemplate);
 					if (elem and elem.provoke)
-						difficulty := -1;
+						//difficulty := -1;
+						difficulty := elem.provoke - GetDiscordanceMod (mobile);
 					else
-						difficulty := 100;
+						difficulty := 100 - GetDiscordanceMod (mobile);
 					endif
 
 					if (CheckSkillWithItem (character, instrument, SKILLID_PEACEMAKING, difficulty)

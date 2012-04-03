@@ -18,8 +18,12 @@ function RandomName (byref me)
 		CID_BIRD:				name_index := 1;
 		CID_DAEMON:			name_index := 2;
 		CID_DAEMON_SWORD:		name_index := 2;
-		CID_DRAGON_RED:		name_index := 3;
-		CID_DRAGON_GREY: 		name_index := 3;
+		CID_DRAGON_RED:
+		CID_DRAGON_GREY: 
+    CID_DRAGON_RUST:
+    CID_DRAGON_FIRE:
+    CID_DRAGON_CRIMSON:
+    CID_DRAGON_BLACK: name_index := 3;
 		CID_HUMAN_MALE: 		name_index := 5;
                                   if (me.realm == "tokuno")
                                     name_index := 13;

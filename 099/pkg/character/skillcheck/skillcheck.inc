@@ -1,4 +1,4 @@
 function CheckSkillWithItem (who, item, skillid, difficulty := -1)
 	return run_script_to_completion (":skillcheck:checkskillwithitem",
-		 {who, item, skillid, difficulty});
+		 array {who, item, skillid, difficulty});
 endfunction

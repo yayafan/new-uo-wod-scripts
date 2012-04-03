@@ -16,7 +16,7 @@ exported function NewCheckSkill (character, skillid, difficulty, points)
 
 	//Skill-level based check
 	if (difficulty < 0)
-		if (RandomInt (100) < player_skill)
+		if ((1+RandomInt (100)+difficulty) < player_skill)
 			if (points)
 				AwardRawSkillPoints (character, skillid, points);
 			endif
@@ -27,8 +27,8 @@ exported function NewCheckSkill (character, skillid, difficulty, points)
 
 	//Difficulty based skill check
 	//limit the difficulty
-	if (difficulty > 120)
-		difficulty := 120;
+	if (difficulty > 140)
+		difficulty := 140;
 	endif
 	
 	//Check for autopass and autofail
