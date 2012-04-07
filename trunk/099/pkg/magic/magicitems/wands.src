@@ -62,7 +62,7 @@ program use_magic_wand (character, wand)
 	endif
 
 	var cast_on;
-	var parms := {};
+	var parms := array{};
 	parms [1] := "#WAND";
 	parms [2] := character;
 	case (wand_spell)

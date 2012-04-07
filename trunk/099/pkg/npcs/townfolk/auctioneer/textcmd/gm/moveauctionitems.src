@@ -17,5 +17,7 @@ program display_forsale_items (character, text)
 
 	var itembox := find_or_create_item (storage, category, UOBJ_BANKBOX);
 	SendOpenSpecialContainer (character, itembox);
+	if (text)
+	endif
 endprogram
 

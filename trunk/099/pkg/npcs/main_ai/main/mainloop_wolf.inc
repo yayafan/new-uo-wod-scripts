@@ -1,4 +1,4 @@
-var hatelist := {
+var hatelist := array{
 	":wild_animals:rabbit",
 	":wild_animals:deer",
 	":wild_animals:gheart",

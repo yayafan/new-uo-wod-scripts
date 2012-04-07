@@ -60,8 +60,8 @@ function ShrinkNPC (mobile, container)
 	SetObjProperty (totem, "dex_mod", CINT (GetAttributeTemporaryMod (mobile, "Dexterity")/10));
 	SetObjProperty (totem, "ar_mod", mobile.ar_mod);
 
-	var skills := {};
-	for i := 0 to 48
+	var skills := array{};
+	for i := 0 to 57
 		skills[i] := GetAttribute (mobile, GetAttributeIDBySkillID (i));
 	endfor
 
@@ -94,7 +94,7 @@ endfunction
 ///////////////////
 
 function UnshrinkNPC (totem, x, y, z := 0, rlm)
-	return run_script_to_completion (":shrunknpcs:unshrink_totem", {totem, x, y, z, rlm});
+	return run_script_to_completion (":shrunknpcs:unshrink_totem", array{totem, x, y, z, rlm});
 endfunction
 
 

@@ -46,7 +46,7 @@ program messageboard( user, board )
 		"text 370 348 45 13"
 	};
 
-	var data := {
+	var data := array {
 		board.name,
 		"Welcome to the Message Board!"
 	};

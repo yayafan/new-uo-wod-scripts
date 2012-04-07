@@ -11,7 +11,7 @@ include "../pkg/npcs/npcinfo";
 
 Const GATE_PRICE := 100;
 
-var gump_layout := {
+var gump_layout := array{
 	"page 0",
 	"nodispose",
 
@@ -53,7 +53,7 @@ var gump_layout := {
 	"text 90 350 40 12"
 };
 
-var gump_data := {
+var gump_data := array{
 	"Go",         //0
 	"Location",
 	"Covetous",
@@ -181,7 +181,7 @@ program merchant_gate (player)
 	SetObjProperty (gate1, "summoned_field", 1);
 	SetObjProperty (gate2, "summoned_field", 1);
 	
-	var forbidden_gaters := {};
+	var forbidden_gaters := array{};
 	foreach mob in ListMobilesNearLocation (merchant.x, merchant.y, merchant.z, 10, merchant.realm)
 		if (mob.npctemplate)
 			if (GetObjProperty (mob, "myhome"))

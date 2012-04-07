@@ -349,7 +349,7 @@ function ReleaseAll (owner, sign)
 			if ( (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
 					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
 				if (!IsGMLockedDownItem (owner, item))
-					var parms := {};
+					var parms := array{};
 					parms[1] := sign;
 					parms[2] := owner;
 					parms[3] := item;
@@ -516,7 +516,7 @@ endfunction
 ///////////////////
 
 function LockdownItem (sign, owner)
-	var parms := {};
+	var parms := array{};
 	parms[1] := sign;
 	parms[2] := owner;
 	parms[3] := 0;
@@ -532,7 +532,7 @@ endfunction
 ///////////////////
 
 function SecureItem (sign, owner)
-	var parms := {};
+	var parms := array{};
 	parms[1] := sign;
 	parms[2] := owner;
 	parms[3] := 0;
@@ -548,7 +548,7 @@ endfunction
 ///////////////////
 
 function RaiseItem (sign, owner)
-	var parms := {};
+	var parms := array{};
 	parms[1] := sign;
 	parms[2] := owner;
 	parms[3] := 0;
@@ -564,7 +564,7 @@ endfunction
 ///////////////////
 
 function LowerItem (sign, owner)
-	var parms := {};
+	var parms := array{};
 	parms[1] := sign;
 	parms[2] := owner;
 	parms[3] := 0;
@@ -581,7 +581,7 @@ endfunction
 ///////////////////
 
 function DisplayContainer (sign, owner)
-	var parms := {};
+	var parms := array{};
 	parms[1] := sign;
 	parms[2] := owner;
 	parms[3] := 0;

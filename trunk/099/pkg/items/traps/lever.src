@@ -32,7 +32,7 @@ program use_lever (character, lever)
 		did_something := 1;
 	endif
 	if (GetObjProperty (lever, "explosion"))
-		var ev := array {};
+		var ev := struct{};
 		ev.+type := EVID_ENGAGED;
 		ev.+source := character;
 		PlayStationaryEffect (character.x, character.y, character.z, 0x36b0, 7, 0x10, 0, character.realm);
@@ -61,6 +61,8 @@ endprogram
 ///////////////////
 
 function SpawnNPCsFromSwitch (character, lever)
+	if (character)
+	endif
 	if (GetObjProperty (lever, "#spawnswitch"))
 		if (GetObjProperty (lever, "#spawnswitch") > ReadGameClock())
 			return;
@@ -134,7 +136,7 @@ function OpenDoorFromSwitch (character, lever)
 		return;
 	endif
 
-	var alldoors := {door};
+	var alldoors := array{door};
 	if (door.graphic == door.objtype)
 		set_critical (1);
 		ChangeLeverGraphic (lever, 1);
@@ -188,7 +190,7 @@ function UnlockChestFromSwitch (character, lever)
 
 	ChangeLeverGraphic (lever, 1);
 	item.locked := 0;
-	var alldoors := {};
+	var alldoors := array{};
 	if (item.isa (POLCLASS_DOOR))
 		foreach possibledoor in ListItemsNearLocation (item.x, item.y, item.z, 1, item.realm)
 			if (possibledoor.isa (POLCLASS_DOOR))

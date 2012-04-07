@@ -58,7 +58,7 @@ program create_druidhenge (character, druidhenge)
 		endif
 
 		var column;
-		var column_array := {};
+		var column_array := array{};
 
 		//main stone columns
 		column := CreateItemAtLocation (druidhenge.x-3, druidhenge.y-5, druidhenge.z, 0x1cf, 1, druidhenge.realm);
@@ -217,7 +217,7 @@ program create_druidhenge (character, druidhenge)
 			return;
 		endif
 
-		var stone_serial;
+//		var stone_serial;
 		var stone;
 
 		foreach stone_serial in GetObjProperty (druidhenge, "placed_stones")
@@ -246,7 +246,7 @@ endprogram
 ///////////////////
 
 function UseDruidhenge (character)
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"gumppic 20 20 5100",
 		"gumppic 30 20 5101",
@@ -280,10 +280,10 @@ function UseDruidhenge (character)
 		"text 80 110 0 2"
 	};
 
-	var gump_data := array ( "Welcome.",
+	var gump_data := array { "Welcome.",
 		"Create a druid staff",
 		"Create a rune bag"
-	);
+	};
 
 	if (character.cmdlevel)
 		gump_layout.append ("button 50 140 25 26 1 0 101");
@@ -310,10 +310,10 @@ function ToggleDruidhenge (druidhenge)
 
 	//if its already ruined and just needs to be restored
 	if (GetObjProperty (druidhenge, "ruined") )
-		var stone_serial;
+//		var stone_serial;
 		var stone;
 
-		var item_serial;
+//		var item_serial;
 		var item;
 
 		foreach item_serial in GetObjProperty (druidhenge, "decay_items")
@@ -353,7 +353,7 @@ function ToggleDruidhenge (druidhenge)
 		SetObjProperty (druidhenge, "ruined", 1);
 		var stone_serial_array := GetObjProperty (druidhenge, "placed_stones");
 		var stone;
-		var i;
+//		var i;
 
 //		stone := SystemFindObjectBySerial (stone_serial_array[1]);
 //		stone.graphic := 0x3bf;
@@ -400,7 +400,7 @@ function ToggleDruidhenge (druidhenge)
 		stone.graphic := 0x1;
 
 		var item;
-		var item_array := {};
+		var item_array := array{};
 
 		item := CreateItemAtLocation (druidhenge.x-3, druidhenge.y+10, druidhenge.z, 0xceb, 1, druidhenge.realm);
 		item.movable := 0;

@@ -215,7 +215,7 @@ endfunction
 function ScribeScroll (character, scroll)
 	var crafting_options := GetObjProperty (character, "crafting_options");
 	if (!crafting_options or len (crafting_options) < 2)
-		crafting_options := {1, 0, 0};
+		crafting_options := array {1, 0, 0};
 	elseif (len (crafting_options) < 2)
 		repeat
 			crafting_options.append (0);
@@ -339,7 +339,7 @@ endfunction
 
 Function SelectSpellToInscribe (character)
 	var scrolls := dictionary;
-	var circles := {};
+	var circles := array {};
 	foreach item in EnumerateItemsInContainer (character.backpack)
 //		if (item.container.objtype == UOBJ_SPELLBOOK)
 //			if (!scrolls.exists (item.objtype))

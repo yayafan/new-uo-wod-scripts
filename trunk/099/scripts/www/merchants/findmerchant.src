@@ -33,7 +33,7 @@ var inv_fs := FindRootItemInStorageArea (storage, merchantserial + " FS");
 if (!inv_fs)
 	WriteHTML ("Error finding merchant storage");
 else
-	var items_for_sale := EnumerateItemsInContainer (inv_fs);
+	//var items_for_sale := EnumerateItemsInContainer (inv_fs);
 	foreach item in ListRootItemsInContainer (inv_fs)
 		if ( item.amount > 1 )
 			WriteHTML ("<li>" + item.desc + " at " + item.sellprice + " each");

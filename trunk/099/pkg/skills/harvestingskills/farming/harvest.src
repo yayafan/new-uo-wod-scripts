@@ -217,8 +217,8 @@ endfunction
 ///////////////////
 
 function AppendLog (who, themessage)
-	var log := {};
-	var prop := array {};
+	var log := array {};
+	var prop := struct {};
 	prop.+pname := "";
 	prop.+pvalue := "";
 	foreach line in themessage

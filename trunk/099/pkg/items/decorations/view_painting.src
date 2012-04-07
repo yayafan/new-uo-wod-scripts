@@ -2,12 +2,12 @@ use uo;
 use os;
 
 program view_painting (character, painting)
-	var gump_layout := {
+	var gump_layout := array{
 		"nomove",
 		"nodispose",
 		"page 0"
 	};
-	var gump_data := {""};
+	var gump_data := array{""};
 	case (painting.graphic)
 		0xa083:
 		0xa084:

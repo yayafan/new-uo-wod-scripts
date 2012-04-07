@@ -147,7 +147,7 @@ function normalusage(who, item)
   var gfx;
   var la := GetObjProperty(item,"links");
   if(!la)
-    la := {};
+    la := array {};
     la.append(item.serial);
     SetObjProperty(item,"links", la);
   endif
@@ -202,6 +202,8 @@ function normalusage(who, item)
 endfunction
 
 function stobj(who, item)
+	if (who)
+	endif
   SetObjProperty(item, "#inuse", 1);
   var il := GetObjProperty(item, "il");
   var note := GetObjProperty(item,"note");
@@ -236,14 +238,14 @@ function trappedswitch(who, item, mid, stt, snd)
     2:   PlaySoundEffect(who, SFX_232);
          PrintTextAbovePrivate(who, "You set off a poison trap!", who);
          PlayObjectCenteredEffect( who, FX_POISON_GAS, 10,10);
-	 var passparms := { who, who, "poison trap", trapstrength };
+	 var passparms := array { who, who, "poison trap", trapstrength };
 	 start_script(":spells:poisonDamage", passparms);
     3:   PlaySoundEffect(who, SFX_208);
          SendSysMessage(who, "You set off an explosion trap!");
          PlayObjectCenteredEffect( who, FX_EXPLODE_3, 10,10);
          var dmg :=(RandomInt(20) + CInt(trapstrength));
          ApplyRawDamage(who, dmg);
-    4:   var dmg;
+    4:   //var dmg;
          var victims := ListMobilesNearLocation( item.x, item.y, item.z, 5, item.realm);
          Detach();
          foreach mob in victims
@@ -262,7 +264,9 @@ function trappedswitch(who, item, mid, stt, snd)
   EraseObjProperty(item, "#inuse");
 endfunction
 
-function alterpassage(who, item, stt, snd);
+function alterpassage(who, item, stt, snd)
+	if (stt)
+	endif
   var la := GetObjProperty(item,"links");
   var obj;
   foreach entry in la
@@ -279,7 +283,7 @@ function alterpassage(who, item, stt, snd);
   speakr.movable := 0;
   speakr.graphic := 0x1;
   var pl := GetObjProperty(item,"partsarray");
-  var i;
+//  var i;
   var stp;
   var a := 0;
   if(GetObjProperty(item, "status") == "on")
@@ -423,6 +427,8 @@ function alterpassage(who, item, stt, snd);
 endfunction
 
 function teleporter(who, item, mid, stt, snd)
+	if (who)
+	endif
   SetObjProperty(item, "#inuse", 1);
   Detach();
   var tiled := GetObjProperty( item, "tiled");
@@ -557,6 +563,8 @@ function teleporter(who, item, mid, stt, snd)
 endfunction
 
 function linkdoor(who, item)
+	if (who)
+	endif
   SetObjProperty(item, "#inuse", 1);
   Detach();
   var da := GetObjProperty(item, "ds");
@@ -604,7 +612,7 @@ function lightswitch(who, item )
 endfunction
 
 function bindlights(who, item)
-  var newarray := {};
+  var newarray := array {};
   SendSysMessage(who,"target the lights to link to the switch. cancel to end");
   var trg;
   while(1)
@@ -620,13 +628,15 @@ function bindlights(who, item)
 endfunction
 
 function createtrap(who, item, type);
+	if (who)
+	endif
   SetObjProperty(item,"function", "trap");
   SetObjProperty(item,"trap_type", type);
 endfunction
 
 function createpassage(who, item)
-  var newarray := {};
-  var linkarray := {};
+  var newarray := array {};
+  var linkarray := array {};
   linkarray.append(item.serial);
   SendSysMessage(who,"target the pieces to link to the switch. cancel to end");
   var trg;
@@ -639,7 +649,7 @@ function createpassage(who, item)
   endwhile
   SendSysMessage(who,"target the item you wish sounds to originate from");
   var snd := Target(who);
-  var speaker := {};
+  var speaker := array {};
   speaker.append(snd.x);
   speaker.append(snd.y);
   speaker.append(snd.z);
@@ -662,7 +672,7 @@ function createpassage(who, item)
 endfunction
 
 function doorstatus(who, item)
-  var newarray := {};
+  var newarray := array {};
   SendSysMessage(who,"target the door you wish to link this switch to. cancel to end");
   var trg;
   while(1)
@@ -678,11 +688,11 @@ function doorstatus(who, item)
 endfunction
 
 function setprp(who, item, result)
-  var newarray := {};
+  var newarray := array {};
   var note:=result[12];
   note[1, find(note, ": ", 1)+1]:="";
   var subnote;
-  var i;
+//  var i;
   subnote:=result[13];
   subnote[1, find(subnote, ": ", 1)+1]:="";
   var trg;
@@ -701,7 +711,7 @@ endfunction
 
 function linkteleport(who, item)
   SendSysMessage(who, "target the rune you wish this switch to teleport the user to");
-  var darray := {};
+  var darray := array {};
   var trgd, trga;
   while(1)
     SendSysMessage(who,"target the departure tile");
@@ -719,7 +729,7 @@ function linkteleport(who, item)
 endfunction
 
 function Resisted(who, amt)
-  var magery  := CInt(RandomInt(99)+1);
+ // var magery  := CInt(RandomInt(99)+1);
   var evalint := CInt(RandomInt(99)+1);
   var halfamt := amt/2;
   var rezamt := CInt(((RandomInt(halfamt)+1) * evalint ) / 100);

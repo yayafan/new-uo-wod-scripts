@@ -80,6 +80,8 @@ function MakeCarpentryItems (character, tool, logs)
 	var selection := FindConfigElem (carpentry_cfg_file, chosen_item);
 	if (!selection)
 		SendSysMessage (character, "That was an invalid selection");
+		if (tool)
+		endif
 		return;
 	endif
 

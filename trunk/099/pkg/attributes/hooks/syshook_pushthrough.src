@@ -10,7 +10,7 @@ exported function Pushthrough (walker, blockers)
 		return 1;
 	endif
 
-	var validblockers := {};
+	var validblockers := array{};
 	foreach blocker in blockers
 		if (blocker.acctname)
 			if (blocker.hidden and !blocker.concealed)

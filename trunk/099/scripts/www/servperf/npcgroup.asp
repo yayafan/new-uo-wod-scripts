@@ -36,8 +36,8 @@
 use os;
 
 function top_ten_npc_zones()
-    var zones := {};
-	var zone := {};
+    var zones := array {};
+	var zone := struct{};
 	zone.+xmid := 0;
 	zone.+ymid := 0;
 	zone.+npc_count := 0;

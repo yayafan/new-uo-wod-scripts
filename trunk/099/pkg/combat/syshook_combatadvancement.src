@@ -5,6 +5,8 @@ use util;
 include "include/attributes";
 
 exported function NewCombatAdvancement (attacker, weapon, defender)
+	if (attacker and weapon and defender)
+	endif
 //	var weaponattributeid := weapon.attribute;
 //	if (!weapon or !weaponattributeid)
 //		weaponattributeid := ATTRIBUTEID_WRESTLING;

@@ -6,6 +6,8 @@ program caninsert_spellbook (character, spellbook, movetype, inserttype, scroll,
 		SendSysMessage (character, "You already have that spell in your spellbook!");
 		return 0;
 	endif
+	if (spellbook and movetype and inserttype and scroll and amt_to_add)
+	endif
 
 	return 1;
 endprogram

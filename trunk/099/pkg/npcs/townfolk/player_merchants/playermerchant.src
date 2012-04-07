@@ -555,9 +555,9 @@ endfunction
 ///////////////////
 
 function addthingstobuy (master)
-	var buylist := {};
-	var buyprice := { };
-	var buyobj := { };
+	var buylist := array {};
+	var buyprice := array { };
+	var buyobj := array { };
 
 	if (GetObjProperty (me,"buylist"))
 		buylist := GetObjProperty (me, "buylist");
@@ -575,9 +575,9 @@ function addthingstobuy (master)
 	//if we're already buying it, stop buying it
 	if (what.objtype in buyobj)
 		say ("I will no longer purchase " + what.desc);
-		var NewBuyList := { };
-		var NewBuyPrice := { };
-		var NewBuyObj := { };
+		var NewBuyList := array { };
+		var NewBuyPrice := array { };
+		var NewBuyObj := array { };
 		for i := 1 to len (buylist)
 			if (buyobj[i] != what.objtype)
 				newbuylist.append (buylist[i]);
@@ -636,8 +636,8 @@ function addthingstobuy (master)
 endfunction
 
 function SpoutBuyList (byref you)
-	var buylist := {};
-	var buyprice := {};
+	var buylist := array {};
+	var buyprice := array {};
 	var i;
 
 	if (!GetObjProperty(me,"buylist"))
@@ -667,11 +667,11 @@ endfunction
 function NotifyMaster (themessage)
 	var messagelog := GetObjProperty (me, "messagelog");
 	if (!messagelog)
-		messagelog := {};
+		messagelog := array {};
 	endif
 
 	if (len (messagelog) >= 19)
-		var newmessagelog := {};
+		var newmessagelog := array {};
 		var messlen := len (messagelog);
 		for i := (messlen-19) to messlen
 			newmessagelog.append (messagelog[i]);
@@ -934,7 +934,7 @@ function DoMerchantOnCreationSetup ()
 		endif
 	endif
 
-	var parms := {};
+	var parms := array {};
 	parms[1]:= me;
 	parms[2]:= "rich";
 	say ("Ooh, I better get dressed!");
@@ -981,7 +981,7 @@ function DoMerchantRestartStuff ()
 	set_critical (1);
 	var playermerchantlist := GetGlobalProperty ("#playermerchantlist");
 	if (!playermerchantlist)
-		playermerchantlist := {};
+		playermerchantlist := array {};
 	endif
 
 	if (! (me.serial in playermerchantlist) )
@@ -1031,7 +1031,7 @@ function AddToAccountMerchants (masterserial)
 	SetObjProperty (me, "masteracctname", masteracctname);
 	var merchants := GetGlobalProperty ("#merchants_of_" + masteracctname);
 	if (!merchants)
-		merchants := {};
+		merchants := array {};
 	endif
 
 	if (! (me.serial in merchants))

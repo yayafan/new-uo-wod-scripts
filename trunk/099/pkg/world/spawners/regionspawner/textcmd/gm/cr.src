@@ -22,7 +22,7 @@ program SpawnThatStuff( me, region )
 
 	regspawn := ReadConfigFile( ":regionalspawner:regionspawn" );
 
-	var numregions := GetConfigMaxIntKey( regspawn );
+//	var numregions := GetConfigMaxIntKey( regspawn );
 	var i := cint(region);
 
         	var spawnregion := regspawn[ i ];

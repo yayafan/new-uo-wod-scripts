@@ -353,7 +353,7 @@ endfunction
 ///////////////////
 
 function ListSkillAttributes ()
-	var attributes := {
+	var attributes := array{
 		ATTRIBUTEID_ALCHEMY,
 		ATTRIBUTEID_ANATOMY,
 		ATTRIBUTEID_ANIMALLORE,

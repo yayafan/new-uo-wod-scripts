@@ -26,7 +26,7 @@ program cast_recall (parms, spellid)
 	var recall_settings := GetObjProperty (caster, "spell_recall_settings");
 	if (!recall_settings or len (recall_settings) < 2)
 		SendSysMessage (caster, "Resetting recall locations to default");
-		recall_settings := {1, {1328, 1624, 50, "Britain castle", _DEFAULT_REALM}};
+		recall_settings := array{1, array{1328, 1624, 50, "Britain castle", _DEFAULT_REALM}};
 		SetObjProperty (caster, "spell_recall_settings", recall_settings);
 	endif
 
@@ -185,7 +185,7 @@ program cast_recall (parms, spellid)
 			return 0;
 		endif
 
-		var settings := {caster.x, caster.y, caster.z, "Unknown location", caster.realm};
+		var settings := array{caster.x, caster.y, caster.z, "Unknown location", caster.realm};
 		var text := SendTextEntryGump (caster, "Please enter a name for this location", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 20, "(20 character max)");
 		if (text)
 			settings[4] := text;

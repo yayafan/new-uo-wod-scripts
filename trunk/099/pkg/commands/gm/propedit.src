@@ -85,7 +85,7 @@ var show_in_hex    :=1;
 
 //////////
 
-var main_data:={
+var main_data:=array{
 "",                     // show hex/int
 "CProp Editor",
 "Add Cprop",
@@ -101,7 +101,7 @@ var main_data:={
 
 //////////
 
-var main_layout:={
+var main_layout:=array{
 "page0",
 "nodispose",
 "resizepic",                        // resizepic (varies - altered later in script)
@@ -115,7 +115,7 @@ var main_layout:={
 
 //////////
 
-var add_layout:={ 
+var add_layout:=array{ 
   "resizepic 160 25 2520 340 250",
   "button 380 243 2071 2072 0 1",
   "button 230 243 239 240 1 0 998",
@@ -135,7 +135,7 @@ var add_layout:={
   
 //////////
 
-var del_layout:={
+var del_layout:=array{
   "resizepic 160 25 2520 340 250",
   "text 260 34 1 10",
   "text 263 36 34 10",
@@ -300,7 +300,7 @@ function ComposeMainGump(byref add_page,byref del_page,byref this_layout,byref t
     this_data[5]:=thing.desc+" ["+ToggleHex(thing.serial)+"]";
   endif
   
-  var i,j,y,start_j,end_j,this_prop,this_type;
+  var i,j,y,this_prop,this_type;
 
   for (i:=1;i<add_page;i:=i+1)
     this_layout.append("page "+i);

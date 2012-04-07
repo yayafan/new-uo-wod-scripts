@@ -109,7 +109,8 @@ function CreateAndEquip(me,item,color)
 endfunction
 
 function PlaceHair(me,gender)
-
+	if (gender)
+	endif
 	var haircolor := 0;
 	var hair := 0;
 	case (me.graphic)
@@ -650,7 +651,8 @@ function DressWar(me,gender)
 endfunction
 
 function DressMage(me,gender)
-
+	if (gender)
+	endif
 	var item := 0;
 	case (RandomInt(3))
 	0:	item := 0x170F;//Shoes

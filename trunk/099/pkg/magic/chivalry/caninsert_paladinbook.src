@@ -6,6 +6,8 @@ program caninsert_mysticbook (character, spellbook, movetype, inserttype, scroll
 		SendSysMessage (character, "You already have that spell in your spellbook!");
 		return 0;
 	endif
+	if (amt_to_add and movetype and inserttype and scroll and spellbook)
+	endif
 
 	return 1;
 endprogram

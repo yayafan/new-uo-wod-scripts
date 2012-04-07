@@ -51,6 +51,8 @@ endprogram
 ///////////////////
 
 function DeterminePropertyValue (item, propname, text)
+	if (text)
+	endif
 	var retstr := 0;
 	case (propname)
 		"hp":				if (item.npctemplate or item.acctname)

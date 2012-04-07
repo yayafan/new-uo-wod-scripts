@@ -139,12 +139,12 @@ endprogram
 
 function RebuildQuestsAvailable (questmaster)
 	if (!quests_available)
-		quests_available := {};
+		quests_available := array{};
 	endif
 
 	for i := 1 to 6
 		if (!quests_available[i] or !len (quests_available[i]))
-			quests_available[i] := {};
+			quests_available[i] := array{};
 		endif
 	endfor
 	
@@ -201,7 +201,7 @@ endfunction
 ///////////////////
 
 function GetNewHeadQuest (questmaster, group_index, group_prop_name)
-	var new_quest := {};
+	var new_quest := array{};
 
 	//Make sure we can load the quests_heads.cfg file
 	if (!head_quest_cfg_file)
@@ -296,7 +296,9 @@ endfunction
 	
 	
 function GetNewItemQuest (questmaster)
-	var new_quest := {};
+	if (questmaster)
+	endif
+	var new_quest := array{};
 	var quest_cfg_file := ReadConfigFile (":adventurers_guild:quests_items");
 	if (!quest_cfg_file)
 		Syslog ("Can't open adventurers guild items quest cfgfile!");
@@ -379,7 +381,7 @@ endfunction
 ///////////////////
 
 function RemoveQuest (questmaster, questnumber)
-	quests_available[questnumber] := {};
+	quests_available[questnumber] := array{};
 	SetObjProperty (questmaster, "#quests_available", quests_available);
 endfunction
 
@@ -477,7 +479,7 @@ endfunction
 function DoQuestSetup (chosen_quest, player)
 	//Don't need to do any major setup for the heads quests
 	if (chosen_quest [1] == ":adventurers_guild:quests_heads")
-		var quest_parms := {};
+		var quest_parms := array{};
 		quest_parms [1] := chosen_quest[1];
 		quest_parms [2] := chosen_quest[2];
 		quest_parms [3] := chosen_quest[3];
@@ -494,7 +496,7 @@ function DoQuestSetup (chosen_quest, player)
 	//for the 'search for the item' quests, we just have to set the region.  The
 	//script 'guild_monsterdeath' does the rest
 	elseif (chosen_quest [1] == ":adventurers_guild:quests_items")
-		var quest_parms := {};
+		var quest_parms := array{};
 		quest_parms [1] := chosen_quest[1];
 		quest_parms [2] := chosen_quest[2];
 		quest_parms [3] := chosen_quest[3];

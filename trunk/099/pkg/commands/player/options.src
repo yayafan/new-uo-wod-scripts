@@ -188,7 +188,7 @@ function DisplayAccountOptions (character)
 		"button 75 145 2104 2103 1 0 2",		//change address button
 		"croppedtext 95 140 200 20 0 3"		//current email address
 	};
-	var gump_data := {
+	var gump_data :=array {
 		"Account Options",					//0
 		"Change Password",					//1
 		"Email Address",					//2
@@ -441,7 +441,7 @@ function SetAutohealHealthOptions (character)
 		"text 100 55 0 1"
 	};
 
-	var gump_data := {
+	var gump_data := array{
 		"filler",						//0
 		"Autoheal Options",				//1
 		"Cast Greater Heal Spell at:",	//2
@@ -454,7 +454,7 @@ function SetAutohealHealthOptions (character)
 		"Whenever damaged"				//8
 	};
 
-	var chosen_option := {0, 0, 0, 0};
+	var chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[1]] := 1;
 
 	gump_layout.append ("text 50 75 0 2");
@@ -468,7 +468,7 @@ function SetAutohealHealthOptions (character)
 	gump_layout.append ("radio 55 155 2510 2511 " + chosen_option[4] + " 4");
 	gump_layout.append ("text 75 155 0 8");
 
-	chosen_option := {0, 0, 0, 0};
+	chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[2]] := 1;
 	gump_layout.append ("text 50 185 0 3");
 	gump_layout.append ("group 1");
@@ -481,7 +481,7 @@ function SetAutohealHealthOptions (character)
 	gump_layout.append ("radio 55 265 2510 2511 " + chosen_option[4] + " 8");
 	gump_layout.append ("text 75 265 0 8");
 
-	chosen_option := {0, 0, 0, 0};
+	chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[3]] := 1;
 	gump_layout.append ("text 50 295 0 4");
 	gump_layout.append ("group 2");
@@ -559,7 +559,7 @@ endfunction
 
 function SetAutocureHealthOptions (character)
 	var gump_layout := blank_gump_layout;
-	var gump_data := {
+	var gump_data := array{
 		"filler",						//0
 		"Autocure Options",				//1
 		"Cast Cure Spell at:",			//2
@@ -570,7 +570,7 @@ function SetAutocureHealthOptions (character)
 		"Anytime I'm poisoned"			//7
 	};
 
-	var chosen_option := {0, 0, 0, 0};
+	var chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[4]] := 1;
 	gump_layout.append ("text 100 55 0 1");
 	gump_layout.append ("text 50 75 0 2");
@@ -582,7 +582,7 @@ function SetAutocureHealthOptions (character)
 	gump_layout.append ("radio 55 135 2510 2511 " + chosen_option[3] + " 3");
 	gump_layout.append ("text 75 135 0 7");
 
-	chosen_option := {0, 0, 0, 0};
+	chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[5]] := 1;
 	gump_layout.append ("text 50 185 0 3");
 	gump_layout.append ("group 1");
@@ -593,7 +593,8 @@ function SetAutocureHealthOptions (character)
 	gump_layout.append ("radio 55 245 2510 2511 " + chosen_option[3] + " 7");
 	gump_layout.append ("text 75 245 0 7");
 
-	chosen_option := {0, 0, 0, 0};
+	chosen_option := array{0, 0, 0, 0};
+	chosen_option := array{0, 0, 0, 0};
 	chosen_option[autoheal_options[6]] := 1;
 	gump_layout.append ("text 50 295 0 4");
 	gump_layout.append ("group 2");
@@ -703,7 +704,7 @@ function DisplayLogOutMessageOptions (character)
 		"croppedtext 75 335 200 20 0 11"
 	};
 
-	var gump_data := {
+	var gump_data := array{
 		"Logout Options",			//0
 		"Leave NPC clone",			//1
 		logoffcloneoptions[2],		//2
@@ -772,7 +773,7 @@ endfunction
 
 function DisplaycraftingOptions (character)
 	var gump_layout := blank_gump_layout;
-	var gump_data := {
+	var gump_data := array{
 		"filler",
 		"Crafting Options",			//1
 		"Autoloop scrolls",			//2
@@ -865,7 +866,7 @@ endfunction
 
 function DisplayGumpOptions (character)
 	var gump_layout := blank_gump_layout;
-	var gump_data := {
+	var gump_data := array{
 		"filler",
 		"Gump Options",			//1
 		"Reset Codex gump",			//2

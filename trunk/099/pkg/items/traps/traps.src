@@ -11,7 +11,7 @@ include "include/dotempmods";
 
 program open_trapped_item(character, item)
 
-    var key_types array;
+    var key_types := array;
     var stuff := EnumerateItemsInContainer(character.backpack);
     var thelock := GetObjProperty(item,"lockid");
     var has_key := 0;

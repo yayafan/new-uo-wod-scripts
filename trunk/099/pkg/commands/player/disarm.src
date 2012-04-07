@@ -58,7 +58,7 @@ program textcmd_disarm (character, textline)
 		return;
 	endif
 
-	var weapon := {};
+	var weapon := array{};
 		weapon[1] := 0;
 		weapon[2] := 0;
 		weapon[3] := 0;

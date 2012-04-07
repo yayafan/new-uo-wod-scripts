@@ -41,7 +41,7 @@ program warrior_fight_ai ()
 	var loops := 1;
 	var wasmoving:=1;
 	var event_wait_time := 0;
-	var cd;
+	//var cd;
 
     	while ( opponent and !opponent.dead and !opponent.hidden and !opponent.concealed and
 			(Distance (me, opponent) < 20) )
@@ -115,6 +115,8 @@ program warrior_fight_ai ()
 endprogram
 
 function in_combat_event_loop (byref opponent)
+	if (opponent)
+	endif
 endfunction
 
 function process_combat_event (byref ev)
@@ -176,7 +178,7 @@ function HasBow ()
 		0x26c3:
 			bowarmed := 1;
 			ammotype := 0x1bfb;//xbow and bolts
-		0x6050:
+		0x16050:
 			bowarmed := 1;
 			ammotype := 0x6051;//firebow and firearrows
 		default: return 0;

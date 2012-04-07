@@ -36,13 +36,13 @@ function SelectPlayer( who )
 	var menuname := "Summon whom?";
 
 	var dict := getonlineplayerslist();
-	var roster := {};
+	var roster := array{};
 	foreach memberserial in ( dict.keys() )
 		roster.append( dict[ memberserial ] );
 	endforeach
 
 	var citnum := 1;
-	var selection := { };
+	var selection := array{ };
 	repeat
 		var stonemenu := createmenu(menuname);
 		var i;

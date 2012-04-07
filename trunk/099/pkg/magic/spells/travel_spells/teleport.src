@@ -45,7 +45,7 @@ program cast_teleport( parms, spellid )
 		return 0;
 	endif
 
-	var water := { 0xA8, 0xA9, 0x64, 0xAA, 0xAB };
+	var water := array{ 0xA8, 0xA9, 0x64, 0xAA, 0xAB };
 
 	foreach item in ListItemsNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, 4, cast_loc.realm)
 		if( (item.objtype == 61457 or item.objtype == 61458) and (GetMapInfo (cast_loc.x, cast_loc.y, cast_loc.realm).landtile in water) )

@@ -120,7 +120,7 @@ endfunction
 ///////////////////
 
 function JoinGuild (player, guild_name, guild_title)
-	var players_guild := {};
+	var players_guild := array{};
 	players_guild[1] := guild_name;
 	players_guild[2] := ReadGameClock ();
 	players_guild[3] := ReadGameClock ();
@@ -137,7 +137,7 @@ endfunction
 ///////////////////
 
 function QuitGuild (player, guild_name)
-	var players_guild := {};
+	var players_guild := array{};
 	players_guild[1] := "none";
 	players_guild[2] := ReadGameClock ();
 	players_guild[3] := ReadGameClock ();
@@ -206,6 +206,8 @@ endfunction
 ///////////////////
 
 function GetGuildRankingPoints (player, guild_title)
+  if (guild_title)
+  endif
 	var players_guild := GetObjProperty (player, "players_guild");
 	if (!players_guild)
 		player.title_race := "";
@@ -227,6 +229,8 @@ endfunction
 ///////////////////
 
 function AddGuildRankingPoints (player, new_points, guild_title)
+  if (guild_title)
+  endif
 	new_points := CINT (new_points);
 
 	var players_guild := GetObjProperty (player, "players_guild");

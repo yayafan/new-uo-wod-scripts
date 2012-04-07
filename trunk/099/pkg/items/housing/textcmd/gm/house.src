@@ -88,7 +88,7 @@ function FindHousesOfAccount (character, acctname)
 		return;
 	endif
 	
-	var housesigns := {};
+	var housesigns := array{};
 	var global_prop_name := "#housing_of_" + acctname;
 	var sign_serials := GetGlobalProperty (global_prop_name);
 	if (!sign_serials)
@@ -170,7 +170,7 @@ function AdjustHouseSign (character)
 	sign.graphic := selection.objtype;
 	SetObjProperty (sign, "originalgraphic", selection.objtype);
 
-	var homeinfo := { };
+	var homeinfo := array{ };
 	homeinfo[1] := 0;
 	SendSysMessage (character, "Target the North-West corner of the house (Up!)");
 	var coords := TargetCoordinates (character);
@@ -228,7 +228,7 @@ function AdjustLockdownArea (character)
 		return;
 	endif
 
-	var homeinfo := { };
+	var homeinfo := array{ };
 	homeinfo[1] := 0;
 	SendSysMessage (character, "Target the North-West corner of the house (Up!)");
 	var coords := TargetCoordinates (character);

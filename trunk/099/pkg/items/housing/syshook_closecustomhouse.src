@@ -5,6 +5,8 @@ Const UOBJECT_BRASS_SIGN := 0x0bd2;
 Const UOBJECT_WOOD_SIGN := 0x0bd0;
 
 exported function CloseCustomHouse ( who, house)
+	if (who)
+	endif
 	var components := GetObjProperty (house, "components");
 	var lockid := 0;
 	foreach compo in (components)

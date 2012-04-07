@@ -137,7 +137,7 @@ function AddNewKeyword (player, scriptbook)
 	endif
 
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");
 		if (!thisline)
@@ -164,7 +164,7 @@ endfunction
 
 function EditNewKeyword (player, scriptbook)
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");
 		if (!thisline)

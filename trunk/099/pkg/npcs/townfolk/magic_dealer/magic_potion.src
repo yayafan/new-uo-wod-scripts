@@ -71,7 +71,7 @@ program display_forsale_items (player, potion)
 		return;
 	endif
 
-	var parms := {};
+	var parms := array {};
 	parms[1] := new_item;
 	parms[2] := 10;
 	parms[3] := 0;

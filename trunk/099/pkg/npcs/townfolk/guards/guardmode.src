@@ -115,7 +115,7 @@ endprogram
 ///////////////////
 
 function MarkHomePoint()
-	var homepoint := { };
+	var homepoint := array { };
 	homepoint[1] := me.x;
 	homepoint[2] := me.y;
 	homepoint[3] := me.z;
@@ -397,6 +397,8 @@ endfunction
 
 
 function in_combat_event_loop (byref opponent)
+	if (opponent)
+	endif
 endfunction
 
 

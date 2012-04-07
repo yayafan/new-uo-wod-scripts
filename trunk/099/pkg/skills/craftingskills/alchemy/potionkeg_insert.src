@@ -11,6 +11,8 @@ Const MAX_KEG_VOLUME		:= 100;
 program can_insert_potion (character, keg, movetype, inserttype, potion, existing_stack, amt_to_add)
 	if (!ReserveItem (keg))
 		SendSysMessage (character, "You cannot do that right now.");
+		if (amt_to_add and existing_stack and inserttype and movetype)
+		endif
 		return;
 	endif
 

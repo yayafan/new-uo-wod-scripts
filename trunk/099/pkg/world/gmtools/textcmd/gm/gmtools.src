@@ -337,14 +337,14 @@ endfunction
 
 function setinfernotrap(who)
   SendSysMessage(who,"set it where");
-  var where := TargetCoordinates(who);
-  var landmine := CreateItemAtLocation(where.x, where.y, where.z, 0x1888a, 1, where.realm);
+//  var where := TargetCoordinates(who);
+ // var landmine := CreateItemAtLocation(where.x, where.y, where.z, 0x1888a, 1, where.realm);
   Detach();
   maintaingump(who);
 endfunction
 
 function setsummonnpc(who)
-  var mobilearray := {};
+  var mobilearray := array {};
   SendSysMessage(who,"target the NPC you wish to call from the item");
   var npctarget := Target(who);
   if(!npctarget.isA(POLCLASS_NPC))
@@ -362,7 +362,7 @@ function setsummonnpc(who)
 endfunction
 
 function setsummongroup(who)
-  var mobilearray := {};
+  var mobilearray := array {};
   SendSysMessage(who,"to define the NPCs you wish to summon, the script will ask you to target 2 coordinates that it uses to create a box around the npcs");
   SendSysMessage(who,"the script will now ask you to choose the coordinates to create that box");
   SendSysMessage(who,"target the northwest corner of area your NPCs are stored");
@@ -401,10 +401,10 @@ function itemaddset(who)
   var whereleft := TargetCoordinates(who);
   var stuff := ListItemsNearLocation(whereleft.x,whereleft.y,whereleft.z, CInt(range), whereleft.realm);
   var numthings := 1;
-  var totalthings := {};
+  var totalthings := array {};
   foreach thing in stuff
     totalthings.append(thing.objtype);
-    var itemnumber := {};
+    var itemnumber := array {};
     itemnumber.append(thing.x -whereleft.x);
     itemnumber.append(thing.y -whereleft.y);
     itemnumber.append(thing.z -whereleft.z);
@@ -918,7 +918,7 @@ function Accountlisting(who)
   var roster := len(dict);
   var plr;
   var plrnum := 1;
-  var selection := { };
+  var selection := array { };
   var i;
   var listplayermenu;
   repeat
@@ -1142,6 +1142,8 @@ function FillInWeapon(who)
 endfunction
 
 function EditStat(who, character, result, trg)
+	if (trg)
+	endif
     SendSysMessage(who, "Caution! Values are changed immediately, Integers only!. Hit ESC to cancel.");
     var val := CInt(RequestInput(who, who.backpack, "Enter a new value."));
     if(!val)
@@ -1166,6 +1168,8 @@ function EditStat(who, character, result, trg)
 endfunction
 
 function EditSkill(who, character, skill, trg);
+	if (trg)
+	endif
     SendSysMessage(who, "Caution! Values are changed immediately, Integers only!. Hit ESC to cancel.");
     var val := CInt(RequestInput(who, who.backpack, "Enter a new value.")) * 10;
     if((!val) &&(val != 0))

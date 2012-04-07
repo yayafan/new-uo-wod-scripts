@@ -255,7 +255,7 @@ program decorators_tool (character, tool)
 				
 			OPTION_LOCK_UNLOCK:
 				ReleaseItem (item);
-				var parms := {};
+				var parms := array{};
 				parms[1] := housesign;
 				parms[2] := character;
 				parms[3] := item;
@@ -266,7 +266,7 @@ program decorators_tool (character, tool)
 
 			OPTION_SECURE_UNSECURE:
 				ReleaseItem (item);
-				var parms := {};
+				var parms := array{};
 				parms[1] := housesign;
 				parms[2] := character;
 				parms[3] := item;

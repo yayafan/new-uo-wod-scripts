@@ -207,6 +207,8 @@ endfunction
 
 
 function DoRandomEvent (me, axe, tree, mex, mey)
+	if (axe and mex and mey)
+	endif
 	if (RandomInt (20))
 		return 0;
 	endif

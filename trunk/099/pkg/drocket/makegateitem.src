@@ -113,7 +113,7 @@ function SetUpGateItem (character, item)
 		return 0;
 	endif
 
-	var sourcearray := {};
+	var sourcearray := array{};
 	sourcearray[1] := Cint(GetObjProperty ( sourcerune, "x" ));
 	sourcearray[2] := Cint(GetObjProperty ( sourcerune, "y" ));
 	sourcearray[3] := Cint(GetObjProperty ( sourcerune, "z" ));
@@ -123,7 +123,7 @@ function SetUpGateItem (character, item)
 	endif
 	SetObjProperty (item, "gateorigin", sourcearray);
 
-	var destinationarray := {};
+	var destinationarray := array{};
 	destinationarray[1] := Cint(GetObjProperty ( destinationrune, "x" ));
 	destinationarray[2] := Cint(GetObjProperty ( destinationrune, "y" ));
 	destinationarray[3] := Cint(GetObjProperty ( destinationrune, "z" ));

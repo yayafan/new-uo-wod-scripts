@@ -90,7 +90,7 @@ program concealme (character, text)
 			originallocation.+z := character.z;
 			originallocation.+realm := character.realm;
 			
-			var firefields := {};
+			var firefields := array{};
 			var item := CreateItemAtLocation (originallocation.x - 1, originallocation.y - 1, originallocation.z, 0x398c, 1, originallocation.realm);
 			firefields.append (item);
 			item := CreateItemAtLocation (originallocation.x, originallocation.y - 1, originallocation.z, 0x398c, 1, originallocation.realm);

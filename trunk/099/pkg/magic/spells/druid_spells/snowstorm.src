@@ -51,7 +51,7 @@ program cast_frost_shield (parms)
 	endif
 	var dmg := 0;
 	
-	var snowsquall := {};
+	var snowsquall := array{};
 	for i := 1 to (CINT (range*range/4))
 		var tempitem := 
 		tempitem := CreateItemAtLocation (0, 0, 0, 0x1706c, 1, REALM_BRITANNIA);

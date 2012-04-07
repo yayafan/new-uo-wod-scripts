@@ -49,7 +49,7 @@ program poisonhit (parms)
 
 	var poison_damage := GetPoisonDamagePerTick (who, plvl);
 	who.SetPoisoned (plvl);
-	BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_ENABLED);
+	BuffDebuffIcon(who, BUFFICON_POISON, BUFFSTATE_ENABLED, 30, array { poison_damage, 5 });
 	RecalcVitals (who);
 	if (msg)
 		PrintTextAbovePrivate (who, msg, who, FONT_NORMAL, 37);
@@ -139,7 +139,8 @@ function GetPoisonDamagePerTick (who, plvl)
 //	elseif (GetAttributeBaseValue (who, "Strength")  > 1250)
 //		plvl := plvl - 2;
 //	endif
-
+	if (who)
+	endif
 	if (plvl < 1)
 		plvl := 1;
 	elseif (plvl > 10)

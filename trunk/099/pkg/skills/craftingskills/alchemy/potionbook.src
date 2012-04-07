@@ -17,7 +17,8 @@ var book_data := array { "filler" };
 
 
 program display_potionbook (character, book)
-
+	if (book)
+	endif
 	BuildBookGump (character);
 	SendDialogGump (character, book_layout, book_data);
 
@@ -78,7 +79,8 @@ endfunction
 function BuildBookGump (character)
 	var current_potion;
 	var cfgkeys := GetConfigIntKeys (alchemy_cfg_file);
-	
+	if (character)
+	endif
 	
 	var max_page_number := CInt (len (cfgkeys)/2) + 1;
 	for current_page_number := 1 to max_page_number

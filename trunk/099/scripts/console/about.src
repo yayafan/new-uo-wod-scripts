@@ -3,7 +3,8 @@ use uo;
 include "include/clock";
 
 program about( cmd )
-
+    if (cmd)
+    endif
     var system := polcore();
 
     print("System Message:    About" );

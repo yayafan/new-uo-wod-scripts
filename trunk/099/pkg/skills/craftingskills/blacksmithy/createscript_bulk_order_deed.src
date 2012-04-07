@@ -6,7 +6,7 @@ include "include/wodinc";
 include "include/objtype";
 include "include/clock";
 
-var ingot_type_array := {
+var ingot_type_array := array {
 	UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT,		//weighted toward iron
 	UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT,		//and other common ingots
 	UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT, UOBJ_IRON_INGOT,

@@ -84,7 +84,7 @@ program use_blacksmithy_bulk_order_deed (character, deed)
 			endif
 		endif
 	
-		var gump_layout := {
+		var gump_layout := array {
 			"nodispose",
 			"page 0",
 			"resizepic 100 100 5170 400 300",	
@@ -106,7 +106,7 @@ program use_blacksmithy_bulk_order_deed (character, deed)
 			"gumppic 400 280 9004"
 		};
 		
-		var gump_data := {
+		var gump_data := array {
 			"Blacksmithy Special Order:",
 			"Item:",
 			chosen_item_name,

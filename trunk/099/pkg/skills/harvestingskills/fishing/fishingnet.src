@@ -129,7 +129,7 @@ function MakeMessage(me)
 	var textgroup := RandomInt(4)+1;
 	elem := FindConfigElem(cfg,textgroup);
 	var textlines := GetConfigStringArray(elem,"text");
-	var note := {};
+	var note := array {};
 	foreach line in textlines
 		note[ len(note)+1 ] := line;
 	endforeach
@@ -155,7 +155,7 @@ endfunction
 function MakeRandomFish (character)
 
 	var fish_type := GetRandomFishType (character);
-	var fish := CreateItemInContainer (craftingbag, fish_type, 1);
+	CreateItemInContainer (craftingbag, fish_type, 1);
 
 endfunction
 
@@ -362,7 +362,8 @@ function IsLocationAccessibleForFishing ( me, x, y, z )
 	if (yd < -4 or yd > 4) 
 		return 0;
 	endif
-
+	if (z)
+	endif
 	return 1;
 
 endfunction

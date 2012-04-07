@@ -39,6 +39,8 @@ endprogram
 ///////////////////
 
 function SuckBlood (byref opponent)
+	if (opponent)
+	endif
 
 	if (GetObjProperty (me, "#nextbreath") and GetObjProperty (me, "#nextbreath") > ReadGameClock())
 		return 0;
@@ -87,6 +89,8 @@ function post_combat()
 endfunction
 
 function prepare_for_fight (byref opponent)
+	if (opponent)
+	endif
 	DisableMainEvents();
 	EnableCombatEvents();
 endfunction

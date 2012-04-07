@@ -133,7 +133,7 @@ function MakeDruidRune (character, wood)
 
 	//create a menu and some other variables
 	var selectmenu := CreateMenu ("Select a rune:");
-	var array_of_valid_runes := {};
+	var array_of_valid_runes := array {};
 	var current_rune;
 	var i;
 

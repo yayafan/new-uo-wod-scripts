@@ -22,7 +22,7 @@ program control_parafield (field)
 
 	var soundeffecttimer := ReadGameClock() - 2;
 
-	var loop_counter := 1;
+	//var loop_counter := 1;
 	while (field)
 		foreach mobile in ListMobilesNearLocationEx (field.x, field.y, field.z, 0, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, field.realm)
 			if (	CheckSkill ( mobile, SKILLID_MAGICRESISTANCE, caster_evalint, 0) )

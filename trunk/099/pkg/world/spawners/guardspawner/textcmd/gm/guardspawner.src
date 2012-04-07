@@ -147,8 +147,8 @@ function CreateNewGuardRoute (character)
 				return;
 			endif
 			
--			thespawn.SetProp ("npctemplate", ":guardspawner:guardspawner_townguard");
-			thespawn.SetProp ("spawnloc", {startloc.x, startloc.y, startloc.z});
+			thespawn.SetProp ("npctemplate", ":guardspawner:guardspawner_townguard");
+			thespawn.SetProp ("spawnloc", array{startloc.x, startloc.y, startloc.z});
 			thespawn.SetProp ("route", myroute);
 
 			UnloadDataFile (":guardspawner:guardspawn");
@@ -237,8 +237,8 @@ function CreateNewGuardPost (character)
 		return;
 	endif
 	
--	thespawn.SetProp ("npctemplate", ":guardspawner:guardspawner_post_guard");
-	thespawn.SetProp ("spawnloc", {startloc.x, startloc.y, startloc.z});
+	thespawn.SetProp ("npctemplate", ":guardspawner:guardspawner_post_guard");
+	thespawn.SetProp ("spawnloc", array {startloc.x, startloc.y, startloc.z});
 	thespawn.SetProp ("spawnfacing", character.facing);
 
 	UnloadDataFile (":guardspawner:guardspawn");

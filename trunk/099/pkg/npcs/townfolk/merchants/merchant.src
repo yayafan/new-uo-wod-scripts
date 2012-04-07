@@ -120,7 +120,7 @@ function ProcessEvent (byref ev)
 			TurnToward(ev.source);
 			var evtext := lower(ev.text);
 			if (evtext ["job"])
-				var parms := { };
+				var parms := array { };
 				parms[1] := ev.source;
 				parms[2] := me;
 				start_script (":merchants:job", parms);
@@ -128,7 +128,7 @@ function ProcessEvent (byref ev)
 				if (GetObjProperty (me, "override_quest"))
 					check_speech (ev.text, ev.source);
 				else
-					var parms := { };
+					var parms := array { };
 					parms[1] := me;
 					parms[2] := ev.source;
 					start_script (":merchants:merchant_quest", parms);
@@ -138,7 +138,7 @@ function ProcessEvent (byref ev)
 					"mage":
 					"alchemist":
 					"scribe":
-						var parms := { };
+						var parms := array { };
 						parms[1] := me;
 						parms[2] := ev.source;
 						start_script (":merchants:merchant_gate", parms);
@@ -148,17 +148,17 @@ function ProcessEvent (byref ev)
 			elseif (evtext["buy"])
 				SendBuyWindow ( ev.source, inv_fs, me, inv_pb );
 			elseif (evtext["sell all"])
-				var parms := { };
+				var parms := array { };
 				parms[1] := me;
 				parms[2] := ev.source;
 				parms[3] := "sell all";
-				var start_return := start_script (":merchants:merchant_sell_bag", parms);
+				start_script (":merchants:merchant_sell_bag", parms);
 			elseif (evtext["sell bag"])
-				var parms := { };
+				var parms := array { };
 				parms[1] := me;
 				parms[2] := ev.source;
 				parms[3] := "sell bag";
-				var start_return := start_script (":merchants:merchant_sell_bag", parms);
+				start_script (":merchants:merchant_sell_bag", parms);
 			elseif (evtext["sell"])
 				SendSellWindow ( ev.source, me, inv_fs, inv_pb, inv_1c );
 				PrintTextAbovePrivate ( me, "Can I help you?", ev.source );
@@ -190,7 +190,7 @@ function ProcessEvent (byref ev)
 			if (GetObjProperty (ev.item, "merchant"))
 				PayForJobCompleted (ev);
 			elseif (ev.item.objtype == 0x170d0)	//blacksmithy special order deed
-				start_script (":blacksmithy:merchant_take_bulk_order_deed", {ev.source, me, ev.item});
+				start_script (":blacksmithy:merchant_take_bulk_order_deed", array {ev.source, me, ev.item});
 			elseif (GetObjProperty (ev.item, "deliverto") and GetObjProperty (ev.item, "deliverto") == me.serial)
 				if (GetObjProperty (ev.item, "sentfromname"))
 					PayForItemDelivery (ev);
@@ -222,7 +222,7 @@ endfunction
 
 function TrainSkill (byref player, byref gold)
 
-	var parms := {};
+	var parms := array {};
 	parms[1] := me;
 	parms[2] := player;
 	parms[3] := gold.amount;
@@ -299,7 +299,7 @@ endfunction
 ///////////////////
 
 function PayForItemDelivery (byref ev)
-	var parms := { };
+	var parms := array { };
 	parms[1] := me;
 	parms[2] := ev.source;
 	parms[3] := ev.item;
@@ -352,11 +352,11 @@ function IsBuyableItem (byref character, byref item, byref from_bag)
 
 	var sell_options := account.GetProp ("sell_options");
 	if (!sell_options)
-		sell_options := {0, 0, 0, 0, 0, 0, 0, 0};
+		sell_options := array {0, 0, 0, 0, 0, 0, 0, 0};
 	elseif (len (sell_options) < 8)
 		SendSysMessage (character, "Resetting 'sell bag' options");
 		account.EraseProp ("sell_options");
-		sell_options := {0, 0, 0, 0, 0, 0, 0, 0};
+		sell_options := array {0, 0, 0, 0, 0, 0, 0, 0};
 	elseif (len (sell_options) < 9)
 		repeat
 			sell_options.append (0);
@@ -478,8 +478,8 @@ endfunction
 function LogSold (byref who)
 	var elemkey := who.name + "(" + who.acctname + ")";
 
-	var logfile := { };
-	var prop:= array {};
+	var logfile := array { };
+	var prop:= struct {};
     	prop .+ pname;
     	prop .+ pvalue;
 
@@ -584,7 +584,7 @@ function DoMerchantStartupSetup ()
 	set_critical (1);
 	var merchantarray := GetGlobalProperty ("#merchants_of_town_" + mytown);
 	if (!merchantarray)
-		merchantarray := {};
+		merchantarray := array {};
 	endif
 
 	if (!(me.serial in merchantarray))

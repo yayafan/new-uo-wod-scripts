@@ -116,11 +116,11 @@ function select_what_to_grind (character)
 
 	//First, initialize some variables
 	var all_grinding_recipes := ReadConfigFile ("grinding");  //array of all the recipes contained in the config file
-	var current_recipe := {};  //Recipe that is currently being considered for validity
+	var current_recipe := array {};  //Recipe that is currently being considered for validity
 	var selectmenu := CreateMenu ("What do you want to make?");  //Create an empty menu
 	var num_recipes := GetConfigMaxIntKey( all_grinding_recipes );  //Number of recipes defined in the config file
 	var count;  //used to increment through possible recipes
-	var array_valid_recipes := {};  //Array of valid recipes
+	var array_valid_recipes := array {};  //Array of valid recipes
 
 	//go through each recipe and see if we have the ingredients for it
 	for (count := 1; count <= num_recipes; count := count + 1)

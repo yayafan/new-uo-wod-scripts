@@ -359,7 +359,7 @@ function giveloot();
 		bag := who.backpack;
 	endif
 
-	var stackeditems := {};
+	var stackeditems := array {};
 
 	foreach item in enumerateitemsincontainer(bag)
 		if (item.amount > 1)

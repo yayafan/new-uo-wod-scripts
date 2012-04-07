@@ -5,6 +5,8 @@ use vitals;
 include "include/dotempmods";
 
 program endmods (character, text)
+	if (text)
+	endif
 	set_critical(1);
 
 	var currentmods := GetObjProperty (character, "#mods");

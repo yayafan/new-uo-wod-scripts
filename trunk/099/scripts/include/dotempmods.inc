@@ -171,9 +171,9 @@ function DoPersistedMod (byref who, prop, newvalue, oldvalue, duration, descript
 
 	var allmods := GetObjProperty  (who, "mods");
 	if (!allmods)
-		allmods := {};
+		allmods := array {};
 	endif
-	var mmod := {};
+	var mmod := array {};
 	mmod[1] := prop;
 	mmod[2] := oldvalue;
 	mmod[3] := ReadGameClock()+duration;
@@ -221,7 +221,7 @@ function DoPersistedMod (byref who, prop, newvalue, oldvalue, duration, descript
 	endcase
 
 	if (who.npctemplate)
-		var parms := {};
+		var parms := array {};
 		parms[1] := who;
 		parms[2] := mmod[1];
 		parms[3] := mmod[2];
@@ -241,7 +241,8 @@ function RemoveNPCMod (byref parms)
 	var amount := parms[3];	//for persisted mods, this is the oldvalue
 	var duration := parms[4];
 	var persistedmod := parms[5];
-
+  if (amount and prop)
+  endif
 	sleep( duration + 1);
 
 	set_critical(1);

@@ -2,6 +2,8 @@ use os;
 use uo;
 
 program onremove_container (character, container, item)
+	if (character)
+	endif
 	//sleep 30 seconds, then make sure that the chess piece was put back into the container
 	sleep (30);
 	var itemcontainer := item.container;

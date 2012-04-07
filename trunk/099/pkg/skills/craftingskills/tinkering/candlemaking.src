@@ -145,6 +145,8 @@ function MakeSkullOutOfHead (character, head, kettle)
 	if (!CheckSkill (character, SKILLID_TINKERING, -1, 0) )
 		SendSysMessage (character, "You destroy the head.");
 		SubtractAmount (head, 1);
+		if (kettle)
+		endif
 		return;
 	endif
 

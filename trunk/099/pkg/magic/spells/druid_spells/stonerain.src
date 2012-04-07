@@ -32,24 +32,24 @@ program tidal_wave ( parms )
 	//rock[3] is the rock's y position
 	//rock[4] is the rock's z position
 	//rock[5] is the rock serial number
-	var rock := {};
+	var rock := array{};
 
 	//get the caster's ability in several skills
 	var caster_animallore := CInt (GetAttribute (caster, ATTRIBUTEID_ANIMALLORE) );
-	var caster_magery := CInt (GetAttribute (caster, ATTRIBUTEID_MAGERY) );
-	var caster_meditation := CInt (GetAttribute (caster, ATTRIBUTEID_MEDITATION) );
-	var caster_evalint := CInt (GetAttribute (caster, ATTRIBUTEID_INVOCATION) );
+	caster_magery := CInt (GetAttribute (caster, ATTRIBUTEID_MAGERY) );
+//	var caster_meditation := CInt (GetAttribute (caster, ATTRIBUTEID_MEDITATION) );
+	caster_evalint := CInt (GetAttribute (caster, ATTRIBUTEID_INVOCATION) );
 
 	//a few variables based off the caster's skills
-	var caster_hit_chance := (caster_meditation + caster_animallore)/2;
+	//var caster_hit_chance := (caster_meditation + caster_animallore)/2;
 	var number_of_rocks := (caster_magery + caster_animallore)/20;
 
 //	var number_of_rocks := 2;
 
-	var damage_max := (caster_magery + caster_evalint +caster_meditation)/3;
+//	var damage_max := (caster_magery + caster_evalint +caster_meditation)/3;
 
 	//a couple of other variables
-	var rock_array := {};
+	var rock_array := array{};
 	var created_rock;
 	var i;
 	var random_number;

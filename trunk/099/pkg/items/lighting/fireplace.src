@@ -3,7 +3,8 @@ use os;
 
 
 program fireplace (character, fireplace )
-
+	if (character)
+	endif
 	case (fireplace.objtype)
 		0x0475:	var other_piece := ListItemsNearLocationOfType (fireplace.x, fireplace.y-1, fireplace.z, 0, 0x0489, fireplace.realm)[1];
 				if (!other_piece)

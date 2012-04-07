@@ -6,7 +6,7 @@ include "include/client";
 program mylayers(who, action)
 
 // Create an array of layers using the current client.inc
-var layers := 	{
+var layers := 	array{
 		LAYER_HAND1,
 		LAYER_HAND2,
 		LAYER_SHOES,

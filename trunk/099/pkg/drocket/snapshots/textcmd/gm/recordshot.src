@@ -1,8 +1,8 @@
 use uo;
 use cfgfile;
 
-var entry := { };
-var prop := array {};
+var entry := array{ };
+var prop := struct {};
 prop .+ pname;
 prop .+ pvalue;
  
@@ -22,7 +22,7 @@ program recordshot( who , text)
 		return;
 	endif
 
-	var coordinates := { };
+	var coordinates := array{ };
 
 	sendsysmessage(who,"Target the North-West corner of the house (Up!)");
 	var coords := TargetCoordinates(who);
@@ -34,8 +34,8 @@ program recordshot( who , text)
 	coordinates[3]:= coords.x;
 	coordinates[4]:= coords.y;
 
-	var z;
-	var stuff := { };
+//	var z;
+	var stuff := array{ };
 	foreach item in ListObjectsInBox(coordinates[1],coordinates[2],
 			-128,coordinates[3],coordinates[4],+128, coords.realm);
 		if ( (!item.acctname) and (!item.npctemplate) )
@@ -46,7 +46,7 @@ program recordshot( who , text)
 	var itemnum := 0;
 	foreach item in (stuff)
 		itemnum := itemnum + 1;
-		entry := { };
+		entry := array{ };
 		AddPropertyToElem( "name", item.name );
 		AddPropertyToElem( "desc", item.desc );
 		AddPropertyToElem( "graphic", item.graphic );

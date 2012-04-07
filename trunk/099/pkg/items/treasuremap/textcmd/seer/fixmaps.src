@@ -10,9 +10,11 @@ include "include/string";
 include "include/accounts";
 include "include/gumps";
 
-var mapobjtypes := {0x16003, 0x16004, 0x16005, 0x16006, 0x16007};
+var mapobjtypes := array{0x16003, 0x16004, 0x16005, 0x16006, 0x16007};
 
 program fix_armor (character, text)
+	if (text)
+	endif
 	SendSysMessage (character, "This will search through all the backpacks and bankboxes in");
 	SendSysMessage (character, "the world and fix old treasure maps.  PLEASE only run this if");
 	SendSysMessage (character, "necessary.  It will take a while...");

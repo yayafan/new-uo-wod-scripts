@@ -6,6 +6,8 @@ include "include/objtype";
 include "include/magicitems";
 
 program onremove_corpse (character, corpse, item, movetype)
+	if (corpse)
+	endif
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif

@@ -166,12 +166,12 @@ function ProcessEvents (byref ev, byref wanders, byref next_wander)
 			elseif (evtext ["resign"])
 				QuitGuards (ev.source);
 			elseif (evtext ["quest"])
-				var parms := { };
+				var parms := array{ };
 				parms[1] := me;
 				parms[2] := ev.source;
 				start_script (":guards:townguard_quest", parms);
 			elseif (evtext ["status"])
-				var parms := { };
+				var parms := array{ };
 				parms[1] := me;
 				parms[2] := ev.source;
 				start_script (":guards:townguard_status", parms);
@@ -274,7 +274,7 @@ function AddToHateList (byref crim)
 		return;
 	endif
 
-	var crooks := { };
+	var crooks := array{ };
 	if (!GetObjProperty (me, "crooks") )
 		crooks[1] := crim.serial;
 		SetObjProperty (me, "crooks", crooks);
@@ -502,7 +502,8 @@ function post_combat()
 endfunction
 
 function prepare_for_fight (byref opponent)
-
+	if (opponent)
+	endif
 	DisableMainEvents();
 	EnableCombatEvents();
 
@@ -516,7 +517,7 @@ endfunction
 ///////////////////
 
 function PayForItemDelivery (byref ev)
-	var parms := { };
+	var parms := array{ };
 	parms[1] := me;
 	parms[2] := ev.source;
 	parms[3] := ev.item;
@@ -540,7 +541,7 @@ function DoGuardStartupSetup ()
 	set_critical (1);
 	var guardarray := GetGlobalProperty ("#guards_of_town_" + mytown);
 	if (!guardarray)
-		guardarray := {};
+		guardarray := array {};
 	endif
 	
 	if (!(me.serial in guardarray))

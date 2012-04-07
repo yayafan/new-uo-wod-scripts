@@ -10,9 +10,9 @@ include "include/objtype";
 include "include/gumps";
 
 CONST GUMP_CARD_BASE := 0x1c01;
-var players_cards := {};
-var drawn_cards := {};
-var players_cards_status := {0, 0, 0, 0, 0};
+var players_cards := array{};
+var drawn_cards := array{};
+var players_cards_status := array{0, 0, 0, 0, 0};
 var gump_layout, gump_data;
 var win_results;
 var player_bet := 1;
@@ -73,9 +73,9 @@ program poker (character)
 		set_critical (0);
 
 		//reset all the data
-		players_cards := {};
-		players_cards_status := {0, 0, 0, 0, 0};
-		drawn_cards := {};
+		players_cards := array{};
+		players_cards_status := array{0, 0, 0, 0, 0};
+		drawn_cards := array{};
 		winning_string := "";
 
 		//draw 5 cards
@@ -354,8 +354,8 @@ endfunction
 
 function DetermineWinOrLoss ()
 	//the first thing to do is calculate the cards suit and value
-	var cardsuits := {};
-	var cardvalues := {};
+	var cardsuits := array{};
+	var cardvalues := array{};
 	var card_values_counter := dictionary;
 	for i := 1 to 5
 		var thiscardvalue := GetRankOfCard (players_cards[i]);
@@ -377,33 +377,33 @@ function DetermineWinOrLoss ()
 			//the pair needs to be jacks or better...
 			for i := 10 to 12
 				if (card_values_counter[i] == 2)
-					return {"Pair", 1};
+					return array{"Pair", 1};
 				endif
 			endfor
 			if (card_values_counter[0] == 2)
-				return {"Pair", 1};
+				return array{"Pair", 1};
 			endif
-			return {"Sorry, try again.", 0};
+			return array{"Sorry, try again.", 0};
 		
 		//if there's 3 keys, it could be 2 pair or 1 triple
 		elseif (card_values_counter_keys.size() == 3)
 			foreach key in card_values_counter_keys
 				if (card_values_counter[key] == 3)
-					return {"Three of a kind", 3};
+					return array{"Three of a kind", 3};
 				endif
 			endforeach
-			return {"Two pair", 2};
+			return array{"Two pair", 2};
 		
 		//if there's 2 keys, its either a flush of a four-of-a-kind
 		elseif (card_values_counter_keys.size() == 2)
 			foreach key in card_values_counter_keys
 				if (card_values_counter[key] == 4)
-					return {"Four of a kind", 25};
+					return array{"Four of a kind", 25};
 				endif
 			endforeach
-			return {"Full House", 9};
+			return array{"Full House", 9};
 		else
-			return {"Error, bad cards!", 1};
+			return array{"Error, bad cards!", 1};
 		endif
 	endif
 
@@ -449,17 +449,17 @@ function DetermineWinOrLoss ()
 			//check for royal flush
 			if (card_values_counter.exists (0))
 				if (card_values_counter.exists (12))
-					return {"Royal Flush!!!", 800};
+					return array{"Royal Flush!!!", 800};
 				endif
 			endif
-			return {"Straight Flush!", 50};
+			return array{"Straight Flush!", 50};
 		endif
-		return {"Straight!", 4};
+		return array{"Straight!", 4};
 	elseif (found_flush)
-		return {"Flush!", 6};
+		return array{"Flush!", 6};
 	endif
 
-	return {"Sorry, try again.", 0};
+	return array{"Sorry, try again.", 0};
 endfunction
 
 

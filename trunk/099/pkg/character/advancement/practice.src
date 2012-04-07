@@ -33,7 +33,7 @@ program practice (character);
 		return;
 	endif
 
-	var newprac := {};
+	var newprac := array{};
 	foreach theskill in prac
 		var skillid := theskill[1];
 		var trainingamount := theskill[2];

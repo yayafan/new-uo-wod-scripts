@@ -52,8 +52,8 @@ program enduring_renewal (parms)
 		fury_bonus := 5;
 	endif
 
-	SetObjProperty (druidstaff, "#specialweaponeffect", {"lightning", ReadGameClock() + duration, "Gaea's Fury"});
-	SetObjProperty (druidstaff, "#combat_to_hit_bonus", {fury_bonus, ReadGameClock() + duration, "Gaea's Fury"});
+	SetObjProperty (druidstaff, "#specialweaponeffect", array{"lightning", ReadGameClock() + duration, "Gaea's Fury"});
+	SetObjProperty (druidstaff, "#combat_to_hit_bonus", array{fury_bonus, ReadGameClock() + duration, "Gaea's Fury"});
 	SendSysMessage (caster, "Your weapon crackles with energy");
 	
 	return 1;

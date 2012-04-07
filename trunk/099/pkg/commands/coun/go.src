@@ -60,7 +60,7 @@ function DisplayTravelGump (character)
 	
 	//Lets turn this into an easier to read menu
 	var max_pages := 1;
-	var travel_locations := {};
+	var travel_locations := array{};
 	for i := 1 to len (loc_array)
 		var thisloc := loc_array[i];
 
@@ -73,7 +73,7 @@ function DisplayTravelGump (character)
 				SendSysMessage (character, "Error finding element " + thisloc);
 				return;
 			endif
-			var temparray := {elem.desc, elem.x, elem.y, elem.z, elem.realm};
+			var temparray := array{elem.desc, elem.x, elem.y, elem.z, elem.realm};
 			travel_locations.append (temparray);
 		endif
 	endfor

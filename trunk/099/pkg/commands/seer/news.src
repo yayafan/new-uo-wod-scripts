@@ -23,7 +23,7 @@ endprogram
 
 function WriteNews(me)
 
-	var news := { };
+	var news := array{ };
 	var newsline := "";
 
 	newsline := SendTextEntryGump( me, "NEWS: ", 

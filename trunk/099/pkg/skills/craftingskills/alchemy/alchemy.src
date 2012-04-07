@@ -152,7 +152,7 @@ endprogram
 function SelectWhatToMake (byref character, byref myburner)
 
 	var alchemy_cfg_file := ReadConfigFile( "alchemy" );
-	var current_potion := {};
+	var current_potion := array {};
 	var selectmenu := CreateMenu("Make what?");
 	var number_potions := GetConfigMaxIntKey( alchemy_cfg_file );
 	var array_of_valid_potions := Array {};

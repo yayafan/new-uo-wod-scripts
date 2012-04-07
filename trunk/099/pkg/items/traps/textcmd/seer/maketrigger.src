@@ -187,8 +187,8 @@ endfunction
 ///////////////////
 
 function SetNPCGuardians (character, lever)
-	var guardians := {};
-	var thenpc_data := {};
+	var guardians := array{};
+	var thenpc_data := array{};
 
 	sendsysmessage (character, "Target the guardians.  Hit escape when finished.");
 	var done := 0;
@@ -209,8 +209,8 @@ function SetNPCGuardians (character, lever)
 			thenpc_data [6] := GetAttributeBaseValue (thenpc, "Strength");
 			thenpc_data [7] := GetAttributeBaseValue (thenpc, "Dexterity");
 			thenpc_data [8] := GetAttributeBaseValue (thenpc, "Intelligence");
-			var skills := {};
-			for i := 0 to 48
+			var skills := array{};
+			for i := 0 to 57
 				skills[i] := GetAttribute (thenpc, GetAttributeIDBySkillID (i));
 			endfor
 			thenpc_data [9] := skills;
@@ -236,7 +236,7 @@ endfunction
 
 function DisplayNPCSelectionMenu (character)
 	var npcmenu := CreateMenu ("Select an NPC type:");
-	var thepackages := {};
+	var thepackages := array{};
 
 	foreach pkgname in (polcore().packages)
 		var cfg := ReadConfigFile (":" + pkgname + ":npcdesc");
@@ -272,7 +272,7 @@ function DisplayNPCSelectionMenu (character)
 	endif
 
 	var npcmenu2 := CreateMenu ("Select an NPC type:");
-	var thenpcs := {};
+	var thenpcs := array{};
 	foreach entry in thenpctypes
 		var template := SplitWords (entry)[1];
 		var graphic := CINT (SplitWords (entry)[2]);

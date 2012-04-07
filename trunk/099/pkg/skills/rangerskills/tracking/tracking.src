@@ -38,7 +38,7 @@ program track (character)
 	endif
 
 	var catmenu := CreateMenu ("Select a trail:");
-	var crittypes := { };
+	var crittypes := array { };
 	var crittype;
 	
 	foreach mobile in nearby

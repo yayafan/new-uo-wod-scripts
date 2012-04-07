@@ -6,11 +6,11 @@ include "include/spawn";
 
 
 program textcmd_createnpc (character, parms)
-//	if (!parms)
+	if (!parms)
 //		SendSysMessage (character, "usage: .npc [group] [number]");
 //		SendSysMessage (character, "Available groups are:  shabooli");
 //		return;
-//	endif
+	endif
 
 	var npctemplate;
 	for i := 1 to 25

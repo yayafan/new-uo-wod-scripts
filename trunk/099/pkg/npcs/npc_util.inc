@@ -160,7 +160,7 @@ function grabloot()
 
 				elseif (item.objtype == UOBJ_CORPSE)
 					if (!GetObjProperty(item,"#ignoreit") )
-						var Items := { };
+						var Items := array { };
 						foreach thingie in EnumerateItemsIncontainer (item)
 							if (thingie.objtype < STARTHAIR or thingie.objtype > ENDHAIR and !GetObjProperty(thingie,"#ignoreit") )
 								Items [ len(Items)+1 ] := thingie;

@@ -100,7 +100,7 @@ program use_product (character, potion)
 
 	set_critical (1);
 	detach ();
-	var parms := {};
+	var parms := array {};
 	parms .+ script := "humuc";
 
 	var thecritter := CreateNPCfromTemplate ("humuc", cint(character.x - 1), character.y, character.z, parms, character.realm);

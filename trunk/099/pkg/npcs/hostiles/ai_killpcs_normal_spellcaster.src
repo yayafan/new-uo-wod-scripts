@@ -85,6 +85,8 @@ function in_combat_event_loop (byref opponent)
 endfunction
 
 function prepare_for_fight (byref opponent)
+	if (opponent)
+	endif
 	ClearEventQueue ();
 	DisableMainEvents ();
 	EnableCombatEvents ();

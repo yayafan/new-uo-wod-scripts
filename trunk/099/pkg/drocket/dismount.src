@@ -77,7 +77,7 @@ program dismount_from_horse (parms)
 	animal.facing := character.facing;
 	//if its a player, retame the creature
 	if (character.acctname)
-		var freetime := GetObjProperty (mount, "freetime");
+//		var freetime := GetObjProperty (mount, "freetime");
 
 		SetObjProperty (animal, "master", character.serial);
 		animal.script := "::tamed";

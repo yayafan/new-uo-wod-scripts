@@ -92,7 +92,7 @@ function SentenceCharacterToJail (gm)
 		return;
 	endif
 
-	var all_characters := {};
+	var all_characters := array{};
 	var acct, player, playername;
 	var exact_match := 0;
 	foreach acctname in ListAccounts ()
@@ -135,7 +135,7 @@ function SentenceCharacterToJail (gm)
 				return;
 			endif
 		else
-			var all_exact_matches := {};
+			var all_exact_matches := array{};
 			foreach player in all_characters
 				playername := Lower (player.name);
 				if (playername == chrname)
@@ -243,7 +243,7 @@ function SentenceCharacterToJail (gm)
 		SendSysMessage (gm, "Canceled.");
 		return;
 	endif
-	var jailprop := {};
+	var jailprop := array{};
 	jailprop [1] := ReadGameClock() + jailtime * 60 * 60 * 24;
 	jailprop [2] := msg;
 
@@ -340,7 +340,7 @@ function SentenceAccountToJail (gm)
 		SendSysMessage (gm, "Canceled.");
 		return;
 	endif
-	var jailprop := {};
+	var jailprop := array{};
 	jailprop [1] := ReadGameClock() + jailtime * 60 * 60 * 24;
 	jailprop [2] := msg;
 
@@ -368,7 +368,7 @@ function ReleaseCharacterToJail (gm)
 		return;
 	endif
 
-	var all_characters := {};
+	var all_characters := array{};
 	var acct, player, playername;
 	var exact_match := 0;
 	foreach acctname in ListAccounts ()
@@ -411,7 +411,7 @@ function ReleaseCharacterToJail (gm)
 				return;
 			endif
 		else
-			var all_exact_matches := {};
+			var all_exact_matches := array{};
 			foreach player in all_characters
 				playername := Lower (player.name);
 				if (playername == chrname)
@@ -458,7 +458,7 @@ function ReleaseCharacterToJail (gm)
 		SendSysMessage (gm, "Canceled.");
 		return;
 	endif
-	var jailprop := {};
+	var jailprop := array{};
 	jailprop [1] := 0;
 	jailprop [2] := "";
 
@@ -493,7 +493,7 @@ function ReleaseAccountToJail (gm)
 		SendSysMessage (gm, "Canceled.");
 		return;
 	endif
-	var jailprop := {};
+	var jailprop := array{};
 	jailprop [1] := 0;
 	jailprop [2] := "";
 

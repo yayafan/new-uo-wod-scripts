@@ -8,6 +8,8 @@ include "include/utility";
 include "../pkg/items/housing/house";
 
 program caninsert_chest (character, container, movetype, inserttype, item, existing_stack, amt_to_add)
+	if (amt_to_add and existing_stack and item and inserttype)
+	endif
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif

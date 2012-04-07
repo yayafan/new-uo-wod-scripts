@@ -4,7 +4,7 @@ use util;
 use basic;
 use cfgfile;
 
-var reagent_list := {};
+var reagent_list := array{};
 
 program listregs (character)
 	if (GetObjProperty (character, "#checkreggump"))
@@ -15,7 +15,7 @@ program listregs (character)
 	endif
 	SetObjProperty (character, "#checkreggump", GetPid());
 
-	var gump_layout := {
+	var gump_layout := array{
 		"nodispose",
 		"page 0",
 		"resizepic 0 20 2620 350 470",
@@ -24,7 +24,7 @@ program listregs (character)
 		"page 1"
 	};
 
-	var gump_data := {
+	var gump_data := array{
 	    "Reagents and Resources"
 	};
 
@@ -102,54 +102,54 @@ endprogram
 ///////////////////
 
 function LoadReagentList ()
-	reagent_list := {
-		{0x0F7A, "Black Pearl"},
-		{0x0F7B, "Blood Moss"},
-		{0x0F84, "Garlic"},
-		{0x0F85, "Ginseng"},
-		{0x0F8D, "Spider Silk"},
-		{0x0F8C, "Sulphurous Ash"},
-		{0x0F86, "Mandrake Root"},
-		{0x0F88, "Nightshade"},
+	reagent_list := array {
+		array{0x0F7A, "Black Pearl"},
+		array{0x0F7B, "Blood Moss"},
+		array{0x0F84, "Garlic"},
+		array{0x0F85, "Ginseng"},
+		array{0x0F8D, "Spider Silk"},
+		array{0x0F8C, "Sulphurous Ash"},
+		array{0x0F86, "Mandrake Root"},
+		array{0x0F88, "Nightshade"},
 		"break",
-		{0x0F79, "Blackmoor"},
-		{0x0F7C, "Blood Spawn"},
-		{0x0F7D, "Vial of Blood", "Vials of Blood"},
-		{0x0F7E, "Bone", "Bones"},
-		{0x0F7F, "Brimstone"},
-		{0x0F80, "Daemon Bone"},
-		{0x0F82, "Dragon's Blood"},
-		{0x0F83, "Executioner's Cap"},
-		{0x0F90, "Dead Wood"},
-		{0x0F8E, "Serpent's Scales"},
-		{0x0F81, "Fertile Dirt"},
-		{0x0F8F, "Volcanic Ash"},
-		{0x0F78, "Batwing"},
+		array{0x0F79, "Blackmoor"},
+		array{0x0F7C, "Blood Spawn"},
+		array{0x0F7D, "Vial of Blood", "Vials of Blood"},
+		array{0x0F7E, "Bone", "Bones"},
+		array{0x0F7F, "Brimstone"},
+		array{0x0F80, "Daemon Bone"},
+		array{0x0F82, "Dragon's Blood"},
+		array{0x0F83, "Executioner's Cap"},
+		array{0x0F90, "Dead Wood"},
+		array{0x0F8E, "Serpent's Scales"},
+		array{0x0F81, "Fertile Dirt"},
+		array{0x0F8F, "Volcanic Ash"},
+		array{0x0F78, "Batwing"},
 		"break",
-		{0x1422, "Wax"},
-		{0x09f1, "Raw Ribs"},
-		{0x1bd1, "Feathers"},
-		{0x0F25, "Amber"},
-		{0x0F13, "Ruby", "Rubies"},
-		{0x0F11, "Sapphire", "Sapphires"},
-		{0x1765, "Cloth"},
+		array{0x1422, "Wax"},
+		array{0x09f1, "Raw Ribs"},
+		array{0x1bd1, "Feathers"},
+		array{0x0F25, "Amber"},
+		array{0x0F13, "Ruby", "Rubies"},
+		array{0x0F11, "Sapphire", "Sapphires"},
+		array{0x1765, "Cloth"},
 		"break",
-		{0xDC03, "Gr. Heal"},
-  		{0xDC16, "Gr. Cure"},
-		{0x0E21, "Bandages"},
-		{0xDC12, "Gr. Strength"},
-		{0xDC0D, "Gr. Agility"},
-		{0xDC06, "Gr. Poison"},
-		{0xDC17, "Deadly Poison"},
-		{0xDC07, "Gr. Explosion"},
-		{0xdc0f, "Gr. Refresh"},
-		{0xdce6, "Nightsight"},
+		array{0xDC03, "Gr. Heal"},
+  		array{0xDC16, "Gr. Cure"},
+		array{0x0E21, "Bandages"},
+		array{0xDC12, "Gr. Strength"},
+		array{0xDC0D, "Gr. Agility"},
+		array{0xDC06, "Gr. Poison"},
+		array{0xDC17, "Deadly Poison"},
+		array{0xDC07, "Gr. Explosion"},
+		array{0xdc0f, "Gr. Refresh"},
+		array{0xdce6, "Nightsight"},
 		"break",
-		{0x0F3F, "Arrow", "Arrows"},
-		{0x6051, "Fire Arrow", "Fire Arrows"},
-		{0x6052, "Frost Arrow", "Frost Arrows"},
-		{0x1BFB, "Bolt", "Bolts"},
-		{0x6053, "Fire Bolt", "Fire Bolts"},
-		{0x6054, "Frost Bolt", "Frost Bolts"}
+		array{0x0F3F, "Arrow", "Arrows"},
+		array{0x16051, "Fire Arrow", "Fire Arrows"},
+		array{0x16052, "Frost Arrow", "Frost Arrows"},
+		array{0x1BFB, "Bolt", "Bolts"},
+		array{0x16053, "Fire Bolt", "Fire Bolts"},
+		array{0x16054, "Frost Bolt", "Frost Bolts"}
 	};
 endfunction

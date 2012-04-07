@@ -221,8 +221,8 @@ function JoinAnotherGroup (me)
 
 
 	//lots of junk, just so that it displays everyone who joins the group
-	var list_of_old_members := {};
-	var list_of_new_members := {};
+	var list_of_old_members := array{};
+	var list_of_new_members := array{};
 
 	foreach player in EnumerateOnlineCharacters ()
 

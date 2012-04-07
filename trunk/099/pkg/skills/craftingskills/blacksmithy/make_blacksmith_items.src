@@ -67,6 +67,8 @@ endprogram
 function MakeBlacksmithyItems (byref character, byref hammer, byref material)
 	if (!CheckSkillForDifferentMetals (character, material.objtype) )
 		SendSysmessage (character, "You have no chance to successfully work with that metal.");
+		if (hammer)
+		endif
 		return;
 	endif
 

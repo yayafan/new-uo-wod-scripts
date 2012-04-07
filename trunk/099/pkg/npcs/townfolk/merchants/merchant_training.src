@@ -9,14 +9,14 @@ include "include/skills";
 include "include/attributes";
 include "../pkg/npcs/npcinfo";
 
-var gump_layout := {
+var gump_layout := array {
 	"page 0",
 	"nodispose",
 	"resizepic 0 50 2620 320 460",
 	"text 15 62 1 0"
 };
 
-var gump_data := { "filler" };
+var gump_data := array { "filler" };
 
 program merchant_training (parms)
 	var merchant := parms [1];
@@ -81,7 +81,7 @@ program merchant_training (parms)
 	var gump_return := SendDialogGump( player, gump_layout, gump_data );
 
 	//worthless event just so the merchant turns to look at the player
-	var ev := array {};
+	var ev := struct {};
 	ev.+type := EVID_MERCHANT_SOLD;
 	ev.+source := player;
 	ev.+amount := 0;
@@ -127,11 +127,11 @@ program merchant_training (parms)
 
 	var prac := GetObjProperty (player, "practicing");
 	if (!prac)
-		prac := {};
+		prac := array {};
 	endif
 
 	//check to see if we're already practicing this skill
-	var theskill := {};
+	var theskill := array {};
 	for i := 1 to len (prac)
 		theskill := prac[i];
 		if (theskill[1] == chosen_skill)
@@ -177,7 +177,7 @@ function CurrentlyPracticing (player, skillid)
 	endif
 
 	var prac := GetObjProperty (player, "practicing");
-	var theskill := { };
+	var theskill := array { };
 	for i := 1 to len (prac)
 		theskill := prac [i];
 		if (theskill[1] == skillid)
@@ -196,7 +196,7 @@ endfunction
 
 function DetermineMerchantsSkills (byref merchant)
 
-	var skills_trained := {};
+	var skills_trained := array {};
 
 	case (TrimTemplate (merchant.npctemplate))
 		"bowyer":

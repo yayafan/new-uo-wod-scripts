@@ -80,7 +80,7 @@ program Place_Deed (character, deed)
 		item.name := "a menorah";
 		item.script := ":lighting:torch";
 		item.movable := 1;
-		SetObjProperty (item, "otheritems", {item.serial});
+		SetObjProperty (item, "otheritems", array{item.serial});
 		SetObjProperty (item, "deedobjtype", 0xB010);
 		DestroyItem (deed);
 		SendSysMessage (character, "Happy Hannukah!");
@@ -158,7 +158,7 @@ program Place_Deed (character, deed)
 		return;
 	endif
 
-	var itemserials := {};
+	var itemserials := array{};
 	set_critical (1);
 
 	var item := CreateItemAtLocation (character.x, character.y, character.z, 0xb011, 1, character.realm);

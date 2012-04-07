@@ -5,6 +5,8 @@ include "include/attributes";
 ///////////////////
 
 function CastDruidSpell (caster, staff, spellid)
+  if (staff)
+  endif
 	if (GetObjProperty (caster, "#useskill"))
 		if (GetProcess (GetObjProperty (caster, "#useskill")))
 			PrintTextAbovePrivate (caster, "I am already performing another action.", caster);
@@ -13,9 +15,9 @@ function CastDruidSpell (caster, staff, spellid)
 	endif
 	
 	//load the config file
-	var spell_cfg_file:= ReadConfigFile (":*:spells");
-	var current_spell := FindConfigelem (spell_cfg_file,spellid);
-	var circle := FindSpellCircle (spellid);
+	var spell_cfg_file1:= ReadConfigFile (":*:spells");
+	var current_spell := FindConfigelem (spell_cfg_file1,spellid);
+//	var circle := FindSpellCircle (spellid);
 	
 	//save the property "#castingdruidspell".  This is done in order to avoid casting more than
 	//one spell at a time
@@ -124,7 +126,7 @@ endfunction
 function PutRuneInBag (bag, rune_objtype)
 	var rune_array := GetObjProperty (bag, "runes");
 	if (!rune_array)
-		rune_array := {};
+		rune_array := array{};
 	endif
 
 	foreach rune in rune_array
@@ -151,7 +153,7 @@ function TakeRuneOutOfBag (bag, rune_objtype)
 		return 0;
 	endif
 
-	var new_rune_array := {};
+	var new_rune_array := array{};
 
 	foreach rune in rune_array
 		if (rune and cint(rune) != cint (rune_objtype))

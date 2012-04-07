@@ -67,7 +67,7 @@ program double_clicked_item (character, item)
 		endif
 	endif
 	
-	var old_items := {};
+	var old_items := array{};
 	var successful_equip := 0;
 	var equipped_item_elem, equipped_item_coverage_array;
 
@@ -174,8 +174,8 @@ endfunction
 ///////////////////
 
 function ChangeArcheryAmmo (character, thebow)
-	var valid_arrows := {0x0f3f, 0x16051, 0x16052};
-	var valid_bolts := {0x1bfb, 0x16053, 0x16054};
+	var valid_arrows := array{0x0f3f, 0x16051, 0x16052};
+	var valid_bolts := array{0x1bfb, 0x16053, 0x16054};
 
 	SendSysMessage (character, "Target the ammo that you want to use:");
 	var theammo := Target (character);

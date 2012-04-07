@@ -194,7 +194,7 @@ function MakeMagicItemOutOfGroup (container, str, quality)
 	var item := CreateItemInContainer (container, itemtype, 1);
 	item.movable := 1;
 
-	var parms := {};
+	var parms := array {};
 	parms[1] := item;
 	parms[2] := CInt (quality);
 	parms[3] := 1;				//whether the created magic item starts out damaged
@@ -266,7 +266,7 @@ function CreateChristmasPresent (corpse)
 	present.graphic := 10290 + RandomInt (8);
 	
         //this variable not used right now
-	var npcnamegroup := 0;
+	//var npcnamegroup := 0;
         
 
 	case (RandomInt (20))

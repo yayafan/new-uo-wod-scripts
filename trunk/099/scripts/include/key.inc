@@ -4,7 +4,7 @@
 include "include/client";
 include "include/objtype";
 
-var KEYTYPES := { UOBJ_COPPER_KEY,
+var KEYTYPES := array{ UOBJ_COPPER_KEY,
 									UOBJ_GOLD_KEY,
 									UOBJ_IRON_KEY,
 									UOBJ_MAGIC_KEY,

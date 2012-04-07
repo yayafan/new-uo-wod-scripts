@@ -8,6 +8,8 @@ function process_combat_event (byref ev)
 endfunction
 
 function in_combat_event_loop (byref opponent)
+  if (opponent)
+  endif
 endfunction
 
 function post_combat()
@@ -22,6 +24,8 @@ function post_combat()
 endfunction
 
 function prepare_for_fight(opponent)
+  if (opponent)
+  endif
 	DisableMainEvents();
 	EnableCombatEvents();
 endfunction

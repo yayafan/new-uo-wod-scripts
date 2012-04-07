@@ -41,7 +41,7 @@ endprogram
 function DoNaturesCurseSpellEffect (character)
 	var oldx := character.x;
 	var oldy := character.y;	
-	var items := {};
+	var items := array{};
 
 	set_critical (1);
 	items.append (CreateItemAtLocation (character.x+1, character.y, character.z, UOBJ_SPLASH_TILE, 1, character.realm));

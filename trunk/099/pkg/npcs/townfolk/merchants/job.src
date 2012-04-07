@@ -207,7 +207,8 @@ function GetJobType (byref player, byref merchant)
 	if (IsACraftSkill (tradeskill))
 		return tradeskill;
 	endif
-	
+	if (merchant)
+	endif
 	SendSysMessage (player, "You must set your specializations before you can job!", FONT_NORMAL, MESSAGE_COLOR_WARNING);
 	return -1;
 
@@ -521,11 +522,11 @@ function GivePlayerBlacksmithySpecialOrder (merchant, player)
 		return 0;
 	endif
 	
-	SetObjProperty (player, "#bulk_order_deed", {(ReadGameClock() + 21600), deed.serial});
+	SetObjProperty (player, "#bulk_order_deed", array {(ReadGameClock() + 21600), deed.serial});
 	SetObjProperty (deed, "start_time", ReadGameClock());
 	SetObjProperty (deed, "merchant_serial", merchant.serial);
 	SetObjProperty (deed, "merchant_name", merchant.name);
-	SetObjProperty (deed, "merchant_location", {merchant.x, merchant.y, merchant.z});
+	SetObjProperty (deed, "merchant_location", array {merchant.x, merchant.y, merchant.z});
 	SetObjProperty (deed, "player_serial", player.serial);
 	
 	PrintTextAbovePrivate (merchant, "I could use some of these items, if you have the time.", player);

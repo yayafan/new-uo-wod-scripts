@@ -24,7 +24,7 @@ endif
 
 detach ();
 Syslog ("Initiating Shutdown via Web Interface");
-start_script (":saver:doshutdown", {});
+start_script (":saver:doshutdown", array{});
 
 WriteHTML ("<p>Restart initiated - 10 minutes until restart</p>");
 WriteHTML ("<p>The restart can be delayed by the .delayrestart command in-game, but only until the countdown timer reaches 5 minutes.");

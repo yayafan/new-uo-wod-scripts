@@ -5,11 +5,11 @@ use vitals;
 include "include/starteqp";
 include "include/key";
 
-var chestarray := {};
-var mobarray := {};
+var chestarray := array {};
+var mobarray := array {};
 
 program spawntest(item)
-  var rng := GetObjProperty(item,"range");
+//  var rng := GetObjProperty(item,"range");
   foreach thing in ListItemsNearLocation(item.x, item.y, item.z, 20, item.realm)
     if(GetObjProperty(thing,"link") == item.serial)
       DestroyItem(thing);
@@ -33,16 +33,16 @@ program spawntest(item)
   endwhile
   var amt := GetObjProperty(item,"amount");
   var frq := GetObjProperty(item,"duration");
-  var chest, thechest, themob;
+  var thechest, themob;
   var i := 1;
   while(item)
     chestarray := GetObjProperty(item, "chestarray");
     if(!chestarray)
-      chestarray := {};
+      chestarray := array {};
     endif
     mobarray := GetObjProperty(item, "MobArray");
     if(!mobarray)
-      mobarray := {};
+      mobarray := array {};
     endif
     foreach chst in chestarray
       thechest := SystemFindObjectBySerial(CInt(chst));
@@ -133,9 +133,9 @@ function create_guardians(item)
   endif
   var limit := GetObjProperty(item, "CritterAmount");
   var num := GetConfigInt( elem, "num");
-  var rand, template;
+  var rand;
   var i := 1;
-  var mobarray := {};
+  mobarray := array {};
   var critter;
   for( i := 1; i <= limit; i := i + 1 )
     rand := RandomInt(num) + 1;
@@ -157,7 +157,7 @@ function create_standards(item)
   if((rng == 0) || (rng == error))
     rng := 1;
   endif
-  var checkitem;
+//  var checkitem;
   while((checker == 0) && (item))
     checker := 1;
     case(rng)

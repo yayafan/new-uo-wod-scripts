@@ -41,6 +41,8 @@ program use_questitem (player, text)
 	SendSysMessage (player, "Select the NPC to change script:");
 	var selected_npc := Target (player);
 	if (!selected_npc)
+		if (text)
+		endif
 		SendSysMessage (player, "Canceled.");
 		return;
 	endif
@@ -187,7 +189,7 @@ function AddNewKeyword (player, selected_npc)
 	endif
 
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");
 		if (!thisline)
@@ -214,7 +216,7 @@ endfunction
 
 function EditNewKeyword (player, selected_npc)
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");
 		if (!thisline)
@@ -266,7 +268,7 @@ function AddItemToKeyword (player, selected_npc)
 	endif
 
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 		SendSysMessage (player, "What should their reply to the keyword be after they give the item?");
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply (blank deletes keyword)", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");

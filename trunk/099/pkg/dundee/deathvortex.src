@@ -6,7 +6,7 @@ include "include/dotempmods";
 
 program deathvortex (parms);
 	var character := parms [1];
-	var item := parms [2];
+//	var item := parms [2];
 	
 	var charactergraphic := character.graphic;
 	var charactercolor := character.color;

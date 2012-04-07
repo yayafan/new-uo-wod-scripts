@@ -200,12 +200,16 @@ function SetupMagicalInstrumentGump (speaker, item)
 endfunction
 
 function SetupMagicalWandGump (speaker, item)
+	if (speaker and item)
+	endif
 	gump_layout := blank_gump_layout;
 	gump_data := blank_gump_data;
 	string_counter := 1;
 endfunction
 
 function SetupMagicalJewelryGump (speaker, item)
+	if (speaker and item)
+	endif
 	gump_layout := blank_gump_layout;
 	gump_data := blank_gump_data;
 	string_counter := 1;
@@ -495,6 +499,8 @@ endfunction
 
 
 function DoPrefixProcessing (speaker, item, gump_return)
+	if (speaker and item)
+	endif
 	var prefix_type := 0;
 	for i := 100 to 106;
 		if (gump_return [i])
@@ -534,6 +540,8 @@ endfunction
 
 
 function DoSuffixProcessing (speaker, item, gump_return)
+	if (speaker)
+	endif
 	var suffix_type := 0;
 	var suffix_type2 := 0;
 	for i := 200 to 206;
@@ -644,6 +652,8 @@ endfunction
 
 
 function DoMusicProcessing (speaker, item, gump_return)
+	if (speaker and item)
+	endif
 	var skill_type := 0;
 	var suffix_type := 0;
 	for i := 100 to 104;
@@ -690,7 +700,7 @@ function MakeRandomMagic (speaker, quality)
 		return;
 	endif
 
-	var parms := {};
+	var parms := array{};
 	parms[1] := item;
 	parms[2] := quality;
 	start_script (":loot:makeitemmagic", parms);

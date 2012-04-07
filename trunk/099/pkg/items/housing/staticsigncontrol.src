@@ -8,7 +8,7 @@ include "include/itemtypes";
 include "../pkg/items/housing/house";
 
 program SignListener (sign)
-	var homeinfo := { };
+	var homeinfo := array{ };
 	homeinfo := GetObjProperty (sign, "homeinfo");
 	if (!homeinfo[1])
 		sleep (10);

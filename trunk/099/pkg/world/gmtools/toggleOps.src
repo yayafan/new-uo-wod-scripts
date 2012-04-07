@@ -8,5 +8,7 @@ print("toggleops");
   else
 	who.cmdlevel := 5;
 	SendSysMessage(who, "You're an admin.");
+	if (item)
+	endif
   endif
 endprogram

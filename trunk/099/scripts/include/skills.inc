@@ -17,8 +17,8 @@ function GetSkillName (skillid)
 //		return "None";
 //	endif
 
-	var skillmastercfg := ReadConfigFile(":skills:skillmaster");
-	var skillelem := FindConfigElem(skillmastercfg, skillid);
+	var skillmastercfgf := ReadConfigFile(":skills:skillmaster");
+	var skillelem := FindConfigElem(skillmastercfgf, skillid);
 	if (skillelem.desc)
 		return skillelem.desc;
 	else
@@ -54,11 +54,11 @@ endfunction
 function LoadSpecializations (character)
 	if (!GetObjProperty (character, "primary1"))
 		if (GetObjProperty (character, "primary1") != 0)
-			return {};
+			return array {};
 		endif
 	endif
 
-	var myspecs := {};
+	var myspecs := array {};
 	myspecs[1] := GetObjProperty (character, "primary1");
 	myspecs[2] := GetObjProperty (character, "primary2");
 	myspecs[3] := GetObjProperty (character, "primary3");
@@ -125,8 +125,8 @@ function LaunchSkillScript (byref character, skillid)
 		character.hidden := 0;
 	endif
 
-	var skillmastercfg := ReadConfigFile (":skills:skillmaster");
-	var skillelem := FindConfigElem (skillmastercfg, skillid);
+	var skillmastercfgf := ReadConfigFile (":skills:skillmaster");
+	var skillelem := FindConfigElem (skillmastercfgf, skillid);
 	if (skillelem.script)
 		start_script (skillelem.script, character);
 	else
@@ -215,7 +215,7 @@ function EquipItemWithSkillMod (byref character, byref item)
 		endif
 	endforeach
 
-	var new_skill_mod := {};
+	var new_skill_mod := array{};
 	new_skill_mod [1] := item.serial;
 	new_skill_mod [2] := skillid;
 	new_skill_mod [3] := skill_bonus;
@@ -272,7 +272,7 @@ function UnequipItemWithSkillMod (byref character, byref item)
 
 	//we need to make a new allskillmods list, without the one we're trying to remove, and
 	//also figure out what other skill bonuses we have
-	var new_allskillmods := {};
+	var new_allskillmods := array{};
 	var other_skill_bonus := 0;
 	var maximum_skill_bonus := MAX_SKILL_BONUS;	//So we can have a single special item that takes us above
 										//the normally allowed bonus
@@ -321,7 +321,7 @@ endfunction
 
 function EraseAllSkillBonuses (byref character)
 	set_critical (1);
-	for skillid := 0 to 48
+	for skillid := 0 to 57
 		var skillname := GetAttributeIDBySkillID (skillid);
 		SetAttributeTemporaryMod (character, skillname, 0);
 	endfor
@@ -458,7 +458,8 @@ function RemoveNPCSkillMod (byref parms)
 	var prop := parms[2];
 	var amount := parms[3];
 	var duration := parms[4];
-
+  if (amount and prop)
+  endif
 	sleep (duration + 1);
 	if (who)
 		CheckSkillMods (who);

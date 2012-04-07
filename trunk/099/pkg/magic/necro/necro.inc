@@ -18,8 +18,8 @@ function CastNecroSpell (caster, spellid)
 	endif
 
 	//load the config file
-	var spell_cfg_file:= ReadConfigFile(":*:spells");
-	var current_spell := FindConfigelem (spell_cfg_file, spellid);
+	var spell_cfg_file1:= ReadConfigFile(":*:spells");
+	var current_spell := FindConfigelem (spell_cfg_file1, spellid);
 	if (!current_spell)
 		return;
 	endif

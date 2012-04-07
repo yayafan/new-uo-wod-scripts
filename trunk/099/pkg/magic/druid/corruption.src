@@ -8,7 +8,7 @@ include "include/string";
 include "include/spawn";
 include "include/attributes";
 
-Const UOBJ_CORRUPTION := 0x706c;
+Const UOBJ_CORRUPTION := 0x1706c;
 Const NUM_CREATURES := 10;
 
 
@@ -148,8 +148,8 @@ program corruption (main_corrupt_tile)
 
 		spawn_array := GetObjProperty (main_corrupt_tile, "spawned_creatures");
 		if (!spawn_array)
-			SetObjProperty (main_corrupt_tile, "spawned_creatures", {});
-			spawn_array := {};
+			SetObjProperty (main_corrupt_tile, "spawned_creatures", array{});
+			spawn_array := array{};
 		endif
 
 		for (i := 1; i <= NUM_CREATURES; i := i + 1)

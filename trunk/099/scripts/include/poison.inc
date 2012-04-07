@@ -20,7 +20,7 @@ function SetPoison (byref who, plvl, msg := "")
 	//work.  This is so we can tweak poisondamage
 	//on-the-fly, and only have to recompile the one script
 
-	var parms := {};
+	var parms := array{};
 	parms[1] := who;
 	parms[2] := plvl;
 	parms[3] := msg;

@@ -6,8 +6,8 @@ include "include/client";
 include "include/magic";
 include "../pkg/magic/druid/druid";
 
-var gump_layout := {};
-var gump_data := {};
+var gump_layout := array{};
+var gump_data := array{};
 
 var xpos := 100;
 var ypos := 100;
@@ -35,7 +35,7 @@ program display_druidbag (character, bag)
 		xpos := druidbag_position[1];
 		ypos := druidbag_position[2];
 	else
-		druidbag_position := {100, 100};
+		druidbag_position := array{100, 100};
 	endif
 	
 	var druidbag_version := GetObjProperty (character, "#druidbag_version");
@@ -218,6 +218,8 @@ endfunction
 ///////////////////
 
 function BuildMiniGump (character, bag)
+	if (character)
+	endif
 	gump_layout := array {
 		"page 0",
 		"nodispose",
