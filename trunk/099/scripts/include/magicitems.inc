@@ -275,7 +275,6 @@ function DoArmorSkillModifier (item, modifier)
 					SKILLID_MAGICRESISTANCE,
 					SKILLID_TACTICS,
 					SKILLID_POISONING,
-					SKILLID_ARCHERY,
 					SKILLID_SPIRITSPEAK,
 					SKILLID_STEALING,
 					SKILLID_TAILORING,
@@ -290,8 +289,7 @@ function DoArmorSkillModifier (item, modifier)
 					SKILLID_MINING,
 					SKILLID_MEDITATION,
 					SKILLID_STEALTH,
-          SKILLID_DISCORDANCE,
-          SKILLID_THROWING
+          SKILLID_DISCORDANCE
 	};
 
 	var skillnamelist := array{ "alchemy",
@@ -317,7 +315,6 @@ function DoArmorSkillModifier (item, modifier)
 						"magic resistance",
 						"tactics",
 						"poisoning",
-						"archery",
 						"necromancy",
 						"stealing",
 						"tailoring",
@@ -332,10 +329,16 @@ function DoArmorSkillModifier (item, modifier)
 						"mining",
 						"meditation",
 						"stealth",
-            "discordance",
-            "throwing"
+            "discordance"
 	};
 
+  if (IsGargishItem(item))
+    skilllist.append (SKILLID_THROWING);
+    skillnamelist.append ("throwing");
+  else
+    skilllist.append (SKILLID_ARCHERY);
+    skillnamelist.append ("archery");
+  endif
 	var skillnum := -1;
 	repeat
 		skillnum := RandomInt ( len (skilllist) ) + 1;

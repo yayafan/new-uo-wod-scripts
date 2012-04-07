@@ -37,7 +37,7 @@ function PickASkill (me)
 	};
 
 	var skills := array {};
-	var skill := array {};
+	var skill := struct {};
 	skill.+ value;
 	skill.+ index;
 
@@ -49,7 +49,7 @@ function PickASkill (me)
 	endfor
 
 	//sort from high to low (thanks Myrathi!  nice function!)
-	skills := SortMultiArrayByIndex (skills, 1);
+	skills := SortMultiArrayByIndex (skills, "value");
 	skills.reverse();
 
 	foreach skill in skills

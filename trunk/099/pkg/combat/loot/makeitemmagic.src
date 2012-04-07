@@ -443,18 +443,22 @@ function SpecialArmorSpell (item, magic_quality_chance)
 			1:
 				SetObjproperty (item, "protpoison", charges);
 				AppendMagicSuffixItem (item, "poison protection", 1);
+				item.resist_poison_mod := charges;
 			2:
 				SetObjproperty (item, "resistance", DAMAGETYPE_FIRE);
 				SetObjproperty (item, "charges", charges);
 				AppendMagicSuffixItem (item, "fire resistance", 1);
+				item.resist_fire_mod := charges;
 			3:
 				SetObjproperty (item, "resistance", DAMAGETYPE_COLD);
 				SetObjproperty (item, "charges", charges);
+				item.resist_cold_mod := charges;
 				AppendMagicSuffixItem (item, "frost resistance", 1);
 			4:
 				SetObjproperty (item, "resistance", DAMAGETYPE_ELECTRICAL);
 				SetObjproperty (item, "charges", charges);
 				AppendMagicSuffixItem (item, "electrical resistance", 1);
+				item.resist_energy_mod := charges;
 			default:
 				Syslog ("Error adding magic spell to armor.");
 		endcase
