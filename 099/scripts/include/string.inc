@@ -163,14 +163,20 @@ endfunction
 
 function SortMultiArrayByIndex(MultiArray, SubIndex)
 
-	var ArrayLen := Len(MultiArray);
+	var ArrayLen := MultiArray.size();
 	if ( ArrayLen < 2 )
 		return MultiArray;
 	endif
-
-	if ( SubIndex > len(MultiArray[1]) )
-		return 0;
-	endif
+  if (TypeOf (SubIndex) == "Integer")
+    if ( SubIndex > MultiArray[1].size() )
+      return 0;
+    endif
+  elseif (TypeOf (SubIndex) == "String")
+    if (!MultiArray[1][SubIndex] and MultiArray[1][SubIndex] != 0)
+      return 0;
+    endif
+  endif
+  
 
 	var i, k, f, s;
 	for(i := 1; i < ArrayLen; i := i + 1)

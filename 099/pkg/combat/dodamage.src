@@ -149,40 +149,24 @@ function ProtectedFromDamage (character, type)
 	foreach item in ListEquippedItems (character)
 		if (GetObjProperty (item, "resistance"))
 			resistit := GetObjproperty (item, "resistance");
-			if (resistit == "all")
-				resistit := type;
-			endif
-			if (resistit == type)
-				charges := getObjproperty (item, "charges") - 1;
-				if (!charges)
-					PrintTextAbove (item, "*" + item.desc + " is out of charges!*" );
-						var spellname := GetObjProperty (item, "itemspellname");
-						if (spellname)
-							var itemname := item.desc;
-							if (itemname[CSTR ("of " + spellname)])
-								itemname[CSTR ("of " + spellname)] := "";
-							else
-								itemname[CSTR ("and " + spellname)] := "";
-							endif
-							item.name := itemname;
-						endif
-						if (GetObjProperty (item, "oldname") )
-							var itemname := GetObjProperty (item, "oldname");
-							if (itemname[CSTR ("of " + spellname)])
-								itemname[CSTR ("of " + spellname)] := "";
-							else
-								itemname[CSTR ("and " + spellname)] := "";
-							endif
-							SetObjProperty (item, "oldname", itemname);
-						endif
-
-						EraseObjProperty (item, "itemspellname");
-						EraseObjProperty (item, "resistance");
-						EraseObjProperty (item, "charges");
-						return 1;
-				else
+			if (resistit == type or resistit == "all")
+				charges := getObjproperty (item, "charges");
+				if (charges > 0)
+					charges := charges - 1;
 					PrintTextAbove (item, "*" + item.desc + " absorbs the magical energy!*" );
 					SetObjProperty (item, "charges", charges );
+					case (resistit)
+						DAMAGETYPE_COLD:
+							item.resist_cold_mod := charges;
+						DAMAGETYPE_FIRE:
+							item.resist_fire_mod := charges;
+						DAMAGETYPE_ELECTRICAL:
+							item.resist_energy_mod := charges;
+						"all":
+							item.resist_cold_mod := charges;
+							item.resist_fire_mod := charges;
+							item.resist_energy_mod := charges;
+					endcase
 					return 1;
 				endif
 			endif
