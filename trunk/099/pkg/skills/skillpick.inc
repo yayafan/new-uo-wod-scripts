@@ -37,7 +37,7 @@ function PickASkill (me)
 	};
 
 	var skills := array {};
-	var skill := struct {};
+	var skill := array {};
 	skill.+ value;
 	skill.+ index;
 

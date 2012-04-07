@@ -17,8 +17,8 @@ function GetSkillName (skillid)
 //		return "None";
 //	endif
 
-	var skillmastercfgf := ReadConfigFile(":skills:skillmaster");
-	var skillelem := FindConfigElem(skillmastercfgf, skillid);
+	var skillmastercfg := ReadConfigFile(":skills:skillmaster");
+	var skillelem := FindConfigElem(skillmastercfg, skillid);
 	if (skillelem.desc)
 		return skillelem.desc;
 	else
@@ -125,8 +125,8 @@ function LaunchSkillScript (byref character, skillid)
 		character.hidden := 0;
 	endif
 
-	var skillmastercfgf := ReadConfigFile (":skills:skillmaster");
-	var skillelem := FindConfigElem (skillmastercfgf, skillid);
+	var skillmastercfg := ReadConfigFile (":skills:skillmaster");
+	var skillelem := FindConfigElem (skillmastercfg, skillid);
 	if (skillelem.script)
 		start_script (skillelem.script, character);
 	else
