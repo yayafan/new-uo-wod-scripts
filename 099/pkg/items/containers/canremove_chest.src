@@ -8,6 +8,8 @@ include "include/utility";
 include "../pkg/items/housing/house";
 
 program canremove_chest (character, container, item, movetype)
+	if (item)
+	endif
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif

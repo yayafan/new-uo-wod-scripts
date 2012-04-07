@@ -116,7 +116,9 @@ function SendStupidMessage (you)
 			say ("Nope, don't think I will.");
 		4:
 			say ("Um, yeah.");
-	endcase;
+	endcase
+	if (you)
+	endif
 endfunction
 
 

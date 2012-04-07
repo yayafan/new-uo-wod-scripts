@@ -7,6 +7,8 @@ include "include/attributes";
 function RepairBlacksmithyItem (byref character, byref tool, byref item, repair_skill)
 	if (!item.maxhp or !item.quality)
 		SendSysmessage (character, "That item cannot be repaired.");
+    if (tool)
+    endif
 		return;
 	endif
 

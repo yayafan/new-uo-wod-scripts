@@ -18,8 +18,8 @@ program music (character, instrument)
 	endif
 	SetObjProperty (character, "#useskill", GetPid());
 
-	var inst_id := instrument.objtype;
-	var ret := 0;
+//	var inst_id := instrument.objtype;
+//	var ret := 0;
 	var cx := character.x;
 	var cy := character.y;
 	

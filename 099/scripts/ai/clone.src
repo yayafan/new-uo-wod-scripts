@@ -189,6 +189,8 @@ endfunction
 
 function prepare_for_fight (byref opponent)
 	DisableMainEvents();
+	if (!opponent)
+	endif
 
 	var weaponone := GetEquipmentByLayer( me,  LAYER_HAND1 );
 	var weapontwo := GetEquipmentByLayer( me,  LAYER_HAND2 );
@@ -199,9 +201,9 @@ function prepare_for_fight (byref opponent)
 		(weaponone.objtype == 0x13fd) or (weapontwo.objtype == 0x13fd) )
 		runaway:=0;
 		CreateItemInInventory(me.backpack,0x1bfb,50);
-	elseif ( (weaponone.objtype == 0x6050) or (weapontwo.objtype == 0x6050) )
+	elseif ( (weaponone.objtype == 0x16050) or (weapontwo.objtype == 0x6050) )
 		runaway:=0;
-		CreateItemInInventory(me.backpack,0x6051,25);
+		CreateItemInInventory(me.backpack,0x16051,25);
 	else
 		RunAway := 100;	
 	endif

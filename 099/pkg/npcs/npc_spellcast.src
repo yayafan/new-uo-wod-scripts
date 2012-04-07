@@ -36,7 +36,7 @@ program npc_cast_spell (parms)
 				return;
 			endif
 
-			var parms := {};
+			var parms := array{};
 			parms[1] := "#MOB";
 			parms[2] := caster;
 			parms[3] := cast_on;

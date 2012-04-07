@@ -207,7 +207,7 @@ function CreateSpecialBooks (character)
 	case (selection.index)
 		1:
 			var note := CreateItemInBackpack (character, 0x14f0, 1);
-			var booktext := { };
+			var booktext := array{ };
 			var pagetext := "";
 			var prompt := pagetext;
 			repeat
@@ -237,7 +237,7 @@ function CreateSpecialBooks (character)
 			var textgroup := RandomInt(4)+1;
      		elem := FindConfigElem(cfg,textgroup);
 			var textlines := GetConfigStringArray(elem,"text");
-			var note := {};
+			var note := array{};
 			foreach line in textlines
 				note[ len(note)+1 ] := line;
 			endforeach

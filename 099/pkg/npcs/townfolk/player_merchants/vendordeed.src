@@ -113,7 +113,7 @@ function CountAccountMerchants (player)
 		return 0;
 	endif
 
-	var newmerchants := {};
+	var newmerchants := array {};
 	foreach merchantserial in merchants
 		var themerchant := SystemFindObjectBySerial (merchantserial);
 		if (themerchant)

@@ -129,7 +129,7 @@ endfunction
 ///////////////////
 
 function EnumerateItemsInContainerOfObjtype (byref container, objtype)
-	var ret := { };
+	var ret := array{ };
 	foreach item in enumerateItemsIncontainer(container)
 		if (item.objtype == objtype)
 			ret.append(item);
@@ -180,7 +180,7 @@ endfunction
 ///////////////////
 
 function ListRootItemsInContainerOfObjtype (byref container, objtype)
-	var ret := { };
+	var ret := array{ };
 	foreach item in enumerateitemsincontainer(container)
 		if ( (item.container == container) and (item.objtype == objtype) )
 			ret.append(item);
@@ -220,9 +220,9 @@ function IsContainer (byref it)
 		UOBJ_SPELLBOOK:
 		UOBJ_TRASHBARREL:
 		UOBJ_POTION_KEG:
-		0x70b0:				//checker board
-		0x70b1:				//chess board
-		0x70b2:				//backgammon board
+		0x170b0:				//checker board
+		0x170b1:				//chess board
+		0x170b2:				//backgammon board
 			return 0;
 	endcase
 
@@ -243,7 +243,7 @@ endfunction
 function CheckForNoLogoutArea (character)
 	foreach item in ListObjectsInBox (character.x-32, character.y-32, -128, character.x+32, character.y+32, +127, character.realm)
 		case (item.objtype)
-			0x7060:
+			0x17060:
 			0x0bd2:
 			0x0bd0:
 				if (!IsAFriend (item, character))

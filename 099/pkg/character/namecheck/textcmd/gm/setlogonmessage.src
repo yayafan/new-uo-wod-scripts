@@ -18,7 +18,7 @@ program set_daily_message (character)
 		return;
 	endif
 	
-	var daily_message := {};
+	var daily_message := array{};
 	daily_message [1] := ReadGameClock();
 	daily_message [2] := themessage;
 	

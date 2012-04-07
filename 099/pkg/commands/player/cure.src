@@ -261,7 +261,7 @@ function UseBandage (character)
         	return 0;
 	endif
 
-	var parms := { };
+	var parms := array{ };
 	parms[1] := character;
 	parms[2] := character;
 

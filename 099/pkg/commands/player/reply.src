@@ -9,7 +9,7 @@ var xpos := 100;
 var ypos := 100;
 var style := "new";
 
-var logging_acctnames := {};
+var logging_acctnames := array{};
 
 program textcmd_reply (character, text)
 	if (lower (text) == "off")
@@ -203,7 +203,7 @@ function LogAccountMessages (character, whom, text)
 	endif
 	
 	var propname := CSTR (ReadGameClock());
-	var value := {character.name, whom.name, text};
+	var value := array{character.name, whom.name, text};
 
 	entry.SetProp (propname, value);
 	UnloadDataFile (":character:msg_logging");

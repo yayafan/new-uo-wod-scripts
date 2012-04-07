@@ -78,11 +78,15 @@ function process_combat_event (byref ev)
 endfunction
 
 function in_combat_event_loop (byref opponent)
+	if (opponent)
+	endif
 endfunction
 
 function prepare_for_fight(opponent)
 	if (GetVital (me, "Life") < CINT (GetVitalMaximumValue (me, "Life") * 0.75))
 		ApplyHealing ();
+	endif
+	if (opponent)
 	endif
 	DisableMainEvents ();
 	EnableCombatEvents ();

@@ -2,11 +2,13 @@
 use uo;
 
 program get_coords( user , item )
+	if (item)
+	endif
 
 	//tile position: x and y and z
 	var x := user.x;
 	var y := user.y;
-	var z := user.z;
+//	var z := user.z;
 
 	//center tile: cx and cy
 	var cx:= 1323;

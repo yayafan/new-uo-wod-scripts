@@ -16,22 +16,22 @@ include "include/itemtypes";
 exported function NewCombat (attacker, defender)
 	if (attacker.weapon)
 		if (IsBow(attacker.weapon))
-			start_script (":weapons:combat_attack_script_archery", {attacker, defender});
+			start_script (":weapons:combat_attack_script_archery", array{attacker, defender});
 		elseif (IsThrowingWeapon(attacker.weapon))
-			start_script (":weapons:combat_attack_script_throwing", {attacker, defender});
+			start_script (":weapons:combat_attack_script_throwing", array{attacker, defender});
 		elseif (attacker.weapon.objtype == UOBJ_FIST)
 			if (attacker.npctemplate)
-				start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
+				start_script (":npchitscripts:combat_attack_script_npc", array{attacker, defender});
 			else
-				start_script (":weapons:combat_attack_script_wrestling", {attacker, defender});
+				start_script (":weapons:combat_attack_script_wrestling", array{attacker, defender});
 			endif
 		else
-			start_script (":weapons:combat_attack_script_melee", {attacker, defender});
+			start_script (":weapons:combat_attack_script_melee", array{attacker, defender});
 		endif
 	elseif (attacker.npctemplate)
-		start_script (":npchitscripts:combat_attack_script_npc", {attacker, defender});
+		start_script (":npchitscripts:combat_attack_script_npc", array{attacker, defender});
 	else
-		start_script (":weapons:combat_attack_script_wrestling", {attacker, defender});
+		start_script (":weapons:combat_attack_script_wrestling", array{attacker, defender});
 	endif
 
 	return 1;

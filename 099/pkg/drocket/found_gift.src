@@ -3,6 +3,8 @@ use os;
 use util;
 
 program found_present (character, present)
+	if (present)
+	endif
 	case (RandomInt (5))
 		0:	SendSysMessage (character, "I don't think Santa would like that");
 		1:	SendSysMessage (character, "That's not yours!");

@@ -261,6 +261,8 @@ function check_for_water (character, theobj)
 	else
 		return 0;
 	endif
+	if (character)
+	endif
 endfunction
 
 

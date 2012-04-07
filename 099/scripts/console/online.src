@@ -1,8 +1,10 @@
 use uo;
 
 program console_online( cmd )
+    if (cmd)
+    endif
     var chrs := EnumerateOnlineCharacters();
-    var names := {};
+    var names := array {};
     foreach chr in chrs
         names.append( chr.name );
     endforeach

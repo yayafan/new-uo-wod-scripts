@@ -368,7 +368,7 @@ function AddToSpawner (corpse, npctemplate)
 
 	set_critical (1);
 	homepoint[4] := npctemplate;
-	var merchants_to_respawn := { };
+	var merchants_to_respawn := array { };
 	if (GetGlobalProperty ("respawnmerchants"))
 		merchants_to_respawn := GetGlobalProperty ("respawnmerchants");
 	endif
@@ -400,8 +400,8 @@ function CheckNPCMurderCount (corpse)
 	endif
 
 	var hitlist := GetObjProperty (corpse, "#hitlist");
-	var thelog := {};
-	var prop := array {};
+	var thelog := array {};
+	var prop := struct {};
 	prop.+pname := "Attacker:";
 	prop.+pvalue := "";
 	foreach plrserial in hitlist

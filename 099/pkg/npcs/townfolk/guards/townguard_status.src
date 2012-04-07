@@ -32,7 +32,7 @@ program townguard_status_command (parms)
 	SetObjProperty (guard, "#searchpid", GetPID ());
 	
 	PrintTextAbovePrivate (guard, "One moment, please.", player);
-	var followers_found := {};
+	var followers_found := array {};
 
 	var xmid, ymid;
 	for (xmid := 31; xmid < 6144; xmid := xmid + 64)

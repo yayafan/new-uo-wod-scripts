@@ -72,7 +72,7 @@ program tidal_wave ( parms )
 
 
 	var i;
-	var waterfall_array := {};
+	var waterfall_array := array{};
 	var waterfall_tile;
 
 	//create all of the waterfall effect and store them in waterfall_array

@@ -29,7 +29,7 @@ Const BLUE_BUTTON_OFFSET_X := 20;
 Const GATE_BUTTON_OFFSET_X := 110;
 Const GATE_BUTTON_OFFSET_Y := 40;
 
-var critical_runes := { 5,9,13,17,21,25,29 }; //rune numbers that signal a new book page
+var critical_runes := array{ 5,9,13,17,21,25,29 }; //rune numbers that signal a new book page
 
 var runecount := 0;   //this is rune number x
 var pagecount := 1;   //this is page number y
@@ -239,13 +239,13 @@ function AddRune( who , book )
 	var z := GetObjProperty( rune, "z" );
 	var realm := GetObjProperty( rune, "realm" );
 	var rname := rune.desc - "A recall rune for ";
-	var new_rune_struct := { rname , x , y , z, realm };
+	var new_rune_struct := array{ rname , x , y , z, realm };
 	//here we add this rune's info to the cprop array
 	var runedefs := GetObjProperty( book , "runedefs" );
 
 	If (checkskill (who, SKILLID_INSCRIPTION, -1, 0) )
 		if (!runedefs)
-			var new_runedefs := {new_rune_struct};
+			var new_runedefs := array{new_rune_struct};
 			SetObjProperty( book , "runedefs" , new_runedefs );
 		elseif( runedefs.size() == 32 )
 			SendSysmessage( who , "That rune book is full." );
@@ -321,7 +321,7 @@ function RemoveRuneFromBook (who, book, result)
 	else
 		var runedefs := GetObjProperty( book , "runedefs" );
 		var number_of_runedefs := len(runedefs);
-		var new_runedefs := {};
+		var new_runedefs := array{};
 
 		for i := 1 to number_of_runedefs
 			if (i != rune_number)

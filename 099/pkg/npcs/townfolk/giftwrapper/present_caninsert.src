@@ -5,5 +5,7 @@ program caninsert_container (character, container, movetype, inserttype, item, e
 	if (container.locked)
 		return 0;
 	endif
+	if (character and item and movetype and inserttype and amt_to_add and existing_stack)
+	endif
 	return 1;
 endprogram

@@ -5,6 +5,7 @@ Const UOBJECT_WOOD_SIGN := 0x0bd0;
 
 program customhouse_commit ( who, house, houseelemarray )
 	house.acceptcommit(who, 1);
+	SendSysMessage (who, "The total cost would have been " + houseelemarray.size()*500 + "gold!");
 	var components := GetObjProperty (house, "components");
 	var lockid := 0;
 	foreach compo in (components)

@@ -74,6 +74,8 @@ function prepare_for_fight (byref opponent)
 	if (!GetObjProperty (me, "mr"))
 		CastSpell(me,me,":misc_spells:reflect");
 	endif
+	if (opponent)
+	endif
 
 	DisableMainEvents();
 	EnableCombatEvents();

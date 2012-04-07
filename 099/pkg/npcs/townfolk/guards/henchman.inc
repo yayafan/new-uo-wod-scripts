@@ -37,7 +37,7 @@ function AddToAccountHenchmen (masterserial)
 
 	var henchmen := GetGlobalProperty ("#henchmen_of_"+acctname);
 	if (!henchmen)
-		henchmen := {};
+		henchmen := array {};
 	endif
 
 	if (me.serial in henchmen)
@@ -73,7 +73,7 @@ function CountAccountHenchmen (masterserial)
 		return 0;
 	endif
 
-	var newhenchmen := {};
+	var newhenchmen := array {};
 	foreach henchserial in henchmen
 		var thehenchman := SystemFindObjectBySerial (henchserial);
 		if (thehenchman)
@@ -240,7 +240,7 @@ function ResurrectHenchman (byref corpse)
 		return 0;
 	endif
 
-	var parms := {};
+	var parms := struct {};
 	parms.+script := ":guards:henchman";
 	if (GetObjProperty (corpse, "myscript") )
 		parms.script := GetObjProperty (corpse, "myscript");
@@ -277,10 +277,10 @@ function ResurrectHenchman (byref corpse)
 	var leadership := GetAttribute (mymaster, ATTRIBUTEID_LEADERSHIP);
 	var skills := GetObjProperty (corpse, "skills");
 	if (!skills)
-		skills := {};
+		skills := array {};
 	endif
 	
-	for i := 0 to 48
+	for i := 0 to 57
 		var skill := skills[i];
 		if (!skill)
 			skill := 0;
@@ -420,7 +420,7 @@ function ApplyHenchmanHealing (byref who)
 		DrinkCure ();
 	endif
 
-	var parms := { };
+	var parms := array { };
 	parms[1] := me;
 	parms[2] := who;
 
@@ -529,7 +529,7 @@ function ResurrectTarget (deadguy)
 		return 1;
 	endif
 
-	var parms := { };
+	var parms := array { };
 	parms[1] := me;
 	parms[2] := deadguy;
 	foreach item in EnumerateItemsInContainer (me.backpack)

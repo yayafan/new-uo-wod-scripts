@@ -81,6 +81,8 @@ function DoBasicPVMBattle (character, arena_stone)
 	groupselection := groupselection.index;
 	if (!groupselection)
 		SendSysMessage (character, "Canceled");
+		if (arena_stone)
+		endif
 		return;
 	endif
 	
@@ -160,6 +162,8 @@ function DoBasicPVPBattle (character, arena_stone)
 	var opponent := Target (character);
 	if (!opponent)
 		SendSysMessage (character, "Canceled.");
+		if (arena_stone)
+		endif
 		return;
 	endif
 	if (!opponent.acctname)

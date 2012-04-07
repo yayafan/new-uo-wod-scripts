@@ -13,6 +13,8 @@ include "../pkg/npcs/npc_util";
 include "../pkg/character/virtue/virtue";
 
 program mainhit (attacker, defender, weapon, armor, basedamage, rawdamage)
+	if (basedamage and armor)
+	endif
 	if (weapon.hp <= 0 or weapon.hp > (weapon.maxhp*2))
 		DestroyItem (weapon);
 		SendSysMessage (attacker, "Your weapon breaks!");
@@ -194,7 +196,7 @@ function DoEtherialEffect (attacker, defender, weapon, rawdamage)
 	case (GetObjProperty (weapon, "specialweaponeffect"))
 		"lightning":
 			if (RandomInt (10) == 1)
-				var spellparms := { };
+				var spellparms := array{ };
 				spellparms[1] := "#SPECIALNONE";
 				spellparms[2] := defender;
 				start_script (":damage_spells:lightning", spellparms);		
@@ -332,7 +334,7 @@ function DoHitSpell (byref attacker, byref defender, byref weapon)
 		endif
 	endif
 
-	var spellparms := { };
+	var spellparms := array{ };
 	spellparms[1] := "#MOB";
 	spellparms[2] := attacker;
 	spellparms[3] := defender;

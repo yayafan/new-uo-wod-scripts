@@ -531,7 +531,7 @@ function Censure( me, you )
 		myhonor[3] := 0;
 	endif
 
-	var yourvirtue := GetVirtueAmount (you);
+//	var yourvirtue := GetVirtueAmount (you);
 	var yourhonor := GetObjProperty(you,"honor");
 	if (!yourhonor)
 		yourhonor := {};

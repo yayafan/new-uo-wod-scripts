@@ -39,7 +39,7 @@ endprogram
 function IsDoor(item)
 
 	var itemdesc := ReadConfigFile( ":doors:itemdesc" );
-	var doortype;
+//	var doortype;
 	if (itemdesc[item.objtype].doortype)
 		return 1;
 	endif

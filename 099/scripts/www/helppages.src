@@ -11,7 +11,7 @@ program ViewHelpPages ()
 	WriteHTML ("<html><head><title>POL Server Performance Center</title></head>");
 	WriteHTML ("<body bgcolor=\"#dcdeed\">");
 
-	var playerswithpages := {};
+	var playerswithpages := array{};
 	foreach player in EnumerateOnlineCharacters ();
 		if (GetObjProperty (player, "HELP") )
 			playerswithpages.append (player);

@@ -31,8 +31,8 @@ endprogram
 
 
 function LogBadMerchantSpawn (npctemplate, x, y, rlm)
-	var log := { };
-	var prop:= array {};
+	var log := array { };
+	var prop:= struct {};
 
     	prop.+pname := "Unable to spawn:";
     	prop.+pvalue := npctemplate;

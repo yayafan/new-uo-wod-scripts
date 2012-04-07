@@ -9,8 +9,8 @@ include "include/gumps";
 include "../pkg/items/housing/house";
 include "../pkg/items/doors/doors";
 
-var gump_layout := {};
-var gump_data := {};
+var gump_layout := array{};
+var gump_data := array{};
 
 program use_house_sign (character, sign)
 	//If its a deeded house, make sure its house exists...

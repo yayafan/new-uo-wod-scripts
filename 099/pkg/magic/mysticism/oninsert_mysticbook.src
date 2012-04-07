@@ -9,6 +9,8 @@ program on_insert_mysticbook (character, spellbook, movetype, null_value, scroll
 		endif
 		SubtractAmount (scroll, (scroll.amount-1));
 	endif
+	if (spellbook and movetype and null_value and amt_to_add and existing_stack)
+	endif
 
 	return 1;
 endprogram

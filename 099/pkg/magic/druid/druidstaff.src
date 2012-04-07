@@ -67,7 +67,7 @@ function ProcessSpeechEvent (staff, event)
 	for i := 81 to 96
 		if (spell_cfg_file[i] and lower(spell_cfg_file[i].PowerWords) == lower (event.text) )
 			//This is a valid spell.  start the castdruidspell script
-			var parms := {};
+			var parms := array{};
 			parms[1] := event.source;
 			parms[2] := staff;
 			parms[3] := i;
@@ -94,12 +94,12 @@ function ProcessSpeechEvent (staff, event)
 				SetObjProperty (blight, "difficulty", lvl);
 			endif
 	elseif (lower(event.text) == "nigh tir")
-		var parms := {};
+		var parms := array{};
 		parms[1] := event.source;
 		parms[2] := 0;
 		start_script("purify", parms);
 	elseif (lower(event.text) == "quick purify" and event.source.cmdlevel)
-		var parms := {};
+		var parms := array{};
 		parms[1] := event.source;
 		parms[2] := 1;
 		start_script("purify", parms);

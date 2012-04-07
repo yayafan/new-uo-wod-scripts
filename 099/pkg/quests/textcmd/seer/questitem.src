@@ -201,7 +201,7 @@ endfunction
 
 function AssignSpeech (player, item)
 	var done := 0;
-	var speech_lines := {};
+	var speech_lines := array {};
 	repeat
 		var thisline := SendTextEntryGump (player, "Enter the new reply", TE_CANCEL_ENABLE, TE_STYLE_NORMAL, 80, "(Line " + (len (speech_lines) + 1) +")");
 		if (!thisline)
@@ -316,7 +316,7 @@ function SetQuestDeliveryItem (player, item)
 		return 1;
 	endif
 
-	SetObjProperty (item, "delivery_returnitem", {reward_item.serial});
+	SetObjProperty (item, "delivery_returnitem", array {reward_item.serial});
 	SendSysMessage (player, "Reward item set, done.");
 endfunction
 

@@ -32,7 +32,7 @@ endprogram
 
 function RelockEm (byref chests)
 	var chest;
-	var newchests := {};
+	var newchests := array {};
 	
 	foreach num in chests
 		chest := SystemFindObjectBySerial (CINT(num));

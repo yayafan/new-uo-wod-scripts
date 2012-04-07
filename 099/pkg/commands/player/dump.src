@@ -6,7 +6,7 @@ include "include/objtype";
 include "include/itemtypes";
 include "include/utility";
 
-var allmyjunk := {};
+var allmyjunk := array{};
 var stackstuff := 0;
 var recurse := 0;
 

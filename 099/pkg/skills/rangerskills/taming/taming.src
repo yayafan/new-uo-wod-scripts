@@ -197,7 +197,7 @@ endfunction
 
 function GetPetCountOfNPC (mob)
 	var mobelem := GetNpcTemplateElem (mob.npctemplate);
-	var mobstr := GetAttribute (mob, "Strength");
+//	var mobstr := GetAttribute (mob, "Strength");
 	var tameskill := CINT (mobelem.tameskill);
 	if (!tameskill)
 		return 7;

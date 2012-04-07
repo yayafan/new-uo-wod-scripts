@@ -55,6 +55,8 @@ function post_combat()
 endfunction
 
 function prepare_for_fight (byref opponent)
+	if (opponent)
+	endif
 	ClearEventQueue ();
 	DisableMainEvents();
 	EnableCombatEvents();
@@ -71,7 +73,7 @@ function ThrowPotion (byref opponent)
 	SetObjProperty (me, "#lastpotion", ReadGameClock()+6);
 
 	if ( distance (me, opponent) > 2 and RandomInt(2))
-		var parms := {};
+		var parms := array{};
 		parms[1] := me;
 		parms[2] := opponent;
 		start_script (":alchemy:explosion", parms); 

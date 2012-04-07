@@ -257,13 +257,13 @@ function process_event (event)
 		elseif (GetObjProperty (tillerman, "#trolling") and GetObjProperty (tillerman, "#trolling") > ReadGameClock() )
 			PrintTextAbove (tillerman, "We do already be trolling for sea creatures!");
 		else
-			var parms := { };
+			var parms := array{ };
 			parms[1] := event.source;
 			parms[2] := tillerman;
 			start_script(":boat:trolling", parms);
 		endif
 	elseif (text["swab the deck"])
-		var parms := { };
+		var parms := array{ };
 		parms[1] := event.source;
 		parms[2] := tillerman;
 		parms[3] := boat;

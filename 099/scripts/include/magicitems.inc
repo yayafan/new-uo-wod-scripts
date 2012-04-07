@@ -252,7 +252,7 @@ endfunction
 function DoArmorSkillModifier (item, modifier)
 	var is_metal_armor := IsMetalArmor (item);
 
-	var skilllist := {SKILLID_ALCHEMY,
+	var skilllist := array{SKILLID_ALCHEMY,
 					SKILLID_ANATOMY,
 					SKILLID_ANIMALLORE,
 					SKILLID_PARRY,
@@ -294,7 +294,7 @@ function DoArmorSkillModifier (item, modifier)
           SKILLID_THROWING
 	};
 
-	var skillnamelist := { "alchemy",
+	var skillnamelist := array{ "alchemy",
 						"anatomy",
 						"animal lore",
 						"parrying",

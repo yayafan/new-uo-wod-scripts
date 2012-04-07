@@ -16,6 +16,8 @@ program use_scissors( character , scissors )
 	var use_on := Target (character);
 	if(!use_on)
 		SendSysmessage (character, "Canceled.");
+		if (scissors)
+		endif
 		return;
 	endif
 

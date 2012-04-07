@@ -111,14 +111,14 @@ function PlaceHair(me,gender)
 		endcase
 	endif
 
-	var thehair;
+//	var thehair;
 	CreateAndEquip(me,hair,haircolor);
 
 endfunction
 
 function PlaceBeard(me,haircolor)
 
-	var hair;
+//	var hair;
 	var Beard := 0;
 	case (RandomInt(18))
 	0:	Beard := 0x203e;//longbeard
@@ -531,8 +531,9 @@ function DressWar(me,gender)
 endfunction
 
 function DressMage(me,gender)
-
-	var theitem;
+	if(gender)
+	endif
+	//var theitem;
 
 	var item := 0;
 	case (RandomInt(3))

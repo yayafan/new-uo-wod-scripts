@@ -12,7 +12,7 @@ Const GRAB_RANGE			:= 3;
 
 var lootbag := 0;
 var grabmystuff := 0;
-var allmyjunk := {};
+var allmyjunk := array{};
 var forcebag := 0;
 
 program grab_nearby_items (me, textline)
@@ -285,7 +285,7 @@ function CorpseOrChest (byref me, byref it)
 
 	if (it.objtype == UOBJ_CORPSE)
 		if (!GetObjProperty (it, "skinned"))
-			var parms := {};
+			var parms := array{};
 			parms[1] := me;
 			parms[2] := it;
 			parms[3] := lootbag;
@@ -293,6 +293,8 @@ function CorpseOrChest (byref me, byref it)
 		endif
 
 		foreach item in ListItemsNearLocationOfType (it.x, it.y, it.z, 0, UOBJ_BLOOD, me.realm)
+			if (item)
+			endif
 			return 1;
 		endforeach
 		CreateItemAtLocation (it.x, it.y, it.z, UOBJ_BLOOD, 1, it.realm);
@@ -350,7 +352,7 @@ function FindSomethingWorthGrabbing (me)
 				if (!lootbag)
 					FindLootBag (me);
 				endif
-				var parms := {};
+				var parms := array{};
 				parms[1] := me;
 				parms[2] := item;
 				parms[3] := lootbag;
@@ -359,6 +361,8 @@ function FindSomethingWorthGrabbing (me)
 			return 1;
 		elseif (CorpseOrChest (me, item))
 			foreach thingie in ListRootItemsInContainer (item)
+				if (thingie)
+				endif
 				return 1;
 			endforeach
 		elseif (item.movable)

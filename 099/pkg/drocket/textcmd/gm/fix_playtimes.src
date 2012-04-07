@@ -7,6 +7,8 @@ include "include/clock";
 include "include/accounts";
 
 program testds (character, text)
+	if (character and text)
+	endif
 	var this_month_string := GetCurrentPlaytimeMonth ();
 	var total_monthly := 0;
 	foreach theacctname in ListAccounts ()

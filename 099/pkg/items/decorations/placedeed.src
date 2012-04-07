@@ -428,8 +428,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems",array {item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0961:
 					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0967, 1, character.realm);
@@ -437,8 +437,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0937:
 					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x093D, 1, character.realm);
@@ -446,8 +446,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0945:
 					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x094B, 1, character.realm);
@@ -455,8 +455,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x0475:
 					var new_item := CreateItemAtLocation (character.x, character.y-1, character.z, 0x0489, 1, character.realm);
@@ -464,8 +464,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x047B:
 					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x0482, 1, character.realm);
@@ -473,8 +473,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				default:
 					SendSysMessage (character, "Error!  Please report this.");
@@ -525,8 +525,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x0930:
@@ -535,8 +535,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x0461:
@@ -545,8 +545,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 					new_item.facing := 29;
 				0x046f:
@@ -555,8 +555,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", deed.objtype);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 					new_item.facing := 29;
 				default:
@@ -643,7 +643,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
 				SetObjProperty (item, "deedobjtype", 0xB013);
-				SetObjProperty (item, "otheritems", {item.serial});
+				SetObjProperty (item, "otheritems", array{item.serial});
 				item.movable := 0;
 				DestroyItem (deed);
 			else
@@ -687,8 +687,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", 0xB014);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x03:
 					var new_item := CreateItemAtLocation (character.x, character.y+1, character.z, 0x02, 1, character.realm);
@@ -696,8 +696,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", 0xB014);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x04:
 					var new_item := CreateItemAtLocation (character.x+1, character.y, character.z, 0x05, 1, character.realm);
@@ -705,8 +705,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", 0xB014);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 				0x05:
 					var new_item := CreateItemAtLocation (character.x-1, character.y, character.z, 0x04, 1, character.realm);
@@ -714,8 +714,8 @@ program Place_Deed (character, deed)
 						SetObjProperty (new_item, "lockeddown", sign.serial);
 					endif
 					SetObjProperty (new_item, "deedobjtype", 0xB014);
-					SetObjProperty (new_item, "otheritems", {item.serial, new_item.serial});
-					SetObjProperty (item, "otheritems", {item.serial, new_item.serial});
+					SetObjProperty (new_item, "otheritems", array{item.serial, new_item.serial});
+					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 			endcase;			
 			return;
@@ -785,7 +785,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
 				SetObjProperty (item, "deedobjtype", 0xB016);
-				SetObjProperty (item, "otheritems", {item.serial});
+				SetObjProperty (item, "otheritems", array{item.serial});
 				DestroyItem (deed);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -828,7 +828,7 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
 				SetObjProperty (item, "deedobjtype", 0xB017);
-				SetObjProperty (item, "otheritems", {item.serial});
+				SetObjProperty (item, "otheritems", array{item.serial});
 			SubtractAmount (deed, 1);
 			else
 				SendSysMessage (character, "Can't place it here.");
@@ -1036,7 +1036,7 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 		endif
 	endif
 
-	var itemserials := {};
+	var itemserials := array{};
 	foreach cfgkey in cfgfile_keys
 		var elem := FindConfigElem (cfgfile, cfgkey);
 		var itemx := x + elem.x;

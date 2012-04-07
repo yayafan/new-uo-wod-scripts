@@ -27,7 +27,7 @@ program activate_magic_trap (character, trap)
 
 	case (traptype)
 		"flamestrike":
-			var parms := {};
+			var parms := array{};
 			parms [1] := "#SPECIALNONE";
 			parms [2] := character;
 			run_script_to_completion (":damage_spells:fstrike", parms);

@@ -32,7 +32,7 @@ program groots (parms)
 	
 	var casterskill := GetAttribute (caster, ATTRIBUTEID_ANIMALLORE);
 
-	var roots_array := {};
+	var roots_array := array{};
 
 	//create the summoned grasping roots
 	var graspingroots := CreateNPCfromTemplate(":elementals:grasping_roots", cast_loc.x, cast_loc.y, cast_loc.z, 0, cast_loc.realm);

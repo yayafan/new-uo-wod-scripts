@@ -12,7 +12,7 @@ include "include/sysevent";
 include "../pkg/npcs/npc_util";
 include "../pkg/items/housing/house";
 
-var forsaleitems := {};
+var forsaleitems := array {};
 var gump_layout, gump_data;
 
 program player_merchant_sort (parms)
@@ -47,7 +47,7 @@ program player_merchant_sort (parms)
 	endif
 	
 	repeat
-		forsaleitems := {};
+		forsaleitems := array {};
 		foreach item in EnumerateItemsInContainer (inv_fs)
 			if (item.container == inv_fs)
 				forsaleitems.append (item);

@@ -1,7 +1,7 @@
 include "../pkg/npcs/townfolk/auctioneer/auctioneer";
 
-var gump_layout := {};
-var gump_data := {};
+var gump_layout := array{};
+var gump_data := array{};
 var string_counter := 1;
 
 var itembox;
@@ -104,7 +104,7 @@ program put_item_up_for_sale (parms)
 			endif
 	endcase
 
-	var gump_layout := array {
+	gump_layout := array {
 		"nodispose",
 		"page 0",
 		"resizepic 20 20 2600 500 380",
@@ -140,7 +140,7 @@ program put_item_up_for_sale (parms)
 		"button 300 350 249 247 1 0 1"
 	};
 	
-	var gump_data := array {
+	gump_data := array {
 		"Item:",						//0
 		item.desc,
 		"",
@@ -231,7 +231,7 @@ program put_item_up_for_sale (parms)
 		auctiontime := 7;
 	endif
 
-	var description := {CSTR (DecodeGumpReturn (gump_return, 13)), CSTR (DecodeGumpReturn (gump_return, 14)), CSTR (DecodeGumpReturn (gump_return, 15)), CSTR (DecodeGumpReturn (gump_return, 16))};
+	var description := array{CSTR (DecodeGumpReturn (gump_return, 13)), CSTR (DecodeGumpReturn (gump_return, 14)), CSTR (DecodeGumpReturn (gump_return, 15)), CSTR (DecodeGumpReturn (gump_return, 16))};
 
 	if (!MoveItemToContainer (item, itembox))
 		PrintTextAbovePrivate (auctioneer, "I'm afraid I can't sell anything else in that category.", player);

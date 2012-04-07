@@ -338,6 +338,8 @@ endfunction
 ///////////////////
 
 function ChatAboutFriends (text, speaker, friendnum)
+  if (text)
+  endif
 	var loyalty := GetObjProperty (me, "loyalty"+friendnum);
 	if (!loyalty)
 		loyalty := 0;

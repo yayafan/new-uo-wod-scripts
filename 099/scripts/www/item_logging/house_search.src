@@ -43,7 +43,7 @@ program find_houses ()
 	WriteHTML ("<center><b>Account name: </b> " + acctname + "</center><br>");
 	WriteHTML ("<center><b>Registered house value: </b> " + GetAccountHouseValue (acctname) + "</center><br>");
 	
-	var housesigns := {};
+	var housesigns := array{};
 	var global_prop_name := "#housing_of_" + acctname;
 	var sign_serials := GetGlobalProperty (global_prop_name);
 	if (!sign_serials)

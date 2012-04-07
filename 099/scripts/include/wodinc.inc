@@ -37,7 +37,7 @@ endfunction
 ///////////////////
 
 function Dismount (character, mount := 0)
-	var parms := {};
+	var parms := array {};
 	parms[1] := character;
 	parms[2] := mount;
 	return run_script_to_completion (":drocket:dismount", parms);

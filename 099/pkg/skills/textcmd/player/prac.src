@@ -6,7 +6,7 @@ include "include/skills";
 
 program Practice (who)
 
-	var prac := {};
+	var prac := array{};
 
 	if (GetObjProperty(who,"practicing"))
 		prac := GetObjProperty(who,"practicing");
@@ -17,7 +17,7 @@ program Practice (who)
 	endif
 
 	var skillname;
-	var theskill := {};
+	var theskill := array{};
 	var skillnum;
 	var pracamount;
 	var i;

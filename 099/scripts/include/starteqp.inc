@@ -8,7 +8,7 @@ include "../pkg/npcs/npcinfo";
 //  See starteqp.cfg for a description of what we expect in the config file.
 //
 
-var unique_items_created := {};
+var unique_items_created := array{};
 var starteqp_cfg;
 var template;
 var magicspawnchance := 0;
@@ -154,7 +154,7 @@ function CreateFromItemString( who, str )
 
   if( cint(RandomInt(100)+1) <= cint(chance) )
 	var i;
-	var canbemagic;
+//	var canbemagic;
 	for( i := 1; i <= count; i := i + 1 )
 		var item := CreateItemInContainer( who, objname );
 		if (color)
@@ -349,7 +349,7 @@ endfunction
 
 function MakeMagic( objname, item )
 
-	var parms := { };
+	var parms := array { };
 	parms[1] := objname;
 	parms[2] := item;
 

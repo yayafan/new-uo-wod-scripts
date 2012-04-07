@@ -4,6 +4,8 @@ use os;
 CONST THE_NPCTEMPLATE := ":orcs:orcdragondefender";
 
 program test_createnpc (character, text)
+	if (text)
+	endif
 	var targetted := TargetCoordinates (character);
 	if (!targetted)
 		SendSysMessage (character, "Canceled.");

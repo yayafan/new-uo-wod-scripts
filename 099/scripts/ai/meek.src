@@ -61,7 +61,8 @@ function post_combat()
 endfunction
 
 function prepare_for_fight(opponent)
-
+	if (opponent)
+	endif
 	DisableMainEvents();
 	EnableCombatEvents();
 

@@ -145,7 +145,7 @@ function DisplayOnlineHelpVolunteerList (character)
 
 	var ypos := 85;
 	var string_counter := 2;
-	var volunteer_array := {};
+	var volunteer_array := array {};
 	var volunteer_counter := 1;
 
 	foreach player in EnumerateOnlineCharacters ()
@@ -532,7 +532,7 @@ function PutInAHelpPage (character)
 	endcase
 
 	var msg := cat;
-	var log := { };
+	var log := array { };
 	log.append (msg);
 
 	gump_layout := array {
@@ -626,8 +626,8 @@ function PutInAHelpPage (character)
 endfunction
 
 function AppendLog (who, thehelppage)
-	var log := {};
-	var prop := {};
+	var log := array {};
+	var prop := struct {};
 	prop.+pname := "";
 	prop.+pvalue := "";
 	foreach line in thehelppage

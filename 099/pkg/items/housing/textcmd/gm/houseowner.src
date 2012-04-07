@@ -49,7 +49,7 @@ program houseowner (who)
 		sellvalue := GetDefaultHousePrice (housevalue);
 	endif
 
-	var homeinfo := { };
+	var homeinfo := array{ };
 	homeinfo[1] := owner.serial;	
 
 	SendSysMessage (who, "Target the North-West corner of the house (Up!)");

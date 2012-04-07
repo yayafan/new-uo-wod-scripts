@@ -57,7 +57,7 @@ function SelectWhatToMakeFromMenu ( character, main_menu, crafting_cfg_file, cha
 
 	var submenu_array := GetConfigStringArray (elem, "Submenu");
 	var entry_array := GetConfigStringArray (elem, "Entry");
-	var menu_items_array := { };
+	var menu_items_array := array { };
 	var select_menu := CreateMenu (menuname);
 	var i := 0;
 

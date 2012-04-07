@@ -34,12 +34,12 @@ program display_cookbook (character, book)
 	var book_data := array { "filler" };
 
 	//whatever recipe is currently being parsed, and a counter for it
-	var current_recipe := {};
+	var current_recipe := array {};
 	var current_recipe_number := 0;
 
 	//array of ingredients for a recipe and the current ingredient picked out of the array
-	var ingredient_array := {};
-	var current_ingredient;
+//	var ingredient_array := array {};
+//	var current_ingredient;
 
 	//counter that keeps track of the number of strings in a book
 	var current_string_number := 1;
@@ -176,7 +176,7 @@ function create_array_of_recipes ()
 	var number_of_recipes := GetConfigMaxIntKey (recipe_config_file);
 
 	//some other variables
-	var array_of_recipes := {};
+	var array_of_recipes := array {};
 	var current_recipe;
 	var recipe_counter;
 

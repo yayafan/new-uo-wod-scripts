@@ -15,7 +15,7 @@ include "include/utility";
 include "include/client";
 
 function savemdb();
-	var output_text := {};
+	var output_text := array{};
 	var playermerchantlist := GetGlobalProperty ("#playermerchantlist");
 	if (!playermerchantlist)
 		output_text[1] := "Unable to find any merchants.";

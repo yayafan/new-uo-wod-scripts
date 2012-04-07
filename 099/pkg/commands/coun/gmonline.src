@@ -33,7 +33,7 @@ endprogram
 
 function FillInArrays (character)
 	var all_players := EnumerateOnlineCharacters ();
-	var players := {};
+	var players := array{};
 	foreach player in all_players
 		if (player.cmdlevel)
 			if (IsAGM (character))

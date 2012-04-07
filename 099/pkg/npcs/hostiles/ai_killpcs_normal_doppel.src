@@ -104,6 +104,8 @@ function prepare_for_fight (byref opponent)
 	if (!GetObjProperty (me, "mr"))
 		setobjproperty (me, "mr", "1");
 	endif
+	if (opponent)
+	endif
 
 	ClearEventQueue ();
 	DisableMainEvents();

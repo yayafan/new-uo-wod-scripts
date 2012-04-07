@@ -448,13 +448,13 @@ function select_recipe (byref character)
 	var num_recipes := GetConfigMaxIntKey( recipe_config_file );
 
 	//this is the recipe that is currently being considered for validity
-	var current_recipe := {};
+	var current_recipe := array {};
 
 	//this is an empty menu that will be filled with recipes that pass the check for validity
 	var selectmenu := CreateMenu ("What do you want to make?");
 
 	//an array that contains all the recipes that are valid
-	var array_of_valid_recipes := {};  //Array of valid recipes
+	var array_of_valid_recipes := array {};  //Array of valid recipes
 
 	//just a counter
 	var recipe_counter;

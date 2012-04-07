@@ -165,7 +165,7 @@ program textcmd_info(character, text)
   endif
   General(item);
   var result := SendDialogGump(character, layout, data);
-  var reskey;
+//  var reskey;
   case(result[0])
      1:  //fall through intentional
      2:
@@ -203,7 +203,7 @@ program textcmd_info(character, text)
 endprogram
 
 function General(item)
-  var amount := GetAmount(item);
+//  var amount := GetAmount(item);
    data[8]  := item.amount;
    data[10] := item.x;
    data[12] := item.y;

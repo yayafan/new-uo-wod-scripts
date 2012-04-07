@@ -5,6 +5,8 @@ use util;
 include "include/attributes";
 
 exported function NewParryAdvancement (attacker, weapon, defender, shield)
+	if (attacker and weapon and defender and shield)
+	endif
 //	QuickAwardRawAttributePoints (defender, ATTRIBUTEID_PARRY, 30);
 endfunction
 

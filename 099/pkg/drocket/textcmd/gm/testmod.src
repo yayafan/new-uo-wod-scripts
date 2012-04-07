@@ -5,10 +5,12 @@ use util;
 include "include/magic";
 
 program testmods (character, text)
+	if (text)
+	endif
 	caster_magery := GetAttribute (character, ATTRIBUTEID_MAGERY);
 	caster_evalint := GetAttribute (character, ATTRIBUTEID_INVOCATION);
 
-	var modamount_array := {};
+	var modamount_array := array{};
 	for i := 1 to 20
 		modamount_array.append (0);
 	endfor

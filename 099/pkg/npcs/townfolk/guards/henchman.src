@@ -610,7 +610,7 @@ function ObeyCommand (byref ev)
 			DoTraining ();
 		endif
 	elseif (evtext[mename+" status"])
-		var parms := {};
+		var parms := array {};
 		parms[1] := ev.source;
 		parms[2] := me;
 		start_script (":guards:henchman_status", parms);
@@ -907,13 +907,16 @@ endfunction
 
 
 function in_combat_event_loop (byref opponent)
+	if (opponent)
+	endif
 endfunction
 
 
 
 
 function process_combat_event (byref ev)
-
+	if (ev)
+	endif
 endfunction
 
 
@@ -1141,8 +1144,8 @@ function GainStat ()
 	endif
 	laststrengthgain := ReadGameClock()+RandomInt(120);
 
-	var myskills := {};
-	for i := 0 to 48
+	var myskills := array {};
+	for i := 0 to 57
 		myskills[i] := GetAttribute (me, GetAttributeIDBySkillID (i));
 	endfor
 	SetObjProperty (me, "skills", myskills);
@@ -1251,7 +1254,7 @@ function WearItem (byref it, byref you)
 		endif
 	endforeach
 	
-	var mygear := {};
+	var mygear := array {};
 	foreach thing in ListEquippedItems (me)
 		if (RemoveIt (thing))
 			mygear.append(thing);
@@ -1350,6 +1353,8 @@ endfunction
 ///////////////////
 
 function ChangeWeapons (equipoption := "any", quietmode := 0)
+	if (quietmode)
+	endif
 	sleep (1);
 	var weapon := GetEquipmentByLayer (me, LAYER_HAND1);
 	var shield := GetEquipmentByLayer (me, LAYER_HAND2);
@@ -1682,7 +1687,7 @@ endfunction
 ///////////////////
 
 function AllCommand (evtype, what)
-	var eve := array {};
+	var eve := struct {};
 	eve.+type := evtype;
 	eve.+source := me;
 	eve.+target := what;
@@ -1705,7 +1710,7 @@ endfunction
 function SetARMod ()
 	var currentmods := GetObjProperty (me, "#mods");
 	if (!currentmods)
-		currentmods := { };
+		currentmods := array { };
 	endif
 
 	var myar := 0;

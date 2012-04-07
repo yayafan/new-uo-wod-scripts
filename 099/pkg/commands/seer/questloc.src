@@ -19,7 +19,7 @@ program questloc( character )
       Print("ach! Cant find the config file!");
     endif
     
-    var maxentry := GetConfigMaxIntKey(quest_cfg);
+    //var maxentry := GetConfigMaxIntKey(quest_cfg);
 
     //Print("maxentry: " + maxentry);
 

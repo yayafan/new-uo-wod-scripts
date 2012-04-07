@@ -69,7 +69,7 @@ function SailAway (byref who, text)
 
 	if (YesNo (who,"Sail there?"))
 		if (who.spendgold (sailto[6]))
-			var parms := {};
+			var parms := array {};
 			parms[1] := who;
 			parms[2] := sailto;
 			setobjproperty (who, "sailto", sailto);
@@ -122,7 +122,7 @@ function GetDestination (player, text)
 
 	endif
 
-	var parms := {};
+	var parms := array {};
 	if (text["skara"])
 		parms[1] := 662;//x
 		parms[2] := 2228;//y
@@ -249,7 +249,7 @@ endfunction
 ///////////////////
 
 function PayForItemDelivery (byref ev)
-	var parms := { };
+	var parms := array { };
 	parms[1] := me;
 	parms[2] := ev.source;
 	parms[3] := ev.item;
@@ -272,7 +272,7 @@ function DoCaptainOnCreationSetup ()
 	set_critical (1);
 	var merchantarray := GetGlobalProperty ("#merchants_of_town_" + mytown);
 	if (!merchantarray)
-		merchantarray := {};
+		merchantarray := array {};
 	endif
 	
 	if (!(me.serial in merchantarray))

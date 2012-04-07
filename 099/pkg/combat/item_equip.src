@@ -125,7 +125,7 @@ endfunction
 
 function DoEquipSpell (byref who, byref it)
 	if (GetObjProperty (it, "equipspell"))
-		var parms := { };
+		var parms := array{ };
 		parms[1] := who;
 		parms[2] := it;
 		parms[3] := ReadGameClock();
@@ -137,7 +137,7 @@ function DoEquipSpell (byref who, byref it)
 	
 	//Start staff listeners for druid and necro staves
 	if (it.objtype == UOBJ_DRUID_STAFF)
-		var parms := { };
+		var parms :=array { };
 		parms[1] := who;
 		parms[2] := it;
 		parms[3] := ReadGameClock();
@@ -145,7 +145,7 @@ function DoEquipSpell (byref who, byref it)
 		start_script (":druid:druidstaff", parms);
 
 	elseif (it.objtype == UOBJ_NECRO_STAFF)
-		var parms := { };
+		var parms := array{ };
 		parms[1] := who;
 		parms[2] := it;
 		parms[3] := ReadGameClock();

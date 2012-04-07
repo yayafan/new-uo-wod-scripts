@@ -829,6 +829,8 @@ endfunction
 ///////////////////
 
 function FindOnlinePlayerByName (character, name)
+	if (character)
+	endif
 	//Try to find an exact match first
 	foreach onlinechr in EnumerateOnlineCharacters()
 		if (lower (onlinechr.name) == name)

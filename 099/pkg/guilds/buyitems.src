@@ -5,8 +5,8 @@ use cfgfile;
 
 include "../pkg/guilds/guilds";
 
-var gump_layout := {};
-var gump_data := {};
+var gump_layout := array{};
+var gump_data := array{};
 var string_counter := 1;
 
 var item_cfg_file;

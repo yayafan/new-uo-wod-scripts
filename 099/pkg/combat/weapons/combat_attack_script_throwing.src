@@ -829,6 +829,8 @@ endfunction
 ///////////////////
 
 function DoTemporaryWeaponBonusEffect (attacker, defender, attacker_weapon, modified_damage)
+	if (attacker and modified_damage)
+	endif
 	var tempbonus := GetObjProperty (attacker_weapon, "#specialweaponeffect");
 	if (tempbonus [2])
 		if (ReadGameClock() > tempbonus[2])

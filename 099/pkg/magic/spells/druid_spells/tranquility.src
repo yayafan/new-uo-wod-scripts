@@ -36,7 +36,7 @@ program tranquility (parms)
 
 	//couple of other variables
 	var random_int;
-	var mobile;
+//	var mobile;
 	var i := 0;
 
 	//the main loop

@@ -184,7 +184,7 @@ function GetTargettedMobile (character, spellscript)
 		return 0;
 	endif
 
-	var parms := {};
+	var parms := array{};
 	parms [1] := "#SPECIALNONE";
 	parms [2] := targetted;
 	start_script (spellscript, parms);
@@ -203,7 +203,7 @@ function GetTargettedArea (character, spellscript)
 		return 0;
 	endif
 
-	var parms := {};
+	var parms := array{};
 	parms [1] := "#SPECIALNONE";
 	parms [2] := targetted;
 	start_script (spellscript, parms);

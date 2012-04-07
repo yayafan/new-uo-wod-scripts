@@ -7,7 +7,7 @@ include "include/utility";
 include "include/itemtypes";
 include "../pkg/items/housing/house";
 
-var Layout := {
+var Layout := array {
     "nodispose",
     "page 0",
     "resizepic 30 30 83 280 200",
@@ -53,7 +53,7 @@ var Layout := {
     "text 150 190 1 19"
 };
 
-var Data := {
+var Data := array {
     "Select a color range:",
     "One",
     "Two",
@@ -76,7 +76,7 @@ var Data := {
     "Use current color"
 };
 
-var layout2 := {
+var layout2 := array {
 
 "page 0",
 "gumppic 0 50 2620",
@@ -94,7 +94,7 @@ var layout2 := {
 "text 20 62 1102 0"
 };
 
-var Data2 := {
+var Data2 := array {
     "Select a color:",
     "Color1",
     "Color2",

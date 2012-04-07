@@ -10,6 +10,6 @@ program starttheworld()
 	find_or_create_storage( "Merchant Storage" );
 	SetGlobalProperty ("#serverstartup", ReadGameClock());
 	
-	start_script (":drocket:world_startup", {});
+	start_script (":drocket:world_startup", array {});
 	
 endprogram

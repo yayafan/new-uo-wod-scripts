@@ -35,7 +35,7 @@ endfunction
 ///////////////////
 
 function YesNo(player, Prompt)
-	var layout := array {
+	var ynlayout := array {
 		"page 0",
 		"gumppic 0 0 2070",
 		"button 30 75 2130 2129 1 0 1",
@@ -43,11 +43,11 @@ function YesNo(player, Prompt)
 		"text 40 30 1355 0"
 	};
 
-	var data := array {
+	var yndata := array {
 		Prompt
 	};
            
-	var res := SendDialogGump (player, layout, data);
+	var res := SendDialogGump (player, ynlayout, yndata);
 
 	if (res)
 		return 1;

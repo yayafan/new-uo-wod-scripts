@@ -87,7 +87,7 @@ function ChangeTheLocks (who, sign)
 	var lockid := AllocLockId ();
 	SetObjProperty (newkey, "lockid", lockid);
  
-	var z;
+	//var z;
 	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
 		if (item.isa (POLCLASS_DOOR))
 			if ((item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
@@ -124,7 +124,7 @@ function SetUpForSaleSign (who, sign)
 	sign.graphic := selection.objtype;
 	SetObjProperty (sign, "originalgraphic", selection.objtype);
 
-	var homeinfo := { };
+	var homeinfo := array{ };
 	homeinfo[1] := 0;
 	SendSysMessage (who, "Target the North-West corner of the house (Up!)");
 	var coords := TargetCoordinates (who);

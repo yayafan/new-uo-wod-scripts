@@ -135,15 +135,15 @@ program display_forsale_items (parms)
 		endif
 	endif
 
-	var possible_items := {};
-	var item_descs := {};
+	var possible_items := array{};
+	var item_descs := array{};
 	case (item.graphic)
 		0x1c00:	//leather shorts
 		0x1c01:
 		0x1c08:	//leather skirt
 		0x1c09:
-			possible_items := {0x1516, 0x1537};
-			item_descs := {"skirt", "kilt"};
+			possible_items := array{0x1516, 0x1537};
+			item_descs := array{"skirt", "kilt"};
 		0x13cb:	//leather pants
 		0x13d2:
 		0x13da:	//studded pants
@@ -156,8 +156,8 @@ program display_forsale_items (parms)
 		0x141a:
 		0x1452:	//bone legs
 		0x1457:
-			possible_items := {0x153a, 0x152e};
-			item_descs := {"long pants", "short pants"};
+			possible_items := array{0x153a, 0x152e};
+			item_descs := array{"long pants", "short pants"};
 		0x1c02:	//studded female
 		0x1c03:
 		0x1c04:	//plate female
@@ -174,8 +174,8 @@ program display_forsale_items (parms)
 		0x13ed:
 		0x13bf:	//chainmail
 		0x13c4:
-			possible_items := {0x1517, 0x1efd, 0x1ffd, 0x1f7b, 0x1fa1, 0x153d, 0x153b};
-			item_descs := {"shirt", "fancy shirt", "surcoat", "doublet", "tunic", "full apron", "half apron"};
+			possible_items := array{0x1517, 0x1efd, 0x1ffd, 0x1f7b, 0x1fa1, 0x153d, 0x153b};
+			item_descs := array{"shirt", "fancy shirt", "surcoat", "doublet", "tunic", "full apron", "half apron"};
 		default:
 			PrintTextAbovePrivate (magic_dealer, "Sorry, I can't do anything with that.", player);
 			if (!MoveItemToContainer (item, player.backpack))

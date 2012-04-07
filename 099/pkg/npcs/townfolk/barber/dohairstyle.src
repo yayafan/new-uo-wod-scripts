@@ -57,13 +57,13 @@ endprogram
 
 function DisplayMaleHairOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Hairstyles");
@@ -212,7 +212,7 @@ function DisplayMaleHairOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+	//var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x203b);
@@ -270,13 +270,13 @@ endfunction
 
 function DisplayFemaleHairOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Hairstyles");
@@ -385,7 +385,7 @@ function DisplayFemaleHairOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+	//var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x203b);
@@ -419,13 +419,13 @@ endfunction
 
 function DisplayMaleElfHairOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Hairstyles");
@@ -523,7 +523,7 @@ function DisplayMaleElfHairOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+	//var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x2fbf);
@@ -554,13 +554,13 @@ endfunction
 
 function DisplayFemaleElfHairOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Hairstyles");
@@ -658,7 +658,7 @@ function DisplayFemaleElfHairOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+//	var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x2fc0);
@@ -689,13 +689,13 @@ endfunction
 
 function DisplayMaleHornOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Hairstyles");
@@ -824,7 +824,7 @@ function DisplayMaleHornOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+	//var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x4258);
@@ -865,13 +865,13 @@ endfunction
 
 function DisplayFemaleHornOptions (merchant, paying_customer, customer)
 
-	var gump_layout := {
+	var gump_layout := array{
 		"page 0",
 		"nodispose",
 		"resizepic 20 20 3000 400 400"
 	};
 
-	var gump_data := {};
+	var gump_data := array{};
 
 	gump_layout.append ("text 50 50 1345 0");
 	gump_data.append ("Horn styles");
@@ -969,7 +969,7 @@ function DisplayFemaleHornOptions (merchant, paying_customer, customer)
 		endif
 	endif
 
-	var new_hairstyle := 0;
+	//var new_hairstyle := 0;
 	case (gump_return[0])
 		101:
 			ChangeHairToStyle (merchant, customer, 0x4261);
@@ -1658,7 +1658,8 @@ function ChangeHairToStyle (merchant, customer, hairstyle)
 
 	DestroyItem (old_hair);
 	EquipItem (customer, new_hair);
-
+	if (merchant)
+	endif
 endfunction
 
 
@@ -1686,6 +1687,8 @@ function ChangeBeardToStyle (merchant, customer, beardtype)
 
 	DestroyItem (old_beard);
 	EquipItem (customer, new_beard);
+	if (merchant)
+	endif
 
 endfunction
 

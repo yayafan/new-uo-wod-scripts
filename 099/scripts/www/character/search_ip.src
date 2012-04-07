@@ -25,6 +25,8 @@ program search_ip_addresses ()
 	endif
 	
 	var logon_record, logon_keys, dict_elem;
+	if (logon_keys)
+	endif
 	var found := 0;
 	foreach searchacctname in ListAccounts ()
 		logon_record := GetAccountProperty (searchacctname, "logon_record");

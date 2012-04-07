@@ -5,6 +5,8 @@
 function RepairCarpentryItem (character, tool, item, repair_skill)
 	if (!item.maxhp or !item.quality)
 		SendSysmessage (character, "That item cannot be repaired.");
+    if (tool)
+    endif
 		return;
 	endif
 

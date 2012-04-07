@@ -262,7 +262,7 @@ endfunction
 ///////////////////
 
 function DoMagicStatMod (byref cast_on, modtype, modamount, duration, description)
-	var parms := {};
+	var parms := array{};
 	parms[1] := cast_on;
 	parms[2] := modtype;
 	parms[3] := modamount;
@@ -417,6 +417,8 @@ endfunction
 ///////////////////
 
 function Resisted (byref caster, byref cast_on, amt)
+  if (caster)
+  endif
 	var cast_on_resist := GetAttribute (cast_on, ATTRIBUTEID_MAGICRESISTANCE);
 	if (cast_on_resist > 90)
 		cast_on_resist := CINT (cast_on_resist * 1.4);
@@ -474,7 +476,7 @@ endfunction
 ///////////////////
 
 function SummonCreature (byref caster, npctemplate, cast_loc, duration, controllable := 1, npc_name := "", npc_color := 0, savedprop := 0)
-	var parms := {};
+	var parms := array{};
 	parms[1] := caster;
 	parms[2] := npctemplate;
 	parms[3] := cast_loc;
@@ -526,14 +528,14 @@ function CreateField (byref caster, targetx, targety, targetz, field_type, durat
 		field_objtype := 0x1f7;
 		field_graphic := 0x58;
 	elseif (field_type == "frost" and direction == "ns")
-		field_objtype := 0x7086;
+		field_objtype := 0x17086;
 	elseif (field_type == "frost" and direction == "ew")
-		field_objtype := 0x7085;
+		field_objtype := 0x17085;
 	else
 		return;
 	endif
 
-	var field := { };
+	var field := array{ };
 
 	var i, it;
 	for ( i := -2; i <= 2; i := i + 1 )

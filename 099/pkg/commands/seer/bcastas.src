@@ -2,9 +2,9 @@ use uo;
 
 
 program bcastas(who, msg)
-
-if (msg)
-        broadcast(msg);
-endif
-
+	if (who)
+	endif
+	if (msg)
+		broadcast(msg);
+	endif
 endprogram

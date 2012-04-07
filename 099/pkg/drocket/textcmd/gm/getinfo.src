@@ -514,8 +514,8 @@ endfunction
 
 function LogFoundItem (character, message)
 	SendSysMessage (character, "Find item: " + message);
-	var log := { };
-	var prop:= array {};
+	var log := array{ };
+	var prop:= struct {};
 
     	prop.+pname := "line:";
     	prop.+pvalue := message;

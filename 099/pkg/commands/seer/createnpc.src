@@ -28,7 +28,7 @@ endprogram
 
 function DisplayNPCSelectionMenu (character)
 	var npcmenu := CreateMenu ("Select an NPC type:");
-	var thepackages := {};
+	var thepackages := array{};
 
 	foreach pkgname in (polcore().packages)
 		var cfg := ReadConfigFile (":" + pkgname + ":npcdesc");
@@ -64,7 +64,7 @@ function DisplayNPCSelectionMenu (character)
 	endif
 
 	var npcmenu2 := CreateMenu ("Select an NPC type:");
-	var thenpcs := {};
+	var thenpcs := array{};
 	foreach entry in thenpctypes
 		var template := SplitWords (entry)[1];
 		var graphic := CINT (SplitWords (entry)[2]);

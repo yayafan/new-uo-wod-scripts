@@ -7,8 +7,9 @@ include "include/objtype";
 include "include/eventid";
 
 program bard_provoke (speaker, text)
-
-	var ev := array {};
+	if (text)
+	endif
+	var ev := struct {};
 	ev.+type := EVID_ALL_FOLLOW_CMD;
 	ev.+target := speaker;
 

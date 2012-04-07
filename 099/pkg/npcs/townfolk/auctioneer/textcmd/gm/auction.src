@@ -9,8 +9,8 @@ include "include/math";
 include "include/gumps";
 include "../pkg/npcs/townfolk/auctioneer/auctioneer";
 
-var gump_layout := {};
-var gump_data := {};
+var gump_layout := array{};
+var gump_data := array{};
 var string_counter := 1;
 
 var itembox, current_item_num, current_item;
@@ -50,6 +50,8 @@ program display_forsale_items (player, text)
 	
 	DisplayAuctionItems (player, 0, items, current_item_num);
 	EraseObjProperty (player, "#auctioneerwindow");
+	if (text)
+	endif
 endprogram
 
 
@@ -67,7 +69,7 @@ function DoAuctionSearch (player)
 		return;
 	endif
 
-	var items := {};
+	var items := array{};
 	var item_name;
 	foreach category in ListCategoryNames ()
 		itembox := find_or_create_item (storage, category, UOBJ_BANKBOX);

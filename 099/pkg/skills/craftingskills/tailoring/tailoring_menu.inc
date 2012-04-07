@@ -65,7 +65,7 @@ function BuildTailoringCraftingMenu (character, menu_cfg_file_name, crafting_cfg
 	var gump_y_pos := base_y + 40;
 	var string_counter := 12;
 	
-	var menu_array := {}; //stores the list of names of the menus
+	var menu_array := array {}; //stores the list of names of the menus
 
 	foreach submenu in submenu_array
 		submenu := SplitWords (submenu);
@@ -129,7 +129,7 @@ function BuildTailoringCraftingMenu (character, menu_cfg_file_name, crafting_cfg
 
 	var auto_upgrade_options := GetObjProperty (character, "#tailoring_autoupgrade_options");
 	if (!auto_upgrade_options)
-		auto_upgrade_options := {1, 0, 0, 0, 1, 0};
+		auto_upgrade_options := array {1, 0, 0, 0, 1, 0};
 	endif
 
 	repeat
@@ -137,7 +137,7 @@ function BuildTailoringCraftingMenu (character, menu_cfg_file_name, crafting_cfg
 		var gump_layout := blank_gump_layout;
 		var gump_data := blank_gump_data;
 
-		var menu_objtype_array := {}; //stores the objtypes of the items on the current_menu
+		var menu_objtype_array := array {}; //stores the objtypes of the items on the current_menu
 
 		var current_elem := FindConfigElem (menu_cfg_file, current_menu);
 		var entry_array := GetConfigStringArray (current_elem, "Entry");
@@ -289,7 +289,7 @@ function BuildTailoringCraftingMenu (character, menu_cfg_file_name, crafting_cfg
 					upgrade_material_selection := 2;
 				endif
 
-				return {selected_item, upgrade_level, upgrade_material_selection, number_to_make};
+				return array {selected_item, upgrade_level, upgrade_material_selection, number_to_make};
 			else
 				SendSysMessage (character, "Error:  Invalid gump return, no item");
 				return 0;

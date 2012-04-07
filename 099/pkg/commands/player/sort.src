@@ -69,7 +69,7 @@ program inventorylist (character, textline)
 	endforeach
 
 	var itemnum := 1;
-	var selection := { };
+	var selection := array{ };
 	repeat
 		var inventorymenu := createmenu(menuname);
 		var i;
@@ -101,7 +101,7 @@ program inventorylist (character, textline)
 endprogram
 
 function InventoryListing (character)
-	var someitems := { };
+	var someitems := array{ };
 	var objtypelist := dictionary;
 	var include_item, thecontainer;
 	foreach item in EnumerateItemsInContainer (bag)
@@ -155,7 +155,7 @@ function MajorInventoryListing ( character )
 		endforeach
 	endif
 
-	var someitems := { };
+	var someitems := array{ };
 	foreach item in allitems
 		if ( item.container.objtype != 0xEFA )
 			someitems.append( item );
@@ -262,7 +262,7 @@ function GetGroupObjtypes (sorttype)
 			endfor
 			return thestuff;
 		"ammo":
-			thestuff := {0x0f3f, 0x1bfb, 0x6051};
+			thestuff := {0x0f3f, 0x1bfb, 0x16051};
 			return thestuff;
 		"potions":
 			for i := 0xDC01 to 0xDC17

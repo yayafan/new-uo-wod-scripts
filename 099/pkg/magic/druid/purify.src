@@ -1,8 +1,8 @@
 use uo;
 use os;
 
-Const UOBJ_MAIN_CORRUPTION := 0x706d;
-Const UOBJ_CORRUPTION := 0x706c;
+Const UOBJ_MAIN_CORRUPTION := 0x1706d;
+Const UOBJ_CORRUPTION := 0x1706c;
 
 Const MAX_PURIFY_LEVEL := 5;
 
@@ -16,12 +16,16 @@ program uncorrupt (parms)
 
 	//look around the caster for the main corruption square
 	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION, caster.realm)
+		if (square)
+		endif
 		found_corruption := 1;
 		on_main_square := 1;
 	endforeach
 
 	//look for other corruption
 	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_CORRUPTION, caster.realm)
+		if (square)
+		endif
 		found_corruption := 1;
 	endforeach
 

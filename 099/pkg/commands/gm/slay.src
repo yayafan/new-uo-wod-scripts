@@ -18,8 +18,8 @@ program textcmd_kill (character)
 	endif
 
 	if (targetted.acctname)
-		var prop := array {};
-		var thelog := { };
+		var prop := struct {};
+		var thelog := array{ };
 		prop .+ pname := character.acctname + " " + character.name + " used the kill command!";
 		prop .+ pvalue := "and " + targetted.acctname + " " + targetted.name + " got killed!";
 		var elemkey := character.name + "(" + character.acctname + ")";

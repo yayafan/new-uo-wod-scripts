@@ -12,6 +12,8 @@ include "include/dotempmods";
 include "include/wodinc";
 
 program mainhit (attacker, defender, weapon, armor, basedamage, rawdamage)
+	if (basedamage and armor and weapon)
+	endif
 	if (attacker.z > (defender.z + 20) or attacker.z < (defender.z - 20))
 		return;
 	endif

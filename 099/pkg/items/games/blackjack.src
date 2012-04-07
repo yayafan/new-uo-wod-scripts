@@ -10,10 +10,10 @@ include "include/objtype";
 include "include/gumps";
 
 CONST GUMP_CARD_BASE := 0x1c01;
-var players_cards := {};
-var players_split_cards := {};
-var dealers_cards := {};
-var drawn_cards := {};
+var players_cards := array{};
+var players_split_cards := array{};
+var dealers_cards := array{};
+var drawn_cards := array{};
 
 var gump_layout, gump_data;
 var win_results;
@@ -78,10 +78,10 @@ program play_blackjack (character)
 		set_critical (0);
 
 		//reset all the data
-		players_cards := {};
-		players_split_cards := {};
-		dealers_cards := {};
-		drawn_cards := {};
+		players_cards := array{};
+		players_split_cards := array{};
+		dealers_cards := array{};
+		drawn_cards := array{};
 		winning_string := "";
 		players_score := 0;
 		players_split_score := 0;
@@ -94,7 +94,7 @@ program play_blackjack (character)
 		dealers_cards[1] := DrawCard ();
 		dealers_cards[2] := DrawCard ();
 
-		var busted := 0;
+		//var busted := 0;
 		var done := 0;
 		repeat
 			players_score := GetScoreOfHand (character, players_cards);
@@ -422,7 +422,7 @@ function GetScoreOfHand (character, thehand)
 		return 0;
 	endif
 	
-	var card_scorer := {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
+	var card_scorer := array{11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
 	var score_counter := 0;
 	var ace_counter := 0;
@@ -459,34 +459,34 @@ endfunction
 function DetermineWinOrLoss ()
 	//busts first
 	if (players_score > 21)
-		return {"You went bust!", 0};
+		return array{"You went bust!", 0};
 	elseif (dealers_score > 21)
-		return {"Dealer busted!", 2};
+		return array{"Dealer busted!", 2};
 	endif
 	
 	//Then Blackjacks
 	if (players_score == 21)
 		if (players_cards.size() == 2)
-			return {"Blackjack!", 2.5};
+			return array{"Blackjack!", 2.5};
 		elseif (dealers_score == 21)
 			if (dealers_cards.size() == 2)
-				return {"Dealer has Blackjack", 0};
+				return array{"Dealer has Blackjack", 0};
 			endif
 		endif
 	endif
 	
 	if (dealers_score == 21)
 		if (dealers_cards.size() == 2)
-			return {"Dealer has Blackjack", 0};
+			return array{"Dealer has Blackjack", 0};
 		endif
 	endif
 
 	if (players_score > dealers_score)
-		return {"You have the higher hand!", 2};
+		return array{"You have the higher hand!", 2};
 	elseif (players_score < dealers_score)
-		return {"Sorry, try again.", 0};
+		return array{"Sorry, try again.", 0};
 	endif
-	return {"Tie (bet returned)", 1};
+	return array{"Tie (bet returned)", 1};
 endfunction
 
 

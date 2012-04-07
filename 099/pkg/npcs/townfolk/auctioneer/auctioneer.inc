@@ -214,11 +214,11 @@ function DisplayAuctionItems (player, auctioneer, byref items, current_item_num 
 			endif
 			SetObjProperty (player, "#auction_item_num", current_item_num);
 		elseif (gump_return[0] == BUTTON_EVALUATE_ITEM)
-			start_script (":auctioneer:evaluate_item", {player, current_item});
+			start_script (":auctioneer:evaluate_item", array{player, current_item});
 		elseif (gump_return[0] == BUTTON_MOVE_GUMP_UP)
 			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
 			if (!auction_gump_location)
-				auction_gump_location := {100, 100};
+				auction_gump_location := array{100, 100};
 			endif
 			
 			auction_gump_location[2] := auction_gump_location[2] - 50;
@@ -229,7 +229,7 @@ function DisplayAuctionItems (player, auctioneer, byref items, current_item_num 
 		elseif (gump_return[0] == BUTTON_MOVE_GUMP_DOWN)
 			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
 			if (!auction_gump_location)
-				auction_gump_location := {100, 100};
+				auction_gump_location := array{100, 100};
 			endif
 			
 			auction_gump_location[2] := auction_gump_location[2] + 50;
@@ -237,7 +237,7 @@ function DisplayAuctionItems (player, auctioneer, byref items, current_item_num 
 		elseif (gump_return[0] == BUTTON_MOVE_GUMP_LEFT)
 			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
 			if (!auction_gump_location)
-				auction_gump_location := {100, 100};
+				auction_gump_location := array{100, 100};
 			endif
 			
 			auction_gump_location[1] := auction_gump_location[1] - 50;
@@ -248,7 +248,7 @@ function DisplayAuctionItems (player, auctioneer, byref items, current_item_num 
 		elseif (gump_return[0] == BUTTON_MOVE_GUMP_RIGHT)
 			var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
 			if (!auction_gump_location)
-				auction_gump_location := {100, 100};
+				auction_gump_location := array{100, 100};
 			endif
 			
 			auction_gump_location[1] := auction_gump_location[1] + 50;
@@ -486,7 +486,7 @@ endfunction
 function BuildAuctionDisplayGump (byref item, byref player)
 	var auction_gump_location := GetObjProperty (player, "#auction_gump_location");
 	if (!auction_gump_location)
-		auction_gump_location := {100, 100};
+		auction_gump_location := array{100, 100};
 	endif
 
 	gump_layout := array {
@@ -595,7 +595,7 @@ function BuildAuctionDisplayGump (byref item, byref player)
 	//Put in the item's description, if it has one
 	var description := GetObjProperty (item, "auctiondescription");
 	if (!description)
-		description := {"", "", "", ""};
+		description := array{"", "", "", ""};
 	endif
 	for i := 1 to 4
 		gump_data[9+i] := description[i];	
@@ -645,7 +645,7 @@ function AddTransactionMessage (acctname, message)
 		allmessages := dictionary;
 	endif
 	
-	var acctmessages := {};
+	var acctmessages := array{};
 	if (allmessages.exists (acctname))
 		acctmessages := allmessages[acctname];
 	endif
@@ -691,14 +691,14 @@ endfunction
 function GetTransactionMessages (acctname)
 	var allmessages := GetGlobalProperty ("auctioneer_transaction_messages");
 	if (!allmessages)
-		return {};
+		return array{};
 	endif
 
 	if (allmessages.exists (acctname))
 		return allmessages [acctname];
 	endif
 
-	return {};
+	return array{};
 endfunction
 
 

@@ -6,7 +6,7 @@ include "../pkg/world/weather/weather";
 
 program helpnext (me)
 	var helpmenu := CreateMenu ("Select a help page to clear:");
-	var foundpages := {};
+	var foundpages := array{};
 	
 	foreach plr in EnumerateOnlineCharacters ();
 		if (GetObjProperty (plr, "HELP"))

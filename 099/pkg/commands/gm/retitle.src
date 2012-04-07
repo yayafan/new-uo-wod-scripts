@@ -55,6 +55,8 @@ program textcmd_change_title (character, text)
 		"guild":
 			//This is just here to split up the case statement
 			var stlgadd := 1;
+			if (stlgadd)
+			endif
 		default:
 			SendSysMessage (character, "Invalid option selected.  Use .retitle by itself to find valid options.");
 			return;

@@ -62,6 +62,8 @@ function main_AI_loop()
 			createitematlocation (me.x, me.y, me.z, UOBJ_EGG, 1, me.realm);
 			var eggcount := 0;
 			foreach item in ListItemsNearLocationOfType (me.x, me.y, me.z, 10, UOBJ_EGG, me.realm)
+        if (item)
+        endif
 				eggcount := eggcount + 1;
 			endforeach
 			if (eggcount > 10)

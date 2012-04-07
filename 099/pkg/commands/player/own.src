@@ -229,8 +229,8 @@ function LogLostItems (character)
 	var acct, player;
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
-		var charserials := {};
-		for counter := 1 to 5
+		var charserials := array{};
+		for counter := 1 to 7
 			player := acct.GetCharacter (counter);
 			if (player)
 				charserials.append (player.serial);
@@ -260,8 +260,8 @@ endfunction
 
 
 function LogThisItem (item, acctname, charactername, ownerserial)
-	var log := { };
-	var prop:= array {};
+	var log := array{ };
+	var prop:= struct {};
 
     	prop.+pname := "Account name:";
  	prop.+pvalue := acctname;

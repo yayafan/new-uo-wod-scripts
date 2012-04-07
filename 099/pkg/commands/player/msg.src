@@ -414,7 +414,7 @@ function LogAccountMessages (character, whom, text)
 	endif
 	
 	var propname := CSTR (ReadGameClock());
-	var value := {character.name, whom.name, text};
+	var value := array{character.name, whom.name, text};
 
 	entry.SetProp (propname, value);
 	UnloadDataFile (":character:msg_logging");

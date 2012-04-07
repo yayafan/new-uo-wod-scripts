@@ -2,6 +2,8 @@ use uo;
 use os;
 
 program setweather( who, params )
+	if (who)
+	endif
     params := SplitWords( params );
 
 	while(1)

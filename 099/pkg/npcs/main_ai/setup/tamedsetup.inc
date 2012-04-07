@@ -137,7 +137,7 @@ function DoStartupSetup ()
 
 	//dress them
 	if (MyTemplateElem.dress)
-		var parms := {};
+		var parms :=array {};
 		parms[1]:= me;
 		parms[2]:= MyTemplateElem.dress;
 		start_script("::/misc/dressme", parms);

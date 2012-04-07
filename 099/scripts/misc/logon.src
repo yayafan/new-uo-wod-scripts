@@ -162,7 +162,7 @@ function RecordPlayerLogin (character)
 		endif
 	endif
 	
-	var newlogon := {};
+	var newlogon := array {};
 	newlogon[1] := Systime_GetReadableTimeString();
 	newlogon[2] := character.ip;
 	newlogon[3] := character.name;

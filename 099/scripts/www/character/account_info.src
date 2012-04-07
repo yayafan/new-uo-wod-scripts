@@ -33,9 +33,9 @@ program ViewAccountInformation ()
 		return;
 	endif
 	
-	var characters := {};
+	var characters := array {};
 	var add_second_column := 0;
-	for i := 1 to 5
+	for i := 1 to 7
 		characters[i] := acct.GetCharacter(i);
 		if (characters[i].ip)
 			add_second_column := 1;
@@ -147,6 +147,46 @@ program ViewAccountInformation ()
 				WriteHTML ("<td>Online</td>");
 			elseif (add_delete)
 				WriteHTML ("<td><a href=delete_character.ecl?acctname=" + acctname + "&charnum=" + 5 + "&charserial=" + characters[5].serial + ">Delete character</a></td>");
+			else
+				WriteHTML ("<td>-</td>");
+			endif
+		endif
+	else
+		WriteHTML ("<td>-none-</td>");
+		if (add_second_column)
+			WriteHTML ("<td>-</td>");
+		endif
+	endif
+	
+	WriteHTML ("</tr><tr>");
+	WriteHTML ("<td align=right>Character 6</td>");
+	if (characters[6])
+		WriteHTML ("<td><a href=character_info.ecl?serial=" + characters[6].serial + ">" +characters[6].name + "</a></td>");
+		if (add_second_column)
+			if (characters[6].ip)
+				WriteHTML ("<td>Online</td>");
+			elseif (add_delete)
+				WriteHTML ("<td><a href=delete_character.ecl?acctname=" + acctname + "&charnum=" + 6 + "&charserial=" + characters[6].serial + ">Delete character</a></td>");
+			else
+				WriteHTML ("<td>-</td>");
+			endif
+		endif
+	else
+		WriteHTML ("<td>-none-</td>");
+		if (add_second_column)
+			WriteHTML ("<td>-</td>");
+		endif
+	endif
+	
+	WriteHTML ("</tr><tr>");
+	WriteHTML ("<td align=right>Character 7</td>");
+	if (characters[7])
+		WriteHTML ("<td><a href=character_info.ecl?serial=" + characters[7].serial + ">" +characters[7].name + "</a></td>");
+		if (add_second_column)
+			if (characters[7].ip)
+				WriteHTML ("<td>Online</td>");
+			elseif (add_delete)
+				WriteHTML ("<td><a href=delete_character.ecl?acctname=" + acctname + "&charnum=" + 7 + "&charserial=" + characters[7].serial + ">Delete character</a></td>");
 			else
 				WriteHTML ("<td>-</td>");
 			endif

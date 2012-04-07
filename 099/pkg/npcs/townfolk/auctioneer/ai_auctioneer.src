@@ -199,9 +199,10 @@ function DoAuctioneerOnCreationSetup()
 		EquipFromTemplate (me, "male_auctioneer");
 	endif
 
-	var myhome := {};
+	var myhome := array{};
 	myhome[1] := me.x;
 	myhome[2] := me.y;
 	myhome[3] := me.z;
+	myhome[4] := me.realm;
 	SetObjProperty (me, "myhome", myhome);
 endfunction
