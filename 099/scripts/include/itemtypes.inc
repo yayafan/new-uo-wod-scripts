@@ -14,6 +14,7 @@
 
 use uo;
 use os;
+use cfgfile;
 include "include/objtype";
 
 function IsDoor (byref item)
@@ -539,6 +540,54 @@ function IsMetalArmor (byref armor)
 	return 0;
 endfunction
 
+function IsHideArmor (byref armor)
+  if (armor.graphic >= 2b74 and armor.graphic <= 0x2b79)
+    return 1;
+  elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function IsWoodenArmor (byref armor)
+  if (armor.graphic >= 0x2b67 and armor.graphic <= 0x2b6d)
+    return 1;
+  elseif (armor.graphic >= 0x2b71 and armor.graphic <= 0x2b73)
+    return 1;
+  elseif (armor.graphic >= 0x315e and armor.graphic <= 0x3164)
+    return 1;
+  elseif (armor.graphic >= 0x3168 and armor.graphic <= 0x316a)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function IsClothArmor (byref armor)
+  if (armor.graphic >= 0x403 and armor.graphic <= 0x40a)
+    return 1;
+  elseif (armor.graphic >= 0x405f and armor.graphic <= 0x4064)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function IsStoneArmor (byref armor)
+  if (armor.graphic >= 0x283 and armor.graphic <= 0x28a)
+    return 1;
+  elseif (armor.graphic >= 0x4057 and armor.graphic <= 0x405e)
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function IsMedableArmor (byref armor)
+	var cfg := ReadConfigFile (":*:itemdesc");
+	if ((cfg[armor.objtype].blockcircle) && (cfg[armor.objtype].blockcircle < 6)) 
+    return 0;
+  endif
+  return 1;
+endfunction
+
 function IsShield (byref shield)
 
 	if (shield.graphic >= 0x1B72 and shield.graphic <= 0x1B7B)
@@ -563,6 +612,14 @@ function IsMetalShield (byref shield)
 		return 1;
 	elseif (shield.graphic >= 0x1BC3 and shield.graphic <= 0x1BC5)
 		return 1;
+  elseif (shield.graphic >= 0x4202 and shield.graphic <= 0x4204)
+    return 1;
+  elseif (shield.graphic >= 0x4208 and shield.graphic <= 0x420a)
+    return 1;
+  elseif (shield.graphic >= 0x4228 and shield.graphic <= 0x422a)
+    return 1;
+  elseif (shield.graphic == 0x422c)
+    return 1;
 	endif
 		return 0;
 endfunction
@@ -572,9 +629,22 @@ function IsWoodenShield (byref shield)
 		UOBJ_WOODEN_SHIELD:
 		UOBJ_WOODEN_KITESHIELD:
 		UOBJ_WOODEN_KITESHIELD2:
+    UOBJ_G_WOODEN_SHIELD:
+    UOBJ_G_KITESHIELD:
+    UOBJ_G_KITESHIELD2:
+    UOBJ_G_WOODEN_SHIELD2:
 			return 1;
 	endcase;
 	return 0;
+endfunction
+
+function IsStoneShield (byref shield)
+  case shield.graphic)
+    UOBJ_G_LARGE_STONESHIELD:
+    UOBJ_G_LARGE_STONESHIELD2:
+      return 1;
+  endcase
+  return 0;
 endfunction
 
 function IsClothing (byref clothes)
@@ -584,7 +654,7 @@ function IsClothing (byref clothes)
  		return 1;
 	elseif (clothes.graphic >= 0x1537 and clothes.graphic <= 0x1544)
 		return 1;
-	elseif (clothes.graphic >= 0x1708 and clothes.graphic <= 0x171C)
+	elseif (clothes.graphic >= 0x170B and clothes.graphic <= 0x171C)
 		return 1;
 	elseif (clothes.graphic >= 0x1EFD and clothes.graphic <= 0x1F04)
 		return 1;
@@ -596,7 +666,74 @@ function IsClothing (byref clothes)
 		return 1;
 	elseif (clothes.graphic >= 0x204E and clothes.graphic <= 0x204F)
 		return 1;
+	elseif (clothes.graphic >= 0x2305 and clothes.graphic <= 0x2310)
+		return 1;
 	endif
+  case (clothes.graphic)
+    0x2782:
+    0x2783:
+    0x278f:
+    0x2794:
+    0x2796:
+    0x2797:
+    0x2798:
+    0x2799:
+    0x279a:
+    0x279b:
+    0x279c:
+    0x27a0:
+    0x27a1:
+    0x27cd:
+    0x27ce:
+    0x27da:
+    0x27df:
+    0x27e1:
+    0x27e2:
+    0x27e3:
+    0x27e4:
+    0x27e5:
+    0x27e6:
+    0x27e7:
+    0x27eb:
+    0x27ec:
+    0x2fb9:
+    0x2fba:
+    0x2fc3:
+    0x2fc4:
+    0x3173:
+    0x3174:
+    0x3175:
+    0x3176:
+    0x3177:
+    0x3178:
+    0x3179:
+    0x317a:
+    0x4000:
+    0x4001:
+    0x4002:
+    0x4003:
+    0x405f:
+    0x4060:
+    0x4061:
+    0x4062:
+    0x4063:
+    0x4064:
+    0x4065:
+    0x4066:
+    0x450d:
+    0x450e:
+    0x457e:
+    0x457f:
+    0x45a4:
+    0x45a5:
+    0x46aa:
+    0x46ab:
+    0x46b4:
+    0x46b5:
+    0x50d8:
+    0x50d9:
+      return 1;
+    endcase
 		return 0;
 endfunction
 
@@ -631,6 +768,10 @@ function IsAHat (item)
 		UOBJ_TRIBAL_MASK2:
 		UOBJ_TRIBAL_MASK3:
 		UOBJ_TRIBAL_MASK4:
+    0x278f:
+    0x2798:
+    0x27da:
+    0x27e3:
 			return 1;
 	endcase
 
@@ -904,6 +1045,12 @@ endfunction
 function IsLeatherBoots (byref item)
 	if (item.graphic >= 0x170b and item.graphic <= 0x1712)
 		return 1;
+	elseif (item.graphic >= 0x2307 and item.graphic <= 0x2308)
+		return 1;
+  elseif (item.graphic == 0x2fc4)
+    return 1;
+  elseif (item.graphic == 0x317a)
+    return 1;
 	endif
 	return 0;
 endfunction

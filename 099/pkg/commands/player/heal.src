@@ -12,6 +12,7 @@ include "include/client";
 include "include/magic";
 include "include/utility";
 include "include/dotempmods";
+include "include/newperformaction";
 
 program heal (me, text)
 	if (me.dead)
@@ -55,7 +56,7 @@ function DrinkHeal (character)
 		if (item.objtype == UOBJ_GREATER_HEAL_POTION)
 			character.hidden := 0;
 			PlaySoundEffect (character, DRINK_SOUND);
-			PerformAction(character, ANIM_EAT);
+			NewPerformAction(character, NPA_ANIM_EAT);
 			CreateItemInContainer (item.container, UOBJ_EMPTY_BOTTLE, 1);
 			SubtractAmount (item, 1);
 			var heal_amount := RandomDiceRoll("5d12+3");
@@ -73,7 +74,7 @@ function DrinkHeal (character)
 	if (healpotion)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
-		PerformAction(character, ANIM_EAT);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		CreateItemInContainer (healpotion.container, UOBJ_EMPTY_BOTTLE, 1);
 		SubtractAmount (healpotion, 1);
 		var heal_amount := RandomDiceRoll("3d12+3");
@@ -86,7 +87,7 @@ function DrinkHeal (character)
 	if (lighthealpotion)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
-		PerformAction(character, ANIM_EAT);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		CreateItemInContainer (lighthealpotion.container, UOBJ_EMPTY_BOTTLE, 1);
 		SubtractAmount (lighthealpotion, 1);
 		var heal_amount := RandomDiceRoll("2d12+3");
@@ -129,7 +130,7 @@ function CastSpell (character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character, ANIM_CAST_DIR);
+		NewPerformAction (character, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, (GetSpellDifficulty (spellid)-20), 0))
 			Fizzle (character);
@@ -202,7 +203,7 @@ function CastSpell (character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character,ANIM_CAST_DIR);
+		NewPerformAction (character, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, GetSpellDifficulty (spellid), 0))
 			PlaySoundEffect (character, 0x005d);

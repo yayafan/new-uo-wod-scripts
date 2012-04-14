@@ -9,6 +9,7 @@ include "include/wodinc";
 include "include/eventid";
 include "include/utility";
 include "../pkg/items/boat/plankutil";
+include "include/newperformaction";
 
 const STATE_STATIONARY		:= 0;
 const STATE_MOVING			:= 1;
@@ -551,7 +552,7 @@ endfunction
 function SmackEveryone()
 	foreach mob in (boat.mobiles)
 		DoDamageByType (0, mob, Randomint(10), DAMAGETYPE_PHYSICAL);
-		PerformAction (mob, 0x14);
+		NewPerformAction (mob, 4);
 		PlaySoundEffect (mob, 0x110);
 	endforeach
 endfunction

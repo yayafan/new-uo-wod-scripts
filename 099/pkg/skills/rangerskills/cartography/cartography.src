@@ -6,7 +6,6 @@ include "include/objtype";
 include "include/attributes";
 
 program use_blank_map (character, map)
-
 	var choice := SelectMenuItem2 (character, "Cartography");
 	if (!choice)
 		SendSysmessage (character, "Canceled.");
@@ -79,8 +78,16 @@ function MakeLocalMap (character)
 		map.ynorth := character.y-260;
 	endif
 
-	map.xeast := character.x+265;
-	map.ysouth := character.y+260;
+	if (character.x > 4854)
+		map.xeast := 5119;
+	else
+		map.xeast := character.x+265;
+	endif
+	if (character.y > 3835)
+		map.ysouth := 4095;
+	else
+		map.ysouth := character.y+260;
+	endif
 
 	map.gumpwidth := 200;
 	map.gumpheight := 200;
@@ -108,11 +115,19 @@ function MakeRegionalMap (character)
 		map.ynorth := character.y-800;
 	endif
 
-	map.xeast := character.x+850;
-	map.ysouth := character.y+800;
+	if (character.x > 4269)
+		map.xeast := 5119;
+	else
+		map.xeast := character.x+850;
+	endif
+	if (character.y > 3295)
+		map.ysouth := 4095;
+	else
+		map.ysouth := character.y+800;
+	endif
 
 	map.gumpwidth := 400;
-	map.gumpheight := 300;
+	map.gumpheight := 400;
 endfunction
 
 
@@ -132,5 +147,5 @@ function MakeWorldMap (character)
 	map.ysouth := 4095;
 
 	map.gumpwidth := 500;
-	map.gumpheight := 400;
+	map.gumpheight := 500;
 endfunction

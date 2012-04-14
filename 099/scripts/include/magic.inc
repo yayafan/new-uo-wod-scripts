@@ -15,10 +15,12 @@ include "include/wodinc";
 include "../pkg/npcs/npcinfo";
 include "../pkg/npcs/npc_util";
 include "../pkg/character/virtue/virtue";
+include "include/newperformaction";
 
 const CSSC_NOREAGENTS       := 0x01;
-const CSSC_HANDSFREE        := 0x02;
+const CSSC_HANDSFREE         := 0x02;
 const CSSC_NOSKILLCHECK     := 0x04;
+const CSSC_NODELAY            := 0x08;
 
 Const STATMOD_STR			:= 1;
 Const STATMOD_DEX			:= 2;
@@ -134,12 +136,35 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 		else
 			if (!GetObjProperty(thecaster, "#scroll"))
 				SpeakPowerWords (thecaster, spellid);
-				PerformAction (thecaster, 0x0010);
+				NewPerformAction (thecaster, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 				if(!(flags & CSSC_NOREAGENTS))
 					if (!ConsumeSpellReagents (thecaster, spellid))
 						return 0;
 					endif
 				endif
+				if (!(flags & CSSC_NODELAY))
+          var orig_hp := GetVital( thecaster, "Hits" ),
+          delay := GetTimeDelayBySpellID (spellid);
+          var orig_x := thecaster.x, orig_y := thecaster.y;
+             
+	        // Check for health changes and fail the spell if caster becomes damaged
+	        while( delay > 0 )
+		        if( orig_hp > GetVital( thecaster, "Hits"))
+              Fizzle(thecaster);
+              return 0;
+		        elseif( thecaster.hidden || thecaster.frozen || thecaster.paralyzed )
+			        Fizzle(thecaster);
+			        return 0;
+            endif
+
+            delay -= 100;
+		        SleepMS(100);
+	        endwhile
+          if( thecaster.x != orig_x || thecaster.y != orig_y )
+            SendSysMessage( thecaster, "Your concentration is disturbed while moving." );
+            return 0;
+          endif
+        endif
 				if (!(flags & CSSC_NOSKILLCHECK))
 					if (!CheckSkill (thecaster, SKILLID_MAGERY, GetSpellDifficulty(spellid), 0))
 						Fizzle(thecaster);
@@ -955,9 +980,26 @@ function GetManaCostBySpellID (spellid)
 		spellmana := cfg[ spellid ].circle;
 		cfg := readconfigfile("::circles");
 		spellmana := cint(cfg[ spellmana ].mana);
+    if (!spellmana)
+      Syslog ("Error finding spell circle!");
+      return 20;
+    endif
 	endif
 	return spellmana;
 endfunction
 
-
+function GetTimeDelayBySpellID (spellid)
+	var cfg := readconfigfile(":*:spells");
+	var spelldelay := CINT(cfg[spellid].delay);
+	if (!spelldelay)
+		spelldelay := cfg[ spellid ].circle;
+		cfg := readconfigfile("::circles");
+		spelldelay := cint(cfg[spelldelay].delay);
+    if (!spelldelay)
+      syslog ("Can't find spell circle " + cfg[spellid].circle + " on spellid " + spellid);
+      return 2000;
+    endif
+	endif
+	return spelldelay;
+endfunction
 

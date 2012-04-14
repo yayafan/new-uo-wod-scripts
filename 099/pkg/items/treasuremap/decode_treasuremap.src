@@ -72,7 +72,11 @@ program decode_map (character, map)
 	endif
 
 	map.xeast := x+265;
-	map.ysouth := y+260;
+	if (y + 260 > 4095)
+		map.ysouth := 4095;
+	else
+		map.ysouth := y+260;
+	endif
 	map.gumpwidth := 250;
 	map.gumpheight := 250;
 	map.usescript := "";

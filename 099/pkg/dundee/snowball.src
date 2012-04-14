@@ -5,6 +5,7 @@ use vitals;
 
 include "include/client";
 include "include/wodinc";
+include "include/newperformaction";
 
 CONST LIMITED_AREA := 1;
 
@@ -75,7 +76,7 @@ program snowball (player, what)
 
 	SetScriptController (0);
 	Detach ();
-	PerformAction (player, 0xC);
+	NewPerformAction (player, NPA_ANIM_ATTACK, NPA_ATTACK_2HMACE);
 	DestroyItem (what);
 
 
@@ -138,7 +139,7 @@ program snowball (player, what)
 			PrintTextAbovePrivate( mob, "*"+ player.name + " hits you with a snowball!*", mob );
 			PrintTextAbovePrivate( mob, "*You hit "+ mob.name + " with a snowball!*", player );
 			if ( mob.graphic == 400 or mob.graphic == 401 )
-				PerformAction(mob,0x14);
+				NewPerformAction(mob, NPA_ANIM_HIT);
 			endif
 		else
 			mob := 0;

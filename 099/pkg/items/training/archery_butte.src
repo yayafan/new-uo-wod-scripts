@@ -4,6 +4,7 @@ use os;
 include "include/client";
 include "include/objtype";
 include "include/attributes";
+include "include/newperformaction";
 
 Const SFX_SHOT := 0x235;
 Const SFX_ARROWHIT1 := 0x224;
@@ -44,13 +45,13 @@ program training_archery (character, butte)
 		UOBJ_LONGBOW:
 		UOBJ_SHORTBOW:
 			ammunitiontype := UOBJ_ARROW;
-			panim := ANIM_ATTACK_BOW;
+			panim := NPA_ATTACK_BOW;
 			effect := GFX_ARROW_FLIGHT;
 		UOBJ_CROSSBOW:
 		UOBJ_HEAVY_CROSSBOW:
 		UOBJ_REPEATING_CROSSBOW:
 			ammunitiontype := UOBJ_BOLT;
-			panim := ANIM_ATTACK_XBOW;
+			panim := NPA_ATTACK_CROSSBOW;
 			effect := GFX_BOLT_FLIGHT;
 		UOBJ_FIRE_BOW:
 			SendSysMessage (character, "That probably wouldn't be too good for the archery butte...");
@@ -67,7 +68,7 @@ program training_archery (character, butte)
 	endif
 	
 	if (CheckSkill (character, SKILLID_ARCHERY, 10, 0))
-		PerformAction (character, panim);
+		NewPerformAction (character, NPA_ANIM_ATTACK, panim);
 		sleep (1);
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,
@@ -77,7 +78,7 @@ program training_archery (character, butte)
 		SendSysmessage (character, "A good shot.");
 	
 	else
-		PerformAction (character, panim);
+		NewPerformAction (character, NPA_ANIM_ATTACK, panim);
 		sleep (1);
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,

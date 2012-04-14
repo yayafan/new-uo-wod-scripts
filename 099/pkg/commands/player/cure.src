@@ -14,6 +14,7 @@ include "include/utility";
 include "include/poison";
 include "include/magic";
 include "include/attributes";
+include "include/newperformaction";
 
 program heal( me, text )
 	if (me.dead)
@@ -78,7 +79,7 @@ function CastSpell(character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character, ANIM_CAST_DIR);
+		NewPerformAction (character, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, (GetSpellDifficulty (spellid)-20), 0))
 			PlaySoundEffect (character, 0x005d);
@@ -153,7 +154,7 @@ function CastSpell(character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character,ANIM_CAST_DIR);
+		NewPerformAction (character, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, GetSpellDifficulty (spellid), 0))
 			PlaySoundEffect (character, 0x005d);
@@ -217,6 +218,7 @@ function DrinkCure(character)
 	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, UOBJ_GREATER_CURE_POTION)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		if ((RandomInt(20)+1) > RandomInt(plevel) )
 			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
 			CurePoison (character, SOUND_EFFECT_CURE, "Cured!");
@@ -229,6 +231,7 @@ function DrinkCure(character)
 	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, UOBJ_CURE_POTION)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		if ((RandomInt(12)+1) > RandomInt(plevel) )
 			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
 			CurePoison (character, SOUND_EFFECT_CURE, "Cured!");
@@ -241,6 +244,7 @@ function DrinkCure(character)
 	foreach item in EnumerateItemsInContainerOfObjtype (character.backpack, UOBJ_LESSER_CURE_POTION)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		if ((RandomInt(8)+1) > RandomInt(plevel) )
 			PlayObjectCenteredEffect (character, EFFECT_SPARKLE, 10, 10);
 			CurePoison (character, SOUND_EFFECT_CURE, "Cured!");

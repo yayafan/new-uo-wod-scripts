@@ -153,7 +153,73 @@ function GetItemtype (item)
           0x1547:
           0x1549:
           0x154b:
-			return ITEMTYPE_CLOTHING;			
+    0x2305:
+    0x2306:
+    0x2307:
+    0x2308:
+    0x2309:
+    0x230a:
+    0x230b:
+    0x230c:
+    0x230d:
+    0x230e:
+    0x230f:
+    0x2310:
+    0x2782:
+    0x2783:
+    0x278f:
+    0x2794:
+    0x2796:
+    0x2797:
+    0x2798:
+    0x2799:
+    0x279a:
+    0x279b:
+    0x279c:
+    0x27a0:
+    0x27a1:
+    0x27cd:
+    0x27ce:
+    0x27da:
+    0x27df:
+    0x27e1:
+    0x27e2:
+    0x27e3:
+    0x27e4:
+    0x27e5:
+    0x27e6:
+    0x27e7:
+    0x27eb:
+    0x27ec:
+    0x2fb9:
+    0x2fba:
+    0x2fc3:
+    0x2fc4:
+    0x3173:
+    0x3174:
+    0x3175:
+    0x3176:
+    0x3177:
+    0x3178:
+    0x3179:
+    0x317a:
+    0x4000:
+    0x4001:
+    0x4002:
+    0x4003:
+    0x450d:
+    0x450e:
+    0x457e:
+    0x457f:
+    0x45a4:
+    0x45a5:
+    0x46aa:
+    0x46ab:
+    0x46b4:
+    0x46b5:
+    0x50d8:
+    0x50d9:
+return ITEMTYPE_CLOTHING;			
 
 		default:
 			if (item.isa (POLCLASS_ARMOR) )
@@ -250,7 +316,11 @@ endfunction
 ///////////////////
 
 function DoArmorSkillModifier (item, modifier)
-	var is_metal_armor := IsMetalArmor (item);
+	var is_metal_armor := 0;
+  if (!IsMedableArmor (item))
+    is_metal_armor := 1;
+  endif
+
 
 	var skilllist := array{SKILLID_ALCHEMY,
 					SKILLID_ANATOMY,

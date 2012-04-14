@@ -1621,7 +1621,8 @@
 0x27dc LeatherNinjaPants armor
 0x27dd LeatherNinjaMitts armor
 0x27de LeatherNinjaJacket armor
-# 0x27df - 0x27e0 unused
+0x27df clothninjajacket armor
+# 0x27e0 unused
 0x27e1 WarajiAndTabi armor
 0x27e2 NinjaTabi armor
 0x27e3 Kasa armor
