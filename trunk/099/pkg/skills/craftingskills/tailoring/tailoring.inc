@@ -13,7 +13,7 @@ function RepairTailoringItem (character, tool, item, repair_skill)
 	endif
 
 	//if the item is in full repair, try to do special stuff
-	if (item.hp == item.maxhp)
+	if (item.hp == item.maxhp + 1)
 		if ( GetObjProperty (item,"ownerserial") )
 			SendSysMessage (character, "That item is in full repair.");
 			SendSysMessage (character, "That has an owner's mark!");
@@ -266,13 +266,13 @@ function PerformTailoringItemUpgrade (character, item, found_hides, material_nee
 			if (item.desc ["quality"])
 				item.name := "an exceptional " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.2;
-				item.hp := item.maxhp;
+				item.hp := item.maxhp + 1;
 				item.buyprice := 0;
 				return;
 			else
 				item.name := "a quality " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.0;
-				item.hp := item.maxhp;
+				item.hp := item.maxhp + 1;
 				item.buyprice := 0;
 				
 				if (only_upgrade_to_quality)
@@ -613,6 +613,28 @@ function IsClothItem (item)
 		0x171A:
 		0x171B:
 		0x171C:
+    0x4000:
+    0x4001:
+    0x4002:
+    0x4003:
+    0x405f:
+    0x4060:
+    0x4061:
+    0x4062:
+    0x4063:
+    0x4064:
+    0x4065:
+    0x4066:
+    0x450d:
+    0x450e:
+    0x45a4:
+    0x45a5:
+    0x46aa:
+    0x46ab:
+    0x46b4:
+    0x46b5:
+    0x50d8:
+    0x50d9:
 			return 1;
 	endcase;
 
@@ -641,11 +663,41 @@ function IsAHelm (item)
 		0x1412:
 		0x1419:
 		0x1DB9:
-		0x708b:
+		0x1708b:
 		0x13BB:
 		0x13C0:
-		0x708c:
+		0x1708c:
 		0x1451:
+    0x236c:
+    0x2645:
+    0x2646:
+    0x2689:
+    0x268a:
+    0x2774:
+    0x2775:
+    0x2776:
+    0x2777:
+    0x2778:
+    0x2781:
+    0x2784:
+    0x2785:
+    0x2789:
+    0x278e:
+    0x27bf:
+    0x27c0:
+    0x27c1:
+    0x27c3:
+    0x27cc:
+    0x27cf:
+    0x27d0:
+    0x27d4:
+    0x27d9:
+    0x2b6e:
+    0x2b6f:
+    0x2b70:
+    0x2b71:
+    0x2b72:
+    0x2b73:
 			return 1;
 	endcase
 

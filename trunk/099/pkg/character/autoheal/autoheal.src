@@ -13,6 +13,7 @@ include "include/magic";
 include "include/poison";
 include "include/utility";
 include "include/dotempmods";
+include "include/newperformaction";
 
 program Autoheal (character)
 	var old_maxhp := GetVitalMaximumValue (character, "Life");
@@ -105,7 +106,7 @@ function DrinkHeal (byref character)
 	if (item)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
-		PerformAction(character, ANIM_EAT);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		var heal_amount := RandomDiceRoll("5d12+3");
 		HealDamage(character, heal_amount);
 		CreateItemInContainer (item.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -119,7 +120,7 @@ function DrinkHeal (byref character)
 	if (item)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
-		PerformAction(character, ANIM_EAT);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		var heal_amount := RandomDiceRoll("3d12+3");
 		HealDamage(character, heal_amount);
 		CreateItemInContainer (item.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -133,7 +134,7 @@ function DrinkHeal (byref character)
 	if (item)
 		character.hidden := 0;
 		PlaySoundEffect (character, DRINK_SOUND);
-		PerformAction(character, ANIM_EAT);
+		NewPerformAction(character, NPA_ANIM_EAT);
 		var heal_amount := RandomDiceRoll("2d12+3");
 		HealDamage(character, heal_amount);
 		CreateItemInContainer (item.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -175,7 +176,7 @@ function CastSpell (byref character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character, ANIM_CAST_DIR);
+		NewPerformAction (character, NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, (GetSpellDifficulty (spellid)-20), 0))
 			PlaySoundEffect (character, 0x005d);
@@ -253,7 +254,7 @@ function CastSpell (byref character, spellid, spell, scrollid)
 			endif
 		endif
 
-		PerformAction (character,ANIM_CAST_DIR);
+		NewPerformAction (character,NPA_ANIM_SPELL, NPA_SPELL_DIRSPELL, NPA_DIRSPELL_SUB);
 		SpeakPowerWords (character, spellid);
 		if (!CheckSkill (character, SKILLID_MAGERY, GetSpellDifficulty (spellid), 0))
 			PlaySoundEffect (character, 0x005d);

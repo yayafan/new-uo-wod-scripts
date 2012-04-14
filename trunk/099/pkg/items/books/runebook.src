@@ -8,6 +8,7 @@ include "include/gumps";
 include "include/magic";
 include "include/attributes";
 include "include/math";
+include "include/newperformaction";
 
 Const OBJTYPE_RUNE := 0x1F14;
 Const SPELL_CIRCLE := 7;
@@ -442,7 +443,7 @@ function TryToCastGateSpell (caster, parms)
 	endif
 
 	SpeakPowerWords (caster, 52);
-	PerformAction (caster, ANIM_CAST_AREA);
+	NewPerformAction (caster, NPA_ANIM_SPELL, NPA_SPELL_AREASPELL, NPA_AREASPELL_SUB);
 	sleep(1);
 	if (!CanCastSpell (caster, SPELL_CIRCLE))
 		Fizzle (caster);
@@ -496,7 +497,7 @@ function TryToUseGateScroll (caster, parms, scroll)
 	endif
 
 	SpeakPowerWords (caster, 52);
-	PerformAction (caster, ANIM_CAST_AREA);
+	NewPerformAction (caster, NPA_ANIM_SPELL, NPA_SPELL_AREASPELL, NPA_AREASPELL_SUB);
 	sleep(1);
 	if (!CanCastSpell (caster, SPELL_CIRCLE - 2))
 		return 0;

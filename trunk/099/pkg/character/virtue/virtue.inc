@@ -4,6 +4,7 @@ include "include/client";
 include "include/math";
 include "include/gumps";
 include "include/attributes";
+include "include/newperformaction";
 
 const ORDERGUARDTYPE := 1;
 const CHAOSGUARDTYPE := 2;
@@ -479,11 +480,11 @@ function BestowHonor (me, you, howmuch := 0)
 	endif
 
 	if (!howmuch)
-		PerformAction(me,ANIM_BOW);
+		NewPerformAction(me,NPA_ANIM_EMOTE, NPA_EMOTE_BOW);
 		SendSysMessage(me,"You honor " + you.name);
 		SendSysMessage(you,me.name + " honors you");
 	else
-		PerformAction (me, ANIM_SALUTE);
+		NewPerformAction (me, NPA_ANIM_EMOTE, NPA_EMOTE_SALUTE);
 		SendSysMessage (me, "You respect " + you.name);
 		SendSysMessage (you, me.name + " respects you");
 	endif
@@ -554,11 +555,11 @@ function Censure( me, you )
 		endif
 	endif
 
-	PerformAction(me,ANIM_FIDGET_2);
+	NewPerformAction(me, NPA_ANIM_FIDGET, NPA_ACT_FIDGET, NPA_SUB_FIDGET_2);
 	sleepms(500);
-	PerformAction(me,ANIM_FIDGET_1);
+	NewPerformAction(me, NPA_ANIM_FIDGET, NPA_ACT_FIDGET, NPA_SUB_FIDGET_1);
 	sleepms(500);
-	PerformAction(me,ANIM_EAT);
+	NewPerformAction(me, NPA_ANIM_EAT);
 	SendSysMessage(me,"You censure " + you.name);
 	SendSysMessage(you,me.name + " has censured you");
 

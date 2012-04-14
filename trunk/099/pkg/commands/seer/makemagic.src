@@ -111,7 +111,7 @@ function SetupMagicalWeaponGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp;
+		item.hp := item.maxhp + 1;
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -139,7 +139,7 @@ function SetupMagicalShieldGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp;
+		item.hp := item.maxhp + 1;
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -169,7 +169,7 @@ function SetupMagicalArmorGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp;
+		item.hp := item.maxhp + 1;
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -629,6 +629,7 @@ function DoSuffixProcessing (speaker, item, gump_return)
 				304:
 					AddToItemSuffix (item, "Poison Protection");
 					SetObjProperty (item, "protpoison", numcharges);
+					item.resist_poison_mod := numcharges;
 					numcharges := 0;
 				default:
 					numcharges := 0;

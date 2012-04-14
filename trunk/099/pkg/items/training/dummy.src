@@ -1,10 +1,12 @@
 use uo;
 use os;
 use cfgfile;
+use util;
 use attributes;
 
 include "include/client";
 include "include/objtype";
+include "include/newperformaction";
 
 program training_dummy (character, dummy)
 	var skillid := character.weapon.skillid;
@@ -23,21 +25,35 @@ program training_dummy (character, dummy)
 
 	var itemdesc := ReadConfigFile (":weapons:itemdesc");
 	var elem := FindConfigElem (itemdesc, character.weapon.objtype);
+	var newanim := 0;
 	var animation := GetConfigInt (elem, "anim");
 	if (!animation)
 		case (skillid)
 			SKILLID_MACEFIGHTING:
-				animation := ANIM_ATTACK_1HAND_DOWN;
+				newanim := NPA_ATTACK_1HMACE;
 			SKILLID_FENCING: 
-				animation := ANIM_ATTACK_1HAND_JAB;
+				newanim := NPA_ATTACK_1HFENCING;
 			SKILLID_SWORDSMANSHIP: 
-				animation := ANIM_ATTACK_1HAND_WIDE;
+				newanim := NPA_ATTACK_1HSWORD;
 			default: 
-				animation := 0x9;
+				newanim := NPA_ATTACK_1HSWORD;
+		endcase
+	else
+		case (animation)
+			0x09:  newanim := NPA_ATTACK_1HSWORD;
+			0x0A: newanim := NPA_ATTACK_1HFENCING;
+			0x0B: newanim := NPA_ATTACK_1HMACE;
+			0x0C: newanim := NPA_ATTACK_2HMACE;
+			0x0D: newanim := NPA_ATTACK_2HSWORD;
+			0x0E: newanim := NPA_ATTACK_2HFENCING;
+			0x12: newanim := NPA_ATTACK_BOW;
+			0x13: newanim := NPA_ATTACK_CROSSBOW;
+			0x1A: newanim := NPA_ATTACK_2HSWORD;
+			default: newanim := NPA_ATTACK_PUNCH;
 		endcase
 	endif
+	NewPerformAction(character, NPA_ANIM_ATTACK, newanim, RandomInt(4));
 
-	PerformAction (character, animation);
 	sleep (1);
 	if (!CheckSkill (character, skillid, 10, 0) )
 		PlaySoundEffect (character, SFX_239);

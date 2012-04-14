@@ -264,27 +264,12 @@ function PerformAttackAnimation ()
 	//the weapon's itemdesc.cfg entry, or a default animation if not
 	if (GetEquipmentByLayer (attacker, LAYER_MOUNT) and (attacker.graphic != 666 and attacker.graphic != 667))
 		anim := CINT (attacker_weapon_elem.MountedAnim);
-//		if (anim)
-//			PerformAction (attacker, anim);
-//			return;
-//		endif
-//		PerformAction (attacker, 0x1A);
-//		return;
 		if(anim == 0x1D)
 			anim := 0;
 		endif
 	else
 		anim := attacker_weapon_elem.Anim;
 	endif
-	
-//	//Otherwise, if they're not mounted, use the animation defined in the itemdesc.cfg file
-//	//or a default animation if one isn't defined
-//	var anim := attacker_weapon_elem.Anim;
-//	if (anim)
-//		PerformAction (attacker, anim, 7);
-//		return;
-//	endif
-//	PerformAction (attacker, 0x09, 7);
 	var newanim := 0;
 	case (anim)
 		0x09:  newanim := 4;

@@ -37,7 +37,7 @@ function CastNecroSpell (caster, spellid)
 	var i;
 	var spelldelay := GetSpellDelay (spellid);
 	for (i := 1; i <= spelldelay; i := i + 1)
-		PerformAction (caster, ANIM_CAST_DIR);
+		NewPerformAction (NPA_ANIM_SPELL, NPA_SPELL_AREASPELL, NPA_AREASPELL_SUB);
 		spelldelay := spelldelay - 1;
 		sleep(1);
 	endfor

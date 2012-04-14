@@ -5,7 +5,6 @@ include "include/objtype";
 include "include/itemtypes";
 include "include/gumps";
 include "include/utility";
-include "include/utility";
 include "include/string";
 include "include/magicitems";
 include "include/crafting";

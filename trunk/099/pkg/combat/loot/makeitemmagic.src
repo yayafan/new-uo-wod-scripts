@@ -46,10 +46,10 @@ program make_magic_item (parms)
 				SetObjProperty (item, "total_damage", total_damage);
 			endif
 			if (RandomInt (2))
-				item.hp := item.maxhp;
+				item.hp := item.maxhp + 1;
 			endif
 		else
-			item.hp := item.maxhp;
+			item.hp := item.maxhp + 1;
 		endif
 	endif
 	SetObjProperty (item, "magic_quality", magic_quality_chance);

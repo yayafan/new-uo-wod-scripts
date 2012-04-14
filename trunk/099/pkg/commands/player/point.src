@@ -3,6 +3,7 @@ use os;
 
 include "include/client";
 include "include/gumps";
+include "include/newperformaction";
 
 program point (character)
 	if (character.concealed)
@@ -38,14 +39,14 @@ program point (character)
 		targettedesc := "that spot";
 	endif
 
-	PerformAction (character, ANIM_SALUTE);
+	NewPerformAction (character, NPA_ANIM_EMOTE, NPA_EMOTE_SALUTE);
 	PrintTextAbove (character, "*points at " + targettedesc + "*", FONT_NORMAL, 55);
 	sleepms (500);
 	if (!targetted.container)
 		PrintTextAbove (targetted, "*" + character.name + " points here*", FONT_NORMAL, 55);
 	endif
 	sleep (2);
-	if (targetted.objtype == 0x706c)
+	if (targetted.objtype == 0x1706c)
 		if (GetObjProperty (targetted, "destroyme"))
 			DestroyItem (targetted);
 		endif

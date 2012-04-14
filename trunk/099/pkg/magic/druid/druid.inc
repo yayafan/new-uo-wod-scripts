@@ -31,7 +31,24 @@ function CastDruidSpell (caster, staff, spellid)
 	//play the animations
 	var animation := GetConfigStringArray (current_spell, "animation");
 	foreach motion in animation
-		PerformAction( caster, cint(motion));
+    var anim := NPA_ANIM_SPELL, action := 0, subaction := 0;
+    case (cint(motion))
+      0x10:
+        action := NPA_SPELL_AREASPELL;
+        subaction := NPA_AREASPELL_SUB;
+      0x11:
+        action := NPA_SPELL_DIRSPELL;
+        subaction := NPA_DIRSPELL_SUB;
+      0x1e:
+        anim := NPA_ANIM_PARRY;
+      0x20:
+        anim := NPA_ANIM_EMOTE;
+        action := NPA_EMOTE_BOW;
+      0x21:
+        anim := NPA_ANIM_EMOTE;
+        action := NPA_EMOTE_SALUTE;
+    endcase
+		NewPerformAction( caster, anim, action, subaction);
 		sleepms(1500);
 		if (casterx != caster.x or castery != caster.y)
 			EraseObjProperty (caster, "#castingdruidspell");
