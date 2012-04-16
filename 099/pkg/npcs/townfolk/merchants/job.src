@@ -11,7 +11,7 @@ Const JOBS_AVAILABLE_PER_MERCHANT		:= 5;
 Const MERCHANT_JOB_ERASE_TIMER		:= 1800;
 Const PLAYER_MAX_JOBVALUE_PER_DAY		:= 5000;
 
-Const UOBJ_JOBBING_BAG				:= 0x70a6;
+Const UOBJ_JOBBING_BAG				:= 0x170a6;
 
 program job (parms)
 	var player := parms[1];

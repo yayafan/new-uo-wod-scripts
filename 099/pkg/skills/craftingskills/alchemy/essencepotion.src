@@ -125,7 +125,44 @@ program use_essense_potion (character, potion)
 			SubtractAmount (targetted, arrow_amount);
 			SubtractAmount (potion, 1);
 		else
-			SendSysMessage (character, "You fail to apply the potion to the arrows.");
+			SendSysMessage (character, "You fail to apply the potion to the bolts.");
+			PlaySoundEffect (character, 0x48);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, RandomInt (10));
+			SubtractAmount (potion, 1);
+		endif
+	elseif (targetted.objtype == UOBJ_DART)
+		if (GetAttribute (character, ATTRIBUTEID_ALCHEMY) < 40 )
+			SendSysMessage (character, "You have no chance of applying this potion to that.");
+			return;
+		endif
+
+		var arrow_amount := targetted.amount;
+		if (arrow_amount > 100)
+			arrow_amount := 100;
+		endif
+
+		PlaySoundEffect (character, 0x241);
+		sleep (2);
+
+		If (CheckSkill (character, SKILLID_ALCHEMY, 50, 0) )
+			//either fire or frost bolts
+			if (potion.objtype == 0x1709b)
+				SendSysMessage (character, "You put some fire darts into your backpack");
+				CreateItemInBackpack (character, UOBJ_FIRE_DART, arrow_amount);
+			elseif (potion.objtype == 0x1709d)
+				SendSysMessage (character, "You put some frost darts into your backpack");
+				CreateItemInBackpack (character, UOBJ_FROST_DART, arrow_amount);
+			else
+				SendSysMessage (character, "What sort of potion is THIS?");
+				return;
+			endif
+			PlaySoundEffect (character, 0x1fb);
+			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
+			SubtractAmount (targetted, arrow_amount);
+			SubtractAmount (potion, 1);
+		else
+			SendSysMessage (character, "You fail to apply the potion to the darts.");
 			PlaySoundEffect (character, 0x48);
 			CreateItemInBackpack (character, UOBJ_EMPTY_BOTTLE, 1);
 			SubtractAmount (targetted, RandomInt (10));

@@ -264,6 +264,7 @@ function PerformAttackAnimation ()
 //	endif
 //	PerformAction (attacker, 0x09, 7);
 	case (anim)
+		0xb:  NewPerformAction(attacker, 0, 3, 1);
 		0x12: NewPerformAction(attacker, 0, 1, 0);
 		0x13: NewPerformAction(attacker, 0, 2, 0);
 		default: NewPerformAction(attacker, 0, 0, 0);
@@ -357,14 +358,18 @@ function HenchmanCheckForAmmo ()
 		if (defender_npcdesc_elem.fire and defender_npcdesc_elem.fire == "weak")
 			if (ammo_objtype == UOBJ_ARROW)
 				ammo_objtype := UOBJ_FIRE_ARROW;
+			elseif (ammo_objtype == UOBJ_BOLT)
+				ammo_objtype := UOBJ_FIRE_BOLT;
 			else
-				ammo_objtype := UOBJ_FROST_BOLT;
+				ammo_objtype := UOBJ_FIRE_DART;
 			endif
 		elseif (defender_npcdesc_elem.cold and defender_npcdesc_elem.cold == "weak")
 			if (ammo_objtype == UOBJ_ARROW)
 				ammo_objtype := UOBJ_FROST_ARROW;
-			else
+			elseif (ammo_objtype == UOBJ_BOLT)
 				ammo_objtype := UOBJ_FROST_BOLT;
+			else
+				ammo_objtype := UOBJ_FROST_DART;
 			endif
 		endif
 	endif
@@ -423,6 +428,7 @@ function PerformArrowAttackAnim ()
 		case (ammo_objtype)
 			0x16051:	//firearrow
 			0x16053:	//firebolt
+			0x16055:	//firedart
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x36D4, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x15F);
@@ -430,6 +436,7 @@ function PerformArrowAttackAnim ()
 				return;
 			0x16052:	//frostarrow
 			0x16054:	//frostbolt
+			0x16056:	//frostdart
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x1bfe, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x2b3);

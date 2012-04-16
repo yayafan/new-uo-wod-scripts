@@ -13,7 +13,7 @@ function RepairTailoringItem (character, tool, item, repair_skill)
 	endif
 
 	//if the item is in full repair, try to do special stuff
-	if (item.hp == item.maxhp + 1)
+	if (item.hp >= item.maxhp + 1)
 		if ( GetObjProperty (item,"ownerserial") )
 			SendSysMessage (character, "That item is in full repair.");
 			SendSysMessage (character, "That has an owner's mark!");
@@ -108,7 +108,7 @@ function RepairTailoringItem (character, tool, item, repair_skill)
 
 	total_damage := total_damage + item_damaged_amount;
 	SetObjProperty (item, "total_damage", total_damage);
-	item.hp := item.maxhp;
+	item.hp := item.maxhp + 1;
 	SendSysMessage (character, "You repair the item completely");
 	return;
 endfunction

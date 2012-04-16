@@ -40,6 +40,9 @@ include "include/utility";
 
 program use_key (character, key)
 	var thetarget := Target (character);
+	if (thetarget.objtype == 0x1F01A)
+		thetarget := thetarget.multi.hold;
+	endif
 	if (!Accessible (character, thetarget))
 		PrintTextAbovePrivate (character, "You can't reach that", character);
 		return;
