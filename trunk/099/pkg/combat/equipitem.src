@@ -176,6 +176,7 @@ endfunction
 function ChangeArcheryAmmo (character, thebow)
 	var valid_arrows := array{0x0f3f, 0x16051, 0x16052};
 	var valid_bolts := array{0x1bfb, 0x16053, 0x16054};
+	var valid_darts := array{0x2804, 0x16055, 0x16056};
 
 	SendSysMessage (character, "Target the ammo that you want to use:");
 	var theammo := Target (character);
@@ -207,6 +208,11 @@ function ChangeArcheryAmmo (character, thebow)
 		0x26C3:
 			if (!(theammo.objtype in valid_bolts))
 				SendSysMessage (character, "Crossbows need bolts for ammo");
+				return;
+			endif
+		0x27f5:
+			if (!(theammo.objtype in valid_darts))
+				SendSysMessage (character, "Throwing pouches need darts for ammo");
 				return;
 			endif
 		default:

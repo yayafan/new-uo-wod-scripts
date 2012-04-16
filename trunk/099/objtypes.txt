@@ -1636,7 +1636,10 @@
 0x27ec JinBaori armor
 # 0x27ed - 0x27ef unused
 0x27f0 Yumi weapons
-# 0x27f1 - 0x2804 unused
+# 0x27f1 - 0x27f4 unused
+0x27f5 throwingpouch weapons
+# 0x27f6 - 0x2803 unused
+0x2804 dart blacksmithy
 0x2805 bambooflute musicianship
 # 0x2806 unused
 0x2807 bambooflute2 musicianship
@@ -2522,7 +2525,9 @@
 0x16052 frostarrow carpentry
 0x16053 firebolt carpentry
 0x16054 frostbolt carpentry
-# 0x16055 - 0x160ff unused
+0x16055 firedart blacksmithy
+0x16056 frostdart blacksmithy
+# 0x16057 - 0x160ff unused
 0x16100 runebook books
 # 0x16101 - 0x161ff unused
 0x16200 SystemMoonGate moongates

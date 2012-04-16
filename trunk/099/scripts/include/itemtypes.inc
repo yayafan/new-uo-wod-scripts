@@ -306,10 +306,23 @@ function IsBow (byref weapon)
 		return 1;
 	elseif (weapon.graphic == 0x27A5)
 		return 1;
+	elseif (weapon.graphic == 0x27AA)
+		return 1;
 	elseif (weapon.graphic == 0x27F0)
+		return 1;
+	elseif (weapon.graphic == 0x27F5)
 		return 1;
 	endif
 		return 0;
+endfunction
+
+function IsThrowingPouch (byref weapon)
+  if (weapon.graphic == 0x27aa)
+    return 1;
+  elseif (weapon.graphic == 0x27f5)
+    return 1;
+  endif
+  return 0;
 endfunction
 
 function IsThrowingWeapon (byref weapon)

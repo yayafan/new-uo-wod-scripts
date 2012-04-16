@@ -195,6 +195,7 @@ const _DEFAULT_TEXT_COLOR    := 1000;
 const _DEFAULT_REALM  := "britannia";
 const REALM_BRITANNIA := _DEFAULT_REALM;
 //const REALM_BRITANNIA := "britannia";
+const REALM_BRITANNIA_ALT := "britannia_alt";
 const REALM_ILSHENAR  := "ilshenar";
 const REALM_MALAS     := "malas";
 const REALM_TOKUNO    := "tokuno";

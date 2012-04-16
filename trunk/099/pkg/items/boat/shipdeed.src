@@ -85,6 +85,7 @@ program useshipdeed( character, deed )
 	endif
 
 	created.ship.color := deed.color;
+	created.ship.hold.color := deed.color;
 	foreach compo in (created.ship.hull)
 		compo.color := deed.color;
 	endforeach
@@ -121,7 +122,10 @@ program useshipdeed( character, deed )
 	created.ship.portplank.locked := 1;
 	created.ship.hold.locked := 1;
 
-	var lockid := AllocLockId();
+	var lockid := GetObjProperty (deed, "lockid");
+	if (!lockid)
+		lockid := AllocLockId();
+	endif
 	SetObjProperty (created.ship.starboardplank,	"lockid", lockid );
 	SetObjProperty (created.ship.portplank,		"lockid", lockid );
 	SetObjProperty (created.ship.hold,			"lockid", lockid );

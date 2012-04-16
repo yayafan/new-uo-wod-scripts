@@ -286,6 +286,8 @@ function HasBow ()
 			ammotype := UOBJ_BOLT;
 		UOBJ_FIRE_BOW:
 			ammotype := UOBJ_FIRE_ARROW;
+		UOBJ_THROWING_POUCH:
+			ammotype := UOBJ_DART;
 		default:
 			return 0;
 	endcase
@@ -1045,6 +1047,7 @@ function CloseDistance (byref opponent)
 			return 2;
 		endif
 	endif
+	
 
 	if ( d > 15 )
 		return 2;

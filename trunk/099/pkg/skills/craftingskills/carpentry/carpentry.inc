@@ -11,7 +11,7 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 	endif
 
 	//if the item is in full repair, try to do special stuff
-	if (item.hp == item.maxhp)
+	if (item.hp >= item.maxhp + 1)
 		if ( GetObjProperty (item,"ownerserial") )
 			SendSysMessage (character, "That item is in full repair.");
 			SendSysMessage (character, "That has an owner's mark!");
@@ -114,7 +114,7 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 
 	total_damage := total_damage + item_damaged_amount;
 	SetObjProperty (item, "total_damage", total_damage);
-	item.hp := item.maxhp;
+	item.hp := item.maxhp + 1;
 	SendSysMessage (character, "You repair the item completely");
 	return;
 endfunction
@@ -207,13 +207,13 @@ function PerformCarpentryItemUpgrade (character, item, found_lumber, material_ne
 			if (item.desc ["quality"])
 				item.name := "an exceptional " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.2;
-				item.hp := item.maxhp;
+				item.hp := item.maxhp + 1;
 				item.buyprice := 0;
 				return;
 			else
 				item.name := "a quality " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.0;
-				item.hp := item.maxhp;
+				item.hp := item.maxhp + 1;
 				item.buyprice := 0;
 
 				item_skill := item_skill + 10;
