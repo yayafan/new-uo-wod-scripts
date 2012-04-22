@@ -7,6 +7,7 @@ include "include/objtype";
 include "include/spawn";
 include "include/utility";
 include "include/wodinc";
+include "include/attributes";
 
 program dismount_from_horse (parms)
 	var character := parms[1];
@@ -60,6 +61,27 @@ program dismount_from_horse (parms)
 			SetObjProperty (animal, property, value);
 		endif
 	endforeach
+	
+	var skills := GetObjProperty (mount, "skills");
+	if (skills)
+		for i := 0 to 57
+			var skill := skills[i];
+			if (!skill)
+				skill := 0;
+			endif
+			SetAttributeBaseValue (animal, GetAttributeIDBySkillID(i), skill*10);
+		endfor
+		SetObjProperty (animal, "skills", skills);
+	endif
+	
+	var stats := GetObjProperty (mount, "stats");
+	if (stats)
+		SetAttributeBaseValue (animal, "Strength", stats[1] * 10);
+		SetAttributeBaseValue (animal, "Intelligence", stats[2] * 10);
+		SetAttributeBaseValue (animal, "Dexterity", stats[3] * 10);
+		RecalcVitals(animal);
+		SetObjProperty (animal, "stats", stats);
+	endif
 
 	if (GetObjProperty (mount, "petname"))
 		animal.name := GetObjProperty (mount, "petname");
@@ -92,6 +114,7 @@ program dismount_from_horse (parms)
 			RestartScript (animal);
 		endif
 	endif
+	
 
 	DestroyItem (mount);
 	set_critical (0);

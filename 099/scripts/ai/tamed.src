@@ -900,6 +900,7 @@ function DoDoubleClickEvent ();
 		elseif (MoveObjectToLocation (master, me.x, me.y, me.z, me.realm, 0))
 			drop();
 			set_critical (1);
+			RecordStatsAndSkills();
 			master.facing := me.facing;
 			var mount := CreateItemAtLocation (5288, 1176, 0, UOBJ_MOUNT, 1, REALM_BRITANNIA);
 			if (!mount)
@@ -1024,6 +1025,7 @@ function Fight (opponent)
 			SetWarMode (0);
 			return;
 		endif
+		RecordStatsAndSkills();
 
 		if (!CloseDistance (opponent))
 			loops := loops + 1;
@@ -1420,3 +1422,24 @@ function GoToSleep ()
 
 	return 1;
 endfunction
+
+
+function RecordStatsAndSkills ()
+	var basestr := CINT (GetAttributeBaseValue (me, "Strength")/10);
+	var baseint := CINT (GetAttributeBaseValue (me, "Intelligence")/10);
+	var basedex := CINT (GetAttributeBaseValue (me, "Dexterity")/10);
+
+	var stats := array;
+	stats[1] := basestr;
+	stats[2] := baseint;
+	stats[3] := basedex;
+	SetObjProperty (me, "stats", stats);
+
+	var myskills := array {};
+	for i := 0 to 57
+		myskills[i] := GetAttribute (me, GetAttributeIDBySkillID (i));
+	endfor
+	SetObjProperty (me, "skills", myskills);
+
+endfunction
+
