@@ -7,6 +7,7 @@ include "include/client";
 include "include/objtype";
 include "include/utility";
 include "include/spawn";
+include "include/attributes";
 
 program totem (who, totem)
 	if (!ReserveItem (totem))
@@ -59,6 +60,28 @@ program totem (who, totem)
 		it.name := totem.name;
 		it.color := GetObjProperty (totem, "critcolor");
   		it.graphic := GetObjProperty (totem, "critgraphic");
+		RestartScript (it);
+		var skills := GetObjProperty (totem, "skills");
+		if (skills)
+			for i := 0 to 57
+				var skill := skills[i];
+				if (!skill)
+					skill := 0;
+				endif
+				SetAttributeBaseValue (it, GetAttributeIDBySkillID(i), skill*10);
+			endfor
+			SetObjProperty (it, "skills", skills);
+		endif
+	
+		var stats := GetObjProperty (totem, "stats");
+		if (stats)
+			SetAttributeBaseValue (it, "Strength", stats[1] * 10);
+			SetAttributeBaseValue (it, "Intelligence", stats[2] * 10);
+			SetAttributeBaseValue (it, "Dexterity", stats[3] * 10);
+			SetObjProperty (it, "stats", stats);
+			RecalcVitals (it);
+		endif
+
 		if ( GetObjProperty (totem, "totemhp"))
 			SetVital (it, "Life", CINT (GetObjProperty (totem, "totemhp") * 100));
 		endif
@@ -66,7 +89,6 @@ program totem (who, totem)
 		PlaySoundEffect (who, SFX_SPELL_DISPEL);
 		PlayStationaryEffect (it.x, it.y, it.z, FX_SMOKE, 0xA, 0xA, 0, it.realm );
 		DestroyItem (totem);
-		RestartScript (it);
 
 	set_critical (0);
 endprogram

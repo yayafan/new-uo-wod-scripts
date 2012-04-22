@@ -354,6 +354,28 @@ function ResurrectPet (healer, corpse, bandages)
 	SetObjProperty (new_npc, "master", master.serial);
 	new_npc.script := "::tamed";
 	RestartScript (new_npc);
+
+	var skills := GetObjProperty (corpse, "skills");
+	if (skills)
+		for i := 0 to 57
+			var skill := skills[i];
+			if (!skill)
+				skill := 0;
+			endif
+			SetAttributeBaseValue (new_npc, GetAttributeIDBySkillID(i), skill*10);
+		endfor
+		SetObjProperty (new_npc, "skills", skills);
+	endif
+	
+	var stats := GetObjProperty (corpse, "stats");
+	if (stats)
+		SetAttributeBaseValue (new_npc, "Strength", stats[1] * 10);
+		SetAttributeBaseValue (new_npc, "Intelligence", stats[2] * 10);
+		SetAttributeBaseValue (new_npc, "Dexterity", stats[3] * 10);
+		SetObjProperty (new_npc, "stats", stats);
+		RecalcVitals (new_npc);
+	endif
+
 	SetVital (new_npc, "Life", 100);
 
 	var temp_string := corpse.desc;
