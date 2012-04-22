@@ -131,17 +131,17 @@ program combat_attack_script (parms)
 		if (RandomInt (1000) < GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
 			SendSysMessage (attacker, "Critical hit!");
 			if (CheckSkill (attacker, SKILLID_ANATOMY, 80, 0) )
-				QuickAwardRawAttributePoints (defender, ATTRIBUTEID_ANATOMY, 15);
 				DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
 			else
 				DoDamageByType (attacker, defender, CINT (modified_damage/2), DAMAGETYPE_PHYSICAL);
 			endif
 		endif
 	endif
-
+	QuickAwardRawAttributePoints (defender, ATTRIBUTEID_ANATOMY, 15);
+	
 	if (GetAttribute (attacker, ATTRIBUTEID_POISONING))
-		QuickAwardRawAttributePoints (defender, ATTRIBUTEID_POISONING, 15);
 		DoNPCPoisonHit (attacker, defender);
+		QuickAwardRawAttributePoints (defender, ATTRIBUTEID_POISONING, 15);
 	endif
 	return 1;
 endprogram

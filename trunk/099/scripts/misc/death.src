@@ -242,6 +242,8 @@ function RemakeTotem (corpse, npctemplate)
 	var totemtype := GetObjProperty (corpse, "totem");
 	var totemcolor := GetObjProperty (corpse, "totemcolor");
 	var color := GetObjProperty (corpse, "color");
+	var skills := GetObjProperty (corpse, "skills");
+	var stats := GetObjProperty (corpse, "stats");
 
 	set_critical (1);
 	var totem := CreateItemAtLocation (corpse.x, corpse.y, corpse.z, totemtype, 1, corpse.realm);
@@ -273,6 +275,8 @@ function RemakeTotem (corpse, npctemplate)
 	SetObjProperty (totem, "critter", npctemplate);
 	SetObjProperty (totem, "totemhp", 170);
 	SetObjProperty (totem, "broken", RandomInt (20) + 20);
+	SetObjProperty (totem, "skills", skills);
+	SetObjProperty (totem, "stats", stats);
 
 	if (GetObjProperty (corpse, "ownerserial"))
 		SetObjProperty (totem, "ownerserial", GetObjProperty (corpse, "ownerserial"));
