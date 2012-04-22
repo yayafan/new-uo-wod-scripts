@@ -83,6 +83,9 @@ function BuffDebuffIcon(byref who, icon, state, time := 0, amt := array {})
 endfunction
 
 function SetBuffDebuffIcon(byref who, icon, state, time := 0, amt := array {})
+  if (!who)
+    return;
+  endif
 	const BUFF_CMD := 0xDF;
 	const OFFSET_MSGLEN := 1;
 	const OFFSET_SERIAL := 3;

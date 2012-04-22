@@ -16,6 +16,10 @@ var me := Self ();
 program warrior_fight_ai ()
 
 	var opponent_serial := GetObjProperty (me, "opponent");
+	if (!opponent_serial)
+		ExitFightMode();
+		return;
+	endif
 	EraseObjProperty (me, "opponent");
 	var opponent := SystemFindObjectBySerial (opponent_serial);
 

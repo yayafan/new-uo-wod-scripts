@@ -405,6 +405,9 @@ function WalkHome()
 		SetAnchor ( me.x, me.y, 3, 80 );
 		return;
 	endif
+  if (!myhome[4])
+    myhome[4] := me.realm;
+  endif
 
 	for i := 1 to 12
 		WalkTowardLocation (myhome[1], myhome[2]);

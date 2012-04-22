@@ -103,9 +103,11 @@ function SpawnBoss (region, byref elem, strength)
 	if ( strength == 1 )
 		if ( elem.invade )
 			var nextbossserial := GetGlobalProperty("invasionboss"+elem.invade);
-			var nextboss := SystemFindObjectBySerial (nextbossserial);
-			if ( nextboss )
-				KillIt( nextboss );
+			if (nextbossserial)
+				var nextboss := SystemFindObjectBySerial (nextbossserial);
+				if ( nextboss )
+					KillIt( nextboss );
+				endif
 			endif
 			EraseGlobalProperty("invasionboss"+elem.invade);
 		endif

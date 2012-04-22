@@ -123,10 +123,15 @@ program combat_attack_script (parms)
 
 	DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
 
+	QuickAwardRawAttributePoints (attacker, attacker_npcdesc_elem.AttackAttribute, 30);
+	QuickAwardRawAttributePoints (attacker, ATTRIBUTEID_TACTICS, 15);
+	QuickAwardRawAttributePoints (defender, ATTRIBUTEID_TACTICS, 15);
+
 	if (GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
 		if (RandomInt (1000) < GetAttribute (attacker, ATTRIBUTEID_ANATOMY))
 			SendSysMessage (attacker, "Critical hit!");
 			if (CheckSkill (attacker, SKILLID_ANATOMY, 80, 0) )
+				QuickAwardRawAttributePoints (defender, ATTRIBUTEID_ANATOMY, 15);
 				DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
 			else
 				DoDamageByType (attacker, defender, CINT (modified_damage/2), DAMAGETYPE_PHYSICAL);
@@ -135,6 +140,7 @@ program combat_attack_script (parms)
 	endif
 
 	if (GetAttribute (attacker, ATTRIBUTEID_POISONING))
+		QuickAwardRawAttributePoints (defender, ATTRIBUTEID_POISONING, 15);
 		DoNPCPoisonHit (attacker, defender);
 	endif
 	return 1;

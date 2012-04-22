@@ -121,7 +121,20 @@ function Save_Pet_Data (byref ticket, byref pet)
 	SetObjProperty (ticket, "petgraphic", pet.graphic);
 	SetObjProperty (ticket, "petcolor", pet.color);
 	SetObjProperty (ticket, "pettemplate", pet.npctemplate);
+	var basestr := CINT (GetAttributeBaseValue (pet, "Strength")/10);
+	var baseint := CINT (GetAttributeBaseValue (pet, "Intelligence")/10);
+	var basedex := CINT (GetAttributeBaseValue (pet, "Dexterity")/10);
 
+	var stats := array;
+	stats[1] := basestr;
+	stats[2] := baseint;
+	stats[3] := basedex;
+	SetObjProperty (ticket, "stats", stats);
+	var myskills := array {};
+	for i := 0 to 57
+		myskills[i] := GetAttribute (pet, GetAttributeIDBySkillID (i));
+	endfor
+	SetObjProperty (ticket, "skills", myskills);
 	KillNPC (pet);
 endfunction
 
@@ -153,9 +166,29 @@ function Load_Ticket_Data (byref player, byref ticket)
 				return;
 			endif
 
+			var skills := GetObjProperty (ticket, "skills");
+			if (skills)
+				for i := 0 to 57
+					var skill := skills[i];
+					if (!skill)
+						skill := 0;
+					endif
+					SetAttributeBaseValue (newpet, GetAttributeIDBySkillID(i), skill*10);
+				endfor
+				SetObjProperty (newpet, "skills", skills);
+			endif
+
+			var stats := GetObjProperty (ticket, "stats");
+			if (stats)
+				SetAttributeBaseValue (newpet, "Strength", stats[1] * 10);
+				SetAttributeBaseValue (newpet, "Intelligence", stats[2] * 10);
+				SetAttributeBaseValue (newpet, "Dexterity", stats[3] * 10);
+				SetObjProperty (newpet, "stats", stats);
+				RecalcVitals (newpet);
+			endif
+
 			SetVital (newpet, "Life", GetObjProperty (ticket, "pethp") * 100);
 			SetVital (newpet, "Mana", GetObjProperty (ticket, "petmana") * 100);
-
 			if (GetObjProperty (ticket, "petgraphic"))
 				if (GetObjProperty (ticket, "petgraphic") != 0x51)
 					newpet.graphic := GetObjProperty (ticket, "petgraphic");
