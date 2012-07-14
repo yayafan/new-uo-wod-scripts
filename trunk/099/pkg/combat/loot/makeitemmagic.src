@@ -502,14 +502,6 @@ endfunction
 ///////////////////
 
 function MakeMusicalInstrumentMagical (item, magic_quality_chance)
-
-	var skillnum := SKILLID_MUSICIANSHIP;
-	case (randomint(4))
-		0: skillnum := SKILLID_PROVOCATION;
-		1: skillnum := SKILLID_PEACEMAKING;
-		2: skillnum := SKILLID_DISCORDANCE;
-	endcase
-
 	var magic_quality := DetermineMagicQuality (magic_quality_chance);
 	var skill_mod := CInt (magic_quality/20);
 	if (!skill_mod)
