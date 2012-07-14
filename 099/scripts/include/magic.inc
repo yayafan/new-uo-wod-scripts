@@ -145,14 +145,14 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 				if (!(flags & CSSC_NODELAY))
           var orig_hp := GetVital( thecaster, "Hits" ),
           delay := GetTimeDelayBySpellID (spellid);
-          var orig_x := thecaster.x, orig_y := thecaster.y;
+//          var orig_x := thecaster.x, orig_y := thecaster.y;
              
 	        // Check for health changes and fail the spell if caster becomes damaged
 	        while( delay > 0 )
 		        if( orig_hp > GetVital( thecaster, "Hits"))
               Fizzle(thecaster);
               return 0;
-		        elseif( thecaster.hidden || thecaster.frozen || thecaster.paralyzed )
+		        elseif( thecaster.frozen || thecaster.paralyzed )
 			        Fizzle(thecaster);
 			        return 0;
             endif
@@ -160,10 +160,10 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
             delay -= 100;
 		        SleepMS(100);
 	        endwhile
-          if( thecaster.x != orig_x || thecaster.y != orig_y )
-            SendSysMessage( thecaster, "Your concentration is disturbed while moving." );
-            return 0;
-          endif
+          //if( thecaster.x != orig_x || thecaster.y != orig_y )
+          //  SendSysMessage( thecaster, "Your concentration is disturbed while moving." );
+          //  return 0;
+          //endif
         endif
 				if (!(flags & CSSC_NOSKILLCHECK))
 					if (!CheckSkill (thecaster, SKILLID_MAGERY, GetSpellDifficulty(spellid), 0))
