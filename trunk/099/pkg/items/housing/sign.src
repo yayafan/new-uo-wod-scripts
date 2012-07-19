@@ -32,7 +32,7 @@ program use_house_sign (character, sign)
 
 	var result := SendDialogGump (character, gump_layout, gump_data );
 	var accountname := GetObjProperty (sign, "account");
-	if (accountname != character.acctname)
+	if (accountname != character.acctname and character.cmdlevel < 3)
 		SendSysMessage (character, "This is not your house!");
 		return;
 	endif
@@ -76,7 +76,14 @@ program use_house_sign (character, sign)
 				CloseHouseDoors (character, sign);
 				MoveObjectToLocation(character, (homeinfo[4] + homeinfo[2]) / 2, (homeinfo[5] + homeinfo[3]) / 2, sign.z, sign.realm, MOVEOBJECT_FORCELOCATION);
 				SendPacket (character, "B9000F97DF");
-				SendHousingTool(character, customhouse);
+				if (!character.concealed)
+					character.concealed := 1;
+				endif
+				customhouse.acceptcommit(character, 0);
+				var customizehouse := SendHousingTool(character, customhouse);
+				if (!customizehouse)
+					SendSysMessage (character, "Error: " +  customizehouse.errortext);
+				endif
 			else
 				SendSysMessage (character, "Your house can't be customized.");
 			endif
@@ -167,10 +174,51 @@ function MakeADeed (character, house)
 		return 0;
 	endif
 
-	var newdeed := CreateItemInContainer (character.backpack, deedtype, 1);
-	if (!newdeed)
-		PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
-		return 0;
+	if (deedtype == 0x16230 or deedtype == 0x16231)
+		var components := GetObjProperty (house, "components");
+		var sign := 0;
+		var price := 0;
+		foreach compo in (components)
+			sign := SystemFindObjectBySerial(compo);
+			if (sign.objtype == 0x0bd0 or sign.objtype == 0x0bd2)
+				price := GetObjProperty (sign, "houseprice");
+				break;
+			endif
+		endforeach
+		if (price > 0)
+			var discount := CINT (price/10);
+			if (discount > 10000)
+				discount := 10000;
+			endif
+			var theprice := price - discount;
+
+			SendSysMessage (character, "The value of this house is " + theprice + " gold.");
+			if (!YesNo (character, "Sell it?"))
+				SendSysMessage (character, "Canceled.");
+				return 0;
+			endif
+			var newdeed := CreateItemInContainer (character.backpack, deedtype, 1);
+			if (!newdeed)
+				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+				return 0;
+			endif
+			while (theprice > 60000)
+				if (CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, 60000))
+					theprice := theprice - 60000;
+				else
+					SendSysMessage (character, "Error creating gold!  You'll have to page a GM...");
+					SetObjProperty (character, "OWEDGOLD", theprice);
+					theprice := 0;
+				endif
+			endwhile
+			CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, theprice);
+		endif
+	else
+		var newdeed := CreateItemInContainer (character.backpack, deedtype, 1);
+		if (!newdeed)
+			PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+			return 0;
+		endif
 	endif
 	return 1;
 endfunction
@@ -202,7 +250,7 @@ function DisownHouse (character, sign)
 	endif
 
 	//make a new forsale sign
-	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x708a, 1, sign.realm);
+	var newsign := CreateItemAtLocation (sign.x, sign.y, sign.z, 0x1708a, 1, sign.realm);
 	if (!newsign)
 		return;
 	endif

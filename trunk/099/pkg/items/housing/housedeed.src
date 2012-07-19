@@ -6,6 +6,8 @@ use cfgfile;
 include "include/client";
 include "include/objtype";
 include "include/gumps";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
 include "include/utility";
 include "include/itemtypes";
 include "../pkg/items/housing/house";
@@ -40,7 +42,27 @@ program usehousedeed (character, deed)
 		PrintTextAbovePrivate (deed, "That house deed appears to be broken.", character);
 		return;
 	endif
-
+	var multiid := 0;
+	var dims := 0;
+	var extracharges := 0;
+	if (housetype >= 0x113ec and housetype <= 0x1147b)
+		var gump := 0;
+		var input := 0;
+		if (housetype == 0x113ec)
+			gump := BuildTwoStoryGump();
+		elseif (housetype == 0x1147b)
+			gump := BuildThreeStoryGump();
+		endif
+		input := GFSendGump( character, gump );
+		if (input[0]!=0x10)
+			SendSysMessage (character, "Canceled.");
+			return;
+		endif
+		housetype := input.keys[3];
+		multiid := housetype - 0x10000;
+		dims := GetMultiDimensions (multiid);
+		extracharges := ((3+dims.xmax-dims.xmin)*(1+dims.ymax-dims.ymin)-3)*500;
+	endif
 	var where := TargetMultiPlacement (character, housetype);
 	if (!where)
 		SendSysMessage (character, "Canceled.");
@@ -53,8 +75,32 @@ program usehousedeed (character, deed)
 	endif
 
 	set_critical( 1 );
+	if (extracharges > 0)
+		SendSysMessage (character, "The cost of buying this foundation is " + extracharges + " gold!");
+		if (!YesNo (character, "Buy it?"))
+			SendSysMessage (character, "Canceled.");
+			return;
+		endif
+		if (!character.spendgold (extracharges))
+			SendSysMessage (character, "You don't have enough money");
+			return;
+		endif
+	endif
 	var created := CreateHouseAndKeys ( character, housetype, where.x, where.y, where.z, where.realm );
 	if (!created)
+		if (extracharges > 0)
+			var refund := extracharges;
+			while (refund > 60000)
+				if (CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, 60000))
+					refund := refund - 60000;
+				else
+					SendSysMessage (character, "Error refunding your gold!  You'll have to page a GM...");
+					SetObjProperty (character, "OWEDGOLD", refund);
+					refund := 0;
+				endif
+			endwhile
+			CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, refund);
+		endif
 		return;
 	endif
 
@@ -152,27 +198,26 @@ program usehousedeed (character, deed)
 			component.append(item.serial);
 			item:=CreateItemAtLocation( where.x+2, where.y+1, where.z+7, 0xb42, 1, where.realm );
 			component.append(item.serial);
-		70779:  // 18x18 foundation
-			created.house.setcustom(1);
-			item :=CreateItemAtLocation( where.x-8, where.y+10, where.z+7, 0x0bd2, 1, where.realm );
-			SetObjProperty(item, "house_serial", created.house.serial);
-			item.movable:=0;
-			component.append (item.serial);
-			SetObjProperty (item, "lockid", lockid );
-			SetObjProperty (item, "account", character.acctname );
-//			created.house.add_component (item);
-			item :=CreateItemAtLocation( where.x-8, where.y+10, where.z+7, 0x0b9c, 1, where.realm );
-			SetObjProperty(item, "house_serial", created.house.serial);
-			item.movable:=0;
-			component.append (item.serial);
-//			created.house.add_component (item);
-			item :=CreateItemAtLocation( where.x-8, where.y+9, where.z+7, 0x09, 1, where.realm );
-			SetObjProperty(item, "house_serial", created.house.serial);
-			item.movable:=0;
-			component.append (item.serial);
-//			created.house.add_component (item);
-//			MoveObjectToLocation(character, created.house.x, created.house.y, created.house.z+10, created.house.realm);
-//			SendHousingTool(character, created.house);
+		default:
+			if (housetype >= 0x113ec and housetype <= 0x1147b) // custom houses
+				created.house.setcustom(1);
+				item :=CreateItemAtLocation( where.x+dims.xmin, where.y+dims.ymax+1, where.z+7, 0x0bd2, 1, where.realm );
+				SetObjProperty(item, "house_serial", created.house.serial);
+				item.movable:=0;
+				component.append (item.serial);
+				SetObjProperty (item, "lockid", lockid );
+				SetObjProperty (item, "account", character.acctname );
+				SetObjProperty (item, "baseprice", extracharges);
+				SetObjProperty (item, "houseprice", extracharges);
+				item :=CreateItemAtLocation( where.x+dims.xmin, where.y+dims.ymax+1, where.z+7, 0x0b9c, 1, where.realm );
+				SetObjProperty(item, "house_serial", created.house.serial);
+				item.movable:=0;
+				component.append (item.serial);
+				item :=CreateItemAtLocation( where.x+dims.xmin, where.y+dims.ymax, where.z+7, 0x09, 1, where.realm );
+				SetObjProperty(item, "house_serial", created.house.serial);
+				item.movable:=0;
+				component.append (item.serial);
+			endif
 	endcase
 
 	if (component.size())
@@ -300,8 +345,8 @@ function LegalHouseLocation (x, y, rlm)
 		elseif (x > 3550 and x < 3800 and y > 2350 and y < 2750)
 			return 0;
 		//Magincia
-		elseif (x > 3500 and x < 3820 and y > 2000 and y < 2300)
-			return 0;
+//		elseif (x > 3500 and x < 3820 and y > 2000 and y < 2300)
+//			return 0;
 		//N'Julem
 		elseif (x > 3450 and x < 3850 and y > 1030 and y < 1430)
 			return 0;
@@ -322,4 +367,155 @@ function LegalHouseLocation (x, y, rlm)
 	
 	return 1;
 
+endfunction
+
+function BuildTwoStoryGump( )
+
+	var gump := GFCreateGump();
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 340, 330 );
+	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 310, 300 );
+
+	GFTextMid( gump, 20, 30, 310, 1720, "Select House Dimensions" );
+	GFAddButton( gump, 35, 250, 2128, 2129, GF_CLOSE_BTN, 0x10 );
+	GFAddButton( gump, 35, 280, 2119, 2120, GF_CLOSE_BTN, 0x0 );
+
+	var y_pos := 60;
+	var page := 2;
+	var widths := array { 7, 8, 9, 10, 11, 12, 13 };
+	foreach housewidth in widths
+		GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_PAGE_BTN, page );
+		GFTextLine( gump, 50, y_pos, 1720, housewidth + " tiles wide" );
+		y_pos += 20;
+		page += 2;
+                SleepMS(10);
+	endforeach
+	var heights := array { 7, 8, 9, 10, 11, 12 };
+
+	page := 2;
+	var btn_id := 0x113ec;
+	var offsetstep := 6;
+	foreach housewidth in widths
+		y_pos := 60;
+  
+		GFPage( gump, page );
+
+		foreach househeight in heights
+			GFRadioButton( gump, 150, y_pos, 210, 211, 0, btn_id );
+			GFTextLine( gump, 173, y_pos, 2100, housewidth + "x" + househeight + " at " + ((((housewidth+2)*househeight)-3)*500) + " gold");
+			y_pos += 20;
+			btn_id += 1;
+                	SleepMS(10);
+		endforeach
+		btn_id += offsetstep;
+                SleepMS(10);
+		page += 2;
+		if (housewidth == 7)
+			heights.append(13);
+			offsetstep := 5;
+		endif
+		if (housewidth == 12)
+			heights.erase(1);
+		endif
+	endforeach
+
+	return gump;
+endfunction
+
+function BuildThreeStoryGump( )
+
+	var gump := GFCreateGump();
+	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 340, 330 );
+	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 310, 300 );
+
+	GFTextMid( gump, 20, 30, 310, 1720, "Select House Dimensions" );
+	GFAddButton( gump, 35, 250, 2128, 2129, GF_CLOSE_BTN, 0x10 );
+	GFAddButton( gump, 35, 280, 2119, 2120, GF_CLOSE_BTN, 0x0 );
+
+	var y_pos := 60;
+	var page := 2;
+	var widths := array { "9-11", "12-13", 14, 15, 16, 17, 18 };
+	foreach housewidth in widths
+		GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_PAGE_BTN, page );
+		GFTextLine( gump, 50, y_pos, 1720, housewidth + " tiles wide" );
+		y_pos += 20;
+		page += 2;
+                SleepMS(10);
+	endforeach
+	widths.erase(1);
+	widths.erase(1);
+	var heights := array { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 };
+
+	page := 2;
+	GFPage( gump, page );
+	GFRadioButton( gump, 150, 60, 210, 211, 0, 0x1140b );
+	GFTextLine( gump, 173, 60, 2100, "9x14 at 75500 gold");
+
+	GFRadioButton( gump, 150, 80, 210, 211, 0, 0x11417 );
+	GFTextLine( gump, 173, 80, 2100, "10x14 at 82500 gold");
+
+	GFRadioButton( gump, 150, 100, 210, 211, 0, 0x11418 );
+	GFTextLine( gump, 173, 100, 2100, "10x15 at 88500 gold");
+
+	GFRadioButton( gump, 150, 120, 210, 211, 0, 0x11423 );
+	GFTextLine( gump, 173, 120, 2100, "11x14 at 89500 gold");
+
+	GFRadioButton( gump, 150, 140, 210, 211, 0, 0x11424 );
+	GFTextLine( gump, 173, 140, 2100, "11x15 at 96000 gold");
+
+	GFRadioButton( gump, 150, 160, 210, 211, 0, 0x11425 );
+	GFTextLine( gump, 173, 160, 2100, "11x16 at 102500 gold");
+	
+	page := 4;
+	GFPage( gump, page );
+	GFRadioButton( gump, 150, 60, 210, 211, 0, 0x1142f );
+	GFTextLine( gump, 173, 60, 2100, "12x14 at 96500 gold");
+
+	GFRadioButton( gump, 150, 80, 210, 211, 0, 0x11430 );
+	GFTextLine( gump, 173, 80, 2100, "12x15 at 103500 gold");
+
+	GFRadioButton( gump, 150, 100, 210, 211, 0, 0x11431 );
+	GFTextLine( gump, 173, 100, 2100, "12x16 at 110500 gold");
+
+	GFRadioButton( gump, 150, 120, 210, 211, 0, 0x11432 );
+	GFTextLine( gump, 173, 120, 2100, "12x17 at 117500 gold");
+
+	GFRadioButton( gump, 150, 140, 210, 211, 0, 0x1143b );
+	GFTextLine( gump, 173, 140, 2100, "13x14 at 103500 gold");
+
+	GFRadioButton( gump, 150, 160, 210, 211, 0, 0x1143c );
+	GFTextLine( gump, 173, 160, 2100, "13x15 at 111000 gold");
+	
+	GFRadioButton( gump, 150, 180, 210, 211, 0, 0x1143d );
+	GFTextLine( gump, 173, 180, 2100, "13x16 at 118500 gold");
+	
+	GFRadioButton( gump, 150, 200, 210, 211, 0, 0x1143e );
+	GFTextLine( gump, 173, 200, 2100, "13x17 at 126000 gold");
+	
+	GFRadioButton( gump, 150, 220, 210, 211, 0, 0x1143f );
+	GFTextLine( gump, 173, 220, 2100, "13x18 at 133500 gold");
+	
+
+	var btn_id := 0x11442;
+	var offsetstep := 3;
+	page := 6;
+	foreach housewidth in widths
+		y_pos := 60;
+  
+		GFPage( gump, page );
+
+		foreach househeight in heights
+			GFRadioButton( gump, 150, y_pos, 210, 211, 0, btn_id );
+			GFTextLine( gump, 173, y_pos, 2100, housewidth + "x" + househeight + " at " + ((((housewidth+2)*househeight)-3)*500) + " gold");
+			y_pos += 20;
+			btn_id += 1;
+                	SleepMS(10);
+		endforeach
+		btn_id += offsetstep;
+		offsetstep += 1;
+                SleepMS(10);
+		page += 2;
+		heights.erase(1);
+	endforeach
+
+	return gump;
 endfunction

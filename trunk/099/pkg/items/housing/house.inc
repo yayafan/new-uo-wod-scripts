@@ -147,7 +147,7 @@ endfunction
 function GetHouseValueByDeed (deed)
 	case (deed)
 		0x16023: //tower
-    0x16230: //foundation18x18
+    0x16230: //customthreestoryhousedeed
 			return 3;
 		0x16024: //keep
 		0x16025: //castle
@@ -165,6 +165,7 @@ function GetHouseValueByDeed (deed)
 		0x1622C: //twostoryvilladeed
 		0x1622D: //largemarblepatiohousedeed
 		0x1622E: //ranch house
+    0x16231: //customtwostoryhousedeed
 			return 2;
 		default: return 1;
 	endcase
@@ -227,8 +228,20 @@ function GetDeedType (house)
 		69782:	deed := 0x1622D;
 		69773:	deed := 0x1622E;
 		69736:	deed := 0x1622F;
-		70779:  deed := 0x16230;
 	endcase
+  if (house.objtype >= 0x113ec and house.objtype <= 0x1140a)
+    deed := 0x16231;
+  elseif (house.objtype >= 0x11410 and house.objtype <= 0x11416)
+    deed := 0x16231;
+  elseif (house.objtype >= 0x1141c and house.objtype <= 0x11422)
+    deed := 0x16231;
+  elseif (house.objtype >= 0x11428 and house.objtype <= 0x1142e)
+    deed := 0x16231;
+  elseif (house.objtype >= 0x11435 and house.objtype <= 0x1143a)
+    deed := 0x16231;
+  elseif (house.objtype >= 0x1140b and house.objtype <= 0x1147b)
+    deed := 0x16230;
+  endif
 	return deed;
 
 endfunction
@@ -344,26 +357,26 @@ endfunction
 
 function ReleaseAll (owner, sign)
 	var homeinfo := GetObjProperty (sign, "homeinfo");
-	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
+//	foreach item in ListObjectsInBox (sign.x-32, sign.y-32, -128, sign.x+32, sign.y+32, +127, sign.realm)
+	foreach item in ListObjectsInBox (homeinfo[2], homeinfo[3], -128, homeinfo[4], homeinfo[5], +127, sign.realm)
 		if (!item.movable and item.isa (POLCLASS_ITEM))
-			if ( (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
-					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
-				if (!IsGMLockedDownItem (owner, item))
-					var parms := array{};
-					parms[1] := sign;
-					parms[2] := owner;
-					parms[3] := item;
-					parms[4] := 0;
-					if (GetObjProperty (item, "displaycontainer") == sign.serial)
-						parms[4] := HOUSE_DISPLAY_ITEM;
-						run_script_to_completion (":housing:lockunlock", parms);
-					elseif (GetObjProperty (item, "lockeddown") == sign.serial)
-						parms[4] := HOUSE_LOCKDOWN_ITEM;
-						run_script_to_completion (":housing:lockunlock", parms);
-					elseif (GetObjProperty (item, "secured") == sign.serial)
-						parms[4] := HOUSE_SECURE_CONTAINER;
-						run_script_to_completion (":housing:lockunlock", parms);
-					endif
+//			if ( (item.x >= homeinfo[2] and item.x <= homeinfo[4]) and
+//					(item.y >= homeinfo[3] and item.y <= homeinfo[5]) )
+			if (!IsGMLockedDownItem (owner, item))
+				var parms := array{};
+				parms[1] := sign;
+				parms[2] := owner;
+				parms[3] := item;
+				parms[4] := 0;
+				if (GetObjProperty (item, "displaycontainer") == sign.serial)
+					parms[4] := HOUSE_DISPLAY_ITEM;
+					run_script_to_completion (":housing:lockunlock", parms);
+				elseif (GetObjProperty (item, "lockeddown") == sign.serial)
+					parms[4] := HOUSE_LOCKDOWN_ITEM;
+					run_script_to_completion (":housing:lockunlock", parms);
+				elseif (GetObjProperty (item, "secured") == sign.serial)
+					parms[4] := HOUSE_SECURE_CONTAINER;
+					run_script_to_completion (":housing:lockunlock", parms);
 				endif
 			endif
 		endif

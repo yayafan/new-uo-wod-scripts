@@ -71,13 +71,22 @@ function FixCustomItemGraphic(byref item)
 	elseif (item.objtype == 0x2bdd)
 		item.graphic := item.objtype;
 		matches := matches + 1;
-//	endif
+	elseif (item.objtype == 0x12db)
+		if (item.graphic >= 0x28b4 and item.graphic <= 0x28bb)
+			item.graphic := item.graphic + 30644;
+			matches := matches + 1;
+		endif
 	elseif (item.objtype == 0xea0 and item.graphic >= 0x2968 and item.graphic <= 0x297b)
 		item.graphic := item.graphic + 30489;
 		matches := matches + 1;
 	elseif (item.objtype == 0xa05e)
 		if (item.graphic >= 0x28a0 and item.graphic <= 0x28a9)
 			item.graphic := item.graphic + 30654;
+			matches := matches + 1;
+		endif
+	elseif (item.objtype == 0x170b4)
+		if (item.graphic >= 0x2832 and item.graphic <= 0x2839)
+			item.graphic := item.graphic + 30715;
 			matches := matches + 1;
 		endif
 	elseif (item.objtype >= 0xa000 and item.objtype <= 0xa0b0)
