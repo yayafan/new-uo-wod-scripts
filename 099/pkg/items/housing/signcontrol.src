@@ -130,12 +130,28 @@ function BuildHouseLockdownArea (sign, housetype)
 			homeinfo[3] := sign.y - 15;
 			homeinfo[4] := sign.x + 8;
 			homeinfo[5] := sign.y + 1;
-		0x1147b:	//foundation 18x18
-			homeinfo[2] := sign.x - 1;
-			homeinfo[3] := sign.y - 19;
-			homeinfo[4] := sign.x + 18;
-			homeinfo[5] := sign.y;
+//		0x113ec:	//foundation 7x7		
+//			homeinfo[2] := sign.x - 1;
+//			homeinfo[3] := sign.y - 8;
+//			homeinfo[4] := sign.x + 7;
+//			homeinfo[5] := sign.y;
+//		0x1147b:	//foundation 18x18
+//			homeinfo[2] := sign.x - 1;
+//			homeinfo[3] := sign.y - 19;
+//			homeinfo[4] := sign.x + 18;
+//			homeinfo[5] := sign.y;
 		default:
+			if (housetype >= 0x113ec and housetype <= 0x1147b)
+				var multiid := housetype - 0x10000;
+				var dims := GetMultiDimensions (multiid);
+				var width := 1+dims.xmax-dims.xmin;
+				var height := 1+dims.ymax-dims.ymin;
+				homeinfo[2] := sign.x - 1;
+				homeinfo[3] := sign.y - (height+1);
+				homeinfo[4] := sign.x + width;
+				homeinfo[5] := sign.y;
+			endif
+				
 //			//
 //			homeinfo[2] := sign.x - ;
 //			homeinfo[3] := sign.y - ;

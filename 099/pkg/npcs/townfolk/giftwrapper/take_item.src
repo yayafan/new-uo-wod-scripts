@@ -110,7 +110,7 @@ program giftwrap (parms)
 		return;
 	endif
 
-	var giftbox := CreateItemInContainer (player.backpack, 0x70b4, 1);
+	var giftbox := CreateItemInContainer (player.backpack, 0x170b4, 1);
 	if (!giftbox)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
 		if (!MoveItemToContainer (item, player.backpack))

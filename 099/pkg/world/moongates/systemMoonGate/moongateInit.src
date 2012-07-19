@@ -86,7 +86,11 @@ function BuildGumpForGate( gate, byref town_name, byref config )
                         //No files for realm.
                 	continue;
                 endif
-                
+
+		if( !cfg_elem.Active )
+			continue;
+		endif
+
 		GFAddButton( gump, 30, y_pos+3, 2117, 2118, GF_PAGE_BTN, page );
 		GFTextLine( gump, 50, y_pos, 1720, cfg_elem.Faction );
 		y_pos += 20;

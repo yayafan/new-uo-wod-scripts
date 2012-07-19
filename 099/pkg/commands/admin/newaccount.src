@@ -19,6 +19,6 @@ program textcmd_newaccount(who, info)
       return;
     endif
     SendSysMessage(who, "Account created successfully.");
-    act.set_uo_expansion("HSA");
+    act.set_uo_expansion("AoS");
   endif
 endprogram
