@@ -14,7 +14,7 @@ program reconnect (character)
 //	if (GetAccountProperty (character.acctname, "lbr_enabled"))
 //		SendPacket (character, "B90003");
 //	endif
-	SendPacket (character, "B9000F97DF");
+//	SendPacket (character, "B9000F97DF");
 
 //	if (!GetObjProperty (character, "#testlagfix"))
 //		//some really icky packet stuff - change to yellow cursor, then to summer

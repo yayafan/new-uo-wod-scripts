@@ -75,33 +75,25 @@ program usehousedeed (character, deed)
 	endif
 
 	set_critical( 1 );
+	var created := CreateHouseAndKeys ( character, housetype, where.x, where.y, where.z, where.realm );
+	if (!created)
+		return;
+	endif
 	if (extracharges > 0)
 		SendSysMessage (character, "The cost of buying this foundation is " + extracharges + " gold!");
 		if (!YesNo (character, "Buy it?"))
 			SendSysMessage (character, "Canceled.");
+			DestroyItem (created.packkey);
+			DestroyItem (created.bankkey);
+			DestroyMulti (created.house);
 			return;
-		endif
-		if (!character.spendgold (extracharges))
+		elseif (!character.spendgold (extracharges))
 			SendSysMessage (character, "You don't have enough money");
+			DestroyItem (created.packkey);
+			DestroyItem (created.bankkey);
+			DestroyMulti (created.house);
 			return;
 		endif
-	endif
-	var created := CreateHouseAndKeys ( character, housetype, where.x, where.y, where.z, where.realm );
-	if (!created)
-		if (extracharges > 0)
-			var refund := extracharges;
-			while (refund > 60000)
-				if (CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, 60000))
-					refund := refund - 60000;
-				else
-					SendSysMessage (character, "Error refunding your gold!  You'll have to page a GM...");
-					SetObjProperty (character, "OWEDGOLD", refund);
-					refund := 0;
-				endif
-			endwhile
-			CreateItemInContainer (character.backpack, UOBJ_GOLD_COIN, refund);
-		endif
-		return;
 	endif
 
    	DestroyItem (deed);
