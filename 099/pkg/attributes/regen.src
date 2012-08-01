@@ -19,6 +19,11 @@ exported function GetLifeRegenRate (character)
 		endif
 		return (CINT (GetAttributeBaseValue (character, "Strength")/10) * 12);
 	endif
+	
+	var racialbonus := 0;
+	if (character.race == RACE_HUMAN)
+		racialbonus := 1200;
+	endif
 
 	//If they're hungry, don't regenerate HP as fast or at all
 	var hunger := CINT (GetObjProperty (character, "hunger"));
@@ -27,13 +32,13 @@ exported function GetLifeRegenRate (character)
 	endif
 
 	if (hunger >= 9)
-		return 0;
+		return 0+racialbonus;
 	elseif (hunger >= 7)
-		return 600;
+		return 600+racialbonus;
 	elseif (hunger > 5)
-		return 1000;
+		return 1000+racialbonus;
 	endif
-	return 1200; 
+	return 1200+racialbonus; 
 endfunction
 
 exported function GetLifeMaximumValue(character)
@@ -143,6 +148,11 @@ exported function GetManaRegenRate(character)
 		return 1200;
 	endif
 
+	var racialbonus := 0;
+	if (character.race == RACE_GARGOYLE)
+		racialbonus := 1200;
+	endif
+
 	//If they're hungry, don't regenerate mana as fast or at all
 	var hunger := CINT (GetObjProperty (character, "hunger"));
 	if (!hunger)
@@ -150,14 +160,14 @@ exported function GetManaRegenRate(character)
 	endif
 
 	if (hunger >= 9)
-		return 0;
+		return 0+racialbonus;
 	elseif (hunger >= 7)
-		return 600;
+		return 600+racialbonus;
 	elseif (hunger > 5)
-		return 1000;
+		return 1000+racialbonus;
 	endif
 
-	return 1200;
+	return 1200+racialbonus;
 endfunction
 
 exported function GetManaMaximumValue(character)
@@ -174,6 +184,11 @@ exported function GetManaMaximumValue(character)
 		endif
 	endif
 
+	var racialbonus := 0;
+	if (character.race == RACE_ELF)
+		racialbonus := 20;
+	endif
+	
 	//possible bonus MaxMana from spell effects
 	if (GetObjProperty (character, "longtermmods"))
 		var bonusmaxmana := 0;
@@ -184,11 +199,11 @@ exported function GetManaMaximumValue(character)
 			endif
 		endforeach
 		if (bonusmaxmana)
-			return (GetAttribute (character, "Intelligence") + bonusmaxmana) * 100;
+			return (GetAttribute (character, "Intelligence") + bonusmaxmana + racialbonus) * 100;
 		endif
 	endif
 
-    return GetAttribute (character, "Intelligence") * 100;
+    return (GetAttribute (character, "Intelligence")+racialbonus) * 100;
 endfunction
 
 

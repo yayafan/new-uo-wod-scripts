@@ -7,6 +7,7 @@ use uo;
 use os;
 use polsys;
 
+include "include/client";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":moongates:moongate";
@@ -21,7 +22,8 @@ program walkOnScript( mobile, tile )
                 SendSysMessage( mobile, "Thou'rt a criminal and cannot escape so easily." );
                 return 1;
 	endif
-	
+
+	PlaySoundEffect (mobile, SFX_SPELL_GATE_TRAVEL);
 	var gump := tile.GetGump();
 	var input := GFSendGump( mobile, gump );
 	
@@ -51,7 +53,8 @@ program walkOnScript( mobile, tile )
 	if( result.errortext )
 		SendSysMessage( mobile, "Unable to move ->"+result.errortext );
 	endif
- 
+ 	PlaySoundEffect( mobile, SFX_SPELL_RECALL );
+
  	SetObjProperty( mobile, "#Teleported", ReadMillisecondClock() );
 		
 	return 1;

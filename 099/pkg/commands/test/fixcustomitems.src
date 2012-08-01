@@ -119,6 +119,9 @@ function FixCustomItemGraphic(byref item)
 	elseif (item.objtype == 0xbe35)
 		item.graphic := 0xa02d;
 		matches := matches + 1;
+	elseif (item.objtype == 0x16100 and item.graphic == 0xff1)
+		item.graphic := 0x22c5;
+		matches := matches + 1;
 	endif
 endfunction
 
