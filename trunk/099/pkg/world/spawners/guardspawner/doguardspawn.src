@@ -87,7 +87,7 @@ function SpawnNewGuard (dfkey)
 	
 	var theguard := SpawnNPCAtLocation (npctemplate, spawnloc[1], spawnloc[2], spawnloc[3], 0, spawnlocr);
 	if (!theguard)
-		SendGMErrorMessage ("Unable to spawn guard " + dfkey, 1);
+		SendGMErrorMessage ("Unable to spawn guard " + dfkey + ": " + theguard.errortext, 1);
 		return;
 	endif
 
