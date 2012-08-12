@@ -423,7 +423,7 @@ function DryDock (event)
 		MoveObjectToLocation( item, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION );
 	endforeach
 
-	var key := FindKey (player, boat.portplank);
+	var key := FindKey (player, boat.hold);
 	if (!DestroyBoat (player))
 		DestroyItem (newboat);
 		return;
@@ -675,7 +675,7 @@ function CheckForBeingLostAtSea ()
 		moveitemtolocation (item, owner.x, owner.y, owner.z, MOVEITEM_FORCELOCATION);
 	endforeach
 
-	var key := FindKey (owner, boat.portplank);
+	var key := FindKey (owner, boat.hold);
 	if (!DestroyBoat (owner))
 		DestroyItem (newboat);
 		return;

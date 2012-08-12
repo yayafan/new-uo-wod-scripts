@@ -28,6 +28,7 @@ program textcmd_paintboat( who, text )
 	
 	boat.color := CINT(params[1]);
 	
+	boat.hold.color := boat.color;
 	foreach compo in (boat.hull)
 		compo.color := boat.color;
 	endforeach
