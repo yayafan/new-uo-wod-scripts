@@ -107,6 +107,33 @@ function CreateStartingEquipment (character, skillids);
 				skillname := ATTRIBUTEID_INSCRIPTION;
 			endif
 			SetAttributeBaseValue (character, skillname, newval);
+		//This is until we implement these two skills
+		elseif (skillname == ATTRIBUTEID_CHIVALRY)
+			var newval := GetAttributeBaseValue (character, ATTRIBUTEID_CHIVALRY) ;
+			SetAttributeBaseValue (character, ATTRIBUTEID_CHIVALRY, 0);
+			if (!GetAttributeBaseValue (character, ATTRIBUTEID_LEADERSHIP))
+				skillname := ATTRIBUTEID_LEADERSHIP;
+			elseif (!GetAttributeBaseValue (character, ATTRIBUTEID_PARRY))
+				skillname := ATTRIBUTEID_PARRY;
+			elseif (!GetAttributeBaseValue (character, ATTRIBUTEID_TACTICS))
+				skillname := ATTRIBUTEID_TACTICS;
+			else
+				skillname := ATTRIBUTEID_HEALING;
+			endif
+			SetAttributeBaseValue (character, skillname, newval);
+		elseif (skillname == ATTRIBUTEID_FOCUS)
+			var newval := GetAttributeBaseValue (character, ATTRIBUTEID_FOCUS) ;
+			SetAttributeBaseValue (character, ATTRIBUTEID_FOCUS, 0);
+			if (!GetAttributeBaseValue (character, ATTRIBUTEID_MEDITATION))
+				skillname := ATTRIBUTEID_MEDITATION;
+			elseif (!GetAttributeBaseValue (character, ATTRIBUTEID_HEALING))
+				skillname := ATTRIBUTEID_HEALING;
+			elseif (!GetAttributeBaseValue (character, ATTRIBUTEID_ANATOMY))
+				skillname := ATTRIBUTEID_ANATOMY;
+			else
+				skillname := ATTRIBUTEID_TACTICS;
+			endif
+			SetAttributeBaseValue (character, skillname, newval);
 		endif
 		CreateFromGroup (character.backpack, skillname);
 	endforeach

@@ -28,6 +28,9 @@ program useshipdeed( character, deed )
 		PrintTextAbovePrivate (deed, "That ship deed appears to be broken.", character);
 		return;
 	endif
+	if (shiptype >= 0x4000 and shiptype <= 0x4047)
+		shiptype := shiptype + 0xd000;
+	endif
 
 	var facing := GetShipCreationFacing (character);
 	var where := TargetMultiPlacement (character, shiptype, facing);
