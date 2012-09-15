@@ -22,6 +22,8 @@ program Place_Deed (character, deed)
 			return;
 		endif
 		SendSysMessage (character, "There's no house sign here, but we'll let that go.");
+		maxlockdowns := 100;
+		lockdowns := 0;
 	else
 		maxlockdowns := GetMaxLockdowns (sign);
 		lockdowns := GetLockdowns (sign);
