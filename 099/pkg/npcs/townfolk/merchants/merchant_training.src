@@ -219,7 +219,8 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_TRACKING,
 				SKILLID_ANIMALLORE,
 				SKILLID_TAMING,
-				SKILLID_CARTOGRAPHY
+				SKILLID_CARTOGRAPHY,
+				SKILLID_THROWING
 			};
 
 		"weaponsmith":
@@ -231,6 +232,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_FENCING,
 				SKILLID_MACEFIGHTING,
 				SKILLID_PARRY,
+				SKILLID_THROWING,
 				SKILLID_TACTICS
 			};
 
@@ -243,6 +245,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_FENCING,
 				SKILLID_MACEFIGHTING,
 				SKILLID_PARRY,
+				SKILLID_THROWING,
 				SKILLID_TACTICS
 			};
 
@@ -311,6 +314,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_CAMPING,
 				SKILLID_HIDING,
 				SKILLID_STEALTH,
+				SKILLID_THROWING,
 				SKILLID_ANATOMY
 			};
 
