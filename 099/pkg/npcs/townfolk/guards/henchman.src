@@ -63,7 +63,14 @@ program henchman_AI ()
 	if (GetObjProperty (me, "color") )
 		me.color := GetObjProperty (me, "color");
 	endif
-	me.graphic := 400+me.gender;
+	if (GetObjProperty (me, "race") )
+		me.race := GetObjProperty (me, "race");
+	endif
+	case (me.race)
+		RACE_ELF: me.graphic := 605+me.gender;
+		RACE_GARGOYLE: me.graphic := 666+me.gender;
+		default: me.graphic := 400+me.gender;
+	endcase
 	SetObjProperty (me, "gender", me.gender);
 	me.title_suffix := " the Warrior";
 	me.run_speed := 250;

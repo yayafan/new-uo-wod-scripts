@@ -46,7 +46,18 @@ program Warrior()
 	if (GetObjProperty (me, "color") )
 		me.color := GetObjProperty (me, "color");
 	endif
-	me.graphic := 400+me.gender;
+	
+	if (GetObjProperty (me, "race") )
+		me.race := GetObjProperty (me, "race");
+	endif
+	
+	if (me.race == RACE_ELF)
+		me.graphic := 605+me.gender;
+	elseif (me.race == RACE_GARGOYLE)
+		me.graphic := 666+me.gender;
+	else
+		me.graphic := 400+me.gender;
+	endif
 	SetObjProperty (me, "gender", me.gender);
 	me.title_suffix := " the Warrior";
 	me.title_race := "";
@@ -268,6 +279,7 @@ function JoinPlayer (byref player)
 
 	Say ("Wow, I've learned so much from you already!");
 	SetObjProperty (me, "master", player.serial);
+	SetObjProperty (me, "race", me.race);
 
 	set_critical (1);
 	if ( GetObjProperty (me, "regspawn") )

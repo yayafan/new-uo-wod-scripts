@@ -256,9 +256,15 @@ function ResurrectHenchman (byref corpse)
 	SetVital (new_npc, "Life", 100);
 	new_npc.gender := GetObjProperty (corpse, "gender");
 	new_npc.color := GetObjProperty (corpse, "color");
-	new_npc.graphic := 400 + new_npc.gender;
+  new_npc.race := GetObjProperty (corpse, "race");
+  case (new_npc.race)
+    RACE_ELF: new_npc.graphic := 605 + new_npc.gender;
+    RACE_GARGOYLE: new_npc.graphic := 666 + new_npc.gender;
+    default: new_npc.graphic := 400 + new_npc.gender;
+  endcase
 	SetObjProperty (new_npc, "gender", new_npc.gender);
 	SetObjProperty (new_npc, "color", new_npc.color);
+	SetObjProperty (new_npc, "race", new_npc.race);
 	if (GetObjProperty (corpse, "virtue") )
 		var virtue := CINT (0.95 * GetObjProperty (corpse, "virtue"));
 		SetObjProperty (new_npc, "virtue", virtue);
