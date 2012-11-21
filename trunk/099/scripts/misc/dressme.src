@@ -867,10 +867,9 @@ function DressWarElf(me,gender)
 		endif
 		item := 0x2b76;		//HideGorget
 		CreateAndEquip(me,item,0);
-		case (RandomInt(3))
+		case (RandomInt(2))
 			0: item := 0x2b71;		//RavenHelm
 			1: item := 0x2b72;		//VultureHelm
-			2: item := 0x2b73;		//WingedHelm
 		endcase
 		CreateAndEquip(me,item,0);
 
@@ -886,10 +885,8 @@ function DressWarElf(me,gender)
 			CreateAndEquip(me,item,0);
 		else
 			case (RandomInt(2))
-			0:
-				item := 0x2b74;		//HideTunic
-			1:
-				item := 0x2b79;		//FemaleHideTunic
+				0: item := 0x2b74;		//HideTunic
+				1: item := 0x2b79;		//FemaleHideTunic
 			endcase
 			CreateAndEquip(me,item,0);
 		endif
@@ -911,11 +908,7 @@ function DressWarElf(me,gender)
 		endif
 		CreateAndEquip(me,item,0);
 
-		case (RandomInt(3))
-			0: item := 0x2b71;		//RavenHelm
-			1: item := 0x2b72;		//VultureHelm
-			2: item := 0x2b73;		//WingedHelm
-		endcase
+		item := 0x2b73;		//WingedHelm
 		CreateAndEquip(me,item,0);
 	endcase
 

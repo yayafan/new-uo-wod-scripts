@@ -58,29 +58,30 @@ program npc_setup (npc)
 		endif
 	endif
 	
-	
+
 	var templatesuffix := "";
-	if (npc.realm == "britannia")
-		if ( (npc.x >= 6907 and npc.x <= 7170) and (npc.y >= 251 and npc.y <= 516) )
-			templatesuffix := "elf";
-			npc.graphic := 605;
+	if (npc.graphic == 400 or npc.graphic == 401)
+		if (npc.realm == "britannia")
+			if ( (npc.x >= 6907 and npc.x <= 7170) and (npc.y >= 251 and npc.y <= 516) )
+				templatesuffix := "elf";
+				npc.graphic := 605;
+				npc.race := RACE_ELF;
+			endif
+		elseif (npc.realm == "tokuno")
+			templatesuffix := "tokuno";
+		elseif (npc.realm == "termur")
+			templatesuffix := "garg";
+			npc.graphic := 666;
+			npc.race := RACE_GARGOYLE;
 		endif
-	elseif (npc.realm == "tokuno")
-		templatesuffix := "tokuno";
-	elseif (npc.realm == "termur")
-		templatesuffix := "garg";
-		npc.graphic := 666;
+	endif
+	if (templatesuffix == "")
+		case (npc.race)
+			RACE_ELF: templatesuffix := "elf";
+			RACE_GARGOYLE: templatesuffix := "garg";
+		endcase
 	endif
 
-	var race := 0;
-	case (npc.graphic)
-		605: 
-		606:
-			race := 1;
-		666:
-		667:
-			race := 2;
-	endcase
 	//if the NPC has a gender of 2, randomize it
 	if (npc.gender == 2)
 		npc.gender := RandomInt (2);
@@ -103,9 +104,9 @@ program npc_setup (npc)
 	//set their title, if they have one
 	if (MyTemplateElem.title)
 		if (MyTemplateElem.title == "<random>")
-			if(race == 1)
+			if(npc.race == RACE_ELF)
 				npc.title_suffix := "the elf";
-			elseif (race == 2)
+			elseif (npc.race == RACE_GARGOYLE)
 				npc.title_suffix := "the gargoyle";
 			else
 				case (RandomInt (20) ) 
@@ -123,7 +124,7 @@ program npc_setup (npc)
 				endcase
 			endif
 		else
-			npc.title_suffix := " " + MyTemplateElem.title;
+			npc.title_suffix := MyTemplateElem.title;
 		endif
 	endif
 
