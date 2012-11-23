@@ -66,6 +66,9 @@ function Do_Chops (character, axe, tree, mex, mey)
 		if (!wood_amount)
 			wood_amount := 1;
 		endif
+		if (character.race == RACE_HUMAN)
+			wood_amount := wood_amount + RandomInt(2) + 1;
+		endif
 
 		craftingbag := FindCraftingBag (character);
 		var the_logs := CreateItemInContainer (craftingbag, UOBJ_LOG, wood_amount);
