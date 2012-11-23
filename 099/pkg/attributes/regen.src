@@ -186,7 +186,7 @@ exported function GetManaMaximumValue(character)
 
 	var racialbonus := 0;
 	if (character.race == RACE_ELF)
-		racialbonus := 20;
+		racialbonus := 50;
 	endif
 	
 	//possible bonus MaxMana from spell effects

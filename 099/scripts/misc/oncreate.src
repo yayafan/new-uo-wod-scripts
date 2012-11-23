@@ -21,6 +21,9 @@ var starteqp_cfg;
 program oncreate (character, skillids)
 	Print ("Character created: " + character.name);
 	CreateStartingEquipment (character, skillids);
+	if (character.race == RACE_HUMAN)
+		character.carrying_capacity_mod := 100;
+	endif
 	SendSysMessage (character, "Set your specializations before you do anything else!", FONT_BOLD, MESSAGE_COLOR_WARNING);
 	SendSysMessage (character, "Type .spec to set your spec's!", FONT_NORMAL, MESSAGE_COLOR_WARNING);
 	

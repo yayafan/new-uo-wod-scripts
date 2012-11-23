@@ -10,7 +10,7 @@ Const HOUSE_RAISE_ITEM		:= 5;
 Const HOUSE_LOWER_ITEM		:= 6;
 Const HOUSE_DISPLAY_ITEM		:= 7;
 
-Const HOUSE_VALUE_LIMIT		:= 10;
+Const HOUSE_VALUE_LIMIT		:= 6;
 
 ///////////////////
 //  gets the housevalue of the given account
@@ -255,7 +255,7 @@ endfunction
 
 function GetMaxLockdowns (sign)
 	var hvalue := GetHouseValueOfSign (sign);
-	return (hvalue * 30) + 10;
+	return (hvalue * 750);
 endfunction
 
 
@@ -295,7 +295,7 @@ endfunction
 
 function GetMaxSecures( sign )
 	var hvalue := GetHouseValueOfSign (sign);
-	return (hvalue * 4);
+	return (hvalue * 10);
 endfunction
   
 

@@ -2,6 +2,7 @@ use uo;
 use os;
 use util;
 use cfgfile;
+use math;
 
 include "include/client";
 include "include/objtype";
@@ -21,6 +22,7 @@ function MakeLootOnCorpse (corpse, npctemplate)
 	if (!elem)
 		return 0;
 	endif
+  
 
 	if (elem.gold)
 		var gold := RandomDiceRoll (elem.gold);
@@ -117,11 +119,25 @@ function MakeSpecifiedLootItem (container, str)
 	var itemname := str[1];
 	var number := RandomDiceRoll (str[2]);
 	var chance := CInt(str[3]);
-
+  
 	if (number > 20)
 		number := 20;
 	endif
-
+  case (GetObjTypeByName(itemname))
+      UOBJ_HIDE:
+      UOBJ_BROWN_HIDE:
+      UOBJ_BLUE_HIDE:
+      UOBJ_RED_HIDE:
+      UOBJ_GREEN_HIDE:
+      UOBJ_SILVER_HIDE:
+      var character := FindTopLevelItem(container);
+        if (character.acctname)
+          if (character.race := RACE_HUMAN)
+            number := number + Ceil(number/4);
+          endif
+      endif
+    endcase
+  
 	for i := 1 to number
 		if (RandomInt(100) + 1 <= chance)
 			var item := CreateItemInContainer (container, itemname, 1);
@@ -132,7 +148,13 @@ function MakeSpecifiedLootItem (container, str)
 
 endfunction
 
-
+function FindTopLevelItem( item )
+    var res := item.container;
+    while(res.container)
+        res := res.container;        
+    endwhile
+    return res;
+endfunction
 
 
 ///////////////////
