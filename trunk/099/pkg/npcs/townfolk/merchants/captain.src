@@ -89,7 +89,7 @@ function GetDestination (player, text)
 		AddMenuItem (travelmenu, 0, "Britain");
 		AddMenuItem (travelmenu, 0, "Skara Brae");
 		AddMenuItem (travelmenu, 0, "Moonglow");
-		AddMenuItem (travelmenu, 0, "Magincia");
+		AddMenuItem (travelmenu, 0, "New Magincia");
 		AddMenuItem (travelmenu, 0, "Vesper");
 		AddMenuItem (travelmenu, 0, "Ocllo");
 		AddMenuItem (travelmenu, 0, "Nujel'M");
@@ -98,6 +98,7 @@ function GetDestination (player, text)
 		AddMenuItem (travelmenu, 0, "Serpent's Hold");
 		AddMenuItem (travelmenu, 0, "Cove");
 		AddMenuItem (travelmenu, 0, "Buccaneer's Den");
+		AddMenuItem (travelmenu, 0, "Sea Market");
 
 		var selection := SelectMenuItem2 (player, travelmenu);
 		if (!selection)
@@ -107,7 +108,7 @@ function GetDestination (player, text)
 			1:	text := "sail britain";
 			2:	text := "sail skara";
 			3:	text := "sail moonglow";
-			4:	text := "sail magincia";
+			4:	text := "sail new magincia";
 			5:	text := "sail vesper";
 			6:	text := "sail ocllo";
 			7:	text := "sail nujel'm";
@@ -116,6 +117,7 @@ function GetDestination (player, text)
 			10:	text := "sail serpents hold";
 			11:	text := "sail cove";
 			12:	text := "sail buccaneers den";
+			13:	text := "sail sea market";
 			default:
 				return 0;
 		endcase
@@ -191,7 +193,7 @@ function GetDestination (player, text)
 		parms[2] := 2297;//y
 		parms[3] := -2;//z
 		parms[4] := 15;//duration
-		parms[5] := "Magincia";//destination
+		parms[5] := "New Magincia";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
@@ -231,11 +233,20 @@ function GetDestination (player, text)
 		parms[6] := 250;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
 		return parms;
+	elseif (text["market"])
+		parms[1] := 4552;//x
+		parms[2] := 2336;//y
+		parms[3] := -2;//z
+		parms[4] := 15;//duration
+		parms[5] := "Sea Market";//destination
+		parms[6] := 100;//cost
+		parms[7] :=  REALM_BRITANNIA;//realm
+		return parms;
 	endif	
 
 	say ("I can sail to Skara Brae, Britain, Vesper, Moonglow, Occlo, Nujel'M,");
 	sleepms(100);
-	say ("Buccaneer's Den, Magincia, Jhelom, Serpent's Hold, Cove or Trinsic.");
+	say ("Buccaneer's Den, Sea Market, New Magincia, Jhelom, Serpent's Hold, Cove or Trinsic.");
 	return 0;
 
 endfunction
