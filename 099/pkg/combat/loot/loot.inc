@@ -132,7 +132,7 @@ function MakeSpecifiedLootItem (container, str)
       UOBJ_SILVER_HIDE:
       var character := FindTopLevelItem(container);
         if (character.acctname)
-          if (character.race := RACE_HUMAN)
+          if (character.race == RACE_HUMAN)
             number := number + Ceil(number/4);
           endif
       endif
