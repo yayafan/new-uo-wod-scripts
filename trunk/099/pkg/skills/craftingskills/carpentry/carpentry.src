@@ -43,6 +43,9 @@ program use_carpentry_tool ( character, tool )
 	elseif (IsWoodenShield (use_on) )
 		RepairCarpentryItem (character, tool, use_on, SKILLID_CARPENTRY);
 		return;
+	elseif (IsWoodenArmor (use_on) )
+		RepairCarpentryItem (character, tool, use_on, SKILLID_CARPENTRY);
+		return;
 	elseif (use_on.objtype == UOBJ_LOG)
 		MakeCarpentryItems (character, tool, use_on);
 		return;
@@ -157,6 +160,7 @@ function MakeCarpentryItems (character, tool, logs)
 			SubtractAmount (logs, material_needed);
 			if (!item_stackable)
 				created_item.name := item_name + " [crafted by " + character.name + "]";
+				created_item.hp := created_item.maxhp + 1;
 			endif
 
 			if (item_lockable)

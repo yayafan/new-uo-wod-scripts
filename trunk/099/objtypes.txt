@@ -2466,7 +2466,119 @@
 0x110a0 SmallStoneShop housing
 # 0x110a1 unused
 0x110a2 SmallMarbleShop housing
-# 0x110a3 - 0x1147a unused
+# 0x110a3 - 0x113eb unused
+0x113ec foundation7x7 housing
+0x113ed foundation7x8 housing
+0x113ee foundation7x9 housing
+0x113ef foundation7x10 housing
+0x113f0 foundation7x11 housing
+0x113f1 foundation7x12 housing
+# 0x113f2 - 0x113f7 unused
+0x113f8 foundation8x7 housing
+0x113f9 foundation8x8 housing
+0x113fa foundation8x9 housing
+0x113fb foundation8x10 housing
+0x113fc foundation8x11 housing
+0x113fd foundation8x12 housing
+0x113fe foundation8x13 housing
+# 0x113ff - 0x11403 unused
+0x11404 foundation9x7 housing
+0x11405 foundation9x8 housing
+0x11406 foundation9x9 housing
+0x11407 foundation9x10 housing
+0x11408 foundation9x11 housing
+0x11409 foundation9x12 housing
+0x1140a foundation9x13 housing
+0x1140b foundation9x14 housing
+# 0x1140c - 0x1140f unused
+0x11410 foundation10x7 housing
+0x11411 foundation10x8 housing
+0x11412 foundation10x9 housing
+0x11413 foundation10x10 housing
+0x11414 foundation10x11 housing
+0x11415 foundation10x12 housing
+0x11416 foundation10x13 housing
+0x11417 foundation10x14 housing
+0x11418 foundation10x15 housing
+# 0x11419 - 0x1141b unused
+0x1141c foundation11x7 housing
+0x1141d foundation11x8 housing
+0x1141e foundation11x9 housing
+0x1141f foundation11x10 housing
+0x11420 foundation11x11 housing
+0x11421 foundation11x12 housing
+0x11422 foundation11x13 housing
+0x11423 foundation11x14 housing
+0x11424 foundation11x15 housing
+0x11425 foundation11x16 housing
+# 0x11426 - 0x11427 unused
+0x11428 foundation12x7 housing
+0x11429 foundation12x8 housing
+0x1142a foundation12x9 housing
+0x1142b foundation12x10 housing
+0x1142c foundation12x11 housing
+0x1142d foundation12x12 housing
+0x1142e foundation12x13 housing
+0x1142f foundation12x14 housing
+0x11430 foundation12x15 housing
+0x11431 foundation12x16 housing
+0x11432 foundation12x17 housing
+# 0x11433 - 0x11434 unused
+0x11435 foundation13x8 housing
+0x11436 foundation13x9 housing
+0x11437 foundation13x10 housing
+0x11438 foundation13x11 housing
+0x11439 foundation13x12 housing
+0x1143a foundation13x13 housing
+0x1143b foundation13x14 housing
+0x1143c foundation13x15 housing
+0x1143d foundation13x16 housing
+0x1143e foundation13x17 housing
+0x1143f foundation13x18 housing
+# 0x11440 - 0x11441 unused
+0x11442 foundation14x9 housing
+0x11443 foundation14x10 housing
+0x11444 foundation14x11 housing
+0x11445 foundation14x12 housing
+0x11446 foundation14x13 housing
+0x11447 foundation14x14 housing
+0x11448 foundation14x15 housing
+0x11449 foundation14x16 housing
+0x1144a foundation14x17 housing
+0x1144b foundation14x18 housing
+# 0x1144c - 0x1144e unused
+0x1144f foundation15x10 housing
+0x11450 foundation15x11 housing
+0x11451 foundation15x12 housing
+0x11452 foundation15x13 housing
+0x11453 foundation15x14 housing
+0x11454 foundation15x15 housing
+0x11455 foundation15x16 housing
+0x11456 foundation15x17 housing
+0x11457 foundation15x18 housing
+# 0x11458 - 0x1145b unused
+0x1145c foundation16x11 housing
+0x1145d foundation16x12 housing
+0x1145e foundation16x13 housing
+0x1145f foundation16x14 housing
+0x11460 foundation16x15 housing
+0x11461 foundation16x16 housing
+0x11462 foundation16x17 housing
+0x11463 foundation16x18 housing
+# 0x11464 - 0x11468 unused
+0x11469 foundation17x12 housing
+0x1146a foundation17x13 housing
+0x1146b foundation17x14 housing
+0x1146c foundation17x15 housing
+0x1146d foundation17x16 housing
+0x1146e foundation17x17 housing
+0x1146f foundation17x18 housing
+# 0x11470 - 0x11475 unused
+0x11476 foundation18x13 housing
+0x11477 foundation18x14 housing
+0x11478 foundation18x15 housing
+0x11479 foundation18x16 housing
+0x1147a foundation18x17 housing
 0x1147b foundation18x18 housing
 # 0x1147c - 0x15014 unused
 0x15015 wristwatch tinkering
@@ -2543,8 +2655,9 @@
 0x1622d largemarblepatiohousedeed housing
 0x1622e ranchhousedeed housing
 0x1622f smallbrickhousedeed housing
-0x16230 foundation18x18deed housing
-# 0x16231 - 0x17007 unused
+0x16230 customthreestoryhousedeed housing
+0x16231 customtwostoryhousedeed housing
+# 0x16232 - 0x17007 unused
 0x17008 employmentcontract player_merchants
 0x17009 publicmallsign merchants
 # 0x1700a - 0x1701f unused

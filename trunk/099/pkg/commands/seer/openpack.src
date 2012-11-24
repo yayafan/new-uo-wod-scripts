@@ -50,7 +50,7 @@ function TryToOpenOfflineBackpack (character, text)
 	foreach accountname in ListAccounts ()
 		account := FindAccount (accountname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player and player.serial == serial)
 					var thepack := player.backpack;

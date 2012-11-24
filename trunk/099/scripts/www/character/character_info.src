@@ -136,7 +136,7 @@ function FindCharacterBySerial (serialnumber)
 	foreach acctname in ListAccounts ()
 		account := FindAccount (acctname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player)
 					if (player.serial == serialnumber)
@@ -161,7 +161,7 @@ function GetAccountLastLogon (accountname)
 	endif
 
 	var logontime := 0;
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := account.GetCharacter (counter);
 		if (player)
 			var templogontime := GetObjProperty (player, "logontime");
