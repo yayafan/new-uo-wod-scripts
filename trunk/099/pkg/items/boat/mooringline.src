@@ -27,7 +27,14 @@ program usemooringline (mob, mooringline)
 		endif
 		GetOutOfBoat (mob, mooringline);
 	else
-		YankOntoBoat (mob, mooringline);
+		var wheel := mooringline.multi.wheel[1];
+		var locked := GetObjProperty(wheel, "locked");
+		if(FindKey (mob, mooringline.multi.hold) or (!locked))
+			YankOntoBoat (mob, mooringline);
+		else
+			//they're on shore with no key and the ship is locked
+			PrintTextAbovePrivate( mooringline, "That is locked.", mob );
+		endif
 	endif
 	set_critical (0); 
 endprogram

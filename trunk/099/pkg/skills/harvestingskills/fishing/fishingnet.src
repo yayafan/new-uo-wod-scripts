@@ -223,9 +223,9 @@ function DoRandomEvent (character)
 	case (RandomInt (12))
 		0:
 			if (RandomInt (2))
-				var maptype := 0x6003;
+				var maptype := 0x16003;
 				if ( RandomInt (5) == 0 )
-					maptype := 0x6005;
+					maptype := 0x16005;
 				endif
 				if (CheckSkill (character, SKILLID_FISHING, 90, 0 ))
 					if (CreateIteminContainer (craftingbag, maptype, 1))
@@ -236,9 +236,9 @@ function DoRandomEvent (character)
 			endif
 		1:
 			if (RandomInt (2))
-				var maptype := 0x6004;
+				var maptype := 0x16004;
 				if ( RandomInt (5) == 0 )
-					maptype := 0x6006;
+					maptype := 0x16006;
 				endif
 				if (CheckSkill (character, SKILLID_FISHING, 90, 0 ))
 					if (CreateIteminContainer (craftingbag, maptype, 1))

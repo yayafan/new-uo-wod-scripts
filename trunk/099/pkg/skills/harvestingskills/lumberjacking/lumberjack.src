@@ -132,6 +132,52 @@ function CheckIfIsTree (theobj)
 	endif
 endfunction
 
+
+function DetermineTreeType (theobj)
+	if (theobj.realm == "britannia" and theobj.x >= 5120 and theobj.x <= 6142 and theobj.y >= 2305 and theobj.y <= 2402)
+		return UOBJ_FROSTWOOD;
+	elseif (theobj == 0x0c95 or theobj == 0x0c96 or theobj == 0x0c9e)
+		return UOBJ_ASHLOG;
+	elseif (theobj == 0x0ca8 or theobj == 0x0caa or theobj == 0x0cab)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x0cc8 and theobj <= 0x0cd5)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x0cd6 and theobj <= 0x0cea)
+		return UOBJ_OAKLOG;
+	elseif (theobj >= 0x0cf8 and theobj <= 0x0d03)
+		return UOBJ_ASHLOG;
+	elseif (theobj == 0x0d37 or theobj == 0x0d38)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x0d41 and theobj <= 0x0dab)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x12b5 and theobj <= 0x12c7)
+		return UOBJ_YEWLOG;
+	elseif (theobj == 0x224a or theobj == 0x224b)
+		return UOBJ_ASHLOG;
+	elseif (theobj == 0x224c or theobj == 0x224d)
+		return UOBJ_OAKLOG;
+	elseif (theobj >= 0x246c and theobj <= 0x247e)
+		return UOBJ_OAKLOG;
+	elseif (theobj >= 0x26ed and theobj <= 0x26f3)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x309c and theobj <= 0x30de)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x36a0 and theobj <= 0x36a1)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x39a3 and theobj <= 0x39d3)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x39e7 and theobj <= 0x3a1e)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x3a33 and theobj <= 0x3a44)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x3a9c and theobj <= 0x3aef)
+		return UOBJ_LOG;
+	else
+		return UOBJ_LOG;
+	endif
+endfunction
+
+
 function TryToEquipItem (character, item)
 	foreach equipped_item in ListEquippedItems (character)
 		if (equipped_item == item)
@@ -243,3 +289,285 @@ function DoRandomEvent (me, axe, tree, mex, mey)
 	endcase
 	return 0;
 endfunction
+
+///////////////////
+//  determines what type of logs are harvested
+///////////////////
+
+function DetermineLogType (character, tree)
+	var chance := RandomInt (100) + 1;
+	var racialboost := 0;
+	if (character.race == RACE_ELF)
+		racialboost := 20;
+		chance := chance + racialboost;
+	endif
+
+	case (tree)
+		GROUP_NORMAL_ORE:
+			if (chance < 7 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 14 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 21 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 29 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 38 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 49 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 60 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_IRON:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 15 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 20 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 25 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 32 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 40 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_BRONZE:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 15 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 20 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 25 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 32 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 80 and CheckSkill (character, SKILLID_MINING, 35 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_DULL_COPPER:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 15 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 20 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 25 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 60 and CheckSkill (character, SKILLID_MINING, 45 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 70 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_COPPER:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 15 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 20 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 55 and CheckSkill (character, SKILLID_MINING, 55 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 62 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 70 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_ONYX:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 15 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 45 and CheckSkill (character, SKILLID_MINING, 65 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 52 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 60 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 70 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_PYRITE:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 10 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 40 and CheckSkill (character, SKILLID_MINING, 75 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 45 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 50 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 60 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 70 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_MALACHITE:
+			if (chance < 5 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				if (region == REGION_WORLD)
+					return UOBJ_AZURITE_ORE;
+				elseif (RandomInt (2) )
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 30 and CheckSkill (character, SKILLID_MINING, 85 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 35 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 40 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 48 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 54 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 65 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_AZURITE:
+			if (chance < 22 and CheckSkill (character, SKILLID_MINING, 85 - racialboost, 0 ))
+				return UOBJ_AZURITE_ORE;
+			elseif (chance < 27 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 32 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 37 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 42 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 50 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 60 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_BLUESTEEL:
+			if (chance < 25 and CheckSkill (character, SKILLID_MINING, 85 - racialboost, 0 ))
+				if (RandomInt (8) == 0)
+					return UOBJ_RUBYSTEEL_ORE;
+				else
+					return UOBJ_BLUESTEEL_ORE;
+				endif
+			elseif (chance < 30 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 35 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 40 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 48 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 55 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 65 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+		GROUP_RUBYSTEEL:
+			if (chance < 25 and CheckSkill (character, SKILLID_MINING, 85 - racialboost, 0 ))
+				if (RandomInt (8) == 0)
+					return UOBJ_BLUESTEEL_ORE;
+				else
+					return UOBJ_RUBYSTEEL_ORE;
+				endif
+			elseif (chance < 30 and CheckSkill (character, SKILLID_MINING, 90 - racialboost, 0 ))
+				return UOBJ_MALACHITE_ORE;
+			elseif (chance < 35 and CheckSkill (character, SKILLID_MINING, 80 - racialboost, 0 ))
+				return UOBJ_PYRITE_ORE;
+			elseif (chance < 40 and CheckSkill (character, SKILLID_MINING, 70 - racialboost, 0 ))
+				return UOBJ_ONYX_ORE;
+			elseif (chance < 48 and CheckSkill (character, SKILLID_MINING, 60 - racialboost, 0 ))
+				return UOBJ_COPPER_ORE;
+			elseif (chance < 55 and CheckSkill (character, SKILLID_MINING, 50 - racialboost, 0 ))
+				return UOBJ_DULLCOPPER_ORE;
+			elseif (chance < 65 and CheckSkill (character, SKILLID_MINING, 40 - racialboost, 0 ))
+				return UOBJ_BRONZE_ORE;
+			else
+				return UOBJ_IRON_ORE;
+			endif
+
+	endcase
+endfunction
+

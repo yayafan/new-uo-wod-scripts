@@ -40,12 +40,14 @@ include "include/utility";
 
 program use_key (character, key)
 	var thetarget := Target (character);
-	if (thetarget.objtype == 0x1F01A)
-		thetarget := thetarget.multi.hold;
-	endif
 	if (!Accessible (character, thetarget))
 		PrintTextAbovePrivate (character, "You can't reach that", character);
 		return;
+	endif
+	if (thetarget.objtype == 0x1F01A)
+		thetarget := thetarget.multi.hold;
+	elseif (thetarget.objtype == 0x1F014)
+		thetarget := thetarget.multi.wheel[1];
 	endif
 
 	//Make sure that they're not locking the key within the container
@@ -65,7 +67,12 @@ program use_key (character, key)
 	endif
 
 	var lockid := GetObjProperty( key, "lockid" );
-	var targetlockid := GetObjProperty (thetarget, "lockid");
+	var targetlockid := 0;
+	if (thetarget.objtype == 0x1f015)
+		targetlockid := GetObjProperty (thetarget.multi.hold, "lockid");
+	else
+		targetlockid := GetObjProperty (thetarget, "lockid");
+	endif
 
 	if (!targetlockid)
 		PrintTextAbovePrivate (thetarget, "That doesn't have a lock.", character);
@@ -84,6 +91,8 @@ program use_key (character, key)
 		if (thetarget.objtype >= UOBJ_KEY_START and thetarget.objtype <= UOBJ_KEY_END)
 			PrintTextAbovePrivate (character, "These keys match", character);
 			return;
+		elseif (thetarget.objtype == 0x1F015)
+			LockShip (thetarget, character);
 		else
 			UnLockIt(thetarget,character);
 			return;
@@ -108,6 +117,16 @@ function UnLockIt (thetarget, character)
 	endif
 endfunction
 
+function LockShip (thetarget, character)
+	var locked := GetObjProperty(thetarget, "locked");
+	if (locked)
+		PrintTextAbovePrivate (thetarget, "You unlock it.", character);
+		SetObjProperty(thetarget, "locked", 0);
+	else
+		PrintTextAbovePrivate (thetarget, "You lock it.", character);
+		SetObjProperty(thetarget, "locked", 1);
+	endif
+endfunction
 
 
 
