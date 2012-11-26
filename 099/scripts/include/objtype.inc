@@ -257,7 +257,13 @@ Const UOBJ_SOULFORGE_ANVIL12		:= 0x4285;
 
 const UOBJ_LOGS				:= 0x1BDD;
 const UOBJ_LOG				:= 0x1BDD;
-
+const UOBJ_OAKLOG 	  		:= 0x15020;
+const UOBJ_ASHLOG				:= 0x15021;
+const UOBJ_YEWLOG				:= 0x15022;
+const UOBJ_HEARTWOODLOG				:= 0x15023;
+const UOBJ_BLOODWOODLOG				:= 0x15024;
+const UOBJ_FROSTWOODLOG				:= 0x15025;
+const UOBJ_SUNWOODLOG				:= 0x15026;
 
 
 
