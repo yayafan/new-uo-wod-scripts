@@ -17,7 +17,8 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 			SendSysMessage (character, "That has an owner's mark!");
 			return;
 		endif
-		DoCarpentryItemUpgrade (character, item, repair_skill);
+//		DoCarpentryItemUpgrade (character, item, repair_skill);
+    DoSpecialCarpentryStuff (character, item, repair_skill);
 		return;
 	endif
 
@@ -117,6 +118,53 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 	item.hp := item.maxhp + 1;
 	SendSysMessage (character, "You repair the item completely");
 	return;
+endfunction
+
+function DoSpecialCarpentryStuff (byref character, byref item, repair_skill)
+	//nothing we can do with player made items at the highest upgrade level
+	if (item.desc["exceptional"] or item.desc["Exceptional"])
+		SendSysMessage (character, "That item is in full repair.");
+		return;
+	endif
+
+	//if its a magic item and they're using carpentry, they can change the color of the item, or
+	//if its a breastplate, they can change its gender
+	if (IsMagicalItem (item))
+		if (repair_skill != SKILLID_CARPENTRY)
+			SendSysMessage (character, "That item is in full repair.");
+			return;
+		endif
+
+		if (item.graphic ==  0x2b6d or item.graphic == 0x2b67)
+			var menu := CreateMenu ("Options:");
+			AddMenuItem (menu, 0, "Laminate");
+			AddMenuItem (menu, 0, "Change gender");
+
+			var selection := SelectMenuItem2 (character, menu);
+			if (!selection)
+				SendSysMessage (character, "Canceled.");
+				return;
+			elseif (selection.index == 1)
+				DoWoodColorCoating (character, item, repair_skill);
+				return;
+			elseif (selection.index == 2)
+				ChangeGenderOfWoodenArmor (character, item, repair_skill);
+				return;
+			else
+				SendSysMessage (character, "You're not supposed to get this message.  Whoops.");
+				return;
+			endif
+			return;
+		else
+			DoWoodColorCoating (character, item, repair_skill);
+			return;
+		endif
+
+	//otherwise try to upgrade it
+	else
+		DoCarpentryItemUpgrade (character, item, repair_skill);
+		return;
+	endif
 endfunction
 
 
@@ -245,4 +293,175 @@ function PerformCarpentryItemUpgrade (character, item, found_lumber, material_ne
 	until (character.x != sx or character.y != sy);
 
 endfunction
+
+///////////////////
+//  allows the user to coat the given piece of equipment with another color
+///////////////////
+
+function DoWoodColorCoating (byref character, byref item, repair_skill)
+	var carpentry_cfg_file := ReadConfigFile( ":carpentry:carpentry" );
+	var elem := FindConfigElem (carpentry_cfg_file, item.graphic);
+	if (!elem)
+		SendSysMessage (character, "That item is in full repair.");
+		return;
+	endif
+
+	var material_needed := cint (elem.material/2);
+	var time_delay := elem.time;
+	if (time_delay > 1)
+		time_delay := time_delay - 1;
+	endif;
+
+	SendSysMessage (character, "That item is in full repair.");
+	SendSysMessage (character, "Laminating that item will take " + material_needed + " logs and 90 skill.");
+	if (GetAttribute (character, GetAttributeIDBySkillID (repair_skill)) < 90)
+		SendSysMessage (character, "Your skill is too low to laminate that item.");
+		return;
+	endif
+
+	SendSysmessage (character, "Target some logs to laminate the item with.");
+	var found_logs := Target (character);
+	if (!found_logs)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+	if (!ReserveItem (found_logs) )
+		SendSysMessage (character, "You cannot use that right now.");
+		return;
+	endif
+	if (!IsLogType (found_logs) )
+		SendSysMessage (character, "That's not a log!");
+		return;
+	endif
+	if (!Accessible (character, found_logs) )
+		SendSysMessage (character, "You can't reach that.");
+		return;
+	endif
+	if (found_logs.amount < material_needed)
+		SendSysMessage (character, "You need " + material_needed + " logs.  That's only " + found_logs.amount + "!");
+		return;
+	endif
+
+	var confirm_upgrade := YesNo (character, "Laminate?");
+	if (!confirm_upgrade)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	for i := 1 to time_delay
+		PlaySoundEffect(character, SFX_HAMMER);
+		sleep (2);
+	endfor
+	PlaySoundEffect(character, SFX_HAMMER);
+
+	if (RandomInt (1000) == 0)
+		if (!elem.laminate_nodestroy)
+			SendSysMessage (character, "You fail, destroying the item.");
+			DestroyItem (item);
+		else
+			SendSysMessage (character, "You fail, destroying some logs.");
+			SubtractAmount (found_logs, RandomInt (material_needed) );
+		endif
+		return;
+	elseif ( RandomInt (100) < 10 )
+		SendSysMessage (character, "You fail, destroying some logs.");
+		SubtractAmount (found_logs, RandomInt (material_needed) );
+		return;
+	else
+		SendSysMessage (character, "You succeed in laminating the item.");
+		item.color := found_logs.color;
+		SubtractAmount (found_logs, material_needed);
+		return;
+	endif
+
+endfunction
+
+
+
+
+///////////////////
+//  changes the gender of plate armor from male to female and back again
+///////////////////
+
+function ChangeGenderOfWoodenArmor (byref character, byref item, repair_skill)
+	var carpentry_cfg_file := ReadConfigFile( ":carpentry:carpentry" );
+	var elem := FindConfigElem (carpentry_cfg_file, item.graphic);
+	if (!elem)
+		SendSysMessage (character, "That item is in full repair.");
+		return;
+	endif
+
+	var material_needed := cint (elem.material/2);
+	var time_delay := elem.time;
+	if (time_delay > 1)
+		time_delay := time_delay - 1;
+	endif;
+
+	SendSysMessage (character, "That item is in full repair.");
+	SendSysMessage (character, "Changing the gender of that item will take " + material_needed + " logs and 90 skill.");
+	if (GetAttribute (character, GetAttributeIDBySkillID (repair_skill)) < 90)
+		SendSysMessage (character, "Your skill is too low to do this.");
+		return;
+	endif
+
+	SendSysmessage (character, "Target the logs to use:");
+	var found_logs := Target (character);
+	if (!found_logs)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+	if (!IsLogType (found_logs) )
+		SendSysMessage (character, "That's not a log!");
+		return;
+	endif
+	if (!ReserveItem (found_logs) )
+		SendSysMessage (character, "You cannot use that right now.");
+		return;
+	endif
+	if (!Accessible (character, found_logs) )
+		SendSysMessage (character, "You can't reach that.");
+		return;
+	endif
+	if (found_logs.amount < material_needed)
+		SendSysMessage (character, "You need " + material_needed + " logs.  That's only " + found_logs.amount + "!");
+		return;
+	endif
+
+	var confirm_upgrade := YesNo (character, "Change gender?");
+	if (!confirm_upgrade)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	for i := 1 to time_delay
+		PlaySoundEffect (character, SFX_HAMMER);
+		sleep (2);
+	endfor
+	PlaySoundEffect(character, SFX_HAMMER);
+
+	if (RandomInt (1000) == 0)
+		SendSysMessage (character, "You fail, destroying the item.");
+		DestroyItem (item);
+		return;
+	elseif ( RandomInt (100) < 10 )
+		SendSysMessage (character, "You fail, destroying some logs.");
+		SubtractAmount (found_logs, RandomInt (material_needed) );
+		return;
+	else
+		SendSysMessage (character, "You succeed in modifying the item.");
+		case (item.graphic)
+			0x2b67:
+				item.graphic := 0x2b6d;
+			0x2b6d:
+				item.graphic := 0x2b67;
+			default:
+				SendSysMessage (character, "Um, never mind.  I was thinking of a different type of item, I guess.");
+				return;
+		endcase
+		SubtractAmount (found_logs, material_needed);
+		return;
+	endif
+
+endfunction
+
 

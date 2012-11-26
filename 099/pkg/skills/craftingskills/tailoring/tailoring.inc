@@ -133,7 +133,8 @@ function DoSpecialTailoringStuff (character, item, repair_skill)
 	if (IsMagicalItem (item) and repair_skill == SKILLID_TAILORING)
 		if ( item.graphic == UOBJ_LEATHER_FEMALE or item.graphic == UOBJ_LEATHER_TUNIC or
 				item.graphic == UOBJ_STUDDED_FEMALE or item.graphic == UOBJ_STUDDED_TUNIC
-				or item.graphic == UOBJ_LEATHER_TUNIC2 or item.graphic == UOBJ_STUDDED_BUSTIER)
+				or item.graphic == UOBJ_LEATHER_TUNIC2 or item.graphic == UOBJ_STUDDED_BUSTIER
+        or item.graphic == 0x2fc5 or item.graphic == 0x2fcb or item.graphic == 0x2b74 or item.graphic == 0x2b79)
 			var menu := CreateMenu ("Options:");
 			AddMenuItem (menu, 0, "Reinforce");
 			AddMenuItem (menu, 0, "Change gender");
@@ -493,6 +494,14 @@ function ChangeGenderOfLeatherArmor (character, item, repair_skill)
 			UOBJ_STUDDED_FEMALE:
 			UOBJ_STUDDED_BUSTIER:
 				item.graphic := UOBJ_STUDDED_TUNIC;
+      0x2fc5:
+        item.graphic := 0x2fcb;
+      0x2fcb:
+        item.graphic := 0x2fc5;
+      0x2b74:
+        item.graphic := 0x2b79;
+      0x2b79:
+        item.graphic := 0x2b74;
 			default:
 				SendSysMessage (character, "Um, never mind.  I was thinking of a different type of item, I guess.");
 				return;
