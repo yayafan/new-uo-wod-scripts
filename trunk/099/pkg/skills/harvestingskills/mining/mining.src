@@ -484,7 +484,7 @@ function DetermineOreType (character, mining_type)
 	var racialboost := 0;
 	if (character.race == RACE_ELF)
 		racialboost := 20;
-		chance := chance + racialboost;
+		chance := chance - racialboost;
 	endif
 
 	case (mining_type)

@@ -69,11 +69,13 @@ function Do_Chops (character, axe, tree, mex, mey)
 		if (character.race == RACE_HUMAN)
 			wood_amount := wood_amount + RandomInt(2) + 1;
 		endif
+		var wood_type := DetermineWoodType (character, GetTreeType(tree));
+
 
 		craftingbag := FindCraftingBag (character);
-		var the_logs := CreateItemInContainer (craftingbag, UOBJ_LOG, wood_amount);
+		var the_logs := CreateItemInContainer (craftingbag, wood_type, wood_amount);
 		if (the_logs)
-			PrintTextAbovePrivate (character, "*"+the_logs.amount+" logs*", character);
+			PrintTextAbovePrivate (character, "*"+the_logs.desc+"*", character);
 			return 1;
 		else
 			PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
@@ -132,10 +134,74 @@ function CheckIfIsTree (theobj)
 	endif
 endfunction
 
+function DetermineWoodType (character, wood_group)
+	var chance := RandomInt (100) + 1;
+	var racialboost := 0;
+	if (character.race == RACE_ELF)
+		racialboost := 20;
+		chance := chance - racialboost;
+	endif
+	case (wood_group)
+		UOBJ_LOG:
+			return UOBJ_LOG;
 
-function DetermineTreeType (theobj)
-	if (theobj.realm == "britannia" and theobj.x >= 5120 and theobj.x <= 6142 and theobj.y >= 2305 and theobj.y <= 2402)
-		return UOBJ_FROSTWOOD;
+		UOBJ_OAKLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 65 - racialboost, 0 ))
+				return UOBJ_OAKLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_ASHLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 80 - racialboost, 0 ))
+				return UOBJ_ASHLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_YEWLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 95 - racialboost, 0 ))
+				return UOBJ_YEWLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_HEARTWOODLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 100 - racialboost, 0 ))
+				return UOBJ_HEARTWOODLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_BLOODWOODLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 100 - racialboost, 0 ))
+				return UOBJ_BLOODWOODLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_FROSTWOODLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 100 - racialboost, 0 ))
+				return UOBJ_FROSTWOODLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+		UOBJ_SUNWOODLOG:
+			if (chance < 25 and CheckSkill (character, SKILLID_LUMBERJACKING, 100 - racialboost, 0 ))
+				return UOBJ_SUNWOODLOG;
+			else
+				return UOBJ_LOG;
+			endif
+
+	endcase
+	return UOBJ_LOG;
+endfunction
+
+function GetTreeType (tree)
+	var theobj := tree.objtype;
+	if (tree.realm == "britannia" and tree.x >= 5120 and tree.x <= 6142 and tree.y >= 2305 and tree.y <= 2402)
+		return UOBJ_FROSTWOODLOG;
 	elseif (theobj == 0x0c95 or theobj == 0x0c96 or theobj == 0x0c9e)
 		return UOBJ_ASHLOG;
 	elseif (theobj == 0x0ca8 or theobj == 0x0caa or theobj == 0x0cab)

@@ -46,7 +46,7 @@ program use_carpentry_tool ( character, tool )
 	elseif (IsWoodenArmor (use_on) )
 		RepairCarpentryItem (character, tool, use_on, SKILLID_CARPENTRY);
 		return;
-	elseif (use_on.objtype == UOBJ_LOG)
+	elseif (IsLogType(use_on))
 		MakeCarpentryItems (character, tool, use_on);
 		return;
 	else
@@ -63,6 +63,10 @@ endprogram
 ///////////////////
 
 function MakeCarpentryItems (character, tool, logs)
+	if (!CheckSkillForDifferentWoods (character, logs.objtype) )
+		SendSysmessage (character, "You have no chance to successfully work with that wood.");
+		return;
+	endif
 	//calls the SelectWhatToMakeFromMenu function found in makemenu.inc, in /scripts/include
 	var carpentry_cfg_file := ReadConfigFile ( "carpentry" );    
 	var chosen_item := SelectWhatToMakeFromMenu (character, "mainmenu", carpentry_cfg_file, GetAttribute (character, ATTRIBUTEID_CARPENTRY), logs.amount, "Carpentry:" );
@@ -157,6 +161,11 @@ function MakeCarpentryItems (character, tool, logs)
 			created_item.movable := 1;
 			created_item.buyprice := 0;
 			SendSysMessage (character, "You place the item in your backpack.");
+			//set the color
+			if (logs.color)
+				created_item.color := logs.color;
+			endif
+			SetObjProperty (created_item, "material_objtype", logs.objtype);
 			SubtractAmount (logs, material_needed);
 			if (!item_stackable)
 				created_item.name := item_name + " [crafted by " + character.name + "]";
@@ -303,6 +312,44 @@ function MakeKindling (character, logs)
 
 endfunction
 
+function CheckSkillForDifferentWoods (byref character, byref logtype)
+
+	var character_skill := GetAttribute (character, ATTRIBUTEID_CARPENTRY);
+
+	case ( logtype )
+		UOBJ_LOG:
+			return 1;   //anyone can work with normal wood
+		UOBJ_OAKLOG:
+			if (character_skill > 60)
+				return 1;
+			endif
+		UOBJ_ASHLOG:
+			if (character_skill > 75)
+				return 1;
+			endif
+		UOBJ_YEWLOG:
+			if (character_skill > 90)
+				return 1;
+			endif
+		UOBJ_HEARTWOODLOG:
+			if (character_skill > 98)
+				return 1;
+			endif
+ 		UOBJ_BLOODWOODLOG:
+			if (character_skill > 98)
+				return 1;
+			endif
+		UOBJ_FROSTWOODLOG:
+			if (character_skill > 98)
+				return 1;
+			endif
+ 		UOBJ_SUNWOODLOG:
+			if (character_skill > 98)
+				return 1;
+			endif
+	endcase
+	return 0;
+endfunction
 
 
 

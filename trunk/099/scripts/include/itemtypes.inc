@@ -1192,3 +1192,23 @@ function IsWand(byref item)
   return 0;
 endfunction
 
+function IsLogType(byref item)
+  if (item.objtype == UOBJ_LOG)
+    return 1;
+  elseif (item.objtype == UOBJ_OAKLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_ASHLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_YEWLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_HEARTWOODLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_BLOODWOODLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_FROSTWOODLOG)
+    return 1;
+  elseif (item.objtype == UOBJ_SUNWOODLOG)
+    return 1;
+  endif
+  return 0;
+endfunction
