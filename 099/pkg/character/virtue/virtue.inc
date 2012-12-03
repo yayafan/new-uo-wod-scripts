@@ -135,54 +135,54 @@ function GetVirtueGuardTitle (who, virtue)
 	endif
 
 	if (virtue < 200)
-		return "Squire ";
+		return "Squire";
 	elseif ( virtue < 400 )
 		if (who.gender)
-			return "Dame ";
+			return "Dame";
 		else
-			return "Sir ";
+			return "Sir";
 		endif
 	elseif ( virtue < 800 )
 		if (who.gender)
-			return "The Esteemed Dame ";
+			return "The Esteemed Dame";
 		else
-			return "The Esteemed Sir ";
+			return "The Esteemed Sir";
 		endif
 	elseif ( virtue < 1600 )
 		if (who.gender)
-			return "The Noble Dame ";
+			return "The Noble Dame";
 		else
-			return "The Noble Sir ";
+			return "The Noble Sir";
 		endif
 	elseif ( virtue < 3200 )
 		if (who.gender)
-			return "The Illustrious Dame ";
+			return "The Illustrious Dame";
 		else
-			return "The Illustrious Sir ";
+			return "The Illustrious Sir";
 		endif
 	elseif ( virtue < 6400 )
 		if (who.gender)
-			return "Lady ";
+			return "Lady";
 		else
-			return "Lord ";
+			return "Lord";
 		endif
 	elseif ( virtue < 12800 )
 		if (who.gender)
-			return "The Noble Lady ";
+			return "The Noble Lady";
 		else
-			return "The Noble Lord ";
+			return "The Noble Lord";
 		endif
 	elseif ( virtue < 25600 )
 		if (who.gender)
-			return "The Illustrious Lady ";
+			return "The Illustrious Lady";
 		else
-			return "The Illustrious Lord ";
+			return "The Illustrious Lord";
 		endif
 	else
 		if (who.gender)
-			return "The Glorious Lady ";
+			return "The Glorious Lady";
 		else
-			return "The Glorious Lord ";
+			return "The Glorious Lord";
 		endif
 	endif
 endfunction
@@ -203,39 +203,39 @@ function GetNonVGTitle (who, virtue)
 	endif
 
 	if ( virtue < -25600 )
-		return "The Sinister ";
+		return "The Sinister";
 	elseif ( virtue < -12800 )
-		return "The Vile ";
+		return "The Vile";
 	elseif ( virtue < -6400 )
-		return "The Ignoble ";
+		return "The Ignoble";
 	elseif ( virtue < -3200 )
-		return "The Malicious ";
+		return "The Malicious";
 	elseif ( virtue < -1600 )
-		return "The Dastardly ";
+		return "The Dastardly";
 	elseif ( virtue < -800 )
-		return "The Dishonorable ";
+		return "The Dishonorable";
 	elseif ( virtue < -400 )
-		return "The Unsavory ";
+		return "The Unsavory";
 	elseif ( virtue < -200 )
-		return "The Rude ";
+		return "The Rude";
 	elseif ( virtue < 200 )
 		return "";
 	elseif ( virtue < 400 )
-		return "The Honorable ";
+		return "The Honorable";
 	elseif ( virtue < 800 )
-		return "The Commendable ";
+		return "The Commendable";
 	elseif ( virtue < 1600 )
-		return "The Admirable ";
+		return "The Admirable";
 	elseif ( virtue < 3200 )
-		return "The Reknowned  ";
+		return "The Reknowned";
 	elseif ( virtue < 6400 )
-		return "The Famed ";
+		return "The Famed";
 	elseif ( virtue < 12800 )
-		return "The Noble ";
+		return "The Noble";
 	elseif ( virtue < 25600 )
-		return "The Illustrious ";
+		return "The Illustrious";
 	else
-		return "The Glorious ";
+		return "The Glorious";
 	endif
 endfunction
 
@@ -411,7 +411,7 @@ function CanJoin(guard, recruit, guardtype, shieldtype)
 	endif
 
 	setobjproperty(recruit,"guardtype",guardtype);
-	recruit.title_prefix := "Squire ";
+	recruit.title_prefix := "Squire";
 	recruit.title_suffix := ", Virtue Guard";
 	var newshield := CreateItemAtLocation(recruit.x , recruit.y , recruit.z,
 		shieldtype,1, recruit.realm);

@@ -33,7 +33,7 @@ program find_houses ()
 		WriteHTML ("</body></html>");
 		return;
 	endif
-	
+	acctname := lower(acctname);
 	var acct := FindAccount (acctname);
 	if (!acct)
 		WriteHTML ("That account does not exist</body></html>");

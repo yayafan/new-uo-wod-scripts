@@ -293,8 +293,10 @@ function HasBow ()
 			ammotype := UOBJ_BOLT;
 		UOBJ_FIRE_BOW:
 			ammotype := UOBJ_FIRE_ARROW;
-		UOBJ_THROWING_POUCH:
+		UOBJ_DART_THROWER:
 			ammotype := UOBJ_DART;
+		UOBJ_SHURIKEN_THROWER:
+			ammotype := UOBJ_SHURIKEN;
 		default:
 			return 0;
 	endcase

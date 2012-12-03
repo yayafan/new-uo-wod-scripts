@@ -129,6 +129,28 @@ function CheckIfIsTree (theobj)
 		return 1;
 	elseif (theobj >= 0x12b6 and theobj <= 0x12c7)
 		return 1;
+	elseif (theobj == 0x224a or theobj == 0x224b)
+		return 1;
+	elseif (theobj == 0x224c or theobj == 0x224d)
+		return 1;
+	elseif (theobj >= 0x246c and theobj <= 0x247e)
+		return 1;
+	elseif (theobj >= 0x26ed and theobj <= 0x26f3)
+		return 1;
+	elseif (theobj >= 0x309c and theobj <= 0x30de)
+		return 1;
+	elseif (theobj >= 0x3122 and theobj <= 0x3124)
+		return 1;
+	elseif (theobj >= 0x36a0 and theobj <= 0x36a1)
+		return 1;
+	elseif (theobj >= 0x39a3 and theobj <= 0x39d3)
+		return 1;
+	elseif (theobj >= 0x39e7 and theobj <= 0x3a1e)
+		return 1;
+	elseif (theobj >= 0x3a33 and theobj <= 0x3a44)
+		return 1;
+	elseif (theobj >= 0x3a9c and theobj <= 0x3aef)
+		return 1;
 	else
 		return 0;
 	endif
@@ -200,9 +222,14 @@ endfunction
 
 function GetTreeType (tree)
 	var theobj := tree.objtype;
-	if (tree.realm == "britannia" and tree.x >= 5120 and tree.x <= 6142 and tree.y >= 2305 and tree.y <= 2402)
-		return UOBJ_FROSTWOODLOG;
-	elseif (theobj == 0x0c95 or theobj == 0x0c96 or theobj == 0x0c9e)
+	if (tree.realm == "britannia")
+		if (tree.x >= 5120 and tree.x <= 6142 and tree.y >= 2305 and tree.y <= 2402)
+			return UOBJ_FROSTWOODLOG;
+		elseif(tree.x >= 6910 and tree.x <= 7167 and tree.y >= 258 and tree.y <= 511)
+			return UOBJ_HEARTWOODLOG;
+		endif
+	endif
+	if (theobj == 0x0c95 or theobj == 0x0c96 or theobj == 0x0c9e)
 		return UOBJ_ASHLOG;
 	elseif (theobj == 0x0ca8 or theobj == 0x0caa or theobj == 0x0cab)
 		return UOBJ_LOG;
@@ -227,6 +254,8 @@ function GetTreeType (tree)
 	elseif (theobj >= 0x26ed and theobj <= 0x26f3)
 		return UOBJ_LOG;
 	elseif (theobj >= 0x309c and theobj <= 0x30de)
+		return UOBJ_LOG;
+	elseif (theobj >= 0x3122 and theobj <= 0x3124)
 		return UOBJ_LOG;
 	elseif (theobj >= 0x36a0 and theobj <= 0x36a1)
 		return UOBJ_LOG;

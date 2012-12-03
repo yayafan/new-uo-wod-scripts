@@ -153,7 +153,7 @@ endfunction
 ///////////////////
 
 function IsKeggablePotion (potion_objtype)
-	if (potion_objtype == 0xdce)
+	if (potion_objtype == 0xdce6)
 		return 1;
 	elseif (potion_objtype >= 0xdc01 and potion_objtype <= 0xdc29)
 		return 1;

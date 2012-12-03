@@ -263,7 +263,7 @@ function MakeLeatherItems (character, material)
 				if (!upgrade_material)
 					SendSysMessage (character, "Canceled.");
 					return;
-				elseif (!IsTypeOfHide (upgrade_material.objtype) )
+				elseif (!IsTypeOfHide (upgrade_material) )
 					SendSysMessage (character, "That's not a hide!");
 					return;
 				endif
@@ -286,7 +286,7 @@ function MakeLeatherItems (character, material)
 			if (!upgrade_material)
 				SendSysMessage (character, "Canceled.");
 				return;
-			elseif (!IsTypeOfHide (upgrade_material.objtype) )
+			elseif (!IsTypeOfHide (upgrade_material) )
 				SendSysMessage (character, "That's not a hide!");
 				return;
 			endif
@@ -329,6 +329,7 @@ function MakeLeatherItems (character, material)
 				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
 				return;
 			endif
+			created_item.hp := created_item.maxhp + 1;
 
 			SendSysMessage (character, "You place the item in your backpack.");
 			//set the color

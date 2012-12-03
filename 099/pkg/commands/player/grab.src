@@ -160,9 +160,9 @@ Function grabit (byref me, byref it)
 	//.grab 2 forces all items to go into the selected bag.
 	if (forcebag)
 		if (MoveItemToContainer (it, lootbag, 1, 1 ))
-			if (IsMagicalItem (it) )
-				PrintTextAbove (me, "*"+it.desc+"*");
-			elseif (GetObjProperty (it, "ownerserial"))
+			if (GetObjProperty (it, "ownerserial"))
+				PrintTextAbove (me, "*"+GetObjProperty (it, "ownername")+"'s "+GetObjProperty(it, "oldname")+"*");
+			elseif (IsMagicalItem (it) )
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))
 				PrintTextAbove (me, "*"+it.desc+"*");
@@ -204,9 +204,9 @@ Function grabit (byref me, byref it)
 	//If its a non-stackable item, just move it to the bag
 	if (!IsStackableItem (it) )
 		if (MoveItemToContainer (it, targetbag, 1, 1 ))
-			if (IsMagicalItem (it) )
-				PrintTextAbove (me, "*"+it.desc+"*");
-			elseif (GetObjProperty (it, "ownerserial"))
+			if (GetObjProperty (it, "ownerserial"))
+				PrintTextAbove (me, "*"+GetObjProperty (it, "ownername")+"'s "+GetObjProperty(it, "oldname")+"*");
+			elseif (IsMagicalItem (it) )
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))
 				PrintTextAbove (me, "*"+it.desc+"*");

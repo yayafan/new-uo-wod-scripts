@@ -100,7 +100,7 @@ program DisplayHelpMenu (character)
 			OpenBrowser (character, "http://www.theworldofdreams.com/");
 			return;
 		5:
-			OpenBrowser (character, "http://wodman.serveftp.net/");
+			OpenBrowser (character, "http://www.theworldofdreams.com/manual/index.php?title=Main_Page");
 			return;
 		6:
 			PutInAHelpPage (character);

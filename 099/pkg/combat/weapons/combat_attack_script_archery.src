@@ -165,11 +165,15 @@ program combat_attack_script (parms)
 	case (ammo_objtype)
 			0x16051:	//firearrow
 			0x16053:	//firebolt
+			0x16055:	//firedart
+			0x16057:	//fireshuriken
 				var half_damage := CINT (modified_damage/2);
 				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
 				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_FIRE);
 			0x16052:	//frostarrow
 			0x16054:	//frostbolt
+			0x16056:	//frostdart
+			0x16058:	//frostshuriken
 				var half_damage := CINT (modified_damage/2);
 				DoDamageByType (attacker, defender, (half_damage+1), DAMAGETYPE_PHYSICAL);
 				DoDamageByType (attacker, defender, (half_damage+3), DAMAGETYPE_COLD);
@@ -360,16 +364,20 @@ function HenchmanCheckForAmmo ()
 				ammo_objtype := UOBJ_FIRE_ARROW;
 			elseif (ammo_objtype == UOBJ_BOLT)
 				ammo_objtype := UOBJ_FIRE_BOLT;
-			else
+			elseif (ammo_objtype == UOBJ_DART)
 				ammo_objtype := UOBJ_FIRE_DART;
+			else
+				ammo_objtype := UOBJ_FIRE_SHURIKEN;
 			endif
 		elseif (defender_npcdesc_elem.cold and defender_npcdesc_elem.cold == "weak")
 			if (ammo_objtype == UOBJ_ARROW)
 				ammo_objtype := UOBJ_FROST_ARROW;
 			elseif (ammo_objtype == UOBJ_BOLT)
 				ammo_objtype := UOBJ_FROST_BOLT;
-			else
+			elseif (ammo_objtype == UOBJ_DART)
 				ammo_objtype := UOBJ_FROST_DART;
+			else
+				ammo_objtype := UOBJ_FROST_SHURIKEN;
 			endif
 		endif
 	endif
@@ -429,6 +437,7 @@ function PerformArrowAttackAnim ()
 			0x16051:	//firearrow
 			0x16053:	//firebolt
 			0x16055:	//firedart
+			0x16057:	//fireshuriken
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x36D4, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x15F);
@@ -437,6 +446,7 @@ function PerformArrowAttackAnim ()
 			0x16052:	//frostarrow
 			0x16054:	//frostbolt
 			0x16056:	//frostdart
+			0x16058:	//frostshuriken
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x1bfe, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x2b3);
