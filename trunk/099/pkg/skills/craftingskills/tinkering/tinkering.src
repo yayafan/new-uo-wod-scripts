@@ -57,6 +57,9 @@ program MakeTinkerItems (character, item)
 	elseif (IsWoodenShield (use_on) and item.objtype == UOBJ_TINKER_TOOLKIT)
 		RepairCarpentryItem (character, item, use_on, SKILLID_TINKERING);
 		return;
+	elseif (IsWoodenArmor (use_on) and item.objtype == UOBJ_TINKER_TOOLKIT)
+		RepairCarpentryItem (character, item, use_on, SKILLID_TINKERING);
+		return;
 	elseif (IsWoodenWeapon (use_on) and item.objtype == UOBJ_TINKER_TOOLKIT)
 		RepairCarpentryItem (character, item, use_on, SKILLID_TINKERING);
 		return;

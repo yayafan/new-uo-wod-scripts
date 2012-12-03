@@ -67,12 +67,7 @@ program use_key (character, key)
 	endif
 
 	var lockid := GetObjProperty( key, "lockid" );
-	var targetlockid := 0;
-	if (thetarget.objtype == 0x1f015)
-		targetlockid := GetObjProperty (thetarget.multi.hold, "lockid");
-	else
-		targetlockid := GetObjProperty (thetarget, "lockid");
-	endif
+	var targetlockid := GetObjProperty (thetarget, "lockid");
 
 	if (!targetlockid)
 		PrintTextAbovePrivate (thetarget, "That doesn't have a lock.", character);

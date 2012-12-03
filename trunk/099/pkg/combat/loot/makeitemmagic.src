@@ -171,46 +171,46 @@ function MakeWeaponMagical (item, magic_quality_chance)
 			0:
 			1:
 				spellname := ":statmod_spells:feeblemind";
-				suffixex := "feeblemindedness";
+				suffixex := "Feeblemindedness";
 				num_charges := 30 + RandomInt (magic_quality_chance);
 			2:
 			3:
 				spellname := ":statmod_spells:clumsy";
-				suffixex := "clumsiness";
+				suffixex := "Clumsiness";
 				num_charges := 30 + RandomInt (magic_quality_chance);
 			4:
 			5:
 				spellname := ":statmod_spells:weakness";
-				suffixex := "weakness";
+				suffixex := "Weakness";
 				num_charges := 30 + RandomInt (magic_quality_chance);
 			6:
 				spellname := ":damage_spells:harm";
-				suffixex := "harming";
+				suffixex := "Harming";
 				num_charges := 20 + RandomInt(CINT(magic_quality_chance/2));
 			7:
 				spellname := ":damage_spells:fireball";
-				suffixex := "flametoungue";
+				suffixex := "Flametoungue";
 				num_charges := 20 + RandomInt(CINT(magic_quality_chance/2));
 			8:
 			9:
 				spellname := ":statmod_spells:curse";
-				suffixex := "cursing";
+				suffixex := "Cursing";
 				num_charges := 20 + RandomInt (magic_quality_chance);
 			10:
 				spellname := ":damage_spells:lightning";
-				suffixex := "lightning";
+				suffixex := "Lightning";
 				num_charges := 20 + RandomInt(CINT(magic_quality_chance/2));
 			11:
 				spellname := ":statmod_spells:paralyze";
-				suffixex := "paralyzation";
+				suffixex := "Paralyzation";
 				num_charges := 20 + RandomInt(CINT(magic_quality_chance/2));
 			12:
 				spellname := ":summoning_spells:massdispel";
-				suffixex := "dispelling";
+				suffixex := "Dispelling";
 				num_charges := 20 + RandomInt (magic_quality_chance);
 			13:
 				spellname := ":misc_spells:manadrain";
-				suffixex := "draining";
+				suffixex := "Draining";
 				num_charges := 20 + RandomInt (magic_quality_chance);
 			endcase
 		var suffix := GetObjProperty (item, "suffix");
@@ -435,7 +435,7 @@ function SpecialArmorSpell (item, magic_quality_chance)
 		if (charges < 20)
 			charges := 10 + RandomInt (15);
 		endif
-		case (RandomInt (4) )
+		case (RandomInt (5) )
 			0:	//magic reflect
 				SetObjproperty (item, "equipspell", "magicreflect");
 				SetObjproperty (item, "charges", charges);

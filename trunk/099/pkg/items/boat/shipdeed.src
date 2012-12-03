@@ -139,6 +139,8 @@ program useshipdeed( character, deed )
 	foreach wheel in (created.ship.wheel)
 		SetObjProperty (wheel,			"owner", character.serial );
 		SetObjProperty (wheel,			"shiptype", deedtype ); 
+		SetObjProperty (wheel,			"lockid", lockid ); 
+		SetObjProperty (wheel,			"locked", 1 ); 
 		wheel.usescript := ":boat:tillerman";
 //		created.ship.tillerman := wheel;
 	endforeach

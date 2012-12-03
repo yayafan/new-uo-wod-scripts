@@ -9,6 +9,7 @@ include "include/utility";
 include "../pkg/items/housing/house";
 
 program onremove_chest (character, container, item, movetype)
+	container.name := container.desc;
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif

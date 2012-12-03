@@ -11,7 +11,7 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 	endif
 
 	//if the item is in full repair, try to do special stuff
-	if (item.hp >= item.maxhp + 1)
+	if (item.hp >= item.maxhp)
 		if ( GetObjProperty (item,"ownerserial") )
 			SendSysMessage (character, "That item is in full repair.");
 			SendSysMessage (character, "That has an owner's mark!");

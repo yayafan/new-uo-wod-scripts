@@ -1,0 +1,146 @@
+/* $Id: toolTips.src 104 2006-05-25 22:14:15Z montuz $
+ *	Description: AOS Tooltips. Starter script.
+ *	This packet takes awhile to get used to.
+ *	HEAVILY modified by Agata
+ */
+
+use uo;
+use cfgfile;
+use polsys;
+
+include "include/skills";
+
+const OFFSET_OBJECT_SERIAL   := 0x05;
+const OFFSET_CLILOC_ID       := 0x0F;
+const OFFSET_LENGTH_ID       := 0x13;
+const OFFSET_UNICODE_TEXT    := 0x14;
+
+program Install()
+
+	 Print("INSTALLING: Outgoing Tooltip PH...");
+	 return 1;
+
+endprogram
+
+exported function MegaCliloc( who, byref packet )
+	if (who)
+	endif
+
+	var xObject := SystemFindObjectBySerial(packet.GetInt32(OFFSET_OBJECT_SERIAL));
+
+	if ( xObject.IsA(POLCLASS_ITEM) )
+		packet.SetSize(15);
+
+		var Object_Name := xObject.desc;
+		Object_Name := CAscZ(Object_Name);
+
+		packet.SetInt32(OFFSET_CLILOC_ID, 1042971);
+		packet.SetUnicodeString(OFFSET_UNICODE_TEXT, Object_Name, 1);
+		// I've noticed that this packet is only sent if this value has changed
+		// from the last time it was checked. And using html to change the size doesn't work
+		// for some reason. Maybe a core/client issue?
+		packet.SetInt16(OFFSET_LENGTH_ID, Object_Name.Size() * 2);
+
+		// Start of Loop.
+
+		// This is where you'll be putting all your properties. <br> to break a new line.
+		// You wont need to add anymore cliloc id's because you can just add all the props
+		// into one string.
+		var Html := "<BASEFONT COLOR=#FFFFFF><C>";
+		var xDesc := "";
+		// Examples :)
+		var owner := GetObjProperty(xObject, "ownername");
+		if (owner)
+			xDesc := xDesc + Html + "Owned by " + owner + "<br>";
+		endif
+		if (xObject.isa(POLCLASS_ARMOR))
+			xDesc := xDesc + Html + "Armor Rating: " + xObject.ar + "<br>";
+			if (xobject.resist_poison)
+				xDesc := xDesc + Html + "Poison Protection: " + xObject.resist_poison + " charges<br>";
+			endif
+			if (xobject.resist_fire)
+				xDesc := xDesc + Html + "Fire Resistance: " + xObject.resist_fire + " charges<br>";
+			endif
+			if (xobject.resist_cold)
+				xDesc := xDesc + Html + "Frost Resistance: " + xObject.resist_cold + " charges<br>";
+			endif
+			if (xobject.resist_energy)
+				xDesc := xDesc + Html + "Electrical Resistance: " + xObject.resist_energy + " charges<br>";
+			endif
+			var skillid := GetObjProperty(xObject, "skilladv");
+			if (skillid)
+				var skillname := GetSkillName(skillid);
+				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
+			endif
+//			xDesc := xDesc + Html + "Hit Points: " + xObject.hp + " / " + xObject.maxhp + "<br>";
+			var total_damage := CINT (GetObjProperty (xObject, "total_damage"));
+			xDesc := xDesc + Html + "Hit Points: " + CINT(xObject.hp - total_damage) + " / " + CINT(xObject.maxhp - total_damage) + "<br>";
+//			if (total_damage)
+//				xDesc := xDesc + Html + "Long Term Damage: " + total_damage + " / "  + xObject.maxhp + "<br>";
+//			endif			
+		elseif (xObject.isa(POLCLASS_WEAPON))
+			if (GetObjProperty(xObject, "silver"))
+				xDesc := xDesc + Html + "Silver Weapon<br>";
+			endif
+			var weapondesc := GetItemDescriptor(xObject.objtype);
+			var damagefactor := (xObject.hp * xObject.quality)/xObject.maxhp;
+			xDesc := xDesc + Html + "Damage: " + CINT((weapondesc.MinDamage + xObject.dmg_mod)*damagefactor) + " - " + CINT((weapondesc.MaxDamage + xObject.dmg_mod)*damagefactor) + "<br>";
+//			if (xObject.dmg_mod)
+//				xDesc := xDesc + Html + "Damage Bonus: " + xObject.dmg_mod + "<br>";
+//			endif
+			xDesc := xDesc + Html + "Skill: " + xObject.attribute + "<br>";
+			var skillid := GetObjProperty(xObject, "skilladv");
+			if (skillid)
+				var skillname := GetSkillName(skillid);
+				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
+			endif
+			var spell := GetObjProperty(xObject, "itemspellname");
+			if (spell)
+				var charges := GetObjProperty(xObject, "charges");
+				if (charges)
+					xDesc := xDesc + Html + spell + " charges: " + charges + "<br>";
+				endif
+			endif
+//			xDesc := xDesc + Html + "Hit Points: " + xObject.hp + " / " + xObject.maxhp + "<br>";
+			var total_damage := CINT (GetObjProperty (xObject, "total_damage"));
+			xDesc := xDesc + Html + "Hit Points: " + CINT(xObject.hp - total_damage) + " / " + CINT(xObject.maxhp - total_damage) + "<br>";
+//			if (total_damage)
+//				xDesc := xDesc + Html + "Long Term Damage: " + total_damage + " / "  + xObject.maxhp + "<br>";
+//			endif
+		elseif (xObject.isa(POLCLASS_CONTAINER))
+			xDesc := xDesc + Html + "Contains: " + CINT(xObject.item_count-1) + " items<br>";
+		endif
+		if (xObject.isa(POLCLASS_SPELLBOOK))
+			xDesc := xDesc + Html + xObject.spells().size() + " spells<br>";
+		endif
+		if (!xObject.isa(POLCLASS_CORPSE))
+			xDesc := xDesc + Html + "Weight: " + xObject.weight + " stones<br>";
+		endif
+		if ( xObject.newbie )
+			xDesc := xDesc + Html + "Blessed<br>";
+		endif
+
+		xDesc := CAscZ(xDesc);
+
+		if ( xDesc.Size() > 0 )
+			// Cliloc ID if these two ID's match it'll only show one line.
+			packet.SetInt32(packet.GetSize() - 1, 1070722);
+
+			// Get the offset of where the next text size
+			var Length_ID := packet.GetSize();
+			packet.SetUnicodeString(packet.GetSize() + 1, xDesc, 1);
+
+			// SetUnicodeString adds 00 BYTE[1] at the start of the Unicode offset, which messes with the length offset.
+			// Setting the length of the unicode text below will fix that issue. Same deal as above.
+			packet.SetInt16(Length_ID, xDesc.Size() * 2);
+		endif
+
+		// End of loop.
+
+		packet.SetInt32(packet.GetSize(), 0);
+//		packet.SendPacket(who);
+	endif
+
+	return 0;
+
+endfunction

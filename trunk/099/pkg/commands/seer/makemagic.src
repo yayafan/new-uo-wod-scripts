@@ -567,33 +567,43 @@ function DoSuffixProcessing (speaker, item, gump_return)
 			case (suffix_type2)
 				301:
 					AddToItemSuffix (item, "Feeblemindedness");
+					SetObjProperty (item, "itemspellname", "Feeblemindedness");
 					SetObjProperty (item, "hitspell", ":statmod_spells:feeblemind");
 				302:
 					AddToItemSuffix (item, "Clumsiness");
+					SetObjProperty (item, "itemspellname", "Clumsiness");
 					SetObjProperty (item, "hitspell", ":statmod_spells:clumsy");
 				303:
 					AddToItemSuffix (item, "Weakness");
+					SetObjProperty (item, "itemspellname", "Weakness");
 					SetObjProperty (item, "hitspell", ":statmod_spells:weakness");
 				304:
 					AddToItemSuffix (item, "Harming");
+					SetObjProperty (item, "itemspellname", "Harming");
 					SetObjProperty (item, "hitspell", ":damage_spells:harm");
 				305:
 					AddToItemSuffix (item, "Flametongue");
+					SetObjProperty (item, "itemspellname", "Flametongue");
 					SetObjProperty (item, "hitspell", ":damage_spells:fireball");
 				306:
 					AddToItemSuffix (item, "Cursing");
+					SetObjProperty (item, "itemspellname", "Cursing");
 					SetObjProperty (item, "hitspell", ":statmod_spells:curse");
 				307:
 					AddToItemSuffix (item, "Lightning");
+					SetObjProperty (item, "itemspellname", "Lightning");
 					SetObjProperty (item, "hitspell", ":damage_spells:lightning");
 				308:
 					AddToItemSuffix (item, "Paralyzation");
+					SetObjProperty (item, "itemspellname", "Paralyzation");
 					SetObjProperty (item, "hitspell", ":statmod_spells:paralyze");
 				309:
 					AddToItemSuffix (item, "Dispelling");
+					SetObjProperty (item, "itemspellname", "Dispelling");
 					SetObjProperty (item, "hitspell", ":summoning_spells:massdispel");
 				310:
 					AddToItemSuffix (item, "Draining");
+					SetObjProperty (item, "itemspellname", "Draining");
 					SetObjProperty (item, "hitspell", ":misc_spells:manadrain");
 				default:
 					numcharges := 0;
@@ -603,6 +613,7 @@ function DoSuffixProcessing (speaker, item, gump_return)
 			else
 				EraseObjProperty (item, "charges");
 				EraseObjProperty (item, "hitspell");
+				EraseObjProperty (item, "itemspellname");
 			endif
 		else
 			EraseObjProperty (item, "charges");

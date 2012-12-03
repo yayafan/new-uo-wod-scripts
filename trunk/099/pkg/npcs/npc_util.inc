@@ -16,7 +16,8 @@ function RandomName (byref me)
 	var name_index := 0;
 	case ( me.graphic )
 		CID_BIRD:				name_index := 1;
-		CID_DAEMON:			name_index := 2;
+    0x2b:
+		CID_DAEMON:
 		CID_DAEMON_SWORD:		name_index := 2;
 		CID_DRAGON_RED:
 		CID_DRAGON_GREY: 

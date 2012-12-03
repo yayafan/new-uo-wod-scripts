@@ -6,8 +6,7 @@ include "include/objtype";
 include "include/magicitems";
 
 program onremove_corpse (character, corpse, item, movetype)
-	if (corpse)
-	endif
+	corpse.name := corpse.desc;
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif
@@ -21,7 +20,7 @@ program onremove_corpse (character, corpse, item, movetype)
 		PrintTextAbove (character, "*"+item.desc+"*");
 	elseif (GetObjProperty (item, "questitem"))
 		PrintTextAbove (character, "*"+item.desc+"*");
-	elseif (item.objtype >= 0x6003 and item.objtype <= 0x6007)
+	elseif (item.objtype >= 0x16003 and item.objtype <= 0x16007)
 		PrintTextAbove (character, "*"+item.desc+"*");
 	elseif (item.desc["treasure"] or item.desc["glowing"])
 		PrintTextAbove (character, "*"+item.desc+"*");

@@ -210,7 +210,7 @@ program combat_attack_script (parms)
 			SendSysmessage (attacker, "The void eats away at your weapon!");
 		endif
 		attacker_weapon.hp := attacker_weapon.hp - 5 - RandomInt (5);
-		if (attacker_weapon.hp <= 0 or attacker_weapon.hp > attacker_weapon.maxhp)
+		if (attacker_weapon.hp <= 0)
 			DestroyItem (attacker_weapon);
 			SendSysMessage (attacker, "The void has consumed your weapon!");
 		endif

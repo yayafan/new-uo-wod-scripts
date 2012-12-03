@@ -16,7 +16,7 @@ var gump_layout := array {
 
 //var skillmastercfg := ReadConfigFile(":skills:skillmaster");
 var skills := array {};
-const LASTPAGE := 4;
+const LASTPAGE := 3;
 
 program SkillWindow (me, text)
 	if (text)

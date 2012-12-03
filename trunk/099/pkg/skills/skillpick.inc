@@ -6,7 +6,7 @@ include "include/client";
 include "include/string";
 include "include/attributes";
 
-const LASTPAGE := 5;
+const LASTPAGE := 4;
 const skillvalcolor := " 2400 ";
 const skillnamecolor := " 0 ";
 

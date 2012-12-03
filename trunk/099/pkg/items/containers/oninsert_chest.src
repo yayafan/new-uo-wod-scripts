@@ -12,6 +12,7 @@ include "../pkg/items/housing/house";
 program oninsert_chest (character, container, movetype, null_value, item, existing_stack, amt_to_add)
 	if (amt_to_add and existing_stack and null_value)
 	endif
+	container.name := container.desc;
 	if (movetype != MOVETYPE_PLAYER)
 		return 1;
 	endif

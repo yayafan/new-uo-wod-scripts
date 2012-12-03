@@ -85,18 +85,19 @@ function PutOwnersMarkOnItem (me, it)
 	var ownername := me.name;
 	var TheName := it.desc;
 	SetObjProperty (it, "oldname", thename);
-	var longname := splitwords(TheName);
-	if (longname[1]=="a" or longname[1]=="an")
-		TheName:="";
-		foreach word in longname;
-			if (word != longname[1])
-				TheName := TheName + " "+ word;
-			endif
-		endforeach
-		it.name := me.name+"'s" + TheName;
-	else
-		it.name := me.name+"'s " + TheName;
-	endif
+//	var longname := splitwords(TheName);
+//	if (longname[1]=="a" or longname[1]=="an")
+//		TheName:="";
+//		foreach word in longname;
+//			if (word != longname[1])
+//				TheName := TheName + " "+ word;
+//			endif
+//		endforeach
+//		it.name := me.name+"'s" + TheName;
+//	else
+//		it.name := me.name+"'s " + TheName;
+//	endif
+	it.name := TheName;
 	it.sellprice := 0;
 	it.buyprice := 0;
 	SetObjProperty (it, "ownerserial", ownerserial);

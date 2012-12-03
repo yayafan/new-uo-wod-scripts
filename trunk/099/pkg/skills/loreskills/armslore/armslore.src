@@ -39,7 +39,7 @@ program use_armslore_skill (character)
 	endif
 
 	var armsloreskill := SKILLID_BLACKSMITHY;
-	if (IsWoodenWeapon (item) or IsWoodenShield (item))
+	if (IsWoodenWeapon (item) or IsWoodenShield (item) or IsWoodenArmor(item))
 		armsloreskill := SKILLID_CARPENTRY;
 	elseif (IsLeatherArmor (item) or IsClothing (item))
 		armsloreskill := SKILLID_TAILORING;
