@@ -62,8 +62,7 @@ program combat_attack_script (parms)
 			if (attacker_weapon.hp or attacker_weapon.hp == 0)
 				//Do some damage to the weapon
 				if (RandomInt (100) == 1)
-					attacker_weapon.hp := attacker_weapon.hp - 1;
-					if (attacker_weapon.hp < 1)
+					if (DoDamageToEquipment (attacker_weapon, 1))
 						if (attacker_weapon.desc)
 							SendSysMessage (attacker, "Your " + attacker_weapon.desc + " breaks!");
 						endif
@@ -122,8 +121,7 @@ program combat_attack_script (parms)
 			//Do some damage to the shield
 			if (shield.hp or shield.hp == 0)
 				if (RandomInt (100) == 1)
-					shield.hp := shield.hp - 1;
-					if (shield.hp < 1)
+					if (DoDamageToEquipment (shield, 1))
 						SendSysMessage (defender, "Your shield breaks!");
 						DestroyItem (shield);
 					endif
@@ -210,8 +208,7 @@ program combat_attack_script (parms)
 	//Questie thing
 	if (defender.npctemplate["void"])
 		SendSysmessage (attacker, "The void eats away at your blade!");
-		attacker_weapon.hp := attacker_weapon.hp - 5 - RandomInt (5);
-		if (attacker_weapon.hp <= 0 or attacker_weapon.hp > attacker_weapon.maxhp)
+		if (DoDamageToEquipment (attacker_weapon, 5 + RandomInt (5)))
 			DestroyItem (attacker_weapon);
 			SendSysMessage (attacker, "The void has consumed your weapon!");
 		endif

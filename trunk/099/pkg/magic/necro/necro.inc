@@ -2,7 +2,6 @@ use uo;
 use cfgfile;
 
 include "include/client";
-include "include/client";
 include "include/magic";
 include "include/attributes";
 include "../pkg/character/virtue/virtue";

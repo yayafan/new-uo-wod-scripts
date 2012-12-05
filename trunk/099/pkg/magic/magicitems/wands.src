@@ -401,6 +401,7 @@ function UseCharge (character, wand)
 		return;
 	endif
 	SetObjProperty (wand, "charges", charges);
+	wand.name := wand.desc;
 endfunction
 
 

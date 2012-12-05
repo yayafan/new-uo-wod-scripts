@@ -52,8 +52,7 @@ function GetDefendersAR (defender)
 				//Do some damage to the armor
 				if (item.hp or item.hp == 0)
 					if (RandomInt (1000) == 1)
-						defender_armor.hp := defender_armor.hp - 1;
-						if (defender_armor.hp < 1)
+            if (DoDamageToEquipment (defender_armor, 1))
 							if (defender_armor.desc)
 								SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
 							endif
@@ -74,8 +73,7 @@ function GetDefendersAR (defender)
 	if (defender_armor)
 		if (defender_armor.hp or defender_armor.hp == 0)
 			if (RandomInt (150) == 1)
-				defender_armor.hp := defender_armor.hp - 1;
-				if (defender_armor.hp < 1)
+        if (DoDamageToEquipment (defender_armor, 1))
 					if (defender_armor.desc)
 						SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
 					endif
@@ -105,7 +103,31 @@ function GetDefendersAR (defender)
 	return zone_ar_rating;
 endfunction
 
-
+function DoDamageToEquipment (byref item, thedamage)
+  if (item.hp >= thedamage)
+    item.hp := item.hp - thedamage;
+    return 0;
+  else
+    thedamage := thedamage - item.hp;
+    item.hp := 0;
+    var durability_loss := GetObjProperty (item, "durability_loss");
+    if (!durability_loss)
+      durability_loss := 0;
+    endif
+    if (item.maxhp > thedamage)
+      item.maxhp_mod := item.maxhp_mod - thedamage;
+      durability_loss := durability_loss + thedamage;
+      SetObjProperty (item, "durability_loss", durability_loss);
+      return 0;
+    else
+      item.maxhp_mod := item.maxhp_mod - thedamage;
+      durability_loss := durability_loss + thedamage;
+      SetObjProperty (item, "durability_loss", durability_loss);
+      return 1;
+    endif
+  endif
+  return 0;
+endfunction
 
 
 ///////////////////

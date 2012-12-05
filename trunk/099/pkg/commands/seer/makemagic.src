@@ -112,6 +112,7 @@ function SetupMagicalWeaponGump (speaker, item)
 		endif
 		item.quality := 1.2;
 		item.hp := item.maxhp + 1;
+		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -140,6 +141,7 @@ function SetupMagicalShieldGump (speaker, item)
 		endif
 		item.quality := 1.2;
 		item.hp := item.maxhp + 1;
+		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -170,6 +172,7 @@ function SetupMagicalArmorGump (speaker, item)
 		endif
 		item.quality := 1.2;
 		item.hp := item.maxhp + 1;
+		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -194,6 +197,7 @@ function SetupMagicalInstrumentGump (speaker, item)
 		if (!item.name["a magic "])
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
+		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
 
@@ -526,8 +530,8 @@ function DoPrefixProcessing (speaker, item, gump_return)
 		if (gump_return[CHECKBOX_1] and item_type == ITEMTYPE_ARMOR)
 			var skillid := CSTR (gump_return[61]);
 			skillid := CINT (skillid[(find(skillid, " ", 1)+1), len(skillid)]);
-			if (skillid > 48)
-				skillid := 48;
+			if (skillid > 57)
+				skillid := 57;
 			endif
 			SetObjProperty (item, "skilladv", skillid);
 			SetObjProperty (item, "skill"+skillid, (item_hp_mod*SKILLBONUS_LEVEL));
@@ -786,6 +790,8 @@ function AddSpecialAbilities (character)
 				SetObjProperty (item, "specialweaponeffect", "vampireslaying");
 				AddToItemSuffix (item, "vampire slaying");
 		endcase
+		SetObjProperty (item, "unidentified", 1);
+
 		return;
 	endif
 	SendSysMessage (character, "You can't add special abilities to that (at least not yet.");

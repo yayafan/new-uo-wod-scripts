@@ -3,6 +3,7 @@ use os;
 use cfgfile;
 
 include "include/client";
+include "include/itemtypes";
 include "include/gumps";
 include "include/skills";
 
@@ -42,17 +43,19 @@ program do_itemid (character)
 		EraseObjProperty (the_item, "suffix");
 	elseif (GetObjProperty (the_item, "prefix") or GetObjProperty (the_item, "suffix"))
 		var newname := the_item.desc;
-		if (newname ["magic"])
-			var space := find( the_item.desc, "c", 1 );
-			var currdesc := the_item.desc;
-			newname := currdesc [space+1,len(the_item.desc)];
-		endif
-
-		if (GetObjProperty (the_item, "prefix"))
-			newname := GetObjProperty( the_item, "prefix" ) + newname;
-		endif
-		if (GetObjProperty (the_item, "suffix"))
-			newname := newname + " " + GetObjProperty (the_item, "suffix");
+		if (IsWand (the_item))
+			if (GetObjProperty (the_item, "suffix"))
+				newname := newname + " " + GetObjProperty (the_item, "suffix");
+			endif
+		else
+			if (GetObjProperty (the_item, "prefix"))
+				if (newname ["magic"])
+					var space := find( the_item.desc, "c", 1 );
+					var currdesc := the_item.desc;
+					newname := currdesc [space+1,len(the_item.desc)];
+				endif
+				newname := GetObjProperty( the_item, "prefix" ) + " magic " + newname;
+			endif
 		endif
 		if (newname["  "])
 			repeat
@@ -63,6 +66,7 @@ program do_itemid (character)
 		the_item.name := newname;
 		EraseObjProperty (the_item, "prefix");
 		EraseObjProperty (the_item, "suffix");
+		EraseObjProperty (the_item, "unidentified");
 	endif
 
 	DisplayInfoGump (character, the_item);
@@ -123,7 +127,11 @@ function DisplayInfoGump (character, item)
 
 	if (GetObjProperty (item, "charges"))
 		var scharges := GetObjProperty (item, "charges");
-		thestring := thestring + "Spell Charges: " + scharges + " charges<br>";
+		var itemspellname := GetObjProperty (item, "itemspellname");
+		if (!itemspellname)
+			itemspellname := "Spell";
+		endif
+		thestring := thestring + itemspellname + " Charges: " + scharges + " charges<br>";
 	endif
 	
 	if (GetObjProperty (item, "etherial") )

@@ -35,9 +35,12 @@ program userepairkit (character, repairkit)
 		return;
 	endif
 	
+	var durability_loss := GetObjProperty (targetted, "durability_loss");
 	targetted.quality := 1.2;
+	targetted.maxhp_mod := targetted.maxhp_mod + durability_loss;
 	targetted.hp := targetted.maxhp;
 	EraseObjProperty (targetted, "total_damage");
+	EraseObjProperty (targetted, "durability_loss");
 	DestroyItem (repairkit);
 endprogram
 
