@@ -161,7 +161,7 @@ Function grabit (byref me, byref it)
 	if (forcebag)
 		if (MoveItemToContainer (it, lootbag, 1, 1 ))
 			if (GetObjProperty (it, "ownerserial"))
-				PrintTextAbove (me, "*"+GetObjProperty (it, "ownername")+"'s "+GetObjProperty(it, "oldname")+"*");
+				PrintTextAbove (me, "*"+GetObjProperty(it, "oldname")+" owned by "+GetObjProperty (it, "ownername")+"*");
 			elseif (IsMagicalItem (it) )
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))
@@ -205,7 +205,7 @@ Function grabit (byref me, byref it)
 	if (!IsStackableItem (it) )
 		if (MoveItemToContainer (it, targetbag, 1, 1 ))
 			if (GetObjProperty (it, "ownerserial"))
-				PrintTextAbove (me, "*"+GetObjProperty (it, "ownername")+"'s "+GetObjProperty(it, "oldname")+"*");
+				PrintTextAbove (me, "*"+GetObjProperty(it, "oldname")+" owned by "+GetObjProperty (it, "ownername")+"*");
 			elseif (IsMagicalItem (it) )
 				PrintTextAbove (me, "*"+it.desc+"*");
 			elseif (GetObjProperty (it, "questitem"))

@@ -399,13 +399,11 @@ function DoArmorSkillModifier (item, modifier)
 						"mining",
 						"meditation",
 						"stealth",
-            "discordance"
+            "discordance",
+            "throwing"
 	};
 
-  if (IsGargishItem(item))
-    skilllist.append (SKILLID_THROWING);
-    skillnamelist.append ("throwing");
-  else
+  if (!IsGargishItem(item))
     skilllist.append (SKILLID_ARCHERY);
     skillnamelist.append ("archery");
   endif

@@ -169,7 +169,7 @@ function MakeCarpentryItems (character, tool, logs)
 			SubtractAmount (logs, material_needed);
 			if (!item_stackable)
 				created_item.name := item_name + " [crafted by " + character.name + "]";
-				created_item.hp := created_item.maxhp + 1;
+				created_item.hp := created_item.maxhp;
 			endif
 
 			if (item_lockable)

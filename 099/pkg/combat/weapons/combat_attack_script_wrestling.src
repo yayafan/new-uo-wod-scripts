@@ -94,8 +94,7 @@ program combat_attack_script (parms)
 			//Do some damage to the shield
 			if (shield.hp or shield.hp == 0)
 				if (RandomInt (100) == 1)
-					shield.hp := shield.hp - 1;
-					if (shield.hp < 1)
+					if (DoDamageToEquipment (shield, 1))
 						SendSysMessage (defender, "Your shield breaks!");
 						DestroyItem (shield);
 					endif

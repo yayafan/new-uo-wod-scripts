@@ -88,9 +88,27 @@ program evaluate_item (parms)
 		var pcharges := GetObjProperty (item, "protpoison");
 		thestring := thestring + "Poison Protection: " + pcharges + " charges<br>";
 	endif
+	
+	if (GetObjProperty (item, "damage_soak_fire"))
+		var pcharges := GetObjProperty (item, "damage_soak_fire");
+		thestring := thestring + "Fire Protection: " + pcharges + " points<br>";
+	endif
+	if (GetObjProperty (item, "damage_soak_cold"))
+		var pcharges := GetObjProperty (item, "damage_soak_cold");
+		thestring := thestring + "Cold Protection: " + pcharges + " points<br>";
+	endif
+	if (GetObjProperty (item, "damage_soak_electrical"))
+		var pcharges := GetObjProperty (item, "damage_soak_electrical");
+		thestring := thestring + "Electrical Protection: " + pcharges + " points<br>";
+	endif
+
 	if (GetObjProperty (item, "charges"))
 		var scharges := GetObjProperty (item, "charges");
-		thestring := thestring + "Spell Charges: " + scharges + " charges<br>";
+		var itemspellname := GetObjProperty (item, "itemspellname");
+		if (!itemspellname)
+			itemspellname := "Spell";
+		endif
+		thestring := thestring + itemspellname + " Charges: " + scharges + " charges<br>";
 	endif
 	
 	if (GetObjProperty (item, "etherial") )

@@ -17,15 +17,7 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 			SendSysMessage (character, "That has an owner's mark!");
 			return;
 		endif
-//		DoCarpentryItemUpgrade (character, item, repair_skill);
     DoSpecialCarpentryStuff (character, item, repair_skill);
-		return;
-	endif
-
-	//make sure the item is good enough to be repairable
-	if (item.hp <= 0)
-		SendSysmessage (character, "The brittle material breaks when you handle it.");
-		DestroyItem (item);
 		return;
 	endif
 
@@ -70,21 +62,19 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 	sleep (2);
 
 	SubtractAmount (found_logs, material_needed);
-	var total_damage := GetObjProperty (item, "total_damage");
-	if (!total_damage)
-		total_damage := 0;
-	endif
-	
-	if (total_damage + item_damaged_amount > item.maxhp)
-		DestroyItem (item);
-		SendSysmessage (character, "The brittle material breaks when you handle it.");
-		return;
-	endif
+
+	var durability_loss := GetObjProperty (item, "durability_loss");
+  if (!durability_loss)
+    durability_loss := 0;
+  endif
 
 	if (!CheckSkill (character, repair_skill, -1, 0) )
-		total_damage := total_damage + RandomInt (10);
-		SetObjProperty (item, "total_damage", total_damage);
-		if (total_damage + item_damaged_amount > item.maxhp)
+		var thedamage := RandomInt(10);
+    durability_loss := durability_loss + thedamage;
+    item.maxhp_mod := item.maxhp_mod - thedamage;
+    SetObjProperty (item, "durability_loss", durability_loss);
+    item.name := item.desc;
+		if (item.maxhp <= 0)
 			DestroyItem (item);
 			SendSysmessage (character, "The brittle material breaks when you handle it.");
 			return;
@@ -93,7 +83,7 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 		return;
 	endif
 
-	var skill_bonus := CINT (GetAttribute (character, repair_skill)/4);
+	var skill_bonus := CINT (GetAttribute (character, repair_skill));
 	if (item.name["fine"])
 		skill_bonus := skill_bonus + 5;
 	elseif (item.name["durable"])
@@ -107,15 +97,18 @@ function RepairCarpentryItem (character, tool, item, repair_skill)
 	elseif (item.name["exceptional"])
 		skill_bonus := skill_bonus + 25;
 	endif
-
-	item_damaged_amount := CINT (item_damaged_amount * (100-skill_bonus)/100);
-	if (item_damaged_amount < 5)
-		item_damaged_amount := 5;
-	endif
-
-	total_damage := total_damage + item_damaged_amount;
-	SetObjProperty (item, "total_damage", total_damage);
-	item.hp := item.maxhp + 1;
+  
+  var damage_chance := item_damaged_amount - CINT(skill_bonus/2);
+  if (damage_chance > 120)
+    damage_chance := 120;
+  endif
+  if (!CheckSkill (character, repair_skill, damage_chance, 0) )
+    durability_loss := durability_loss + 1;
+    item.maxhp_mod := item.maxhp_mod - 1;
+    SetObjProperty (item, "durability_loss", durability_loss);
+  endif
+	item.hp := item.maxhp;
+  item.name := item.desc;
 	SendSysMessage (character, "You repair the item completely");
 	return;
 endfunction
@@ -255,13 +248,13 @@ function PerformCarpentryItemUpgrade (character, item, found_lumber, material_ne
 			if (item.desc ["quality"])
 				item.name := "an exceptional " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.2;
-				item.hp := item.maxhp + 1;
+				item.hp := item.maxhp;
 				item.buyprice := 0;
 				return;
 			else
 				item.name := "a quality " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.0;
-				item.hp := item.maxhp + 1;
+				item.hp := item.maxhp;
 				item.buyprice := 0;
 
 				item_skill := item_skill + 10;
