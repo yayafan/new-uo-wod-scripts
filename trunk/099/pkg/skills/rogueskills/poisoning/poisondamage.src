@@ -4,6 +4,7 @@ use os;
 include "include/client";
 include "include/wodinc";
 include "include/dotempmods";
+include "../pkg/npcs/npcinfo";
 
 program poisonhit (parms)
 	var who := parms [1];
@@ -13,7 +14,14 @@ program poisonhit (parms)
 	if (!who or !plvl or plvl < 0)
 		return;
 	endif
-
+	if (who.npctemplate)
+		var MyTemplateElem := GetNpcTemplateElem (who.npctemplate);
+		case (MyTemplateElem.poison)
+			"immune":	return;
+			"strong":	plvl := plvl - 3;
+			"weak":	plvl := plvl + 3;
+		endcase
+	endif
 	//10 is the maximum poison level
 	if (plvl > 10)
 		plvl := 10;
@@ -107,6 +115,7 @@ function ProtectedFromPoison (who)
 				setobjproperty (item, "protpoison", charges);
 				PrintTextAbovePrivate (item, item.desc + " protects you from the poison!",who);
 				item.resist_poison_mod := charges;
+				item.name := item.desc;
 				return 1;
 			endif
 		endif

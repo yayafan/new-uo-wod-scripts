@@ -87,9 +87,9 @@ function BuildBlacksmithyCraftingMenu (character, menu_cfg_file_name, crafting_c
 		endif
 
 		menu_array.append (submenu[2]);
-		blank_gump_layout.append ("text " + (base_x+50) + " " + gump_y_pos + " 1322 " + string_counter);
+		blank_gump_layout.append ("text " + (base_x+40) + " " + gump_y_pos + " 1322 " + string_counter);
 		blank_gump_data.append (submenu[3]);
-		gump_y_pos := gump_y_pos + 22;
+		gump_y_pos := gump_y_pos + 16;
 		string_counter := string_counter + 1;
 		
 		//check to see if the submenu has a submenu
@@ -107,13 +107,13 @@ function BuildBlacksmithyCraftingMenu (character, menu_cfg_file_name, crafting_c
 				endif
 		
 				menu_array.append (sub_submenu[2]);
-				blank_gump_layout.append ("text " + (base_x+70) + " " + gump_y_pos + " 0 " + string_counter);
-				blank_gump_layout.append ("button " + (base_x+55) + " " + (gump_y_pos+4) + " 2104 2103 1 0 " + (100+menu_array.size()));
+				blank_gump_layout.append ("text " + (base_x+55) + " " + gump_y_pos + " 0 " + string_counter);
+				blank_gump_layout.append ("button " + (base_x+40) + " " + (gump_y_pos+4) + " 2104 2103 1 0 " + (100+menu_array.size()));
 				blank_gump_data.append (sub_submenu[3]);
-				gump_y_pos := gump_y_pos + 20;
+				gump_y_pos := gump_y_pos + 14;
 				string_counter := string_counter + 1;
 			endforeach
-			gump_y_pos := gump_y_pos + 7;
+			gump_y_pos := gump_y_pos + 2;
 		endif
 	endforeach
 	
@@ -197,7 +197,7 @@ function BuildBlacksmithyCraftingMenu (character, menu_cfg_file_name, crafting_c
 				current_column_number := current_column_number + 1;
 				if (current_column_number > 2)
 					gump_x_pos := base_x + 250;
-					gump_y_pos := gump_y_pos + 80;
+					gump_y_pos := gump_y_pos + 65;
 					current_column_number := 1;
 				else
 					gump_x_pos := gump_x_pos + 200;

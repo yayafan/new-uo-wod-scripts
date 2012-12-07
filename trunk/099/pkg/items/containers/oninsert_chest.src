@@ -20,6 +20,7 @@ program oninsert_chest (character, container, movetype, null_value, item, existi
 	//check to see if this is a lost and found box.  If it is, do lost and found box stuff
 	if (GetObjProperty (container, "lostandfound"))
 		DoLostAndFoundStuff (character, container, item);
+		container.name := container.desc;
 		return;
 	endif
 

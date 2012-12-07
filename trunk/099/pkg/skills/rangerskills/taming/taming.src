@@ -149,6 +149,9 @@ function IsABadAss (critter)
 		0x3d:
 		0x3c:
 		0x3b:
+		0xf3:
+		0xf4:
+		0xf6:
 			return 1;
 		0xc8:	
 			if ( myscript["firebreather"])

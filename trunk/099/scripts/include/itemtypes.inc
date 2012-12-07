@@ -304,9 +304,13 @@ function IsBow (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x2D1E and weapon.graphic <= 0x2D1F)
 		return 1;
+	elseif (weapon.graphic == 0x2790)
+		return 1;
 	elseif (weapon.graphic == 0x27A5)
 		return 1;
 	elseif (weapon.graphic == 0x27AA)
+		return 1;
+	elseif (weapon.graphic == 0x27DB)
 		return 1;
 	elseif (weapon.graphic == 0x27F0)
 		return 1;
@@ -482,6 +486,8 @@ function IsLeatherArmor (byref armor)
 		return 1;
 	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
 		return 1;
+  elseif (armor.graphic == 0x315f)
+    return 1;
 	elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
 		return 1;
 	elseif (armor.graphic >= 0x317b and armor.graphic <= 0x3181)
@@ -567,7 +573,9 @@ function IsWoodenArmor (byref armor)
     return 1;
   elseif (armor.graphic >= 0x2b71 and armor.graphic <= 0x2b73)
     return 1;
-  elseif (armor.graphic >= 0x315e and armor.graphic <= 0x3164)
+  elseif (armor.graphic == 0x315e)
+    return 1;
+  elseif (armor.graphic >= 0x3160 and armor.graphic <= 0x3164)
     return 1;
   elseif (armor.graphic >= 0x3168 and armor.graphic <= 0x316a)
     return 1;

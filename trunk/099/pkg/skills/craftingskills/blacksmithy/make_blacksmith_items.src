@@ -226,7 +226,7 @@ function MakeBlacksmithyItems (byref character, byref hammer, byref material)
 				return;
 			endif
 			created_item.buyprice := 0;
-			created_item.hp := created_item.maxhp + 1;
+			created_item.hp := created_item.maxhp;
 			
 			if (autoupgrade_level)
 				var upgrade_material_needed := CINT (material_needed/2);

@@ -106,6 +106,7 @@ endfunction
 function DoDamageToEquipment (byref item, thedamage)
   if (item.hp >= thedamage)
     item.hp := item.hp - thedamage;
+    item.name := item.desc;
     return 0;
   else
     thedamage := thedamage - item.hp;
@@ -118,11 +119,13 @@ function DoDamageToEquipment (byref item, thedamage)
       item.maxhp_mod := item.maxhp_mod - thedamage;
       durability_loss := durability_loss + thedamage;
       SetObjProperty (item, "durability_loss", durability_loss);
+      item.name := item.desc;
       return 0;
     else
       item.maxhp_mod := item.maxhp_mod - thedamage;
       durability_loss := durability_loss + thedamage;
       SetObjProperty (item, "durability_loss", durability_loss);
+      item.name := item.desc;
       return 1;
     endif
   endif
