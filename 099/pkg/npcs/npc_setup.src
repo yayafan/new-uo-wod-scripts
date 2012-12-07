@@ -29,7 +29,7 @@ program npc_setup (npc)
 	
 
 	var templatesuffix := "";
-	if (npc.graphic == 400 or npc.graphic == 401)
+	if (MyTemplateElem.localized)
 		if (npc.realm == "britannia")
 			if ( (npc.x >= 6907 and npc.x <= 7170) and (npc.y >= 251 and npc.y <= 516) )
 				templatesuffix := "elf";
@@ -42,13 +42,12 @@ program npc_setup (npc)
 			templatesuffix := "garg";
 			npc.graphic := 666;
 			npc.race := RACE_GARGOYLE;
+		else
+			case (npc.race)
+				RACE_ELF: templatesuffix := "elf";
+				RACE_GARGOYLE: templatesuffix := "garg";
+			endcase
 		endif
-	endif
-	if (templatesuffix == "")
-		case (npc.race)
-			RACE_ELF: templatesuffix := "elf";
-			RACE_GARGOYLE: templatesuffix := "garg";
-		endcase
 	endif
 
 	//Some NPCs can be colored a range of colors
@@ -74,6 +73,9 @@ program npc_setup (npc)
 			SetObjProperty (npc, "color", npc.color);
 		elseif (MyTemplateElem.colorrange == "gargoyle")
 			npc.color := 1755 + RandomInt (25);
+			SetObjProperty (npc, "color", npc.color);
+		elseif (MyTemplateElem.colorrange["monster"])
+			npc.color := RandomMonsterColor (MyTemplateElem.colorrange);
 			SetObjProperty (npc, "color", npc.color);
 		else
 			//if there's multiple color ranges, pick one
@@ -143,7 +145,7 @@ program npc_setup (npc)
 		parms[2]:= MyTemplateElem.dress + templatesuffix;
 		run_script_to_completion ("::/misc/dressme", parms);
 	elseif (MyTemplateElem.equip)
-    		EquipFromTemplate (npc, MyTemplateElem.equip + templatesuffix);
+		EquipFromTemplate (npc, MyTemplateElem.equip + templatesuffix);
 	endif
 
 	//give them a bow and ammo, if they're missle users
@@ -274,4 +276,16 @@ function RandomElfSkinHue()
 					0x51D, 0x53F, 0x579, 0x76B, 0x76C, 0x76D, 0x835, 0x903
 				};
 	return elfskinhues[RandomInt(32)+1];
+endfunction
+
+function RandomMonsterColor(monstertype)
+	if (monstertype == "monsterhiryu")
+		var hiryuhues := array {
+					0x0000, 0x847f, 0x848d, 0x8495, 0x8899, 0x8032, 0x8487,
+					0x8482, 0x8123, 0x8295, 0x8037, 0x8030, 0x8490, 0x855c
+					};
+		return hiryuhues[RandomInt(14)+1];
+	endif
+	Syslog ("Monstertype " + monstertype + "color template not found!");
+	return 0;
 endfunction

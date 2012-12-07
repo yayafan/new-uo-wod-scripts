@@ -181,8 +181,12 @@ Function GetSpellID (spellname)
 	":summoning_spells:summon_earth":		spellid := 62;
 	":summoning_spells:summon_fire":		spellid := 63;
 	":summoning_spells:summon_water":		spellid := 64;
+	":necro_spells:raisedead":			spellid := 71;
+	":necro_spells:summonspirit":			spellid := 74;
+	":necro_spells:plague":				spellid := 76;
 	":necro_spells:frostfield":			spellid := 77;
 	":necro_spells:darkness":			spellid := 78;
+	":necro_spells:wraithbreath":			spellid := 80;
 	":druid_spells:graspingroots":		spellid := 81;
 	":druid_spells:stingingswarm":		spellid := 82;
 	":druid_spells:tidalwave":			spellid := 83;

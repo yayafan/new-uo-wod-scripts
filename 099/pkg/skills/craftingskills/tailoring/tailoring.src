@@ -329,7 +329,7 @@ function MakeLeatherItems (character, material)
 				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
 				return;
 			endif
-			created_item.hp := created_item.maxhp + 1;
+			created_item.hp := created_item.maxhp;
 
 			SendSysMessage (character, "You place the item in your backpack.");
 			//set the color
