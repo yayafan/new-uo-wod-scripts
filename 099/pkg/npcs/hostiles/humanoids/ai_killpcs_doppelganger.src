@@ -72,7 +72,7 @@ function spellattack (opponent)
 	endif
 
 	if (RandomInt(2)==1)
-		if (CheckLineOfSight (me, opponent) and GetVital (me, "Mana") > 4000)
+		if (CheckLoSAt (me, opponent.x, opponent.y, opponent.z) and GetVital (me, "Mana") > 4000)
 			var weapon := GetEquipmentByLayer (me, LAYER_HAND1);
 			if (weapon)
 			MoveItemToContainer (weapon, me.backpack);

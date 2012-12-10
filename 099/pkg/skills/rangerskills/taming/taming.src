@@ -40,7 +40,7 @@ program tame_creature (character)
 		return;
 	endif
 
-	if (!CheckLineOfSight (character, thecreature) )
+	if (!CheckLoSAt (character, thecreature.x, thecreature.y, thecreature.z) )
 		SendSysMessage (character, "You can't see that!");
 		return;
 	endif

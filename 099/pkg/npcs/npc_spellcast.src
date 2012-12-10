@@ -54,7 +54,7 @@ endprogram
 ///////////////////
 
 function PrepareToCast (caster, cast_on, spellid)
-	if (!CheckLineOfSight (caster, cast_on))
+	if (!CheckLoSAt (caster, cast_on.x, cast_on.y, cast_on.z))
 		return 0;
 	endif
 

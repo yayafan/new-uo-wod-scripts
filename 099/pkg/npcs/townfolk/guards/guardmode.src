@@ -321,7 +321,7 @@ function Fight (opponent)
 						ChangeWeapons();
 					endif
 					chaseloop := chaseloop + 1;
-					if (!CheckLineOfSight (me, opponent))
+					if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 						RunRandom (opponent, chaseloop);
 					endif
 				endif
@@ -336,7 +336,7 @@ function Fight (opponent)
 			if (wasmoving)
 				TurnToward(opponent);
 			endif
-			if (!CheckLineOfSight (me, opponent))
+			if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 				SetWarMode(0);
 				ReArm (oldweapon_one, oldweapon_two);
 				return;

@@ -77,7 +77,7 @@ function spellattack (byref opponent)
 	foreach mobile in ListMobilesNearLocation (opponent.x, opponent.y, opponent.z, HALT_THRESHOLD, opponent.realm)
 		if (mobile.npctemplate["shabooli"] and RandomInt (2))
 			if (mobile.poisoned)
-				if (CheckLineOfSight (me, mobile))
+				if (CheckLoSAt (me, mobile.x, mobile.y, mobile.z))
 					TurnToward (mobile);
 					sleep (1);
 					CastSpell (me, mobile, ":poison_spells:cure");
@@ -86,7 +86,7 @@ function spellattack (byref opponent)
 				endif
 			endif
 			if (GetVital (mobile, "Life") < CINT (GetVitalMaximumValue (mobile, "Life")/2))
-				if (CheckLineOfSight (me, mobile))
+				if (CheckLoSAt (me, mobile.x, mobile.y, mobile.z))
 					TurnToward (mobile);
 					sleep (1);
 					CastSpell (me, mobile, ":misc_spells:gheal");

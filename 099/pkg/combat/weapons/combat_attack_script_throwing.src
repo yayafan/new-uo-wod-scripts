@@ -27,6 +27,9 @@ program combat_attack_script (parms)
 	if (attacker.z > (defender.z + 20) or attacker.z < (defender.z - 20))
 		return 1;
 	endif
+	if (!CheckLoSAt(attacker, defender.x, defender.y, defender.z))
+		return 1;
+	endif
 	if (Distance (attacker, defender) > 20)
 		return 1;
 	endif

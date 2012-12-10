@@ -530,7 +530,7 @@ function ResurrectTarget (deadguy)
 		return 1;
 	endif
 
-	if (!CheckLineOfSight (me, deadguy))
+	if (!CheckLoSAt (me, deadguy.x, deadguy.y, deadguy.z))
 		say ("Sorry, can't see you.");
 		return 1;
 	endif

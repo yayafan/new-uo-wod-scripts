@@ -134,7 +134,7 @@ function Fight (byref opponent)
 
 				steps := 0;
 				randomruns := 0;
-				if ( CheckLineOfSight (me, opponent) )
+				if (CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 					loops := 0;
 					waittime := 1;
 					EraseObjProperty (me, "#flees");
@@ -231,7 +231,7 @@ function CastTeleportSpell (byref opponent)
 		return 0;
 	endif
 
-	if (!CheckLineOfSight (me, opponent) )
+	if (CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 		return 0;
 	endif
 

@@ -11,7 +11,7 @@ function ChangeOpponent (byref old_opponent, byref new_opponent)
 		endif
 	endif
 	
-	if (!CheckLineOfSight (me, old_opponent))
+	if (!CheckLoSAt (me, old_opponent.x, old_opponent.y, old_opponent.z))
 		SetObjProperty (me, "#lastopponentchange", ReadGameClock());
 		return 1;
 	endif

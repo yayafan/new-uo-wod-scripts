@@ -50,7 +50,7 @@ function CloseDistance (byref opponent)
 			if (GetVital (me, "Mana") < CINT (GetVitalMaximumValue (me, "Mana")/4))
 				RunToward (opponent);
 				return 0;
-			elseif (!CheckLineOfSight (me, opponent) )
+			elseif (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z) )
 				if (RunRandom (opponent))
 					return 2;
 				endif
@@ -90,7 +90,7 @@ function DefaultCloseDistance (byref opponent)
 			if (GetVital (me, "Mana") < CINT (GetVitalMaximumValue (me, "Mana")/3))
 				RunToward ( opponent );
 				return 0;
-			elseif (!CheckLineOfSight( me, opponent) )
+			elseif (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z) )
 				if (runrandom(opponent))
 					return 2;
 				endif

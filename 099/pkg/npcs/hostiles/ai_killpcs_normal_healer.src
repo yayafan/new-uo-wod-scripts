@@ -89,7 +89,7 @@ function spellattack (byref opponent)
 		if (IsHostile (mobile))
 			total_friends := total_friends + 1;
 			if (GetVital (mobile, "Life") < CINT (GetVitalMaximumValue (mobile, "Life")*0.75)or mobile.poisoned)
-				if (CheckLineOfSight (me, mobile))
+				if (CheckLoSAt (me, mobile.x, mobile.y, mobile.z))
 					friends_in_need.append (mobile);
 				endif
 			endif
@@ -142,7 +142,7 @@ function spellattack (byref opponent)
 	endif
 
 	if (GetVital (chosen_friend, "Life") < CINT (GetVitalMaximumValue (chosen_friend, "Life")*0.75))
-		if (CheckLineOfSight (me, chosen_friend))
+		if (CheckLoSAt (me, chosen_friend.x, chosen_friend.y, chosen_friend.z))
 			TurnToward (chosen_friend);
 			sleep (1);
 			CastSpell (me, chosen_friend, ":misc_spells:gheal");
@@ -150,7 +150,7 @@ function spellattack (byref opponent)
 			return;
 		endif
 	elseif (chosen_friend.poisoned)
-		if (CheckLineOfSight (me, chosen_friend))
+		if (CheckLoSAt (me, chosen_friend.x, chosen_friend.y, chosen_friend.z))
 			TurnToward (chosen_friend);
 			sleep (1);
 			CastSpell (me, chosen_friend, ":poison_spells:cure");

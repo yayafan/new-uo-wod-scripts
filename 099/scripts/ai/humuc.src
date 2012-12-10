@@ -107,7 +107,7 @@ endfunction
 function Guard()
 	if (ReadGameClock() > NextWatch)
 		if (!master.dead)
-			if (CheckLineOfSight (me, master))
+			if (CheckLoSAt (me, master.x, master.y, master.z))
 				if (GetVital (master, "Life") < CINT (GetVitalMaximumValue (master, "Life")/2))
 					CastSpell (me, master, ":misc_spells:gheal");
 					sleep (3);
@@ -249,7 +249,7 @@ function Fetch()
 	SayOk();
 
 	var times := 0;
-	while ( (distance(me, tobj) > 1) and times < 10 and CheckLineOfSight(me,tobj) )
+	while ( (distance(me, tobj) > 1) and times < 10 and CheckLoSAt(me,tobj.x,tobj.y,tobj.z) )
 		if( !runtoward(tobj))
 			sleepms(500);
 			times := times + 1;

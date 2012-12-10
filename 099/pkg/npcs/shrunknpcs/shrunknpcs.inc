@@ -9,7 +9,7 @@ function ShrinkNPC (mobile, container)
 		return CreateError ("Mobile is not an NPC");
 	endif
 
-	var totem := CreateItemInContainer (container, 0x70bc, 1);
+	var totem := CreateItemInContainer (container, 0x170bc, 1);
 	if (!totem)
 		return CreateError ("Could not create totem - full pack");
 	endif
