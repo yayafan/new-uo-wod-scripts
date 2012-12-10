@@ -137,7 +137,7 @@ endfunction
 function grabloot()
 	foreach item in ListItemsNearLocation (me.x, me.y, me.z, 6, me.realm)
 		if (item.movable or item.objtype == UOBJ_CORPSE)
-			if (CheckLineOfSight (me, item) )
+			if (CheckLoSAt (me, item.x, item.y, item.z) )
 				var sh := GetStandingHeight (item.x, item.y, item.z, item.realm);
 				if (sh.multi or sh.multi.serial)
 					break;

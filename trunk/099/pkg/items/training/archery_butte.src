@@ -16,7 +16,7 @@ Const GFX_BOLT_FLIGHT := 0x1bfe;
 include "include/client";
 
 program training_archery (character, butte)
-	if (!CheckLineOfSight (character, butte))
+	if (!CheckLoSAt (character, butte.x, butte.y, butte.z))
 		SendSysMessage( character, "You don't have line of sight to that." );
 		return;
 	endif

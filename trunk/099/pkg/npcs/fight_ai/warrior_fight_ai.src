@@ -82,7 +82,7 @@ program warrior_fight_ai ()
 				if (wasmoving)
 					TurnToward(opponent);
 				endif
-				if (!CheckLineOfSight (me, opponent))
+				if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 					ExitFightMode ();
 					return;
 				endif

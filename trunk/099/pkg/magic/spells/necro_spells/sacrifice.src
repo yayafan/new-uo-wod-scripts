@@ -30,7 +30,7 @@ program cast_sacrifice (parms)
 	var diestring := "4d" + Cstr(amount);
 
 	foreach mobile in ListMobilesNearLocation (cast_on.x, cast_on.y, cast_on.z, range, cast_on.realm)
-		if ((mobile != caster) and (CheckLineOfSight (cast_on, mobile)))
+		if ((mobile != caster) and (CheckLoSAt (cast_on, mobile.x, mobile.y, mobile.z)))
 			PlaySoundEffect (mobile, SFX_208);
 			PlayObjectCenteredEffect (mobile, 0x036b0, 7, 0x10);
 			var dmg := RandomDiceRoll (diestring);

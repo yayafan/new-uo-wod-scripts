@@ -23,7 +23,7 @@ program cast_curse (parms, spellid)
 
 	PlaySoundEffect(caster, SFX_SPELL_MASS_CURSE);
 	foreach mobile in ListMobilesNearLocation (cast_loc.x, cast_loc.y, cast_loc.z, 4, cast_loc.realm);
-		if (CheckLineOfSight (caster, mobile) )
+		if (CheckLoSAt (caster, mobile.x, mobile.y, mobile.z) )
 			mobile := CheckMagicReflection (caster, mobile);
 			PlaySoundEffect (mobile, SFX_SPELL_MASS_CURSE);
 			PlayObjectCenteredEffect (mobile, FX_CURSE_EFFECT, 10, 10);

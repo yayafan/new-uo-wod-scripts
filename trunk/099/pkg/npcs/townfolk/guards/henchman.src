@@ -782,7 +782,7 @@ function fight (byref opponent)
 						ChangeWeapons();
 					endif
 					chaseloop := chaseloop + 1;
-					if (!CheckLineOfSight (me, opponent))
+					if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 						RunRandom (opponent, chaseloop);
 					endif
 				endif
@@ -800,7 +800,7 @@ function fight (byref opponent)
 			if (wasmoving)
 				TurnToward(opponent);
 			endif
-			if (!CheckLineOfSight (me, opponent))
+			if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 				SetOpponent (0);
 				SetWarMode (0);
 				following := wasfollowing;
@@ -943,7 +943,7 @@ function ChangeOpponent (old_opponent, new_opponent)
 		endif
 	endif
 
-	if (!CheckLineOfSight (me, old_opponent))
+	if (!CheckLoSAt (me, old_opponent.x, old_opponent.y, old_opponent.z))
 		SetObjProperty (me, "#lastopponentchange", ReadGameClock());
 		return 1;
 	endif
@@ -962,11 +962,11 @@ function ChangeOpponent (old_opponent, new_opponent)
 			return 1;
 		endif
 		
-		if (old_opponent_distance > 15 or !CheckLineOfSight (me, old_opponent))
+		if (old_opponent_distance > 15 or !CheckLoSAt (me, old_opponent.x, old_opponent.y, old_opponent.z))
 			SetObjProperty (me, "#lastopponentchange", ReadGameClock());
 			return 1;
 		endif
-		if (new_opponent_distance > 15 or !CheckLineOfSight (me, new_opponent))
+		if (new_opponent_distance > 15 or !CheckLoSAt (me, new_opponent.x, new_opponent.y, new_opponent.z))
 			return 0;
 		endif
 
@@ -1515,7 +1515,7 @@ endfunction
 function DoTraining ()
 	var dummyserial := GetObjProperty (me, "trainingdummy");
 	var dummy := SystemFindObjectBySerial (dummyserial);
-	if (!dummy or !CheckLineOfSight (me, dummy))
+	if (!dummy or !CheckLoSAt (me, dummy.x, dummy.y, dummy.z))
 		Say ("I can't see that!");
 		EraseObjProperty (me, "trainingdummy");
 		return;

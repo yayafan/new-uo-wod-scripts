@@ -17,7 +17,7 @@ function CloseDistance (byref opponent)
 			ChangeWeapons ();
 			return CLOSEDISTANCE_DIDNT_MOVE;
 		else
-			if (!CheckLineOfSight (me, opponent))
+			if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 				RunRandom (opponent, 2);
 				return CLOSEDISTANCE_MOVED;
 			endif

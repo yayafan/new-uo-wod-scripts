@@ -74,7 +74,7 @@ function CreateEvilPlayerClone (character)
 		return;
 	endif
 
-	var totem := CreateItemInContainer (character.backpack, 0x70bc, 1);
+	var totem := CreateItemInContainer (character.backpack, 0x170bc, 1);
 	if (!totem)
 		return CreateError ("Could not create totem - full pack");
 	endif

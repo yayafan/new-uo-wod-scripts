@@ -26,7 +26,7 @@ function CloseDistance (byref opponent)
 			if (GetVital (me, "Mana") < CINT(GetVitalMaximumValue (me, "Mana")/3))
 				RunToward (opponent);
 				return CLOSEDISTANCE_MOVED;
-			elseif (!CheckLineOfSight (me, opponent) )
+			elseif (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 				if (RunRandom (opponent))
 					return CLOSEDISTANCE_PEACEMADE;
 				endif

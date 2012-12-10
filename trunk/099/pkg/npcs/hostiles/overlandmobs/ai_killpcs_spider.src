@@ -94,7 +94,7 @@ function SpitWeb (byref opponent)
 		return;
 	endif
 
-	if (!CheckLineOfSight (me, opponent))
+	if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 		SetObjProperty (me, "#lastbreath", ReadGameClock()+2);
 		return;
 	endif

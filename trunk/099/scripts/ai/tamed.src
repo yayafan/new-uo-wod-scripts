@@ -453,7 +453,7 @@ function Fetch()
 	endif
 
 	var times := 0;
-	while ( (distance (me, tobj) > 1) and times < 20 and CheckLineOfSight (me,tobj) )
+	while ( (distance (me, tobj) > 1) and times < 20 and CheckLoSAt (me,tobj.x,tobj.y,tobj.z) )
 		if ( !runtoward (tobj))
 			sleep (1);
 			times := times + 3;
@@ -1053,7 +1053,7 @@ function Fight (opponent)
 					EVID_DAMAGED:
 						if (ev.source) 
 							if ( (ev.source != opponent) and (ev.source != master) and (ev.source != me) )
-								if( (!CheckLineOfSight ( me, opponent )) or (RandomInt(8)==1) )
+								if( (!CheckLoSAt ( me, opponent.x, opponent.y, opponent.z )) or (RandomInt(8)==1) )
 									opponent := ev.source;
 									SetOpponent ( opponent );
 								endif
@@ -1146,7 +1146,7 @@ function CloseDistance (byref opponent)
 					return 1;
 				endif
 			else
-				if (!CheckLineOfSight (me, opponent))
+				if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 					RunToward (opponent);
 					RunToward (opponent);
 					return 0;

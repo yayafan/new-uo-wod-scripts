@@ -23,7 +23,7 @@ program pickpocket_dummy( who , dummy )
         	return;
 	endif
 
-	if( !CheckLineOfSight( who, dummy ))
+	if( !CheckLoSAt( who, dummy.x, dummy.y, dummy.z ))
 	        SendSysMessage( who, "You don't have line of sight to that." );
         	return;
 	endif

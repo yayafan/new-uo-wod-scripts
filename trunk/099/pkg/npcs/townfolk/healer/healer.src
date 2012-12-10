@@ -87,7 +87,7 @@ function HealerStuff (byref mobile)
 		return;
 	endif
 
-	if (!CheckLineOfSight (me, mobile))
+	if (!CheckLoSAt (me, mobile.x, mobile.y, mobile.z))
 		return;
 	endif
 

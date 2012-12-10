@@ -102,7 +102,7 @@ MoveObjectToLocation( me, 10, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOC
 				endif
 				steps := 0;
 				randomruns := 0;
-				if (CheckLineOfSight (me, opponent))
+				if (CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 					loops := 1;
 					waittime := 1;
 					EraseObjProperty (me, "#flees");
@@ -119,7 +119,7 @@ MoveObjectToLocation( me, 10, me.y, me.z, me.realm, flags := MOVEOBJECT_FORCELOC
 		//We're a good distance away to zap them with spells, if we have mana
 		else
 			if (GetVital (me, "Mana") * 3 > GetVitalMaximumValue (me, "Mana"))
-				if (CheckLineOfSight (me, opponent))
+				if (CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 					loops := 1;
 					waittime := 1;
 					EraseObjProperty (me, "#flees");

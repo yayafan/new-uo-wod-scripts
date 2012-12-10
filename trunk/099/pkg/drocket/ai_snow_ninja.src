@@ -134,7 +134,7 @@ endfunction
 
 
 function ThrowNinjaStar (opponent)
-	if (!CheckLineOfSight (me, opponent))
+	if (!CheckLoSAt (me, opponent.x, opponent.y, opponent.z))
 		return;
 	elseif (Distance (me, opponent) < 4)
   		return;
