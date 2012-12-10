@@ -60,9 +60,18 @@ function HasBow ()
 		0x26c3:
 			bowarmed := 1;
 			ammotype := 0x1bfb;//xbow and bolts
-		0x6050:
+		0x2790:
 			bowarmed := 1;
-			ammotype := 0x6051;//firebow and firearrows
+			ammotype := 0x27ac;//shuriken
+		0x27db:
+			bowarmed := 1;
+			ammotype := 0x255d;//throwing axes
+		0x27f5:
+			bowarmed := 1;
+			ammotype := 0x2804;//darts
+		0x16050:
+			bowarmed := 1;
+			ammotype := 0x16051;//firebow and firearrows
 		default: return 0;
 	endcase
 	if (!bowarmed)
@@ -103,7 +112,8 @@ function ChangeWeapons ()
 					and item.objtype != 0x13fd and item.objtype != 0x6050
 					and item.objtype != 0x26c2 and item.objtype != 0x27f0
 					and item.objtype != 0x2d2a and item.objtype != 0x2d2b
-					and item.objtype != 0x26c3)
+					and item.objtype != 0x26c3 and item.objtype != 0x2790
+          and item.objtype != 0x27db and item.objtype != 0x27f5)
 				EquipItem (me, item);
 			endif
 		endif

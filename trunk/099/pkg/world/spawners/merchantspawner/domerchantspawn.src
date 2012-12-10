@@ -16,11 +16,8 @@ program SpawnThatStuff ()
 		var x := merchant[1];
 		var y := merchant[2];
 		var z := merchant[3];
-		var npctemplate := merchant[4];
-		var rlm := merchant[5];
-		if (!rlm)
-			rlm := _DEFAULT_REALM;
-		endif
+		var rlm := merchant[4];
+		var npctemplate := merchant[5];
 		var npc := SpawnNPCAtLocation (npctemplate, x, y, z, 0, rlm);
 		if (!npc)
 			LogBadMerchantSpawn (npctemplate, x, y, rlm);

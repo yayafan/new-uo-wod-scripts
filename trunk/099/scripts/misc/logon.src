@@ -45,6 +45,9 @@ program logon (character)
 	else
 		character.carrying_capacity_mod := 0;
 	endif
+	if (!character.cmdlevel)
+		character.concealed := 0;
+	endif
 
 	SendSysMessage (character, "Welcome to the World of Dreams!");
 	SetObjProperty (character, "logontime", ReadGameClock() );
@@ -103,6 +106,7 @@ program logon (character)
 	ResetBuffDebuffIcons(character);
 	
 	//MakeChristmasGift (character);
+	MakeChristmasTreeDeed (character);
 
 endprogram
 
@@ -181,7 +185,7 @@ endfunction
 
 
 function MakeChristmasGift (character)
-	if (GetAccountProperty (character.acctname, "christmas_present_2011"))
+	if (GetAccountProperty (character.acctname, "christmas_present_2012"))
 		return;
 	endif
 
@@ -196,7 +200,7 @@ function MakeChristmasGift (character)
 		return 0;
 	endif
 	
-	gift1.graphic := 10290;
+	gift1.graphic := 0xa02d;
 	gift1.color := 272;
 	gift1.name := "A Christmas Gift";
 	gift1.usescript := ":giftwrapper:christmasgift";
@@ -206,12 +210,12 @@ function MakeChristmasGift (character)
 	if (!gift2)
 		Syslog ("Christmas Error! player " + character.acctname + " did not get their second gift");
 	endif
-	gift2.graphic := 10294;
+	gift2.graphic := 0xa031;
 	gift2.color := 38;
 	gift2.name := "A Christmas Gift";
 	gift2.usescript := ":giftwrapper:christmasgift";
 	gift2.movable := 0;
-	SetAccountProperty (character.acctname, "christmas_present_2011", 1);
+	SetAccountProperty (character.acctname, "christmas_present_2012", 1);
 
 	SendSysMessage (character, "Merry Christmas!");
 	return;
@@ -321,7 +325,7 @@ endfunction
 ///////////////////
 
 function MakeChristmasTreeDeed (character)
-	if (GetAccountProperty (character.acctname, "christmas_tree_deed_2011"))
+	if (GetAccountProperty (character.acctname, "christmas_tree_deed_2012"))
 		return;
 	endif
 
@@ -332,7 +336,7 @@ function MakeChristmasTreeDeed (character)
 		return;
 	endif
 
-	SetAccountProperty (character.acctname, "christmas_tree_deed_2011", 1);
+	SetAccountProperty (character.acctname, "christmas_tree_deed_2012", 1);
 endfunction
 
 

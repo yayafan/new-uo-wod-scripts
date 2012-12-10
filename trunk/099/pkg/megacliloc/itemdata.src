@@ -34,7 +34,11 @@ program itemdata(xObject)
 		xDesc := xDesc + Html + "Unidentified<br>";
 	else
 		if (xObject.isa(POLCLASS_ARMOR))
+			var armordesc := GetItemDescriptor(xObject.objtype);
 			xDesc := xDesc + Html + "Armor Rating: " + xObject.ar + "<br>";
+			if (armordesc.strrequired)
+				xDesc := xDesc + Html + "Strength Required: " + CINT(armordesc.strrequired/10) + "<br>";
+			endif
 			if (xobject.resist_poison)
 				xDesc := xDesc + Html + "Poison Protection: " + xObject.resist_poison + " charges<br>";
 			endif

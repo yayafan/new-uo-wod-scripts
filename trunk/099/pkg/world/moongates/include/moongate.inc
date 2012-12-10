@@ -42,11 +42,14 @@ function MG_FindDestination( button_id )
   
 		realm := realm; // To avoid a compiler warning.
 		var cfg_elem := config[_realm_iter];
-                if( cfg_elem.errortext )
-                        //No files for realm.
-                	continue;
-                endif
-                
+    if( cfg_elem.errortext )
+      //No files for realm.
+     	continue;
+    endif
+    if( !cfg_elem.Active )
+      continue;
+    endif
+
 		foreach entry in ( GetConfigStringDictionary( cfg_elem, "Town" ))
 			if( btn_id == button_id )
 				var coords := SplitWords( entry );

@@ -53,6 +53,10 @@ exported function GetLifeMaximumValue(character)
 				SetAttributeBaseValue (character, "Strength", maxstr*10);
 			endif
 		endif		
+	elseif (GetObjProperty (character, "BonusMaxHP"))
+		//permanent bonus MaxHP, usually for NPCs
+		var bonusmaxhp := GetObjProperty (character, "BonusMaxHP");
+		return (GetAttribute (character, "Strength") + bonusmaxhp) * 100;
 	endif
 
 	//possible bonus MaxHP from spell effects
@@ -68,6 +72,7 @@ exported function GetLifeMaximumValue(character)
 			return (GetAttribute (character, "Strength") + bonusmaxhp) * 100;
 		endif
 	endif
+	
 
     return GetAttribute (character, "Strength") * 100;
 endfunction
@@ -117,6 +122,10 @@ exported function GetStaminaMaximumValue(character)
 				SetAttributeBaseValue (character, "Dexterity", maxdex*10);
 			endif
 		endif
+	elseif (GetObjProperty (character, "BonusMaxStam"))
+		//permanent bonus MaxStam, usually for NPCs
+		var bonusmaxstam := GetObjProperty (character, "BonusMaxStam");
+		return (GetAttribute (character, "Dexterity") + bonusmaxstam) * 100;
 	endif
 
 	//possible bonus MaxStamina from spell effects
@@ -182,6 +191,10 @@ exported function GetManaMaximumValue(character)
 				SetAttributeBaseValue (character, "Intelligence", maxint*10);
 			endif
 		endif
+	elseif (GetObjProperty (character, "BonusMaxMana"))
+		//permanent bonus MaxMana, usually for NPCs
+		var bonusmaxmana := GetObjProperty (character, "BonusMaxMana");
+		return (GetAttribute (character, "Intelligence") + bonusmaxmana) * 100;
 	endif
 
 	var racialbonus := 0;

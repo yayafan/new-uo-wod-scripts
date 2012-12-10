@@ -42,6 +42,9 @@ program customhouse_commit ( who, house, houseelemarray )
 		if (!YesNo (who, "Build it?"))
 			house.acceptcommit(who, 0);
 			SendSysMessage (who, "Canceled.");
+			if (who.concealed < 2)
+				who.concealed := 0;
+			endif
 			return;
 		endif
 		while (refund > 60000)
@@ -64,6 +67,7 @@ program customhouse_commit ( who, house, houseelemarray )
 		endif
 	endforeach
 	SendSysMessage (who, "This house has " + house.components.size() + " components.");
+	SendPacket (who, "B9000080FB");
 	if (who.concealed < 2)
 		who.concealed := 0;
 	endif

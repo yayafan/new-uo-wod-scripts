@@ -8,11 +8,11 @@ program christmasgift (character, giftbox)
 
 	SendSysMessage (character, "What do you want for Christmas?");
 	var select_menu := CreateMenu ("Pick a gift:");
-	AddMenuItem (select_menu, 8406, "A stone dragon statue");
-	AddMenuItem (select_menu, 10430, "A marble horse statue");
-	AddMenuItem (select_menu, 10360, "A set of toy soldiers");
-	AddMenuItem (select_menu, 10610, "A painting deed");
-	AddMenuItem (select_menu, 0x1EBB, "An item repair kit");
+	AddMenuItem (select_menu, 0, "A stone dragon statue");
+	AddMenuItem (select_menu, 0, "A marble horse statue");
+	AddMenuItem (select_menu, 0, "A set of toy soldiers");
+	AddMenuItem (select_menu, 0, "A painting deed");
+	AddMenuItem (select_menu, 0, "An item repair kit");
 
 	var selected_item := SelectMenuItem2 (character, select_menu);
 	if (!selected_item)
@@ -38,15 +38,15 @@ program christmasgift (character, giftbox)
 			DestroyItem (giftbox);
 	
 		3:
-			var soldier := CreateItemInContainer (character.backpack, 10360, 1);
+			var soldier := CreateItemInContainer (character.backpack, 0xa054, 1);
 			if (!soldier)
 				PrintTextAbovePrivate (character, "*Your Backpack is full!*", character);
 				return;
 			endif
-			CreateItemInContainer (character.backpack, 10361, 1);
-			CreateItemInContainer (character.backpack, 10362, 1);
-			CreateItemInContainer (character.backpack, 10363, 1);
-			CreateItemInContainer (character.backpack, 10364, 1);
+			CreateItemInContainer (character.backpack, 0xa055, 1);
+			CreateItemInContainer (character.backpack, 0xa056, 1);
+			CreateItemInContainer (character.backpack, 0xa057, 1);
+			CreateItemInContainer (character.backpack, 0xa058, 1);
 			DestroyItem (giftbox);
 
 		4:
@@ -58,7 +58,7 @@ program christmasgift (character, giftbox)
 			DestroyItem (giftbox);
 	
 		5:
-			var repairkit := CreateItemInContainer (character.backpack, 0x709f, 1);
+			var repairkit := CreateItemInContainer (character.backpack, 0x1709f, 1);
 			if (!repairkit)
 				PrintTextAbovePrivate (character, "*Your Backpack is full!*", character);
 				return;

@@ -59,6 +59,9 @@ program Dress (parms)
 	elseif (text=="magetokuno")
 		DressMageTok(me,gender);
 		return;
+	elseif (text=="platetokuno")
+		DressPlateTok(me,gender);
+		return;
 	elseif (text=="poorelf")
 		DressElf(me,gender);
 		return;
@@ -844,11 +847,13 @@ function DressWarElf(me,gender)
 			item := 0x2fc5;		//LeafTunic
 			CreateAndEquip(me,item,0);
 		else
-			case (randomint(2))
+			case (randomint(3))
 			0:
 				item := 0x2fc9;		//LeafLeggings
 			1:
 				item := 0x2fca;		//LeafTonlet
+			2:
+				item := 0x315f;		//WoodlandBelt
 			endcase
 			CreateAndEquip(me,item,0);
 
@@ -993,11 +998,13 @@ function DressLeaf(me,gender)
 		item := 0x2fc5;		//LeafTunic
 		CreateAndEquip(me,item,0);
 	else
-		case (randomint(2))
+		case (randomint(3))
 		0:
 			item := 0x2fc9;		//LeafLeggings
 		1:
 			item := 0x2fca;		//LeafTonlet
+		2:
+			item := 0x315f;		//WoodlandBelt
 		endcase
 		CreateAndEquip(me,item,0);
 		case (RandomInt(2))
@@ -1099,9 +1106,8 @@ function DressPoorTok(me,gender)
 	endif
 
 	item := 0;
-	case (RandomInt(6))
+	case (RandomInt(3))
 	0:	item := 0x153B;//apron
-	1:	item := 0x153D;//fullapron
 	endcase
 
 	CreateAndEquip(me,item,makeclothcolor());
@@ -1136,30 +1142,26 @@ function DressRichTok(me,gender)
 	endcase
 	
 	if (!gender)
-		case (RandomInt(4))
+		case (RandomInt(3))
 			0:
-				CreateAndEquip(me,0x27e7,makeclothcolor()); //Hakama-Shita
-				CreateAndEquip(me,0x27e6,makeclothcolor()); //Tattsuke-Hakama
-			1:
 				case (RandomInt(2))
-					0:
-					CreateAndEquip(me,0x27e5,makeclothcolor()); //Hakama
-					1:
-					CreateAndEquip(me,0x27e6,makeclothcolor()); //Tattsuke-Hakama
+					0:	CreateAndEquip(me,0x27e5,makeclothcolor()); //Hakama
+					1:	CreateAndEquip(me,0x27e6,makeclothcolor()); //Tattsuke-Hakama
 				endcase
-				if (RandomInt(4)==0)
-					CreateAndEquip(me,0x27ec,makeclothcolor()); //Jin-Baori
-				endif
-			2:	CreateAndEquip(me,0x27cd,makeclothcolor()); //MaleKimono
-			3:	CreateAndEquip(me,0x27e4,makeclothcolor()); //Kamishimo
+				case (RandomInt(4))
+					0:	CreateAndEquip(me,0x27ec,makeclothcolor()); //Jin-Baori
+					1:	CreateAndEquip(me,0x27e7,makeclothcolor()); //Hakama-Shita
+				endcase
+			1:	CreateAndEquip(me,0x27cd,makeclothcolor()); //MaleKimono
+			2:	CreateAndEquip(me,0x27e4,makeclothcolor()); //Kamishimo
 		endcase
 		
 		case (RandomInt(6))
 			0:
 				CreateAndEquip(me,0x27c1,makeclothcolor()); //LeatherJingasa
 			1:
-				if (me.strength < 70)
-					me.setstr(70);
+				if (me.strength < 80)
+					me.setstr(80);
 				endif
 				CreateAndEquip(me,0x27cf,makeclothcolor()); //StuddedJingasa
 			2:
@@ -1194,6 +1196,7 @@ endfunction
 function DressWarTok(me,gender)
 
 	var item;
+	var ninja := 0;
 
 
 	case (RandomInt(4))
@@ -1243,8 +1246,9 @@ function DressWarTok(me,gender)
 		endif
 	1:
 		//ninja
-		if (me.strength < 60)
-			me.setstr(60);
+		ninja := 1;
+		if (me.strength < 70)
+			me.setstr(70);
 		endif
 		item := 0x27d9;		//LeatherNinjaHood
 		CreateAndEquip(me,item,0);
@@ -1302,7 +1306,9 @@ function DressWarTok(me,gender)
 		endif
 	3:
 		//plate
-		me.setstr(100);
+		if (me.strength < 100)
+			me.setstr(100);
+		endif
 		item := 0x27cb;		//PlateHiroSode
 		CreateAndEquip(me,item,0);
 		item := 0x27c8;		//PlateDo
@@ -1361,25 +1367,37 @@ function DressWarTok(me,gender)
 		endif
 
 	endcase
-
-	case (RandomInt(15))
-		0:	item := 0x27a2;		//Nodachi
-		1:	item := 0x27a3;		//Tessen
-		2:	item := 0x27a4;		//Wakizashi
-		3:	item := 0x27a6;		//Tetsubo
-		4:	item := 0x27a7;		//Lajatang
-		5:	item := 0x27a8;		//Bokuto
-		6:	item := 0x27a9;		//Daisho
-		7:	item := 0x27ab;		//Tekagi
-		8:	item := 0x27ad;		//Kama
-		9:	item := 0x27ae;		//Nunchaku
-		10:	item := 0x27af;		//Sai
-		11:	item := 0x0f49;		//Axe
-		12:	item := 0x1438;		//WarHammer
-		13:	item := 0x13fe;		//Katana
-		14:	item := 0x0e8a;		//Quarterstaff
-	endcase
-
+	if (!ninja)
+		case (RandomInt(12))
+			0:	item := 0x27a2;		//Nodachi
+			1:	item := 0x27a4;		//Wakizashi
+			2:	item := 0x27a6;		//Tetsubo
+			3:	item := 0x27a7;		//Lajatang
+			4:	item := 0x27a8;		//Bokuto
+			5:	item := 0x27a9;		//Daisho
+			6:	item := 0x13fe;		//Katana
+			7:	item := 0x0e8a;		//Quarterstaff
+			8:	item := 0x1402;		//ShortSpear
+			9:	item := 0x0f63;		//Spear
+			10:	item := 0x26bd;		//BladedStaff
+			11:	item := 0x26be;		//Pike
+		endcase
+	else
+		case (RandomInt(12))
+			0:	item := 0x27a3;		//Tessen
+			1:	item := 0x27a4;		//Wakizashi
+			2:	item := 0x27a6;		//Tetsubo
+			3:	item := 0x27ab;		//Tekagi
+			4:	item := 0x27ad;		//Kama
+			5:	item := 0x27ae;		//Nunchaku
+			6:	item := 0x27af;		//Sai
+			7:	item := 0x0e8a;		//Quarterstaff
+			8:	item := 0x1402;		//ShortSpear
+			9:	item := 0x0f63;		//Spear
+			10:	item := 0x26bd;		//BladedStaff
+			11:	item := 0x26bf;		//DoubleBladedStaff
+		endcase
+	endif
 	CreateAndEquip(me,item,0);
 
 endfunction
@@ -1427,80 +1445,137 @@ endfunction
 
 function DressLeatherTok(me,gender)
 	var item;
-
-
+	item := 0x27c9;		//LeatherHiroSode
+	CreateAndEquip(me,item,0);
 	case (RandomInt(2))
-	0:
-		//leather
-		item := 0x27c9;		//LeatherHiroSode
-		CreateAndEquip(me,item,0);
-		case (RandomInt(2))
-			0: 
-				item := 0x27c3;		//LeatherKabuto
-				CreateAndEquip(me,item,0);
-				if (RandomInt(2))
-					item := 0x13C7;		//LeatherGorget
-				else
-					item := 0x27c5;		//LeatherMempo
-				endif
-				CreateAndEquip(me,item,0);
-			1:
-				item := 0x27c3;		//LeatherJingasa
-				CreateAndEquip(me,item,0);
+		0: 
+			item := 0x27c3;		//LeatherKabuto
+			CreateAndEquip(me,item,0);
+			if (RandomInt(2))
 				item := 0x13C7;		//LeatherGorget
-				CreateAndEquip(me,item,0);
-		endcase
-		item := 0x27c6;		//LeatherDo
+			else
+				item := 0x27c5;		//LeatherMempo
+			endif
+			CreateAndEquip(me,item,0);
+		1:
+			item := 0x27c3;		//LeatherJingasa
+			CreateAndEquip(me,item,0);
+			item := 0x13C7;		//LeatherGorget
+			CreateAndEquip(me,item,0);
+	endcase
+	item := 0x27c6;		//LeatherDo
+	CreateAndEquip(me,item,0);
+	if (!gender)
+		item := 0x27d1;		//LeatherSuneate
 		CreateAndEquip(me,item,0);
-		if (!gender)
+		item := 0x27e1;		//WarajiAndTabi
+		CreateAndEquip(me,item,0);
+	else
+		case (randomint(2))
+		0:
 			item := 0x27d1;		//LeatherSuneate
 			CreateAndEquip(me,item,0);
 			item := 0x27e1;		//WarajiAndTabi
 			CreateAndEquip(me,item,0);
-		else
-			case (randomint(2))
-			0:
-				item := 0x27d1;		//LeatherSuneate
-				CreateAndEquip(me,item,0);
-				item := 0x27e1;		//WarajiAndTabi
-				CreateAndEquip(me,item,0);
-			1:
-				item := 0x27d5;		//LeatherHaidate
-				CreateAndEquip(me,item,0);
-				item := 0x1711;		//ThighBoots
-				CreateAndEquip(me,item,0);
-			endcase
-		endif
-	1:
-		//ninja
-		item := 0x27d9;		//LeatherNinjaHood
-		CreateAndEquip(me,item,0);
-		item := 0x27de;		//LeatherNinjaJacket
-		CreateAndEquip(me,item,0);
-		item := 0x27dc;		//LeatherNinjaPants
-		CreateAndEquip(me,item,0);
-		item := 0x27e2;		//NinjaTabi
-		CreateAndEquip(me,item,0);
-		item := 0x27dd;		//LeatherNinjaMitts
-		CreateAndEquip(me,item,0);
-	endcase
-	
-	case (RandomInt(15))
+		1:
+			item := 0x27d5;		//LeatherHaidate
+			CreateAndEquip(me,item,0);
+			item := 0x1711;		//ThighBoots
+			CreateAndEquip(me,item,0);
+		endcase
+	endif
+	case (RandomInt(12))
 		0:	item := 0x27a2;		//Nodachi
-		1:	item := 0x27a3;		//Tessen
-		2:	item := 0x27a4;		//Wakizashi
-		3:	item := 0x27a6;		//Tetsubo
-		4:	item := 0x27a7;		//Lajatang
-		5:	item := 0x27a8;		//Bokuto
-		6:	item := 0x27a9;		//Daisho
-		7:	item := 0x27ab;		//Tekagi
-		8:	item := 0x27ad;		//Kama
-		9:	item := 0x27ae;		//Nunchaku
-		10:	item := 0x27af;		//Sai
-		11:	item := 0x0f49;		//Axe
-		12:	item := 0x1438;		//WarHammer
-		13:	item := 0x13fe;		//Katana
-		14:	item := 0x0e8a;		//Quarterstaff
+		1:	item := 0x27a4;		//Wakizashi
+		2:	item := 0x27a6;		//Tetsubo
+		3:	item := 0x27a7;		//Lajatang
+		4:	item := 0x27a8;		//Bokuto
+		5:	item := 0x27a9;		//Daisho
+		6:	item := 0x13fe;		//Katana
+		7:	item := 0x0e8a;		//Quarterstaff
+		8:	item := 0x1402;		//ShortSpear
+		9:	item := 0x0f63;		//Spear
+		10:	item := 0x26bd;		//BladedStaff
+		11:	item := 0x26be;		//Pike
+	endcase
+	CreateAndEquip(me,item,0);
+endfunction
+
+function DressPlateTok(me,gender)
+	var item;
+	if (me.strength < 100)
+		me.setstr(100);
+	endif
+	item := 0x27cb;		//PlateHiroSode
+	CreateAndEquip(me,item,0);
+	item := 0x27c8;		//PlateDo
+	CreateAndEquip(me,item,0);
+	case (RandomInt(4))
+		0: 
+			case (RandomInt(2))
+				0:
+					item := 0x27d0;		//PlateKabuto
+				1:
+					item := 0x236c;		//PlateKabuto2
+			endcase
+			CreateAndEquip(me,item,0);
+			case (RandomInt(2))
+				0:
+					item := 0x1413;		//PlatemailGorget
+				1:
+					item := 0x27c4;		//PlateMempo
+			endcase
+			CreateAndEquip(me,item,0);
+		1:
+			case (RandomInt(2))
+				0:
+					item := 0x27cc;		//PlateJingasa
+				1:
+					item := 0x2777;		//PlateJingasa2
+			endcase
+			CreateAndEquip(me,item,0);
+			item := 0x1413;		//PlatemailGorget
+			CreateAndEquip(me,item,0);
+		2:
+			item := 0x27bf;		//MailHatsuburi
+			CreateAndEquip(me,item,0);			
+		3:
+			item := 0x27c0;		//PlateHatsuburi
+			CreateAndEquip(me,item,0);			
+	endcase
+	if (!gender)
+		item := 0x27d3;		//PlateSuneate
+		CreateAndEquip(me,item,0);
+		item := 0x27e1;		//WarajiAndTabi
+		CreateAndEquip(me,item,0);
+	else
+		case (randomint(2))
+		0:
+			item := 0x27d3;		//StuddedSuneate
+			CreateAndEquip(me,item,0);
+			item := 0x27e1;		//WarajiAndTabi
+			CreateAndEquip(me,item,0);
+		1:
+			item := 0x27d8;		//PlateHaidate
+			CreateAndEquip(me,item,0);
+			item := 0x1711;		//ThighBoots
+			CreateAndEquip(me,item,0);
+		endcase
+	endif
+
+	case (RandomInt(12))
+		0:	item := 0x27a2;		//Nodachi
+		1:	item := 0x27a4;		//Wakizashi
+		2:	item := 0x27a6;		//Tetsubo
+		3:	item := 0x27a7;		//Lajatang
+		4:	item := 0x27a8;		//Bokuto
+		5:	item := 0x27a9;		//Daisho
+		6:	item := 0x13fe;		//Katana
+		7:	item := 0x0e8a;		//Quarterstaff
+		8:	item := 0x1402;		//ShortSpear
+		9:	item := 0x0f63;		//Spear
+		10:	item := 0x26bd;		//BladedStaff
+		11:	item := 0x26be;		//Pike
 	endcase
 	CreateAndEquip(me,item,0);
 endfunction

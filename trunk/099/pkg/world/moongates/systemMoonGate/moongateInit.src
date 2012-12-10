@@ -110,6 +110,9 @@ function BuildGumpForGate( gate, byref town_name, byref config )
                 	continue;
                 endif
   
+		if( !cfg_elem.Active )
+			continue;
+		endif
 		GFPage( gump, page );
 
 		foreach entry in ( GetConfigStringDictionary( cfg_elem, "Town" ))

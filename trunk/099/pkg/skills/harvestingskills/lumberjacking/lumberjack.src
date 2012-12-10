@@ -228,6 +228,10 @@ function GetTreeType (tree)
 		elseif(tree.x >= 6910 and tree.x <= 7167 and tree.y >= 258 and tree.y <= 511)
 			return UOBJ_HEARTWOODLOG;
 		endif
+	elseif (tree.realm == "tokuno")
+		if (tree.x >= 839 and tree.x <= 1009 and tree.y >= 103 and tree.y <= 179)
+			return UOBJ_FROSTWOODLOG;
+		endif
 	endif
 	if (theobj == 0x0c95 or theobj == 0x0c96 or theobj == 0x0c9e)
 		return UOBJ_ASHLOG;

@@ -20,7 +20,7 @@ program setweather ()
 		endif
 		
 		if (RandomInt (10) == 1)
-			DoRainStorm ();
+			DoSnowStorm ();
 		endif
 		
 		EraseGlobalProperty ("#weather");
@@ -69,7 +69,7 @@ endfunction
 function SendWeatherPacket (weather)
 	SetGlobalProperty ("#weather", weather);
 	foreach player in EnumerateOnlineCharacters()
-		if (player.x < 5120)
+		if (player.x < 5120 and player.realm == REALM_BRITANNIA)
 			SendPacket (player, weather);
 		endif
 	endforeach

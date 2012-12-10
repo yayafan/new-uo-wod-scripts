@@ -36,7 +36,7 @@ program giftwrap (parms)
 		return;
 	endif
 	
-	var package_objtype := 10290;
+	var package_objtype := 41005;
 	case (bow_selection.index)
 		1:		package_objtype := 41005;
 		2:		package_objtype := 41006;

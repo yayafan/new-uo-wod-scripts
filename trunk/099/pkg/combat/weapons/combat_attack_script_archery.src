@@ -12,7 +12,7 @@ var weaponcfgfile := ReadConfigFile (":weapons:itemdesc");
 var armorcfgfile := ReadConfigFile (":armor:itemdesc");
 var attacker_npcdesc_elem, defender_npcdesc_elem;
 var attacker_weapon_elem;
-var attacker_weapon, defender_armor;
+var attacker_weapon, defender_armor, defender_weapon;
 var ammo_objtype;
 
 program combat_attack_script (parms)
@@ -67,6 +67,9 @@ program combat_attack_script (parms)
 		endif
 	endif
 
+	if (defender.weapon)
+		defender_weapon := defender.weapon;
+	endif
 	//Properly credit the attacker for anything that happens, but not in the arena
 	if (attacker.x >= 1385 and attacker.x <= 1414 and attacker.y >= 3729 and attacker.y <= 3758)
 		SetScriptController (0);
@@ -96,8 +99,21 @@ program combat_attack_script (parms)
 	endif
 	
 	//Hit! Figure out how much raw damage the attack did, then modify it be tactics and strength
+	//Also add bonus for those with high hiding, stealth and tracking
 	var raw_damage := CalculateAttackDamage ();
-	var modified_damage := CINT ((raw_damage * (GetAttribute (attacker, ATTRIBUTEID_TACTICS) + 50 + CINT (GetAttribute (attacker, ATTRIBUTEID_STRENGTH)/5)))/100);
+	var rangerbonus := 0;
+	if (GetAttribute (attacker, ATTRIBUTEID_HIDING) > 75)
+		rangerbonus := GetAttribute (attacker, ATTRIBUTEID_HIDING);
+	endif
+	if (GetAttribute (attacker, ATTRIBUTEID_STEALTH) > 75)
+		rangerbonus := rangerbonus + GetAttribute (attacker, ATTRIBUTEID_STEALTH);
+	endif
+	if (GetAttribute (attacker, ATTRIBUTEID_TRACKING) > 75)
+		rangerbonus := rangerbonus + GetAttribute (attacker, ATTRIBUTEID_TRACKING);
+	endif
+	rangerbonus := rangerbonus / 5;
+	
+	var modified_damage := CINT ((raw_damage * (GetAttribute (attacker, ATTRIBUTEID_TACTICS) + rangerbonus + 50 + CINT (GetAttribute (attacker, ATTRIBUTEID_STRENGTH)/5)))/100);
 
 	//Get the defender's AR rating and reduce the damage by 50-100% of that value
 	var defender_ar := CINT (GetDefendersAR (defender)/2);
@@ -364,8 +380,10 @@ function HenchmanCheckForAmmo ()
 				ammo_objtype := UOBJ_FIRE_BOLT;
 			elseif (ammo_objtype == UOBJ_DART)
 				ammo_objtype := UOBJ_FIRE_DART;
-			else
+			elseif (ammo_objtype == UOBJ_SHURIKEN)
 				ammo_objtype := UOBJ_FIRE_SHURIKEN;
+			else
+				ammo_objtype := UOBJ_FIRE_THROWINGAXE;			
 			endif
 		elseif (defender_npcdesc_elem.cold and defender_npcdesc_elem.cold == "weak")
 			if (ammo_objtype == UOBJ_ARROW)
@@ -374,8 +392,10 @@ function HenchmanCheckForAmmo ()
 				ammo_objtype := UOBJ_FROST_BOLT;
 			elseif (ammo_objtype == UOBJ_DART)
 				ammo_objtype := UOBJ_FROST_DART;
-			else
+			elseif (ammo_objtype == UOBJ_SHURIKEN)
 				ammo_objtype := UOBJ_FROST_SHURIKEN;
+			else
+				ammo_objtype := UOBJ_FROST_THROWINGAXE;
 			endif
 		endif
 	endif
@@ -436,6 +456,7 @@ function PerformArrowAttackAnim ()
 			0x16053:	//firebolt
 			0x16055:	//firedart
 			0x16057:	//fireshuriken
+			0x16059:	//firethrowingaxe
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x36D4, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x15F);
@@ -445,6 +466,7 @@ function PerformArrowAttackAnim ()
 			0x16054:	//frostbolt
 			0x16056:	//frostdart
 			0x16058:	//frostshuriken
+			0x1605a:	//frostthrowingaxe
 				sleepms (500);
 				PlayMovingEffect (attacker, defender, 0x1bfe, 0xa, 0x1e);
 				PlaySoundEffect (attacker, 0x2b3);
@@ -504,10 +526,33 @@ function CalculateToHitChance ()
 		endif
 	endif
 
-	var defender_weaponskill := CINT (GetAttribute (defender, "Dexterity")/2);
+//	var defender_weaponskill := CINT (GetAttribute (defender, "Dexterity")/2);
+//	if (defender.acctname)
+//		defender_weaponskill := CINT (defender_weaponskill * 1.2);
+//	endif
+	var defender_weaponskill := 0;
 	if (defender.acctname)
-		defender_weaponskill := CINT (defender_weaponskill * 1.2);
+		if (defender_weapon)
+			defender_weaponskill := GetAttribute (defender, (defender_weapon.attribute));
+		else
+			defender_weaponskill := GetAttribute (defender, ATTRIBUTEID_WRESTLING);
+		endif
+
+		//Increased chance of being missed for players
+		if (defender_weaponskill > 70)
+			defender_weaponskill := CINT (defender_weaponskill * 1.20);
+		endif
+	else
+		if (defender_weapon)
+			defender_weaponskill := GetAttribute (defender, (defender_weapon.attribute));
+		else
+			defender_weaponskill := GetAttribute (defender, defender_npcdesc_elem.AttackAttribute);
+		endif
+		if (!defender_weaponskill)
+			defender_weaponskill := GetAttribute (defender, ATTRIBUTEID_WRESTLING);
+		endif
 	endif
+
 
 	var chance_to_hit := CINT (((attacker_weaponskill + 50)*50)/(defender_weaponskill + 50));
 
