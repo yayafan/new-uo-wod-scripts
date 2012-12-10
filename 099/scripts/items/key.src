@@ -170,7 +170,11 @@ function UseKeyRing (character, key, thetarget)
 	foreach otherkey in EnumerateItemsInContainer (insidering)
 		var lockid := GetObjProperty (otherkey, "lockid");
 		if (lockid == targetlockid)
-			UnlockIt (thetarget, character);
+			if (thetarget.objtype == 0x1F015)
+				LockShip (thetarget, character);
+			else
+				UnlockIt (thetarget, character);
+			endif
 			return;
 		endif
 	endforeach

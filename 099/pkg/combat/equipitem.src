@@ -178,6 +178,7 @@ function ChangeArcheryAmmo (character, thebow)
 	var valid_bolts := array{0x1bfb, 0x16053, 0x16054};
 	var valid_darts := array{0x2804, 0x16055, 0x16056};
 	var valid_shuriken := array{0x27ac, 0x16057, 0x16058};
+	var valid_axes := array{0x255d, 0x16059, 0x1605a};
 
 	SendSysMessage (character, "Target the ammo that you want to use:");
 	var theammo := Target (character);
@@ -216,9 +217,14 @@ function ChangeArcheryAmmo (character, thebow)
 				SendSysMessage (character, "Dart throwers need darts for ammo");
 				return;
 			endif
-		0x27aa:
+		0x2790:
 			if (!(theammo.objtype in valid_shuriken))
 				SendSysMessage (character, "Shuriken throwers need shuriken for ammo");
+				return;
+			endif
+		0x27db:
+			if (!(theammo.objtype in valid_axes))
+				SendSysMessage (character, "Axe throwers need throwing axes for ammo");
 				return;
 			endif
 		default:

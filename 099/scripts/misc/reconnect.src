@@ -34,6 +34,8 @@ program reconnect (character)
 	SendSysMessage (character, "Welcome back to the World of Dreams!" );
 	if (!character.concealed)
 		PrintTextAbove (character,"[ONLINE]");
+	elseif (!character.cmdlevel)
+		character.concealed := 0;
 	endif
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);

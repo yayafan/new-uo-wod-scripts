@@ -371,7 +371,8 @@ function AddToSpawner (corpse, npctemplate)
 	endif
 
 	set_critical (1);
-	homepoint[4] := npctemplate;
+	homepoint[5] := npctemplate;
+	
 	var merchants_to_respawn := array { };
 	if (GetGlobalProperty ("respawnmerchants"))
 		merchants_to_respawn := GetGlobalProperty ("respawnmerchants");

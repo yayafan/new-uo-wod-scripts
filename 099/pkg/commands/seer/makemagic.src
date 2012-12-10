@@ -111,7 +111,7 @@ function SetupMagicalWeaponGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp + 1;
+		item.hp := item.maxhp;
 		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
@@ -140,7 +140,7 @@ function SetupMagicalShieldGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp + 1;
+		item.hp := item.maxhp;
 		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif
@@ -171,7 +171,7 @@ function SetupMagicalArmorGump (speaker, item)
 			item.name := "a magic " + TruncateArticle (item.desc);
 		endif
 		item.quality := 1.2;
-		item.hp := item.maxhp + 1;
+		item.hp := item.maxhp;
 		SetObjProperty (item, "unidentified", 1);
 		SendSysMessage (speaker, "Done.");
 	endif

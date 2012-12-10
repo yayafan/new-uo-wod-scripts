@@ -372,6 +372,8 @@ function IsDyableItem (character, item)
 		UOBJ_SHOES:
 		UOBJ_BOOTS:
 		UOBJ_THIGH_BOOTS:
+		0x2fc4:	//elven boots
+		0x317a:	//elven boots
 		0x1b74:	//kite shield
 		0x1b75:	//kite shield
 		0x09b5:	//eggs
@@ -389,6 +391,19 @@ function IsDyableItem (character, item)
 		0x12CA: 	//statue
 		
 		0x281f:	//teddy bear
+		
+		0x2328:	//snowman south
+		0x2329:	//snowman east
+		0x232a:	//present 1
+		0x232b:	//present 2
+		0x232c:	//wreath south
+		0x232d:	//wreath east
+		0x232f:	//snowflake
+		0x2331:	//poinsettia
+		0x236e:	//holiday candle east
+		0x2371:	//holiday candle south
+		0x2374:	//mistletoe east
+		0x2375:	//mistletoe south
 			return 1;
 	endcase;
 

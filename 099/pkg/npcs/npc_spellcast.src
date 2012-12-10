@@ -191,6 +191,7 @@ Function GetSpellID (spellname)
 	":druid_spells:stingingswarm":		spellid := 82;
 	":druid_spells:tidalwave":			spellid := 83;
 	":druid_spells:natures_curse":		spellid := 92;
+	":druid_spells:snowstorm":		spellid := 94;
 	endcase
 
 	return spellid;

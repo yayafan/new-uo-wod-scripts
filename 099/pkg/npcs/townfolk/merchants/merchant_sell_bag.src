@@ -127,6 +127,7 @@ function SellBag (merchant, player)
 	MerchantTurnToward (merchant, player);
 	PrintTextAbovePrivate (merchant, "The total of your sale is " + totalsale, player);
 	PlaySoundEffect (player, 0x38);
+	bag.name := bag.desc;
 	if (totalsale > 60000)
 		repeat
 			var thegold := CreateItemInContainer (player.backpack, UOBJ_GOLD_COIN, 60000);

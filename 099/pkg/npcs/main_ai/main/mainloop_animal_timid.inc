@@ -191,6 +191,18 @@ function PlayAnimalSoundEffects ()
 				1:	PlaySoundEffect (me, 0x8c);
 				2:	PlaySoundEffect (me, 0x8d);
 			endcase
+		254:
+			case (randomint(2))
+				0:	PlaySoundEffect (me, 0x4d9);
+				1:	PlaySoundEffect (me, 0x4da);
+			endcase
+		248:
+			case (randomint(3))
+				0:	PlaySoundEffect (me, 0x4f8);
+				1:	PlaySoundEffect (me, 0x4f9);
+				2:	PlaySoundEffect (me, 0x4fa);
+			endcase
+    
 	endcase
 
 	return 0;
