@@ -39,6 +39,9 @@ program itemdata(xObject)
 			if (armordesc.strrequired)
 				xDesc := xDesc + Html + "Strength Required: " + CINT(armordesc.strrequired/10) + "<br>";
 			endif
+//			if (armordesc.DexPenalty)
+//				xDesc := xDesc + Html + "-" + CINT(armordesc.DexPenalty/10) + " Dexterity" + "<br>";
+//			endif
 			if (xobject.resist_poison)
 				xDesc := xDesc + Html + "Poison Protection: " + xObject.resist_poison + " charges<br>";
 			endif
@@ -121,9 +124,14 @@ program itemdata(xObject)
 		elseif (xObject.objtype == 0x1706b)
 			var spellcount := DruidSpellCount(xObject);
 			xDesc := xDesc + Html + spellcount + " spells<br>";		
+		elseif (IsSign(xObject))
+			owner := GetObjProperty (xObject, "lastownername");
+			if (owner)
+				xDesc := xDesc + Html + "Owner: " + owner + "<br>";
+			endif
 		endif
 	endif
-	if (!xObject.isa(POLCLASS_CORPSE))
+	if (!xObject.isa(POLCLASS_CORPSE) and !IsSign(xObject))
 		xDesc := xDesc + Html + "Weight: " + xObject.weight + " stones<br>";
 	endif
 	if ( xObject.newbie )
@@ -155,3 +163,26 @@ function DruidSpellCount(bag)
 	endif
 	return 0;
 endfunction
+
+function IsSign (item)
+	case (item.objtype)
+		0xb95:
+		0xb96:
+		0xbd0:
+		0xbd2:
+		0xc43:
+		0xc44:
+		0x1f28:
+		0x1f29:
+		0x17060:
+		0x1708a:
+			return 1;
+	endcase
+	if (item.objtype >= 0xba3 and item.objtype <= 0xc0e)
+		return 1;
+	elseif (item.objtype >= 0x1297 and item.objtype <= 0x129e)
+		return 1;
+	endif
+	return 0;
+endfunction
+

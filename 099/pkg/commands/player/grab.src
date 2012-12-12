@@ -21,7 +21,7 @@ program grab_nearby_items (me, textline)
 		return;
 	endif
 
-	if (me.x >= 1385 and me.x <= 1414 and me.y >= 3729 and me.y <= 3758)
+	if (me.x >= 1385 and me.x <= 1414 and me.y >= 3729 and me.y <= 3758 and me.realm == REALM_BRITANNIA)
 		SendSysMessage (me, "No fair looting in the arena!");
 		return;
 	endif
@@ -112,6 +112,7 @@ program grab_nearby_items (me, textline)
 					return;
 				endif
 				Grabit (me, thingie);
+				item.name := item.desc;
 			endforeach
 		elseif (item.movable)
 			if (me.dead)
@@ -126,6 +127,8 @@ program grab_nearby_items (me, textline)
 			endif
 			Grabit(me, item);
 		endif
+		lootbag.name := lootbag.desc;
+		me.backpack.name := me.backpack.desc;
 	endforeach
 
 	SendSysMessage (me, "Hmm... looks like you got it all!");
@@ -177,6 +180,7 @@ Function grabit (byref me, byref it)
 		else
 			PrintTextAbovePrivate (me, "*That container is full!*", me);
 		endif
+		lootbag.name := lootbag.desc;
 		return;
 	endif
 
@@ -197,6 +201,7 @@ Function grabit (byref me, byref it)
 			else
 				PrintTextAbovePrivate (me, "*That container is full!*", me);
 			endif
+			targetbag.name := targetbag.desc;
 		endif
 		return;
 	endif
@@ -221,6 +226,7 @@ Function grabit (byref me, byref it)
 		else
 			PrintTextAbovePrivate (me, "*That container is full!*", me);
 		endif
+		targetbag.name := targetbag.desc;
 		return;
 	endif
 
@@ -233,17 +239,21 @@ Function grabit (byref me, byref it)
 					if (AddAmount (item, it.amount) )
 						if (!DestroyItem (it))
 							SubtractAmount (item, it.amount);
+							targetbag.name := targetbag.desc;
 							return;
 						endif
 						PrintTextAbove (me, "*yoink*");
+						targetbag.name := targetbag.desc;
 						sleep (1);
 						return;
 					elseif (CreateItemInContainer (targetbag, it.objtype, it.amount))
 						if (!DestroyItem (it))
 							SubtractAmount (item, it.amount);
+							targetbag.name := targetbag.desc;
 							return;
 						endif
 						PrintTextAbove (me, "*yoink*");
+						targetbag.name := targetbag.desc;
 						sleep (1);
 						return;
 					else
@@ -261,6 +271,7 @@ Function grabit (byref me, byref it)
 	if (newitem)
 		if (!DestroyItem (it))
 			SubtractAmount (newitem, it.amount);
+			targetbag.name := targetbag.desc;
 			return;
 		endif
 		PrintTextAbove (me, "*yoink*");
@@ -268,6 +279,7 @@ Function grabit (byref me, byref it)
 	else
 		PrintTextAbovePrivate (me, "*That container is full!*", me);
 	endif
+	targetbag.name := targetbag.desc;
 	return;
 endfunction
 

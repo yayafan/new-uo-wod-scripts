@@ -69,12 +69,12 @@ exported function GetLifeMaximumValue(character)
 			endif
 		endforeach
 		if (bonusmaxhp)
-			return (GetAttribute (character, "Strength") + bonusmaxhp) * 100;
+			return (GetAttribute (character, "Strength") + 50 +bonusmaxhp) * 100;
 		endif
 	endif
 	
 
-    return GetAttribute (character, "Strength") * 100;
+    return (GetAttribute (character, "Strength") + 50) * 100;
 endfunction
 
 
@@ -88,7 +88,11 @@ exported function GetStaminaRegenRate (character)
 	if (!character.acctname)
 		return 1200;
 	endif
+	
+	var racialbonus := 0;
 
+	var stamregenbonus := racialbonus + GetAttribute (character, ATTRIBUTEID_FOCUS)*12;
+	
 	//If they're hungry, don't regenerate stamina as fast or at all
 	var hunger := CINT (GetObjProperty (character, "hunger"));
 	if (!hunger)
@@ -96,18 +100,18 @@ exported function GetStaminaRegenRate (character)
 	endif
 	
 	if (hunger >= 9)
-		return 100;
+		return 100 + stamregenbonus;
 	elseif (hunger >= 7)
-		return 600;
+		return 600 + stamregenbonus;
 	endif
 	
 	//If the last thing they ate was a high food value item, they regenerate stamina faster
 	var foodregen := GetObjProperty (character, "#dotempmod_stamina_regen_rate");
 	if (!foodregen)
-		return 1200;
+		return 1200 + stamregenbonus;
 	endif
 
-	return foodregen;
+	return foodregen + stamregenbonus;
 endfunction
 
 exported function GetStaminaMaximumValue(character)
@@ -161,6 +165,9 @@ exported function GetManaRegenRate(character)
 	if (character.race == RACE_GARGOYLE)
 		racialbonus := 1200;
 	endif
+	
+	var manaregenbonus := racialbonus + GetAttribute (character, ATTRIBUTEID_MEDITATION)*12;
+	
 
 	//If they're hungry, don't regenerate mana as fast or at all
 	var hunger := CINT (GetObjProperty (character, "hunger"));
@@ -169,14 +176,14 @@ exported function GetManaRegenRate(character)
 	endif
 
 	if (hunger >= 9)
-		return 0+racialbonus;
+		return 0+manaregenbonus;
 	elseif (hunger >= 7)
-		return 600+racialbonus;
+		return 600+manaregenbonus;
 	elseif (hunger > 5)
-		return 1000+racialbonus;
+		return 1000+manaregenbonus;
 	endif
 
-	return 1200+racialbonus;
+	return 1200+manaregenbonus;
 endfunction
 
 exported function GetManaMaximumValue(character)
