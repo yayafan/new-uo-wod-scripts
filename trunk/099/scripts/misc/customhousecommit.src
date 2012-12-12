@@ -60,10 +60,41 @@ program customhouse_commit ( who, house, houseelemarray )
 	endif
 	SetObjProperty (sign, "houseprice", (houseelemarray.size()*500));
 	house.acceptcommit(who, 1);
+	var teleporters := array{};
 	foreach item in (house.components)
 		if (item.isa (POLCLASS_DOOR))
 			item.locked := 1;
 			SetObjProperty (item, "lockid", lockid);
+		elseif (item.objtype >= 0x181d and item.objtype <= 0x1828)
+			teleporters.append(item);
+		endif
+	endforeach
+	foreach tele in teleporters
+		foreach nexttele in teleporters
+			if (_nexttele_iter <= _tele_iter)
+				continue;
+			endif
+			if (tele.objtype == nexttele.objtype)
+				SetObjProperty (tele, "DestX", nexttele.x);
+				SetObjProperty (tele, "DestY", nexttele.y);
+				SetObjProperty (tele, "DestZ", nexttele.z);
+				SetObjProperty (tele, "DestR", nexttele.realm);
+				break;
+			endif
+		endforeach
+		if (!GetObjProperty (tele, "DestX"))
+			foreach nexttele in teleporters
+				if (_nexttele_iter >= _tele_iter)
+					break;
+				endif
+				if (tele.objtype == nexttele.objtype)
+					SetObjProperty (tele, "DestX", nexttele.x);
+					SetObjProperty (tele, "DestY", nexttele.y);
+					SetObjProperty (tele, "DestZ", nexttele.z);
+					SetObjProperty (tele, "DestR", nexttele.realm);
+					break;
+				endif
+			endforeach
 		endif
 	endforeach
 	SendSysMessage (who, "This house has " + house.components.size() + " components.");
