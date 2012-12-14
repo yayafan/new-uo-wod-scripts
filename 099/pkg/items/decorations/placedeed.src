@@ -224,6 +224,14 @@ program Place_Deed (character, deed)
 			AddMenuItem (select_menu, 0x0A63, "Bed");
 			AddMenuItem (select_menu, 0x11e4, "Bed");
 			AddMenuItem (select_menu, 0x11e2, "Bed");
+			AddMenuItem (select_menu, 0x3053, "Bed");
+			AddMenuItem (select_menu, 0x3058, "Bed");
+			AddMenuItem (select_menu, 0x304d, "Bed");
+			AddMenuItem (select_menu, 0x3051, "Bed");
+			AddMenuItem (select_menu, 0x295c, "Futon");
+			AddMenuItem (select_menu, 0x295d, "Futon");
+			AddMenuItem (select_menu, 0x295e, "Futon");
+			AddMenuItem (select_menu, 0x295f, "Futon");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -259,6 +267,39 @@ program Place_Deed (character, deed)
 			6:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_strawmat_ns");
 				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
+			7:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_largeelvenbed_ew");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			8:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_largeelvenbed_ns");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			9:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_smallelvenbed_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			10:
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_smallelvenbed_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+
+			11:
+				CreateSinglePartDeededItem (character, deed, sign, character.x, character.y, character.z, 0x295c);
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
+			12:
+				CreateSinglePartDeededItem (character, deed, sign, character.x, character.y, character.z, 0x295d);
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
+			13:
+				CreateSinglePartDeededItem (character, deed, sign, character.x, character.y, character.z, 0x295e);
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
+			14:
+				CreateSinglePartDeededItem (character, deed, sign, character.x, character.y, character.z, 0x295f);
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
 			endcase
 			return;
 
@@ -1074,5 +1115,30 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 			SetObjProperty (item, "otheritems", itemserials);
 		endif
 	endforeach
+	DestroyItem (deed);
+endfunction
+
+function CreateSinglePartDeededItem (character, deed, sign, x, y, z, objtype)
+	if (sign)
+		//make sure they have enough lockdowns for this
+		var maxlockdowns := GetMaxLockdowns (sign);
+		var lockdowns := GetLockdowns (sign);
+	
+		if (lockdowns + 1 > maxlockdowns)
+			SendSysMessage (character, "You don't have enough lockdowns left.");
+			return;
+		endif
+	endif
+
+	var item := CreateItemAtLocation (x, y, z, objtype, 1, character.realm);
+	if (!item)
+		SendSysMessage (character, "Error creating item.");
+		return;
+	endif
+	item.movable := 0;
+	if (sign)
+		SetObjProperty (item, "lockeddown", sign.serial);
+	endif
+	SetObjProperty (item, "deedobjtype", deed.objtype);
 	DestroyItem (deed);
 endfunction
