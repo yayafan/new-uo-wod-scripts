@@ -43,6 +43,7 @@ endfunction
 
 exported function GetLifeMaximumValue(character)
 	//Do a stat cap on players
+	var playerbonus := 0;
 	if (character.acctname)
 		if (!character.cmdlevel)
 			var maxstr := GetObjProperty (character, "maxstr");
@@ -52,7 +53,8 @@ exported function GetLifeMaximumValue(character)
 			if (GetAttributeBaseValue (character, "Strength") > maxstr * 10);
 				SetAttributeBaseValue (character, "Strength", maxstr*10);
 			endif
-		endif		
+		endif	
+		playerbonus := 50;
 	elseif (GetObjProperty (character, "BonusMaxHP"))
 		//permanent bonus MaxHP, usually for NPCs
 		var bonusmaxhp := GetObjProperty (character, "BonusMaxHP");
@@ -69,12 +71,12 @@ exported function GetLifeMaximumValue(character)
 			endif
 		endforeach
 		if (bonusmaxhp)
-			return (GetAttribute (character, "Strength") + 50 +bonusmaxhp) * 100;
+			return (GetAttribute (character, "Strength") + playerbonus + bonusmaxhp) * 100;
 		endif
 	endif
 	
 
-    return (GetAttribute (character, "Strength") + 50) * 100;
+    return (GetAttribute (character, "Strength") + playerbonus) * 100;
 endfunction
 
 
@@ -166,7 +168,7 @@ exported function GetManaRegenRate(character)
 		racialbonus := 1200;
 	endif
 	
-	var manaregenbonus := racialbonus + GetAttribute (character, ATTRIBUTEID_MEDITATION)*12;
+	var manaregenbonus := racialbonus + (GetAttribute (character, ATTRIBUTEID_MEDITATION)*12) + (GetAttribute (character, ATTRIBUTEID_FOCUS)*6);
 	
 
 	//If they're hungry, don't regenerate mana as fast or at all

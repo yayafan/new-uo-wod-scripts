@@ -332,8 +332,8 @@ function GFDrawWrappedText( byref gump, byref x, byref y, byref text_lines, txt_
 	return 1;
 endfunction
 
-function XGFError(text, log:=0)
-	if ( log )
+function XGFError(text, logs:=0)
+	if ( logs )
 		SysLog("Gump Error:: "+text);
 	endif
 

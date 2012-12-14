@@ -23,7 +23,7 @@ Const SKILLBONUS_LEVEL		:= 2;
 ///////////////////
 
 function IsMagicalItem (item)
-	if (item.maxhp_mod or item.dmg_mod or item.ar_mod)
+	if ((item.maxhp_mod > 0) or item.dmg_mod or item.ar_mod)
 		return 1;
 	endif
 	if (GetObjProperty (item, "equipspell") or GetObjProperty (item, "hitspell"))

@@ -63,6 +63,8 @@ endprogram
 ///////////////////
 
 function MakeCarpentryItems (character, tool, logs)
+	if (tool)
+	endif
 	if (!CheckSkillForDifferentWoods (character, logs.objtype) )
 		SendSysmessage (character, "You have no chance to successfully work with that wood.");
 		return;
@@ -87,8 +89,6 @@ function MakeCarpentryItems (character, tool, logs)
 	var selection := FindConfigElem (carpentry_cfg_file, chosen_item);
 	if (!selection)
 		SendSysMessage (character, "That was an invalid selection");
-		if (tool)
-		endif
 		return;
 	endif
 

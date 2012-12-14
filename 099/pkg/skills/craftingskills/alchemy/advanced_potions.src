@@ -31,15 +31,15 @@ program use_product (character, potion)
 		return;
 	endif
 	
-	var skillreq := CINT (itemdesc_elem.skillcheck);
-	if (skillreq)
-		if (!CheckSkill (character, SKILLID_ALCHEMY, skillreq, 0))
-			SubtractAmount (potion, 1);
-			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			DoBadThingTo (character, RandomInt (CINT (skillreq/5)));
-			return;
-		endif
-	endif
+//	var skillreq := CINT (itemdesc_elem.skillcheck);
+//	if (skillreq)
+//		if (!CheckSkill (character, SKILLID_ALCHEMY, skillreq, 0))
+//			SubtractAmount (potion, 1);
+//			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
+//			DoBadThingTo (character, RandomInt (CINT (skillreq/5)));
+//			return;
+//		endif
+//	endif
 
 	//play some assorted effects
 	if (itemdesc_elem.usenoise)

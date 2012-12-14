@@ -458,6 +458,8 @@ function IsACraftSkill ( skillid )
 		SKILLID_LUMBERJACKING:
 		SKILLID_MINING:
 		SKILLID_FISHING:
+		SKILLID_ALCHEMY:
+		SKILLID_IMBUING:
 			return 1;
 		default:
 			return 0;
