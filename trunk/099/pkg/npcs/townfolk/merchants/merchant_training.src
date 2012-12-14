@@ -207,6 +207,8 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_TACTICS,
 				SKILLID_CAMPING,
 				SKILLID_TRACKING,
+				SKILLID_FOCUS,
+				SKILLID_THROWING,
 				SKILLID_HEALING
 			};
 
@@ -220,6 +222,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_ANIMALLORE,
 				SKILLID_TAMING,
 				SKILLID_CARTOGRAPHY,
+				SKILLID_FOCUS,
 				SKILLID_THROWING
 			};
 
@@ -233,6 +236,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_MACEFIGHTING,
 				SKILLID_PARRY,
 				SKILLID_THROWING,
+				SKILLID_FOCUS,
 				SKILLID_TACTICS
 			};
 
@@ -246,6 +250,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_MACEFIGHTING,
 				SKILLID_PARRY,
 				SKILLID_THROWING,
+				SKILLID_FOCUS,
 				SKILLID_TACTICS
 			};
 
@@ -315,6 +320,7 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_HIDING,
 				SKILLID_STEALTH,
 				SKILLID_THROWING,
+				SKILLID_FOCUS,
 				SKILLID_ANATOMY
 			};
 
