@@ -9,7 +9,7 @@ include "include/string";
 include "include/magicitems";
 include "include/crafting";
 include ":blacksmithy:blacksmithy";
-include ":carpentry:carpentry";
+include ":tinkering:carpentry";
 include ":tailoring:tailoring";
 include "magicjewelry";
 
