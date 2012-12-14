@@ -140,7 +140,53 @@ program torch( character , item )
 				PlaySoundEffect (item, 0x226);
 		0xa03d:	item.graphic := 0xa03c;
 				item.facing := 29;
+				
+		//shoji lantern
+		0x24bc:	item.graphic := 0x24bb;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24bb:	item.graphic := 0x24bc;
 
+		//paper lantern
+		0x24be:	item.graphic := 0x24bd;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24bd:	item.graphic := 0x24be;
+		
+		//statue lantern
+		0x24c0:	item.graphic := 0x24bf;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24bf:	item.graphic := 0x24c0;
+
+		//red hanging lantern
+		0x24c2:	item.graphic := 0x24c1;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24c1:	item.graphic := 0x24c2;
+
+		0x24c4:	item.graphic := 0x24c3;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24c3:	item.graphic := 0x24c4;
+				
+		//white hanging lantern
+		0x24c6:	item.graphic := 0x24c5;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24c5:	item.graphic := 0x24c6;
+
+		0x24c8:	item.graphic := 0x24c7;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24c7:	item.graphic := 0x24c8;
+				
+		//round paper lantern
+		0x24ca:	item.graphic := 0x24c9;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x24c9:	item.graphic := 0x24ca;
+		
 		default:
 			SendSysMessage (character, "You don't know how to use that.");
 			return;
