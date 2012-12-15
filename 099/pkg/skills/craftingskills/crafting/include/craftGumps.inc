@@ -472,9 +472,6 @@ function GetMaterials( elem )
 
 	// Get the material type required to craft the item.
 	var matname := Lower( elem.type );
-//	if (!matname)
-		matname := default_matname;
-//	endif
 	if( TypeOf( elem.mtype ) == "String" )
 		matname := elem.mtype;
 	endif

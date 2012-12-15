@@ -21,8 +21,6 @@ include "include/magicitems";
 
 var item_config := ReadConfigFile( ":*:itemdesc" );
 var craft_config := ReadConfigFile( ":woodworking:carpentry" );
-var default_material := "wood";
-var default_matname := "logs";
 
 program use_MapmakersPen( who, tool )
 
@@ -75,46 +73,40 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 	if (items_to_make == 0)
 		return 0;
 	endif
-	var carpentry_cfg_file := ReadConfigFile ( ":woodworking:carpentry" );
 
-	var logs := MaterialSelection( who, craft_skill, "wood" );
-	if( !logs )
-		return 0;
-	endif
-	
 	var skill_elem := menu_config[craft_skill];
 	//find the item in carpentry.cfg file
-	var selection := FindConfigElem (carpentry_cfg_file, chosen_item);
+	var selection := FindConfigElem (craft_config, chosen_item);
 	if (!selection)
 		SendSysMessage (who, "That was an invalid selection");
 		return;
 	endif
 
 	var material_needed := cint (selection.material);
+	var material_type := selection.type;
 	var item_skill := cint (selection.skill);
 	var time_delay := cint (selection.time);
 	var item_lockable := selection.lockable;
 	var item_stackable := selection.stackable;
 	var item_name := selection.name;
-	SendSysMessage(who, "(Skill: " + item_skill + ", Logs: " + material_needed + ")");
+	SendSysMessage(who, "(Skill: " + item_skill + ", " + material_type + ": " + material_needed + ")");
 
+	var logs := MaterialSelection( who, craft_skill, material_type );
+	if( !logs )
+		return 0;
+	endif
+	
 	//save the who's position and ask them how many they want to make
 	var craftingbag := FindCraftingBag (who);
 	var whox := who.x;
 	var whoy := who.y;
 	var amax := CINT (logs.amount/material_needed);
 	if (!amax)
-		SendSysMessage (who, "You don't have enough logs to make that!");
+		SendSysMessage (who, "You don't have enough " + material_type + " to make that!");
 		return;
 	elseif (amax > 10)
 		amax := 10;
 	endif
-//	var items_to_make := CINT (Sendtextentrygump (who, "How many do you want to make?:", 
-//				TE_CANCEL_DISABLE, TE_STYLE_NORMAL, 10, "(Max: " + amax + ", 0 to cancel)"));
-//	if (!items_to_make)
-//		SendSysMessage (who, "Canceled.");
-//		return;
-//	endif
 
 	//save the who's position and ask them if they want to autoloop
 	var autoupgrade := 0;;
@@ -126,7 +118,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 	repeat
 		created_item := 0;
 		if (logs.amount < material_needed or !logs)
-			SendSysmessage (who, "You don't have enough logs to continue!");
+			SendSysmessage (who, "You don't have enough " + material_type + " to continue!");
 			break;
 		endif
 
@@ -148,7 +140,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		if (!CheckSkill (who, SKILLID_CARPENTRY, item_skill, 0))
 			var lossamount := RandomInt (CINT ( material_needed/3) )+1;
 			SubtractAmount (logs, lossamount);
-			SendSysmessage (who, "You fail, destroying some logs.");
+			SendSysmessage (who, "You fail, destroying some " + material_type + ".");
 		else
 			created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
 			if (!created_item)
@@ -207,8 +199,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		endif
 		
 		if (whox != who.x or whoy != who.y)
-			SendSysMessage (who, "You stop crafting.");
-			return;
+			break;
 		endif
 		
 		if (created_item)
@@ -281,7 +272,7 @@ function DoSpecialUpgradeStuff (byref character, byref item, repair_skill)
 
 	//otherwise try to upgrade it
 	else
-		DoCarpentryItemUpgrade (character, item, repair_skill);
+		DoItemUpgrade (character, item, repair_skill);
 		return;
 	endif
 
@@ -289,79 +280,11 @@ function DoSpecialUpgradeStuff (byref character, byref item, repair_skill)
 endfunction
 
 ///////////////////
-//  Tries to upgrade the item that was selected
-///////////////////
-
-function DoCarpentryItemUpgrade (character, item, repair_skill)
-	//make sure its an item that can be upgraded
-	if (item.desc["xceptional"])
-		SendSysMessage (character, "That item can't be upgraded further.");
-		return;
-	endif
-
-	if (IsMagicalItem (item) )
-		SendSysMessage (character, "That item can't be upgraded.");
-		return;
-	endif
-
-	var smith_cfg_file := ReadConfigFile( ":woodworking:carpentry" );
-	var elem := FindConfigElem (smith_cfg_file, item.graphic);
-	if (!elem)
-		SendSysMessage (character, "I don't know how to upgrade that.");
-		return;
-	endif
-
-	var material_needed := cint (elem.material/2);
-	var item_name := elem.name;
-	var item_skill := elem.skill + 20;
-	if (item.desc["quality"])
-		item_skill := item_skill + 10;
-	endif
-	if (item_skill > 110)
-		item_skill := 110;
-	endif
-
-	SendSysMessage (character, "Upgrading that item will take " + material_needed + " logs and " + item_skill + " skill.");
-	if (item_skill >= GetAttribute (character, GetAttributeIDBySkillID (repair_skill)) + 20)
-		SendSysMessage (character, "Your skill is too low to upgrade that item.");
-		return;
-	endif
-
-	SendSysmessage (character, "Target the material to use:");
-	var found_logs := MaterialSelection( character, GetAttributeIDBySkillID(repair_skill), craft_config[item.objtype].Type );
-	if (!found_logs)
-		SendSysMessage (character, "Canceled.");
-		return;
-	endif
-	if (!ReserveItem (found_logs) )
-		SendSysMessage (character, "You cannot use that right now.");
-		return;
-	endif
-	if (!Accessible (character, found_logs) )
-		SendSysMessage (character, "You can't reach that.");
-		return;
-	endif
-	if (found_logs.amount < material_needed)
-		SendSysMessage (character, "You need " + material_needed + " material.  That's only " + found_logs.amount + "!");
-		return;
-	endif
-
-	var confirm_upgrade := YesNo (character, "Upgrade?");
-	if (!confirm_upgrade)
-		SendSysMessage (character, "Canceled.");
-		return;
-	endif
-
-	PerformItemUpgrade (character, item, found_logs, material_needed, repair_skill, item_skill, item_name);
-endfunction
-
-///////////////////
 //  allows the user to coat the given piece of equipment with another color
 ///////////////////
 
 function DoWoodColorCoating (byref character, byref item, repair_skill)
-	var carpentry_cfg_file := ReadConfigFile( ":carpentry:carpentry" );
-	var elem := FindConfigElem (carpentry_cfg_file, item.graphic);
+	var elem := FindConfigElem (craft_config, item.graphic);
 	if (!elem)
 		SendSysMessage (character, "That item is in full repair.");
 		return;
@@ -445,8 +368,7 @@ endfunction
 ///////////////////
 
 function ChangeGenderOfWoodenArmor (byref character, byref item, repair_skill)
-	var carpentry_cfg_file := ReadConfigFile( ":carpentry:carpentry" );
-	var elem := FindConfigElem (carpentry_cfg_file, item.graphic);
+	var elem := FindConfigElem (craft_config, item.graphic);
 	if (!elem)
 		SendSysMessage (character, "That item is in full repair.");
 		return;
