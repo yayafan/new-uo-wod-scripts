@@ -62,6 +62,8 @@ program Place_Deed (character, deed)
 			var select_menu := CreateMenu ("Select facing:");
 			AddMenuItem (select_menu, 0x0FAF, "Anvil");
 			AddMenuItem (select_menu, 0x0FB0, "Anvil");
+			AddMenuItem (select_menu, 0x2dd5, "Elven Anvil");
+			AddMenuItem (select_menu, 0x2dd6, "Elven Anvil");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -92,6 +94,7 @@ program Place_Deed (character, deed)
 			AddMenuItem (select_menu, 0x1986, "Forge");
 			AddMenuItem (select_menu, 0x199E, "Forge");
 			AddMenuItem (select_menu, 0x1992, "Forge");
+			AddMenuItem (select_menu, 0x2dd8, "Elven Forge");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -130,6 +133,18 @@ program Place_Deed (character, deed)
 			5:
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_forge_sn");
 				MoveObjectToLocation (character, character.x+1, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				
+			6:	//elven forge
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2dd8, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
 			endcase
 			return;
 
@@ -193,6 +208,8 @@ program Place_Deed (character, deed)
 			AddMenuItem (select_menu, 0x1019, "Spinning Wheel");
 			AddMenuItem (select_menu, 0x101C, "Spinning Wheel");
 			AddMenuItem (select_menu, 0x10A4, "Spinning Wheel");
+			AddMenuItem (select_menu, 0x2dd9, "Elven Spinning Wheel");
+			AddMenuItem (select_menu, 0x2dda, "Elven Spinning Wheel");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -537,6 +554,8 @@ program Place_Deed (character, deed)
 			AddMenuItem (select_menu, 0x0930, "Oven");
 			AddMenuItem (select_menu, 0x0461, "Oven");
 			AddMenuItem (select_menu, 0x046f, "Oven");
+			AddMenuItem (select_menu, 0x2ddb, "Elven Stove");
+			AddMenuItem (select_menu, 0x2ddc, "Elven Stove");
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item)
 				SendSysMessage (character, "Canceled.");
@@ -602,6 +621,9 @@ program Place_Deed (character, deed)
 					SetObjProperty (item, "otheritems", array{item.serial, new_item.serial});
 					new_item.movable := 0;
 					new_item.facing := 29;
+				0x2ddb:
+				0x2ddc:
+					item.facing := 29;
 				default:
 					SendSysMessage (character, "Error!  Please report this.");
 					return;
