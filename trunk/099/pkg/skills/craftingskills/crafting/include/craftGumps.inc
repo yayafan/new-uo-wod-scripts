@@ -374,23 +374,23 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFResizePic( gump, 215, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
 	GFTextLine( gump, 342, 48, 1322, "SKILLS" );
  
- 	var skill_req := CDbl( elem.skill );
-//            skill2 := elem.Skill2,
-//            skill2_req := elem.Difficulty2;
+ 	var skill_req := CDbl( elem.skill ),
+            skill2 := elem.Skill2,
+            skill2_req := elem.Difficulty2;
  
 	GFTextLine( gump, 250, 130, 1153, ( ""+display_skill+" required:" ));
 	GFTextLine( gump, 460, 130, 1153, ( ""+skill_req ));
  
-/*	if( skill2 )
+	if( skill2 )
 		GFTextLine( gump, 250, 150, 1153, ( ""+skill2+" required" ));
 		GFTextLine( gump, 460, 150, 1153, ( ""+skill2_req ));
 	endif
- */
+
         var schance := CStr( Craft_SkillCheck( who, elem ))+"%";
 	GFTextLine( gump, 250, 70, 1153, "Success Chance:" );
 	GFTextLine( gump, 455, 70, 1153, schance );
 
-/*	var echance := 0;
+	var echance := 0;
 	if( elem.Exceptional == 1 )
 		echance := CStr( Craft_ExpCheck( who, elem ))+"%";
 	endif
@@ -399,7 +399,7 @@ function GFCraftInfoPage( who, objtype, skill_config )
 		GFTextLine( gump, 250, 90, 1153, "Exceptional Chance:" );
 		GFTextLine( gump, 460, 90, 1153, echance );
 	endif
-*/
+
         //MATERIALS Background
 	GFResizePic( gump, 215, 198, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
 	GFTextLine( gump, 329, 201, 1322, "MATERIALS" );
@@ -408,9 +408,9 @@ function GFCraftInfoPage( who, objtype, skill_config )
             mat_name := mat_parms[1],
             material := mat_parms[2];
             
-	GFTextLine( gump, 250, 225, 1153, ( ""+mat_name ) );
+	GFHTMLArea( gump, 250, 225, 270, 80, ( "<basefont color=#ffffff>"+mat_name ) );
 	if( material )
-		GFTextLine( gump, 460, 225, 1153, ( ""+material ));
+		GFHTMLArea( gump, 460, 225, 30, 80, ( "<basefont color=#ffffff>"+material ));
 	endif
 
         //Bottom Background

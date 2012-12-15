@@ -50,3 +50,21 @@ function CalcSuccessPercent (who, craft_skill, difficulty, who_skill)
 	endif
 	return result;
 endfunction
+
+function Craft_ExpCheck( who, elem )
+        var who_skill := GetAttribute( who, craft_skill );
+        if( !who_skill )
+                 who_skill := 0;
+        endif
+
+	var difficulty := CDbl( elem.skill );
+	difficulty := difficulty + 30;
+	if (difficulty > 110)
+		difficulty := 110;
+	endif
+        
+        var pass_success := CalcSuccessPercent( who, craft_skill, difficulty, who_skill );
+        
+	return pass_success;
+
+endfunction
