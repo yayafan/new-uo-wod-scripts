@@ -82,16 +82,16 @@ program autostart_boat (param)
 								"britannia":
 									MoveBoatXY (boat, 5100, boat.y);
 								"tokuno":
-									MoveBoatXY (boat, 1420, boat.y);
+									MoveBoatXY (boat, 1390, boat.y);
 							endcase
 						endif
 					elseif (boat.x > 5100 and boat.realm == "britannia") 
 						if (boat.x > x)
-							MoveBoatXY (boat, 6, boat.y);
+							MoveBoatXY (boat, 10, boat.y);
 						endif
-					elseif (boat.x > 1420 and boat.realm == "tokuno") 
+					elseif (boat.x > 1390 and boat.realm == "tokuno") 
 						if (boat.x > x)
-							MoveBoatXY (boat, 6, boat.y);
+							MoveBoatXY (boat, 15, boat.y);
 						endif
 					endif
 				endif
@@ -313,11 +313,20 @@ function process_event (event)
 			//the world is round, so see if we need to wrap
 			if (boat.x < 10)
 				if (boat.x < x)
-					MoveBoatXY (boat, 5100, boat.y);
+					case (boat.realm)
+						"britannia":
+							MoveBoatXY (boat, 5100, boat.y);
+						"tokuno":
+							MoveBoatXY (boat, 1390, boat.y);
+					endcase
 				endif
-			elseif (boat.x > 5100)
+			elseif (boat.x > 5100 and boat.realm == "britannia")
 				if (boat.x > x)
 					MoveBoatXY (boat, 6, boat.y);
+				endif
+			elseif (boat.x > 1390 and boat.realm == "tokuno") 
+				if (boat.x > x)
+					MoveBoatXY (boat, 15, boat.y);
 				endif
 			endif
 		endif

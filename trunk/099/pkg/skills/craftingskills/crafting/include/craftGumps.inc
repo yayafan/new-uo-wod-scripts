@@ -37,6 +37,7 @@ use os;
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":crafting:itemdesc";
+include ":autoloop:autoloop";
 
 var menu_config := ReadConfigFile( ":crafting:craftConfig" );
 
@@ -127,8 +128,7 @@ function sendCraftGump( who, skill_name )
 
 		// Sets the amount you had entered into an array to return to crafting
                 var max_amount := CInt( menu_config["Setup"].MaxAmount );
-                
-		//atc := CInt( GFExtractData( res, atc ));
+		atc := CInt( GFExtractData( res, atc ));
                 if( atc == -1 )
 			atc := -1;
 		elseif( !atc || atc < 1 )
@@ -137,8 +137,8 @@ function sendCraftGump( who, skill_name )
                       atc := max_amount;
 		endif
 
-//                SetAutoLoop( who, atc ); 
-		atc := 1;
+
+                SetAutoLoop( who, atc ); 
 		SetObjProperty( who, "#Craft", craft_settings );
 
 		// Build the return array and give it to crafting.
@@ -161,8 +161,7 @@ function Craft_IndexGump( who, skill_name  )
 	var skill_config := ReadConfigFile( menu_file );
 
 	// Now let's get the amount, based on the menu file from the Cprop.
-//	atc := GetAutoLoop( who );
-	atc := 1;
+	atc := GetAutoLoop( who );
 	// If it == nothing, or is an error, set it to 1. Error should never occur, but, just in case.
 	if( !atc || TypeOf( atc ) != "Integer" )
 		atc := 1;
@@ -190,61 +189,61 @@ function Craft_IndexGump( who, skill_name  )
 	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 525, 440 );
 
         //Title Background
-	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 497, 25 );
-	GFHTMLArea( gump, 10, 17, 510, 20, "<basefont color=#E59700>"+CStr( GetConfigString( skill_config["Index"], "Title" )));
+	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 25 );
+	GFTextLine( gump, 185, 17, 1322, CStr( GetConfigString( skill_config["Index"], "Title" )));
 
         //SubTitles Background
  
         //Categories Background
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 197, 280 );
-	GFHTMLArea( gump, 10, 45, 200, 20, "<basefont color=#E59700><center>Categories</center>" );
+	GFTextLine( gump, 84, 50, 1322, "Categories" );
 
         //Selections Background
 	GFResizePic( gump, 215, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 280 );
-	GFHTMLArea( gump, 215, 45, 305, 20, "<basefont color=#E59700><center>Selections</center>" );
+	GFTextLine( gump, 334, 50, 1322, "Selections" );
  
         //Bottom Background
-	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 497, 125 );
+	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 125 );
  
         //Notice Section
 	GFResizePic( gump, 18, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 490, 50 );
  
-	GFHTMLArea( gump, 65, 395, 50, 18, "<basefont color=#E59700>Exit" );
+	GFTextLine( gump, 65, 393, 1322, "Exit" );
 	GFAddButton( gump, 30, 392, 4017, 4019, GF_CLOSE_BTN, 1 );
 
 	if( menu_config["Setup"].MakeLast == 1 )
-		GFHTMLArea( gump, 430, 350, 70, 18, "<basefont color=#E59700>Make Last" );
+		GFTextLine( gump, 430, 348, 1322, "Make Last" );
 		GFAddButton( gump, 395, 347, 4005, 4007, GF_CLOSE_BTN, 61450 );
 	endif
 
-	GFHTMLArea( gump, 395, 395, 50, 20, "<basefont color=#E59700>Amount" );
+	GFTextLine( gump, 395, 393, 1322, "Amount" );
 	GFGumpPic( gump, 440, 392, 2443 );
 	atc := GFTextEntry( gump, 450, 395, 100, 30, 1152, atc );
 
 	if( menu_config[skill_name].MakersMark == 1 )
 		if( makermark == 1 )
-			GFHTMLArea( gump, 250, 350, 100, 18, "<basefont color=#E59700>Mark Item" );
+			GFTextLine( gump, 250, 348, 1322, "Mark Item" );
 		else
-			GFHTMLArea( gump, 250, 350, 100, 18, "<basefont color=#E59700>*Do Not Mark" );
+			GFTextLine( gump, 250, 348, 1322, "*Do Not Mark" );
 		endif
 		GFAddButton( gump, 215, 347, 4005, 4007, GF_CLOSE_BTN, 61453 );
 	endif
  
 	if( menu_config[skill_name].Repair == 1 )
-		GFHTMLArea( gump, 250, 370, 100, 18, "<basefont color=#E59700>Repair Item" );
+		GFTextLine( gump, 250, 368, 1322, "Repair Item" );
 		GFAddButton( gump, 215, 367, 4005, 4007, GF_CLOSE_BTN, 61451 );
 	endif
  
 	if( menu_config["Setup"].Resmelt == 1 )
 		if( menu_config[skill_name].Smelt == 1 )
-			GFHTMLArea( gump, 250, 390, 100, 18, "<basefont color=#E59700>Resmelt Item" );
+			GFTextLine( gump, 250, 388, 1322, "Resmelt Item" );
 			GFAddButton( gump, 215, 387, 4005, 4007, GF_CLOSE_BTN, 61454 );
 		endif
 	endif
 
         //The next check assume no smelt option returns true
 	if( menu_config[skill_name].Fortify == 1 )
-		GFHTMLArea( gump, 250, 390, 100, 18, "<basefont color=#E59700>Modify Item" );
+		GFTextLine( gump, 250, 388, 1322, "Modify Item" );
 		GFAddButton( gump, 215, 387, 4005, 4007, GF_CLOSE_BTN, 61452 );
 	endif
 
@@ -266,7 +265,7 @@ function Craft_IndexGump( who, skill_name  )
 			SleepMS(1);
 		endwhile
   
-		GFHTMLArea( gump, 65, IndexY, 140, 18, ( "<basefont color=#ffffff>"+MenuName ));
+		GFTextLine( gump, 65, IndexY-2, 1153, ( ""+MenuName ));
   
 		// Now let's build the page for this Category
 		GFPage( gump, PageNum );
@@ -308,14 +307,14 @@ function GFCraftNewPage( who, byref gump, skill_config, MenuName )
 		if( ItemY >= 243 )
 			ItemY := 80;
 			GFAddButton( gump, 370, 260, 4005, 4007, GF_PAGE_BTN, ( PageNum+1 ));
-			GFHTMLArea( gump, 405, 263, 100, 18, "<basefont color=#E59700>Next Page" );
+			GFTextLine( gump, 405, 261, 1322, "Next Page" );
 			PageNum += 1;
 			GFPage( gump, PageNum );
 			GFAddButton( gump, 330, 260, 4014, 4015, GF_PAGE_BTN, ( PageNum-1 ));
-			GFHTMLArea( gump, 240, 263, 100, 20, "<basefont color=#E59700>Previous Page" );
+			GFTextLine( gump, 240, 261, 1322, "Previous Page" );
 		endif
   
-		GFHTMLArea( gump, ItemX, ItemY, 200, 18, ( "<basefont color=#ffffff>"+ Lower( itemdesc )));
+		GFTextLine( gump, ItemX, ItemY-2, 1153, ( ""+ Lower( itemdesc )));
 		GFAddButton( gump, ButtonX, ( ItemY-3 ), 4005, 4007, GF_CLOSE_BTN, objtype );
   
 		if( menu_config["Setup"].Info == 1 )
@@ -355,14 +354,14 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFResizePic( gump, 0, 0, GFGetCfgConst( "Defaults", "BackGround" ), 525, 440 );
 
         //Title Background
-	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 497, 25 );
-	GFHTMLArea( gump, 10, 17, 510, 20, "<basefont color=#E59700>"+CStr( GetConfigString( skill_config["Index"], "Title" )));
+	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 25 );
+	GFTextLine( gump, 10, 17, 1322, ""+CStr( GetConfigString( skill_config["Index"], "Title" )));
 
         //SubTitles Background
 
         //ITEM Background
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 197, 280 );
-	GFHTMLArea( gump, 10, 45, 200, 20, "<basefont color=#E59700><center>ITEM</center>" );
+	GFTextLine( gump, 100, 48, 1322, "ITEM" );
  
         var graphic := CInt( thisitem.graphic );
 	if( !graphic )
@@ -373,23 +372,23 @@ function GFCraftInfoPage( who, objtype, skill_config )
 
         //SKILLS Background
 	GFResizePic( gump, 215, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
-	GFHTMLArea( gump, 215, 45, 305, 20, "<basefont color=#E59700><center>SKILLS</center>" );
+	GFTextLine( gump, 342, 48, 1322, "SKILLS" );
  
  	var skill_req := CDbl( elem.skill );
 //            skill2 := elem.Skill2,
 //            skill2_req := elem.Difficulty2;
  
-	GFHTMLArea( gump, 250, 130, 150, 20, ( "<basefont color=#ffffff>"+display_skill+" required" ));
-	GFHTMLArea( gump, 460, 130, 30, 18, ( "<basefont color=#ffffff>"+skill_req ));
+	GFTextLine( gump, 250, 130, 1153, ( ""+display_skill+" required:" ));
+	GFTextLine( gump, 460, 130, 1153, ( ""+skill_req ));
  
 /*	if( skill2 )
-		GFHTMLArea( gump, 250, 150, 150, 20, ( "<basefont color=#ffffff>"+skill2+" required" ));
-		GFHTMLArea( gump, 460, 150, 30, 18, ( "<basefont color=#ffffff>"+skill2_req ));
+		GFTextLine( gump, 250, 150, 1153, ( ""+skill2+" required" ));
+		GFTextLine( gump, 460, 150, 1153, ( ""+skill2_req ));
 	endif
  */
         var schance := CStr( Craft_SkillCheck( who, elem ))+"%";
 	GFTextLine( gump, 250, 70, 1153, "Success Chance:" );
-	GFTextLine( gump, 460, 70, 1153, schance );
+	GFTextLine( gump, 455, 70, 1153, schance );
 
 /*	var echance := 0;
 	if( elem.Exceptional == 1 )
@@ -403,27 +402,27 @@ function GFCraftInfoPage( who, objtype, skill_config )
 */
         //MATERIALS Background
 	GFResizePic( gump, 215, 198, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
-	GFHTMLArea( gump, 215, 198, 305, 20, "<basefont color=#E59700><center>MATERIALS</center>" );
+	GFTextLine( gump, 329, 201, 1322, "MATERIALS" );
  
         var mat_parms := GetMaterials( elem ),
             mat_name := mat_parms[1],
             material := mat_parms[2];
             
-	GFHTMLArea( gump, 250, 225, 270, 80, ( "<basefont color=#ffffff>"+mat_name ) );
+	GFTextLine( gump, 250, 225, 1153, ( ""+mat_name ) );
 	if( material )
-		GFHTMLArea( gump, 460, 225, 30, 80, ( "<basefont color=#ffffff>"+material ));
+		GFTextLine( gump, 460, 225, 1153, ( ""+material ));
 	endif
 
         //Bottom Background
-	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 497, 125 );
+	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 125 );
 
         //Notice Section
 	GFResizePic( gump, 18, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 490, 50 );
-	GFHTMLArea( gump, 10, 302, 130, 20, "<basefont color=#E59700><center>Notices:</center>" );
+	GFTextLine( gump, 30, 302, 1322, "Notices:" );
  
         var tooltip := thisitem.tooltip;
 	if( tooltip )
-		GFHTMLArea( gump, 170, 302, 300, 40, ( "<basefont color=#ffffff>"+tooltip ));
+		GFTextLine( gump, 170, 302, 1153, ( ""+tooltip ));
         else
                 var tooltip := craft_config[objtype].tooltip;
         	if( craft_config[objtype].tooltip )
@@ -439,10 +438,10 @@ function GFCraftInfoPage( who, objtype, skill_config )
 		endif
 	endif
 
-	GFHTMLArea( gump, 65, 395, 60, 18, "<basefont color=#E59700>Back" );
+	GFTextLine( gump, 65, 393, 1322, "Back" );
 	GFAddButton( gump, 30, 392, 4014, 4016, GF_CLOSE_BTN, 1 );
 
-	GFHTMLArea( gump, 430, 350, 80, 18, "<basefont color=#E59700>Make Now" );
+	GFTextLine( gump, 430, 348, 1322, "Make Now" );
 	GFAddButton( gump, 395, 347, 4005, 4007, GF_CLOSE_BTN, CInt( objtype ));
 
 	var ifres := GFSendGump( who, gump );

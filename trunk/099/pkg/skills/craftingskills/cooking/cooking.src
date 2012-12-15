@@ -620,6 +620,8 @@ function can_be_cooked (byref character, byref current_recipe)
 				return 1;
 			elseif ((item.objtype >= 0x092b) and (item.objtype <= 0x0934))
 				return 1;
+			elseif (item.objtype == 0x2ddb or item.objtype == 0x2ddc)
+				return 1;
 			endif
 		endforeach
 		return 0;
@@ -638,6 +640,8 @@ function can_be_cooked (byref character, byref current_recipe)
 			elseif ((item.objtype >= 0x0935) and (item.objtype <= 0x096c))
 				return 1;
 			elseif ((item.objtype >= 0x0de3) and (item.objtype <= 0x0de8))
+				return 1;
+			elseif (item.objtype == 0x2ddb or item.objtype == 0x2ddc)
 				return 1;
 			endif
 		endforeach

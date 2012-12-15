@@ -72,7 +72,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
                 endif
         endif
 	var items_to_make := amt;
-	if (items_to_make <= 0)
+	if (items_to_make == 0)
 		return 0;
 	endif
 	var carpentry_cfg_file := ReadConfigFile ( ":woodworking:carpentry" );
@@ -127,7 +127,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		created_item := 0;
 		if (logs.amount < material_needed or !logs)
 			SendSysmessage (who, "You don't have enough logs to continue!");
-			return;
+			break;
 		endif
 
 		PlaySoundEffect (who, SFX_CARPENTRY);
@@ -153,7 +153,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 			created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
 			if (!created_item)
 				PrintTextAbovePrivate (who, "*Your backpack is full!*", who);
-				return;
+				break;
 			endif
 
 			created_item.movable := 1;
@@ -185,7 +185,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 				var upgrade_material := CINT (material_needed/2);
 				if (logs.amount < upgrade_material)
 					SendSysMessage (who, "You don't have enough logs to upgrade that item!");
-					return;
+					break;
 				endif
 				
 				var upgrade_skill := item_skill + 15;
@@ -194,12 +194,11 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 				endif
 				if (upgrade_skill >= GetAttribute (who, ATTRIBUTEID_CARPENTRY) + 20)
 					SendSysMessage (who, "Your skill is too low to upgrade that item.");
-					return;
+					break;
 				endif
 
 				if (whox != who.x or whoy != who.y)
-					SendSysMessage (who, "You stop crafting.");
-					return;
+					break;
 				endif
 
 				PerformItemUpgrade (who, created_item, logs, upgrade_material,
