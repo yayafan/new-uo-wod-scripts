@@ -37,7 +37,7 @@ function GetAutoLoop( mobile )
 
 	var loop := GetObjProperty( mobile, "#Autoloop" );
         if( !loop )
-        	return -1;
+        	return 1;
         endif
         
         return loop;

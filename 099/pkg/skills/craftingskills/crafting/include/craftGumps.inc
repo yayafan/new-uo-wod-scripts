@@ -355,7 +355,7 @@ function GFCraftInfoPage( who, objtype, skill_config )
 
         //Title Background
 	GFResizePic( gump, 15, 15, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 25 );
-	GFTextLine( gump, 10, 17, 1322, ""+CStr( GetConfigString( skill_config["Index"], "Title" )));
+	GFTextLine( gump, 185, 17, 1322, ""+CStr( GetConfigString( skill_config["Index"], "Title" )));
 
         //SubTitles Background
 
