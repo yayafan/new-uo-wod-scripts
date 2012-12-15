@@ -145,6 +145,73 @@ function UpgradeItem ( character, repair_skill, item:=0 )
 endfunction
 
 ///////////////////
+//  Tries to upgrade the item that was selected
+///////////////////
+
+function DoItemUpgrade (character, item, repair_skill)
+	//make sure its an item that can be upgraded
+	if (item.desc["xceptional"])
+		SendSysMessage (character, "That item can't be upgraded further.");
+		return;
+	endif
+
+	if (IsMagicalItem (item) )
+		SendSysMessage (character, "That item can't be upgraded.");
+		return;
+	endif
+
+	var elem := FindConfigElem (craft_config, item.graphic);
+	if (!elem)
+		SendSysMessage (character, "I don't know how to upgrade that.");
+		return;
+	endif
+
+	var material_needed := cint (elem.material/2);
+	var material_type := elem.type;
+	var item_name := elem.name;
+	var item_skill := elem.skill + 20;
+	if (item.desc["quality"])
+		item_skill := item_skill + 10;
+	endif
+	if (item_skill > 110)
+		item_skill := 110;
+	endif
+
+	SendSysMessage (character, "Upgrading that item will take " + material_needed + " " + material_type +" and " + item_skill + " skill.");
+	if (item_skill >= GetAttribute (character, GetAttributeIDBySkillID (repair_skill)) + 20)
+		SendSysMessage (character, "Your skill is too low to upgrade that item.");
+		return;
+	endif
+
+	SendSysmessage (character, "Target the material to use:");
+	var found_logs := MaterialSelection( character, GetAttributeIDBySkillID(repair_skill), material_type );
+	if (!found_logs)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+	if (!ReserveItem (found_logs) )
+		SendSysMessage (character, "You cannot use that right now.");
+		return;
+	endif
+	if (!Accessible (character, found_logs) )
+		SendSysMessage (character, "You can't reach that.");
+		return;
+	endif
+	if (found_logs.amount < material_needed)
+		SendSysMessage (character, "You need " + material_needed + " " + material_type + ".  That's only " + found_logs.amount + "!");
+		return;
+	endif
+
+	var confirm_upgrade := YesNo (character, "Upgrade?");
+	if (!confirm_upgrade)
+		SendSysMessage (character, "Canceled.");
+		return;
+	endif
+
+	PerformItemUpgrade (character, item, found_logs, material_needed, repair_skill, item_skill, item_name);
+endfunction
+
+///////////////////
 //  this function does the actual item upgrade
 ///////////////////
 
