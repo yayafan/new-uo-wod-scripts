@@ -58,7 +58,6 @@ function RepairItem( character, repair_skill, item:=0 )
 	endif
 
 	//allow the use to pick which logs to use
-	SendSysmessage (character, "Target the material to use:");
 	var found_logs := MaterialSelection( character, GetAttributeIDBySkillID(repair_skill), craft_config[item.objtype].Type );
 	if (!found_logs)
 		SendSysMessage (character, "Canceled.");
@@ -188,7 +187,7 @@ function DoItemUpgrade (character, item, repair_skill)
 		return;
 	endif
 
-	var elem := FindConfigElem (craft_config, item.graphic);
+	var elem := FindConfigElem (craft_config, item.objtype);
 	if (!elem)
 		SendSysMessage (character, "I don't know how to upgrade that.");
 		return;
@@ -211,7 +210,6 @@ function DoItemUpgrade (character, item, repair_skill)
 		return;
 	endif
 
-	SendSysmessage (character, "Target the material to use:");
 	var found_logs := MaterialSelection( character, GetAttributeIDBySkillID(repair_skill), material_type );
 	if (!found_logs)
 		SendSysMessage (character, "Canceled.");

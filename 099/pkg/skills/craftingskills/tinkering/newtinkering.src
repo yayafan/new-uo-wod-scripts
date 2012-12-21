@@ -229,7 +229,7 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 			created_item.buyprice := 0;
 			SendSysMessage (who, "You place the item in your backpack.");
 			//set the color
-			if (selection.retains and logs.color)
+			if (selection.retain and logs.color)
 				created_item.color := logs.color;
 			endif
 			SetObjProperty (created_item, "material_objtype", logs.objtype);
