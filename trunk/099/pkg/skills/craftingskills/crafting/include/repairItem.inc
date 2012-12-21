@@ -47,6 +47,7 @@ function RepairItem( character, repair_skill, item:=0 )
 			return 0;
 		endif
 	endif
+	var time_delay := craft_config[item.objtype].time;
 	var skill_elem := menu_config[GetAttributeIDBySkillID(repair_skill)];
 	//setup some variables
 	var item_damaged_amount := item.maxhp - item.hp;
@@ -77,6 +78,12 @@ function RepairItem( character, repair_skill, item:=0 )
 	endif
 
 	Craft_PlayEffects( character, skill_elem );
+	sleep(3);
+	for i := 1 to time_delay
+		Craft_PlayEffects( character, skill_elem );
+		sleepms (1500);
+	endfor
+	
 
 	SubtractAmount (found_logs, material_needed);
 
@@ -245,6 +252,7 @@ function PerformItemUpgrade (character, item, found_material, material_needed, r
 	var sx := character.x;
 	var sy := character.y;
 	var skill_elem := menu_config[craft_skill];
+	var time_delay := craft_config[item.objtype].time;
 	if (upgrade_to > 2)
 		upgrade_to := 2;
 	endif
@@ -260,7 +268,12 @@ function PerformItemUpgrade (character, item, found_material, material_needed, r
 	endif
 
 	repeat
-                Craft_PlayEffects( character, skill_elem );
+		Craft_PlayEffects( character, skill_elem );
+		sleep(3);
+		for i := 1 to time_delay
+			Craft_PlayEffects( character, skill_elem );
+			sleepms(1500);
+		endfor
 
 		if (CheckSkill (character, repair_skill, item_skill, 0) )
 			SendSysMessage (character, "You succeed in upgrading the item.");

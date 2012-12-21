@@ -123,15 +123,8 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		PlaySoundEffect (who, SFX_CARPENTRY);
 		sleep (3);
 		for i := 1 to time_delay
-			if (RandomInt (4) == 0)
-				PlaySoundEffect (who, SFX_CARPENTRY);
-				sleep (3);
-			else
-				PlaySoundEffect(who, SFX_HAMMER);
-				sleepms (1500);
-				PlaySoundEffect(who, SFX_HAMMER);
-				sleepms (1500);
-			endif
+			PlaySoundEffect (who, SFX_CARPENTRY);
+			sleep (3);
 		endfor
 		PlaySoundEffect(who, SFX_HAMMER);
 
@@ -443,7 +436,7 @@ endfunction
 ///////////////////
 
 function ChangeGenderOfWoodenArmor (byref character, byref item, repair_skill)
-	var elem := FindConfigElem (craft_config, item.graphic);
+	var elem := FindConfigElem (craft_config, item.objtype);
 	if (!elem)
 		SendSysMessage (character, "That item is in full repair.");
 		return;
