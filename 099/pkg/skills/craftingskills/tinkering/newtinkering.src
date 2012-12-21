@@ -202,15 +202,8 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 		PlaySoundEffect (who, crafting_sounds);
 		sleep (3);
 		for i := 1 to time_delay
-			if (RandomInt (4) == 0)
-				PlaySoundEffect (who, crafting_sounds);
-				sleep (3);
-			else
-				PlaySoundEffect(who, crafting_sounds);
-				sleepms (1500);
-				PlaySoundEffect(who, crafting_sounds);
-				sleepms (1500);
-			endif
+			PlaySoundEffect(who, crafting_sounds);
+			sleep (3);
 		endfor
 		PlaySoundEffect(who, crafting_sounds);
 

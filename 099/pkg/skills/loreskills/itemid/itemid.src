@@ -41,6 +41,7 @@ program do_itemid (character)
 		EraseObjProperty (the_item, "tname");
 		EraseObjProperty (the_item, "prefix");
 		EraseObjProperty (the_item, "suffix");
+		EraseObjProperty (the_item, "unidentified");
 	elseif (GetObjProperty (the_item, "prefix") or GetObjProperty (the_item, "suffix"))
 		var newname := the_item.desc;
 		if (IsWand (the_item))
