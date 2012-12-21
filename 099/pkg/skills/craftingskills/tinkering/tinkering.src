@@ -541,7 +541,7 @@ function MakePorcelainTotem (character, porcelain)
 			totem.usescript := ":dundee:totem";
 			totem.movable := 1;
 		0x1eba:
-			totem := CreateItemInContainer (FindCraftingBag (character), 0x70b6, 1);
+			totem := CreateItemInContainer (FindCraftingBag (character), 0x170b6, 1);
 			if (!totem)
 				SendSysMessage (character, "Your backpack is full!");
 				return;

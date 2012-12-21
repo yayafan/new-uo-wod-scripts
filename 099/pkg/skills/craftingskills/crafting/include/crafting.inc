@@ -21,6 +21,7 @@ var itemConfig := ReadConfigFile( ":*:itemdesc" ),
     display_skill,
     craftL := 0,
     rcolor := 1,
+    quality := 0,
     makermark := 1;
     
 function Craft_CheckParts( who, elem )
@@ -43,10 +44,7 @@ function Craft_CheckParts( who, elem )
 		// If thing.objtype is the same as the objtype in the part list array position....
 		var thing_objtype := CInt( thing.objtype );
 		if( thing_objtype in parts.Keys() )
-                        if( GetObjProperty( thing, "LFucker" ))
-                                //No items created can be used for crafting objects...
-                                break;
-                        elseif( CInt( material_list[thing_objtype] ) < CInt( parts[thing_objtype] ))
+			if( CInt( material_list[thing_objtype] ) < CInt( parts[thing_objtype] ))
 				material_list[thing_objtype] := CInt( material_list[thing_objtype] ) + thing.amount;
 			endif
 		endif

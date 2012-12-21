@@ -45,7 +45,7 @@ program use_MapmakersPen( who, tool )
 	elseif (fortify)
 		UpgradeItem (who, SKILLID_CARPENTRY);
 	elseif (resmelt)
-	
+		return 0;
 	else
 		makeCarpentryItem( who, tool, the_objtype, amt );
 	endif
@@ -61,14 +61,6 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		return 0;
 	endif
 
-        var kindling_amount := 0;
-        if( chosen_item == UOBJ_KINDLING )
-                kindling_amount := CInt( SendTextEntryGump( who, "How many kindling would you like to craft?", TE_CANCEL_ENABLE, TE_STYLE_NUMERICAL, 20 ));
-                if( !kindling_amount )
-		        SendSysMessage( who, "Cancelled." );
-		        return 0;
-                endif
-        endif
 	var items_to_make := amt;
 	if (items_to_make == 0)
 		return 0;
@@ -87,7 +79,6 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 	var item_skill := cint (selection.skill);
 	var time_delay := cint (selection.time);
 	var item_lockable := selection.lockable;
-	var item_stackable := selection.stackable;
 	var item_name := selection.name;
 	SendSysMessage(who, "(Skill: " + item_skill + ", " + material_type + ": " + material_needed + ")");
 
@@ -96,6 +87,13 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 		return 0;
 	endif
 	
+        if (chosen_item == UOBJ_KINDLING)
+		MakeKindling (who, logs, amt);
+		return 0;
+	elseif (chosen_item == UOBJ_SHAFT)
+		MakeShafts (who, logs, amt);
+		return 0;
+        endif
 	//save the who's position and ask them how many they want to make
 	var craftingbag := FindCraftingBag (who);
 	var whox := who.x;
@@ -110,8 +108,8 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 
 	//save the who's position and ask them if they want to autoloop
 	var autoupgrade := 0;;
-	if (selection.has_quality)
-		autoupgrade := YesNo (who, "AutoUpgrade?");
+	if (selection.Exceptional)
+		autoupgrade := quality;
 	endif
 
 	var created_item;
@@ -152,15 +150,15 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 			created_item.buyprice := 0;
 			SendSysMessage (who, "You place the item in your backpack.");
 			//set the color
-			if (logs.color)
+			if (selection.retains and logs.color)
 				created_item.color := logs.color;
 			endif
 			SetObjProperty (created_item, "material_objtype", logs.objtype);
 			SubtractAmount (logs, material_needed);
-			if (!item_stackable)
+			if (selection.mark)
 				created_item.name := item_name + " [crafted by " + who.name + "]";
-				created_item.hp := created_item.maxhp;
 			endif
+				created_item.hp := created_item.maxhp;
 
 			if (item_lockable)
 				if ( CheckSkill (who, SKILLID_TINKERING, 40, 0) )
@@ -194,7 +192,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 				endif
 
 				PerformItemUpgrade (who, created_item, logs, upgrade_material,
-						SKILLID_CARPENTRY, upgrade_skill, item_name);
+						SKILLID_CARPENTRY, upgrade_skill, item_name, autoupgrade);
 			endif
 		endif
 		
@@ -214,21 +212,98 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 	return 1;
 endfunction
 
-function CraftKindling( who, kindling_amount )
+///////////////////
+//  makes arrow shafts
+///////////////////
 
-        if( SkillCheck( who, ATTRIBUTEID_CARPENTRY, 10 ) > 0 );
-		var the_item := CreateItemInBackpack( who, 0xde1, kindling_amount );
-		if( !the_item )
-			the_item := CreateItemAtLocation( who.x, who.y, who.z, 0xde1, kindling_amount, who.realm );
+function MakeShafts (character, logs, amount)
+
+	var sx := character.x;
+	var sy := character.y;
+	var items_left := amount;
+	
+	repeat
+		if (!logs)
+			SendSysMessage (character, "You run out of logs.");
+			return;
 		endif
-		SendSysMessage( who, "You create the item and put it in your backpack." );
-        else
-                SendSysMessage( who, "You lost some materials." );
-        endif
 
-	return 1;
+		PlaySoundEffect (character, SFX_56);
+		PerformAction ( character, ANIM_SALUTE );
+		sleep (2);
+
+		var logs_used := items_left;
+		if (logs_used > 5)
+			logs_used := 5;
+		endif
+		if (logs_used > logs.amount)
+			logs_used := logs.amount;
+		endif
+
+		var shaft_amount := logs_used * 5;
+
+		if (CheckSkill (character, SKILLID_CARPENTRY, 20, 0) )
+			var shafts := CreateItemInBackpack (character, UOBJ_SHAFT, shaft_amount);
+			if (!shafts)
+				PrintTextAbovePrivate (character, "*Your backpack is full*", character);
+				return;
+			endif
+
+			SubtractAmount (logs, logs_used);
+			items_left := items_left - logs_used;
+		else
+			SendSysMessage (character, "You destroy some logs.");
+			SubtractAmount (logs, 1);
+		endif
+
+	until (sx != character.x or sy != character.y or !items_left);
+
+	return;
+
 endfunction
 
+
+
+
+///////////////////
+//  makes kindling
+///////////////////
+
+function MakeKindling (character, logs, amount)
+
+	var sx := character.x;
+	var sy := character.y;
+	var items_left := amount;
+
+	repeat
+		if (!logs)
+			SendSysMessage (character, "You run out of logs.");
+			return;
+		endif
+
+		PlaySoundEffect (character, SFX_56);
+		PerformAction ( character, ANIM_SALUTE );
+		sleep (2);
+
+		if (CheckSkill (character, SKILLID_CARPENTRY, 5, 0) )
+			var kindling := CreateItemInBackpack (character, UOBJ_KINDLING, 5);
+			if (!kindling)
+				PrintTextAbovePrivate (character, "*Your backpack is full*", character);
+				return;
+			endif
+
+			SubtractAmount (logs, 1);
+		else
+			SendSysMessage (character, "You destroy some logs.");
+			SubtractAmount (logs, 1);
+		endif
+		items_left := items_left - 1;
+
+	until (sx != character.x or sy != character.y or !items_left);
+
+	return;
+
+endfunction
 
 function DoSpecialUpgradeStuff (byref character, byref item, repair_skill)
 	//nothing we can do with player made items at the highest upgrade level

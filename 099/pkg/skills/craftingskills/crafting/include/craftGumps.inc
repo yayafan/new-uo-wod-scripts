@@ -69,10 +69,10 @@ function sendCraftGump( who, skill_name )
 		SetObjProperty( who, "#Craft", craft_settings );
 	endif
 
-        while( who.connected )
+	while( who.connected )
 		craftL := craft_settings[skill_name].last;
 		rcolor := craft_settings[skill_name].retain;
-		makermark := craft_settings[skill_name].mark;
+		quality := craft_settings[skill_name].quality;
 
 		var craft_gump := Craft_IndexGump( who, skill_name );
 		if( !craft_gump )
@@ -99,10 +99,12 @@ function sendCraftGump( who, skill_name )
 
 		// See if the Maker's Mark button was pressed.
 		if( res[61453] )
-			case( makermark )
-			       1: craft_settings[skill_name].mark := 0;
+			case( quality )
+				1: craft_settings[skill_name].quality := 2;
 			               SetObjProperty( who, "#Craft", craft_settings );
-			       default: craft_settings[skill_name].mark := 1;
+				2: craft_settings[skill_name].quality := 0;
+			               SetObjProperty( who, "#Craft", craft_settings );
+			       default: craft_settings[skill_name].quality := 1;
 			               SetObjProperty( who, "#Craft", craft_settings );
 			endcase
 			continue;
@@ -169,7 +171,7 @@ function Craft_IndexGump( who, skill_name  )
  
 	// Done here, it resets the last item crafted when using the menu.
 	rcolor := craft_settings[skill_name].retain;
-	makermark := craft_settings[skill_name].mark;
+	quality := craft_settings[skill_name].quality;
 
 	// Resets the array for objtypes within the menu. Used with
 	// The info page and it's buttons.
@@ -220,11 +222,13 @@ function Craft_IndexGump( who, skill_name  )
 	GFGumpPic( gump, 440, 392, 2443 );
 	atc := GFTextEntry( gump, 450, 395, 100, 30, 1152, atc );
 
-	if( menu_config[skill_name].MakersMark == 1 )
-		if( makermark == 1 )
-			GFTextLine( gump, 250, 348, 1322, "Mark Item" );
+	if( menu_config[skill_name].Quality == 1 )
+		if( quality == 2 )
+			GFTextLine( gump, 250, 348, 1322, "Exceptional" );
+		elseif( quality == 1 )
+			GFTextLine( gump, 250, 348, 1322, "Qualiy Item" );
 		else
-			GFTextLine( gump, 250, 348, 1322, "*Do Not Mark" );
+			GFTextLine( gump, 250, 348, 1322, "Normal Item" );
 		endif
 		GFAddButton( gump, 215, 347, 4005, 4007, GF_CLOSE_BTN, 61453 );
 	endif
@@ -397,7 +401,7 @@ function GFCraftInfoPage( who, objtype, skill_config )
 
 	if( echance )
 		GFTextLine( gump, 250, 90, 1153, "Exceptional Chance:" );
-		GFTextLine( gump, 460, 90, 1153, echance );
+		GFTextLine( gump, 455, 90, 1153, echance );
 	endif
 
         //MATERIALS Background
@@ -441,8 +445,8 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFTextLine( gump, 65, 393, 1322, "Back" );
 	GFAddButton( gump, 30, 392, 4014, 4016, GF_CLOSE_BTN, 1 );
 
-	GFTextLine( gump, 430, 348, 1322, "Make Now" );
-	GFAddButton( gump, 395, 347, 4005, 4007, GF_CLOSE_BTN, CInt( objtype ));
+	GFTextLine( gump, 430, 393, 1322, "Make Now" );
+	GFAddButton( gump, 395, 392, 4005, 4007, GF_CLOSE_BTN, CInt( objtype ));
 
 	var ifres := GFSendGump( who, gump );
 	if( ifres[0] == 1 )
@@ -461,6 +465,7 @@ function cBaseCraftDict()
 		temp.+amount := CInt( menu_config["Setup"].DefaultAmount );
 		temp.+mark   := CInt( menu_config[skillentry].MakersMark );
 		temp.+retain := CInt( menu_config[skillentry].RetainColor );
+		temp.+quality := CInt( menu_config[skillentry].Quality );
 		temp.+last   := 0;
 		baseDict[temp.skill] := temp;
 	endforeach
