@@ -30,8 +30,22 @@ function RepairItem( character, repair_skill, item:=0 )
 		return;
 	endif
 	if( !craft_config[item.objtype] )
-                SendSysMessage( character, "You cannot repair the item with your tool." );
-                return 0;
+		if (repair_skill == SKILLID_TINKERING)
+			craft_config := ReadConfigFile( ":woodworking:carpentry" );
+			if( !craft_config[item.objtype] )
+				craft_config := ReadConfigFile( ":tailoring:tailoring" );
+				if( !craft_config[item.objtype] )
+					craft_config := ReadConfigFile( ":blacksmithy:blacksmithy" );
+					if( !craft_config[item.objtype] )
+						SendSysMessage( character, "You cannot upgrade the item with your tool." );
+						return 0;
+					endif
+				endif
+			endif
+		else
+			SendSysMessage( character, "You cannot repair the item with your tool." );
+			return 0;
+		endif
 	endif
 	var skill_elem := menu_config[GetAttributeIDBySkillID(repair_skill)];
 	//setup some variables
@@ -138,8 +152,22 @@ function UpgradeItem ( character, repair_skill, item:=0 )
 		return;
 	endif
 	if( !craft_config[item.objtype] )
-                SendSysMessage( character, "You cannot upgrade the item with your tool." );
-                return 0;
+		if (repair_skill == SKILLID_TINKERING)
+			craft_config := ReadConfigFile( ":woodworking:carpentry" );
+			if( !craft_config[item.objtype] )
+				craft_config := ReadConfigFile( ":tailoring:tailoring" );
+				if( !craft_config[item.objtype] )
+					craft_config := ReadConfigFile( ":blacksmithy:blacksmithy" );
+					if( !craft_config[item.objtype] )
+						SendSysMessage( character, "You cannot upgrade the item with your tool." );
+						return 0;
+					endif
+				endif
+			endif
+		else
+			SendSysMessage( character, "You cannot upgrade the item with your tool." );
+			return 0;
+		endif
 	endif
 	DoSpecialUpgradeStuff (character, item, repair_skill);
 endfunction
@@ -208,17 +236,30 @@ function DoItemUpgrade (character, item, repair_skill)
 		return;
 	endif
 
-	PerformItemUpgrade (character, item, found_logs, material_needed, repair_skill, item_skill, item_name);
+	PerformItemUpgrade (character, item, found_logs, material_needed, repair_skill, item_skill, item_name, 2);
 endfunction
 
 ///////////////////
 //  this function does the actual item upgrade
 ///////////////////
 
-function PerformItemUpgrade (character, item, found_material, material_needed, repair_skill, item_skill, item_name)
+function PerformItemUpgrade (character, item, found_material, material_needed, repair_skill, item_skill, item_name, upgrade_to := 2)
 	var sx := character.x;
 	var sy := character.y;
 	var skill_elem := menu_config[craft_skill];
+	if (upgrade_to > 2)
+		upgrade_to := 2;
+	endif
+	var upgrade_level := 0;
+	if (item.desc ["quality"])
+		upgrade_level := 1;
+	elseif (item.desc ["xceptional"])
+		upgrade_level := 2;
+	endif
+	if (upgrade_level >= upgrade_to)
+		SendSysMessage (character, "That item is already at the desired upgrade level!");
+		return;
+	endif
 
 	repeat
                 Craft_PlayEffects( character, skill_elem );
@@ -227,7 +268,7 @@ function PerformItemUpgrade (character, item, found_material, material_needed, r
 			SendSysMessage (character, "You succeed in upgrading the item.");
 			SubtractAmount (found_material, material_needed);
 
-			if (item.desc ["quality"])
+			if (upgrade_level == 1)
 				item.name := "an exceptional " + TruncateArticle(item_name) + " [crafted by " + character.name + "]";
 				item.quality := 1.2;
 				item.hp := item.maxhp;
@@ -238,12 +279,16 @@ function PerformItemUpgrade (character, item, found_material, material_needed, r
 				item.quality := 1.0;
 				item.hp := item.maxhp;
 				item.buyprice := 0;
-
+				if (upgrade_to == 1)
+					return;
+				endif
+				
+				upgrade_level := 1;
 				item_skill := item_skill + 10;
 				if (item_skill > 110)
 					item_skill := 110;
 				endif
-
+				
 				if (item_skill > GetAttribute (character, GetAttributeIDBySkillID (repair_skill)) + 20)
 					SendSysMessage (character, "Your skill is too low to upgrade the item any further.");
 					return;

@@ -47,7 +47,7 @@ function MakeMagicItem (character, item)
 	endif
 
 	if (GetObjProperty (item, "str") or GetObjProperty (item, "int") or GetObjProperty (item, "dex"))
-		if (GetObjProperty (item, "prefix") or GetObjProperty (item, "suffix") or GetObjProperty (item, "tname"))
+		if (GetObjProperty (item, "unidentified"))
 			SendSysMessage (character, "You must identify the item first!");
 			return;
 		endif
@@ -70,6 +70,7 @@ function MakeMagicItem (character, item)
 	SubtractAmount (found_obsidian, required_obsidian);
 	PlaySoundEffect (character, SFX_1EB);
 	SendSysMessage (character, "You enchant the item!");
+  SetObjProperty (item, "unidentified", 1);
 
 	var max_stat_boost := GetMaxStatBoost (gemtype);
 	var stat_bonus :=  max_stat_boost - 2 + RandomInt (3);
@@ -166,6 +167,7 @@ function UpgradeStatJewelry (character, item, obsidian)
 	item.name := "a magic " + item_description;
 	var tname := CSTR ("a " + stat_bonus_desc + " " + gem_description + " " + item_description + " of " + statboost_desc);
 	SetObjProperty (item, "tname", tname);
+	SetObjProperty (item, "unidentified", 1);
 endfunction
 
 

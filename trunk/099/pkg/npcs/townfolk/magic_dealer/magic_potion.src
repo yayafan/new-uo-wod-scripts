@@ -69,6 +69,7 @@ program display_forsale_items (player, potion)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
 		return;
 	endif
+	new_item.color := normal_item.color;
 
 	var parms := array {};
 	parms[1] := new_item;

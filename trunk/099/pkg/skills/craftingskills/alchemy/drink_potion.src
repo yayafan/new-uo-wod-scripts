@@ -202,7 +202,7 @@ program drink_potion (character, potion)
 				endif
 
 		//Misc. Potions
-		0x709e:	//protection from Paralyzation potion
+		0x1709e:	//protection from Paralyzation potion
 				SendSysMessage (character, "You feel protected from paralyzation!  And slightly dizzy!");
 				SetObjProperty (character, "prot_paralyze_potion", 1);
 				sleep_timer := 5;
