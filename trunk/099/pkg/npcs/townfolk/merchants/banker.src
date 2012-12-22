@@ -14,6 +14,7 @@ include "../pkg/npcs/speech";
 include "../pkg/npcs/npc_util";
 include "../pkg/npcs/npcinfo";
 include "../pkg/npcs/main_ai/setup/setup";
+include ":contextMenus:contextMenus";
 
 program banker_AI();
 	if (me.name ["<random>"])
@@ -31,7 +32,17 @@ program banker_AI();
 		endif
 
     		var ev := os::wait_for_event( 120 );
-    		if (ev and ev.type == EVID_SPEECH and !ev.source.npctemplate)
+		if (ev and ev.type == EVID_CONTEXT_MENU)
+			var newev := struct;
+			newev.+type := EVID_SPEECH;
+			newev.+source := ev.source;
+			newev.+text := "";
+			case (ev.result)
+				eCMR_Bank: newev.text := "bank";
+				eCMR_CheckBalance: newev.text := "account";
+			endcase
+			sendevent (me, newev);
+    		elseif (ev and ev.type == EVID_SPEECH and !ev.source.npctemplate)
 			var evtext := lower(ev.text);
 			if (evtext["bank"])
 				if(ev.text["vendor"] or ev.text["guard"] or ev.text["buy"] or ev.text["sell"] or ev.text["job"])
