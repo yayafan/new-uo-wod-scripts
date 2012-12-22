@@ -15,6 +15,7 @@ include "include/magicitems";
 include "include/npcbackpacks";
 include "../pkg/npcs/main_ai/setup/setup";
 include "../pkg/npcs/townfolk/merchants/mrcspawn";
+include ":contextMenus:contextMenus";
 
 const RESTOCK_TIME_SECONDS := 1800;
 
@@ -112,6 +113,19 @@ function ProcessEvent (byref ev)
 				GreetCustomer (ev.source);
 				next_possible_spam := ReadGameClock() + 60;
 			endif
+		EVID_CONTEXT_MENU:
+			var newev := struct;
+			newev.+type := EVID_SPEECH;
+			newev.+source := ev.source;
+			newev.+text := "";
+			case (ev.result)
+				eCMR_Buy:			newev.text := "buy";
+				eCMR_Sell:			newev.text := "sell bag";
+				eCMR_CraftItem:		newev.text := "job";
+				eCMR_Quest:		newev.text := "quest";
+				eCMR_GateTravel:	newev.text := "gate";
+			endcase
+			sendevent (me, newev);
 		EVID_SPEECH:
 			if (ev.source.npctemplate)
 				return 0;

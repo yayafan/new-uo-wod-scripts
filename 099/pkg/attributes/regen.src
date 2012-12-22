@@ -159,9 +159,9 @@ exported function GetManaRegenRate(character)
 	endif
 		
 	//Ignore all this for NPCs
-	if (!character.acctname)
-		return 1200;
-	endif
+//	if (!character.acctname)
+//		return 1200;
+//	endif
 
 	var racialbonus := 0;
 	if (character.race == RACE_GARGOYLE)

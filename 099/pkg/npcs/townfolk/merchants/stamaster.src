@@ -14,6 +14,7 @@ include "../pkg/npcs/speech";
 include "../pkg/npcs/npcinfo";
 include "../pkg/npcs/npc_util";
 include "../pkg/npcs/main_ai/setup/setup";
+include ":contextMenus:contextMenus";
 
 Const MAXFRIENDS	:= 3;
 
@@ -52,6 +53,15 @@ program stabler_AI ()
 						endif
 					until (hidetime + 120 < ReadGameClock());
 					me.hidden := 0;
+				EVID_CONTEXT_MENU:
+					var newev := struct;
+					newev.+type := EVID_SPEECH;
+					newev.+source := event.source;
+					newev.+text := "";
+					case (event.result)
+						eCMR_StablePet:			newev.text := "stable";
+					endcase
+					sendevent (me, newev);
 
 				EVID_SPEECH:
 					var evtext := Lower (event.text);
