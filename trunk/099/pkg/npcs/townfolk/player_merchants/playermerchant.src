@@ -538,7 +538,7 @@ function fireme (mmaster)
 		return;
 	endif
 
-	CreateItemInContainer (mmaster.backpack, 0x7008, 1);
+	CreateItemInContainer (mmaster.backpack, 0x17008, 1);
 	PerformAction (me, ANIM_CAST_DIR);
 	say ("Kal Ort Por");
 	sleep (2);

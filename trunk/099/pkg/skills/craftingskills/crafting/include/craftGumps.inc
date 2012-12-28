@@ -408,9 +408,9 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFResizePic( gump, 215, 198, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
 	GFTextLine( gump, 329, 201, 1322, "MATERIALS" );
  
-        var mat_parms := GetMaterials( elem ),
-            mat_name := mat_parms[1],
-            material := mat_parms[2];
+	var mat_parms := GetMaterials( elem ),
+		mat_name := mat_parms[1],
+		material := mat_parms[2];
             
 	GFHTMLArea( gump, 250, 225, 270, 80, ( "<basefont color=#ffffff>"+mat_name ) );
 	if( material )

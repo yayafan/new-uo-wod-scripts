@@ -10,7 +10,6 @@ program Request(parms)
 	var packet := parms[2];
 	var serial := packet.GetInt32(5);
 	var object := SystemFindobjectBySerial(serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
-	
 	// Define the target for the context menu
 	if(who == object)
 //		ShowMenuSelf(who, packet, serial);
@@ -24,13 +23,17 @@ program Request(parms)
 endprogram
 
 function CreateContextMenu(object, forChar)
-	if (forChar)
+
+	var template := lower(object.npctemplate);
+	template[":merchants:"] := "";
+	if (template != "banker")
+		if (!CheckLosAt(forChar, object.x, object.y, object.z) and !CheckLosAt(forChar, object.x, object.y, object.z + object.height) )
+			return 0;
+		endif
 	endif
 	var menu := CreateNewContextMenu();
 	
 	// NPCs
-	var template := lower(object.npctemplate);
-	template[":merchants:"] := "";
 	if(object.isa(POLCLASS_NPC))
 		case(template)
 			"banker":
