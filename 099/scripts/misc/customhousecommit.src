@@ -98,7 +98,6 @@ program customhouse_commit ( who, house, houseelemarray )
 		endif
 	endforeach
 	SendSysMessage (who, "This house has " + house.components.size() + " components.");
-	SendPacket (who, "B9000080FB");
 	if (who.concealed < 2)
 		who.concealed := 0;
 	endif

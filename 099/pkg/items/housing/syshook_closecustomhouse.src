@@ -8,7 +8,6 @@ exported function CloseCustomHouse ( who, house)
 	if (who.concealed < 2)
 		who.concealed := 0;
 	endif	
-	SendPacket (who, "B9000080FB");
 	var components := GetObjProperty (house, "components");
 	var lockid := 0;
 	foreach compo in (components)

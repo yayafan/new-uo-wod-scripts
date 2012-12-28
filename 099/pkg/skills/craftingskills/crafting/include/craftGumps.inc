@@ -465,7 +465,7 @@ function cBaseCraftDict()
 		temp.+amount := CInt( menu_config["Setup"].DefaultAmount );
 		temp.+mark   := CInt( menu_config[skillentry].MakersMark );
 		temp.+retain := CInt( menu_config[skillentry].RetainColor );
-		temp.+quality := CInt( menu_config[skillentry].Quality );
+		temp.+quality := 0;
 		temp.+last   := 0;
 		baseDict[temp.skill] := temp;
 	endforeach
