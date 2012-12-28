@@ -697,6 +697,7 @@ const SFX_SKILL_SPIRITSPEAK		:= SFX_24B;
 const SFX_SKILL_LUMBERJACK		:= SFX_13F;
 Const SFX_TAILORING				:= 0x0249;
 Const SFX_CARPENTRY				:= 0x023e;
+Const SFX_STONECRAFTING := 0x03bb;
 
 // * items *
 const SFX_TRAP_NEEDLE               :=  SFX_225;
