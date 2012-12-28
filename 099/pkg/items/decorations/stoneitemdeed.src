@@ -120,10 +120,86 @@ program Place_Deed (character, deed)
 			case (selected_item.index)
 				1:
 					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ns");
+					MoveObjectToLocation (character, character.x, character.y+3, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				2:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ew");
+					MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
+			return;
+		0xB01C:	//	medium stone bench
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+			var config_file := "";
+			var color := deed.color;
+			case (deed.color)
+				1169:
+					config_file := "decoration_mediumsandstonebench_";
+					color := 0;
+				2962:
+					config_file := "decoration_mediummarblebench_";
+					color := 0;
+				0:
+					config_file := "decoration_mediumstonebench_";
+					color := 1895;
+				default:
+					config_file := "decoration_mediumstonebench_";
+			endcase
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+			case (selected_item.index)
+				1:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ns");
 					MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 				2:
 					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ew");
 					MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
+			return;
+		0xB01D:	//	large stone bench
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+			var config_file := "";
+			var color := deed.color;
+			case (deed.color)
+				1169:
+					config_file := "decoration_largesandstonebench_";
+					color := 0;
+				2962:
+					config_file := "decoration_largemarblebench_";
+					color := 0;
+				0:
+					config_file := "decoration_largestonebench_";
+					color := 1895;
+				default:
+					config_file := "decoration_largestonebench_";
+			endcase
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+			case (selected_item.index)
+				1:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ns");
+					MoveObjectToLocation (character, character.x, character.y+3, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				2:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ew");
+					MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 			endcase
 			return;
 	endcase
