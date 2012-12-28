@@ -458,10 +458,14 @@ function IsADeedItem (me, it)
 	//the new, prefered way to do multipart items
 	if (GetObjProperty (it, "deedobjtype") )
 		var deedobjtype := GetObjProperty (it, "deedobjtype");
+		var deedcolor := GetObjProperty (it, "deedcolor");
 		var thedeed := CreateItemInBackpack (me, deedobjtype, 1);
 		if (!thedeed)
 			PrintTextAbovePrivate (me, "*Your backpack is full!*", me);
 			return 1;
+		endif
+		if (deedcolor)
+			thedeed.color := deedcolor;
 		endif
 
 		foreach serial in GetObjProperty (it, "otheritems")

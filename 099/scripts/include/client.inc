@@ -1059,6 +1059,7 @@ const SKILLID_BOWCRAFT          := 8;
 const SKILLID_PEACEMAKING       := 9;
 const SKILLID_CAMPING           := 10;
 const SKILLID_CARPENTRY         := 11;
+const SKILLID_STONECRAFTING         := 11;
 const SKILLID_CARTOGRAPHY       := 12;
 const SKILLID_COOKING           := 13;
 

@@ -254,6 +254,18 @@ function DigForSand (character, use_on, info)
 			thesand.movable := 1;
 			PrintTextAbovePrivate (character, "*" + thesand.desc + "*", character);
 		endif
+		amount := amount / 5;
+		if (amount)
+			thesand := CreateItemInContainer (craftingbag, UOBJ_SAND_STONE, amount);
+			if (!thesand)
+				PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+				return 1;
+			else
+				thesand.movable := 1;
+				PrintTextAbovePrivate (character, "*" + thesand.desc + "*", character);
+			endif
+		endif
+			
 	endif
 
 	return 0;
@@ -350,6 +362,18 @@ function DigForOre (character, use_on, info)
 	else
 		created_ore.movable := 1;
 		PrintTextAbovePrivate (character, "*" + created_ore.desc + "*", character);
+	endif
+	ore_amount := ore_amount / 5;
+	if (ore_amount)
+		var stone_type := DetermineStoneType(character, ore_type);
+		created_ore := CreateItemInContainer (craftingbag, stone_type, ore_amount);
+		if (!created_ore)
+			PrintTextAbovePrivate (character, "*Your backpack is full!*", character);
+			return 1;
+		else
+			created_ore.movable := 1;
+			PrintTextAbovePrivate (character, "*" + created_ore.desc + "*", character);
+		endif
 	endif
 
 endfunction
@@ -756,7 +780,37 @@ function DetermineOreType (character, mining_type)
 	endcase
 endfunction
 
-
+function DetermineStoneType (character, ore_type)
+	var racialboost := 0;
+	if (character.race == RACE_ELF)
+		racialboost := 10;
+	endif
+	if (RandomInt(100) < (10 + racialboost))
+		ore_type := 0;
+	endif
+	case (ore_type)
+		UOBJ_BLUESTEEL_ORE:
+			return UOBJ_BLUESTEEL_STONE;
+		UOBJ_RUBYSTEEL_ORE:
+			return UOBJ_RUBYSTEEL_STONE;
+		UOBJ_MALACHITE_ORE:
+			return UOBJ_MALACHITE_STONE;
+		UOBJ_PYRITE_ORE:
+			return UOBJ_PYRITE_STONE;
+		UOBJ_ONYX_ORE:
+			return UOBJ_ONYX_STONE;
+		UOBJ_COPPER_ORE:
+			return UOBJ_COPPER_STONE;
+		UOBJ_DULLCOPPER_ORE:
+			return UOBJ_DULLCOPPER_STONE;
+		UOBJ_BRONZE_ORE:
+			return UOBJ_BRONZE_STONE;
+		UOBJ_IRON_ORE:
+			return UOBJ_GRANITE_STONE;
+		default:
+			return UOBJ_MARBLE_STONE;
+	endcase
+endfunction
 
 
 ///////////////////

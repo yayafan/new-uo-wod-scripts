@@ -69,7 +69,7 @@ program itemdata(xObject)
 				endif
 			endif
 			var skillid := GetObjProperty(xObject, "skilladv");
-			if (skillid)
+			if (GetObjProperty (xObject, "skill"+skillid))
 				var skillname := GetSkillName(skillid);
 				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
 			endif
