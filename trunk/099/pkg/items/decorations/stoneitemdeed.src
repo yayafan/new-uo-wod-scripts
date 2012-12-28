@@ -74,6 +74,9 @@ program Place_Deed (character, deed)
 				2962:
 					config_file := "decoration_mediummarbletable_";
 					color := 0;
+				0:
+					config_file := "decoration_mediumstonetable_";
+					color := 1895;
 				default:
 					config_file := "decoration_mediumstonetable_";
 			endcase
@@ -109,6 +112,9 @@ program Place_Deed (character, deed)
 				2962:
 					config_file := "decoration_largemarbletable_";
 					color := 0;
+				0:
+					config_file := "decoration_largestonetable_";
+					color := 1895;
 				default:
 					config_file := "decoration_largestonetable_";
 			endcase
