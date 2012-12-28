@@ -89,6 +89,22 @@ function FindForgeInArea (character)
 			endcase
 		endif
 	endforeach
+	foreach item in ListStaticsNearLocation (character.x, character.y, character.z, 2, ITEMS_IGNORE_MULTIS, character.realm)
+		if ( item.objtype >= UOBJ_FORGE_START and item.objtype <= UOBJ_FORGE_END )
+			return 1;
+		else
+			case (item.objtype)
+				UOBJ_SMALL_FORGE:
+				UOBJ_ELVEN_FORGE:
+				UOBJ_SOULFORGE:
+				UOBJ_SOULFORGE_NW:
+				UOBJ_SOULFORGE_NE:
+				UOBJ_SOULFORGE_SW:
+				UOBJ_SOULFORGE_SE:
+					return 1;
+			endcase
+		endif
+	endforeach
 	return 0;
 endfunction
 

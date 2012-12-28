@@ -6,7 +6,7 @@ program textcmd_upgradeaccounts(who)
   var res := 0;
   foreach acctname in ListAccounts()
     acct := FindAccount(acctname);
-    if(res := acct.set_uo_expansion("ML"))
+    if(res := acct.set_uo_expansion("HSA"))
 		count := count + 1;
 	else
 		SendSysMessage(who, res.errortext);
