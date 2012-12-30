@@ -1252,6 +1252,24 @@ program Place_Deed (character, deed)
 		0xB02e:	//	gargish short table
 			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_shorttable");
 			MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+		0xB02f:	//	abbatoir
+			if (lockdowns + 8 >= maxlockdowns)
+				SendSysMessage (character, "You don't have enough lockdowns left.");
+				return;
+			endif
+			
+			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_abbatoir");
+			return;
+
+		0xB030:	//	arcane circle
+			if (lockdowns + 8 >= maxlockdowns)
+				SendSysMessage (character, "You don't have enough lockdowns left.");
+				return;
+			endif
+			
+			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_arcane_circle");
+			return;
+
 		default:
 			SendSysMessage (character, "That deed appears to be broken.");
 			return;
