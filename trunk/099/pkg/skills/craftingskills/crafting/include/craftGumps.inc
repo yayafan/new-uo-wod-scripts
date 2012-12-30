@@ -367,9 +367,12 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 197, 280 );
 	GFTextLine( gump, 100, 48, 1322, "ITEM" );
  
-        var graphic := CInt( thisitem.graphic );
+        var graphic := CInt (elem.preview);
 	if( !graphic )
-		graphic := CInt( objtype );
+		graphic := CInt( thisitem.graphic );
+		if( !graphic )
+			graphic := CInt( objtype );
+		endif
 	endif
  
 	GFTilePic( gump, 90, 100, CInt( graphic ), thisitem.color );

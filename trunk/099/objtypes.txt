@@ -101,7 +101,9 @@
 0x360 LightThickStoneSecretESW doors
 # 0x361 unused
 0x362 LightThickStoneSecretENW doors
-# 0x363 - 0x474 unused
+# 0x363 - 0x45a unused
+0x45b SmallStoneBench decorations
+# 0x45c - 0x474 unused
 0x475 sandstonefireplace1a lighting
 # 0x476 - 0x47a unused
 0x47b sandstonefireplace2a lighting
@@ -441,8 +443,9 @@
 0xa38 ChestDrawersDarkSW containers
 # 0xa39 - 0xa3b unused
 0xa3c Dresser1 containers
-0xa3d Dresser2 containers
-# 0xa3e - 0xa4c unused
+# 0xa3d - 0xa43 unused
+0xa44 Dresser2 containers
+# 0xa45 - 0xa4c unused
 0xa4d CherryArmoire2 containers
 # 0xa4e unused
 0xa4f BrownArmoire containers
@@ -662,7 +665,7 @@
 0xe7c SilverChest containers
 0xe7d WoodenBox2 containers
 0xe7e SmallCrate2 containers
-0xe7f Keg carpentry
+0xe7f Keg woodworking
 0xe80 StrongBox containers
 0xe81 ShepherdsCrook weapons
 # 0xe82 - 0xe84 unused
@@ -724,7 +727,7 @@
 # 0xf3a - 0xf3b unused
 0xf3c poop
 # 0xf3d - 0xf3e unused
-0xf3f arrow carpentry
+0xf3f arrow woodworking
 # 0xf40 - 0xf42 unused
 0xf43 Hatchet weapons
 # 0xf44 unused
@@ -818,26 +821,26 @@
 0x100b archerybutte2 training
 # 0x100c unused
 0x100d hay farming
-0x100e ironkey
+0x100e copperkey
 0x100f goldkey
-# 0x1010 unused
+0x1010 ironkey
 0x1011 keyring
 0x1012 magickey
 0x1013 rustykey
 # 0x1014 - 0x101d unused
 0x101e spinning wheel tailoring
 # 0x101f - 0x1027 unused
-0x1028 Dovetailsaw carpentry
+0x1028 Dovetailsaw woodworking
 # 0x1029 unused
-0x102a Hammer carpentry
+0x102a Hammer woodworking
 # 0x102b unused
-0x102c mouldingplane carpentry
+0x102c mouldingplane woodworking
 # 0x102d - 0x102f unused
-0x1030 Jointingplane carpentry
+0x1030 Jointingplane woodworking
 # 0x1031 unused
-0x1032 Smoothingplane carpentry
+0x1032 Smoothingplane woodworking
 # 0x1033 - 0x1034 unused
-0x1035 Saw carpentry
+0x1035 Saw woodworking
 # 0x1036 - 0x1038 unused
 0x1039 Flour2 cooking
 0x103a OpenFlour cooking
@@ -893,10 +896,10 @@
 0x1089 necklace2 tinkering
 0x108a ring tinkering
 # 0x108b - 0x10e3 unused
-0x10e4 drawknife carpentry
-0x10e5 Froe carpentry
-0x10e6 inshave carpentry
-0x10e7 Scorp carpentry
+0x10e4 drawknife woodworking
+0x10e5 Froe woodworking
+0x10e6 inshave woodworking
+0x10e7 Scorp woodworking
 # 0x10e8 - 0x10f4 unused
 0x10f5 flametrap1 traps
 # 0x10f6 - 0x10fb unused
@@ -950,7 +953,9 @@
 0x1228 statue5 decorations
 # 0x1229 - 0x122c unused
 0x122d blood
-# 0x122e - 0x12c9 unused
+# 0x122e - 0x12b2 unused
+0x12b3 malletandchisel stonecrafting
+# 0x12b4 - 0x12c9 unused
 0x12ca bust decorations
 # 0x12cb - 0x12da unused
 0x12db curtains decorations
@@ -1082,7 +1087,9 @@
 # 0x14f0 unused
 0x14f1 shipdeed
 0x14f2 shipdeed2
-# 0x14f3 - 0x14fa unused
+# 0x14f3 - 0x14f4 unused
+0x14f5 spyglass tinkering
+# 0x14f6 - 0x14fa unused
 0x14fb lockpicks lockpicking
 # 0x14fc - 0x1514 unused
 0x1515 Cloak armor
@@ -1176,7 +1183,20 @@
 0x1765 cloth tailoring
 # 0x1766 - 0x180f unused
 0x1810 hourglass lighting
-# 0x1811 - 0x1848 unused
+# 0x1811 - 0x181c unused
+0x181d housetele1 housing
+0x181e housetele2 housing
+0x181f housetele3 housing
+0x1820 housetele4 housing
+0x1821 housetele5 housing
+0x1822 housetele6 housing
+0x1823 housetele7 housing
+0x1824 housetele8 housing
+0x1825 housetele9 housing
+0x1826 housetelea housing
+0x1827 houseteleb housing
+0x1828 housetelec housing
+# 0x1829 - 0x1848 unused
 0x1849 heatingstand alchemy
 # 0x184a - 0x1851 unused
 0x1852 scales decorations
@@ -1210,8 +1230,10 @@
 # 0x192d unused
 0x192e mill2front cooking
 # 0x192f - 0x193f unused
-0x1940 potionkeg carpentry
-# 0x1941 - 0x19a9 unused
+0x1940 potionkeg woodworking
+# 0x1941 - 0x1946 unused
+0x1947 CatWithBowlStatue containers
+# 0x1948 - 0x19a9 unused
 0x19aa tallbrazier lighting
 # 0x19ab unused
 0x19ac fire lighting
@@ -1231,7 +1253,7 @@
 # 0x1aa3 - 0x1ad2 unused
 0x1ad3 donuts cooking
 # 0x1ad4 - 0x1ad6 unused
-0x1ad7 keg2 carpentry
+0x1ad7 keg2 woodworking
 # 0x1ad8 - 0x1ae1 unused
 0x1ae2 Skull tinkering
 # 0x1ae3 - 0x1b71 unused
@@ -1249,15 +1271,15 @@
 0x1bc3 Chaosshield armor
 0x1bc4 Ordershield armor
 # 0x1bc5 - 0x1bd0 unused
-0x1bd1 feather carpentry
+0x1bd1 feather woodworking
 # 0x1bd2 - 0x1bd3 unused
-0x1bd4 ArrowShaft carpentry
+0x1bd4 ArrowShaft woodworking
 # 0x1bd5 - 0x1bdc unused
 0x1bdd log lumberjacking
 # 0x1bde - 0x1be8 unused
 0x1be9 goldingot tinkering
 # 0x1bea - 0x1bfa unused
-0x1bfb bolt carpentry
+0x1bfb bolt woodworking
 # 0x1bfc - 0x1bff unused
 0x1c00 LeatherShorts armor
 # 0x1c01 unused
@@ -1323,7 +1345,8 @@
 0x1ea5 FishingNet fishing
 # 0x1ea6 - 0x1eb7 unused
 0x1eb8 toolkit tinkering
-# 0x1eb9 - 0x1ebb unused
+0x1eb9 toolkit2 tinkering
+# 0x1eba - 0x1ebb unused
 0x1ebc TinkersTools tinkering
 0x1ebd wheatsheaf farming
 # 0x1ebe - 0x1ebf unused
@@ -1486,7 +1509,17 @@
 0x204e Shroud armor
 # 0x204f unused
 0x2050 dupre barber
-# 0x2051 - 0x2251 unused
+# 0x2051 - 0x20d6 unused
+0x20d7 golemtotem tinkering
+# 0x20d8 - 0x20f5 unused
+0x20f6 llamatotem tinkering
+# 0x20f7 - 0x211e unused
+0x211f steed1totem tinkering
+# 0x2120 unused
+0x2121 steed2totem tinkering
+# 0x2122 - 0x2135 unused
+0x2136 ostardtotem tinkering
+# 0x2137 - 0x2251 unused
 0x2252 PaladinSpellbook chivalry
 0x2253 Necromancy Spellbook necromancy
 # 0x2254 - 0x2259 unused
@@ -1514,9 +1547,27 @@
 0x230d GildedDress armor
 # 0x230e unused
 0x230f FormalShirt armor
-# 0x2310 - 0x236b unused
+# 0x2310 - 0x2327 unused
+0x2328 snowman decorations
+# 0x2329 unused
+0x232a presentbox decorations
+# 0x232b unused
+0x232c wreath decorations
+# 0x232d unused
+0x232e snowflake1 decorations
+0x232f snowflake2 decorations
+0x2330 poinsettia1 decorations
+0x2331 poinsettia2 decorations
+0x2332 christmaswisps decorations
+# 0x2333 - 0x236b unused
 0x236c PlateKabuto2 armor
-# 0x236d - 0x238b unused
+# 0x236d unused
+0x236e holidaycandle decorations
+# 0x236f - 0x2373 unused
+0x2374 mistletoe decorations
+# 0x2375 - 0x2376 unused
+0x2377 snowytree decorations
+# 0x2378 - 0x238b unused
 0x238c BushidoSpellbook bushido
 0x238d honorableexecutionscroll bushido
 0x238e confidencescroll bushido
@@ -1540,7 +1591,42 @@
 0x2421 BlackWindowedDoorSSE doors
 # 0x2422 unused
 0x2423 BlackWoodenDoorSSE doors
-# 0x2424 - 0x25f7 unused
+# 0x2424 - 0x24ba unused
+0x24bb shojilanternlit lighting
+0x24bc shojilantern lighting
+0x24bd paperlanternlit lighting
+0x24be paperlantern lighting
+0x24bf statuelanternlit lighting
+0x24c0 statuelantern lighting
+0x24c1 redhanginglanternlit lighting
+0x24c2 redhanginglantern lighting
+0x24c3 redhanginglanternlit2 lighting
+0x24c4 redhanginglantern2 lighting
+0x24c5 whitehanginglanternlit lighting
+0x24c6 whitehanginglantern lighting
+0x24c7 whitehanginglanternlit2 lighting
+0x24c8 whitehanginglantern2 lighting
+0x24c9 roundpaperlanternlit lighting
+0x24ca roundpaperlantern lighting
+0x24cb shojiscreen decorations
+# 0x24cc - 0x24cf unused
+0x24d0 bambooscreen decorations
+# 0x24d1 - 0x24d4 unused
+0x24d5 tokunobasket containers
+# 0x24d6 unused
+0x24d7 tokunobasket2 containers
+0x24d8 tokunobasket3 containers
+0x24d9 tokunobasket4 containers
+# 0x24da unused
+0x24db tokunobasket5 containers
+# 0x24dc unused
+0x24dd tokunobasket6 containers
+# 0x24de - 0x2555 unused
+0x2556 SmallBagball containers
+0x2557 LargeBagball containers
+# 0x2558 - 0x255c unused
+0x255d throwingaxe tinkering
+# 0x255e - 0x25f7 unused
 0x25f8 adranathtoy
 0x25f9 lordblacktoy
 0x25fa dashatoy
@@ -1554,7 +1640,9 @@
 0x2645 DragonHelm armor
 # 0x2646 unused
 0x2647 DragonLeggings armor
-# 0x2648 - 0x2656 unused
+# 0x2648 - 0x264a unused
+0x264b DragonGorget armor
+# 0x264c - 0x2656 unused
 0x2657 DragonSleeves armor
 # 0x2658 - 0x2688 unused
 0x2689 WingedHelmet armor
@@ -1573,7 +1661,9 @@
 0x26ce PaladinSword weapons
 # 0x26cf - 0x2776 unused
 0x2777 PlateJingasa2 armor
-# 0x2778 - 0x27a1 unused
+# 0x2778 - 0x278f unused
+0x2790 shurikenthrower weapons
+# 0x2791 - 0x27a1 unused
 0x27a2 Nodachi weapons
 0x27a3 Tessen weapons
 0x27a4 Wakizashi weapons
@@ -1584,7 +1674,7 @@
 0x27a9 Daisho weapons
 # 0x27aa unused
 0x27ab Tekagi weapons
-# 0x27ac unused
+0x27ac shuriken tinkering
 0x27ad Kama weapons
 0x27ae Nunchaku weapons
 0x27af Sai weapons
@@ -1617,7 +1707,7 @@
 0x27d8 PlateHaidate armor
 0x27d9 LeatherNinjaHood armor
 0x27da ClothNinjaHood armor
-# 0x27db unused
+0x27db axethrower weapons
 0x27dc LeatherNinjaPants armor
 0x27dd LeatherNinjaMitts armor
 0x27de LeatherNinjaJacket armor
@@ -1637,13 +1727,35 @@
 # 0x27ed - 0x27ef unused
 0x27f0 Yumi weapons
 # 0x27f1 - 0x27f4 unused
-0x27f5 throwingpouch weapons
+0x27f5 dartthrower weapons
 # 0x27f6 - 0x2803 unused
-0x2804 dart blacksmithy
+0x2804 dart tinkering
 0x2805 bambooflute musicianship
 # 0x2806 unused
 0x2807 bambooflute2 musicianship
-# 0x2808 - 0x2a04 unused
+# 0x2808 - 0x280a unused
+0x280b plainwoodenchest containers
+# 0x280c unused
+0x280d ornatewoodenchest containers
+# 0x280e unused
+0x280f gildedwoodenchest containers
+# 0x2810 unused
+0x2811 woodenfootlocker containers
+# 0x2812 unused
+0x2813 finishedwoodenchest containers
+# 0x2814 unused
+0x2815 tallcabinet containers
+# 0x2816 unused
+0x2817 shortcabinet containers
+# 0x2818 - 0x2856 unused
+0x2857 redarmoire containers
+# 0x2858 unused
+0x2859 elegantarmoire containers
+# 0x285a unused
+0x285b maplearmoire containers
+# 0x285c unused
+0x285d tokunocherryarmoire containers
+# 0x285e - 0x2a04 unused
 0x2a05 PaperSlidingDoorSW doors
 # 0x2a06 unused
 0x2a07 PaperSlidingDoorSE doors
@@ -1667,7 +1779,9 @@
 0x2a19 WoodenSlidingDoorES doors
 # 0x2a1a unused
 0x2a1b WoodenSlidingDoorEN doors
-# 0x2a1c - 0x2b66 unused
+# 0x2a1c - 0x2b01 unused
+0x2b02 Quiver containers
+# 0x2b03 - 0x2b66 unused
 0x2b67 WoodlandChest armor
 # 0x2b68 unused
 0x2b69 WoodlandGorget armor
@@ -1693,7 +1807,11 @@
 0x2bdd candycane cooking
 # 0x2bde - 0x2be1 unused
 0x2be2 gingerbreadman cooking
-# 0x2be3 - 0x2d29 unused
+# 0x2be3 - 0x2d04 unused
+0x2d05 SimpleElvenArmoire containers
+# 0x2d06 unused
+0x2d07 FancyElvenArmoire containers
+# 0x2d08 - 0x2d29 unused
 0x2d2a longbow weapons
 0x2d2b shortbow weapons
 0x2d2c Spellblade weapons
@@ -1760,7 +1878,19 @@
 0x2dad risingcolossusscroll mysticism
 # 0x2dae - 0x2dda unused
 0x2ddb elvenoven cooking
-# 0x2ddc - 0x2fb7 unused
+# 0x2ddc unused
+0x2ddd ElvenPodium decorations
+# 0x2dde - 0x2de2 unused
+0x2de3 OrnateElvenChair decorations
+# 0x2de4 - 0x2dec unused
+0x2ded CozyElvenChair decorations
+# 0x2dee - 0x2df0 unused
+0x2df1 RarewoodChest containers
+# 0x2df2 unused
+0x2df3 DecorativeBox containers
+# 0x2df4 unused
+0x2df5 ElvenReadingChair decorations
+# 0x2df6 - 0x2fb7 unused
 0x2fb8 ElvenGlasses armor
 # 0x2fb9 - 0x2fbe unused
 0x2fbf elfmidlong barber
@@ -1785,9 +1915,27 @@
 0x2fe2 ElvenMoonDoorESW doors
 # 0x2fe3 unused
 0x2fe4 ElvenMoonDoorSNW doors
-# 0x2fe5 - 0x315e unused
+# 0x2fe5 - 0x3083 unused
+0x3084 elvenbookshelf containers
+# 0x3085 unused
+0x3086 elvenbookshelf2 containers
+# 0x3087 - 0x3097 unused
+0x3098 ornateelvenchest containers
+# 0x3099 unused
+0x309a ornateelvenchest2 containers
+# 0x309b - 0x30df unused
+0x30e0 elvenwashbasin containers
+# 0x30e1 unused
+0x30e2 elvenwashbasin2 containers
+# 0x30e3 unused
+0x30e4 elvendresser containers
+# 0x30e5 unused
+0x30e6 elvendresser2 containers
+# 0x30e7 - 0x315e unused
 0x315f WoodlandBelt armor
-# 0x3160 - 0x3172 unused
+# 0x3160 - 0x3170 unused
+0x3171 ElvenQuiver containers
+# 0x3172 unused
 0x3173 MaleElvenRobe armor
 0x3174 FemaleElvenRobe armor
 0x3175 ElvenShirt armor
@@ -1867,10 +2015,21 @@
 0x4000 GargishRobe armor
 # 0x4001 unused
 0x4002 GargishFancyRobe armor
-# 0x4003 - 0x403a unused
+# 0x4003 - 0x4022 unused
+0x4023 GargishChair decorations
+# 0x4024 unused
+0x4025 GargishChest containers
+# 0x4026 - 0x402a unused
+0x402b GargishDresser1 containers
+0x402c GargishDresser2 containers
+0x402d GargishDresser3 containers
+0x402e GargishDresser4 containers
+# 0x402f - 0x403a unused
 0x403b audchar musicianship
 0x403c audchar2 musicianship
-# 0x403d - 0x4046 unused
+# 0x403d - 0x4040 unused
+0x4041 GargishEndtable decorations
+# 0x4042 - 0x4046 unused
 0x4047 GargishLeatherArms armor
 0x4048 GargishLeatherArms2 armor
 0x4049 GargishLeatherChest armor
@@ -1919,7 +2078,10 @@
 0x4074 DreadSword weapons
 0x4075 GargishTalwar weapons
 0x4076 Shortblade weapons
-# 0x4077 - 0x409a unused
+# 0x4077 - 0x407b unused
+0x407c Incubator1 containers
+0x407d Incubator2 containers
+# 0x407e - 0x409a unused
 0x409b GargishTraditionalDoorSNW doors
 # 0x409c unused
 0x409d GargishTraditionalDoorSNE doors
@@ -1927,7 +2089,11 @@
 0x409f GargishTraditionalDoorESW doors
 # 0x40a0 unused
 0x40a1 GargishTraditionalDoorENW doors
-# 0x40a2 - 0x410b unused
+# 0x40a2 - 0x4101 unused
+0x4102 PirateChest containers
+# 0x4103 - 0x4105 unused
+0x4106 PirateChest2 containers
+# 0x4107 - 0x410b unused
 0x410c GargishDoorSNW doors
 # 0x410d unused
 0x410e GargishDoorSNE doors
@@ -1935,7 +2101,11 @@
 0x4110 GargishDoorESW doors
 # 0x4111 unused
 0x4112 GargishDoorENW doors
-# 0x4113 - 0x41c1 unused
+# 0x4113 - 0x4141 unused
+0x4142 Mailbox containers
+# 0x4143 unused
+0x4144 Mailbox2 containers
+# 0x4145 - 0x41c1 unused
 0x41c2 GargishCelestialDoorSNW doors
 # 0x41c3 unused
 0x41c4 GargishCelestialDoorSNE doors
@@ -1960,7 +2130,9 @@
 0x4203 GargishMediumPlateShield armor
 0x4204 GargishLargePlateShield armor
 0x4205 GargishLargeStoneShield armor
-# 0x4206 - 0x4227 unused
+# 0x4206 - 0x420b unused
+0x420c fiddle musicianship
+# 0x420d - 0x4227 unused
 0x4228 GargishChaosshield armor
 # 0x4229 unused
 0x422a GargishOrdershield armor
@@ -2265,10 +2437,28 @@
 0xb017 CurtainDeed decorations
 0xb018 PaintingDeed decorations
 0xb019 DragonStatueDeed decorations
-# 0xb01a - 0xb01f unused
+0xb01a MediumStoneTableDeed decorations
+0xb01b LargeStoneTableDeed decorations
+0xb01c MediumStoneBenchDeed decorations
+0xb01d LargeStoneBenchDeed decorations
+0xb01e SmallGargishBedDeed decorations
+0xb01f LargeGargishBedDeed decorations
 0xb020 MarbleHorseDeed decorations
 0xb021 ModelTownDeed decorations
-# 0xb022 - 0xbe33 unused
+0xb022 DresserDeed decorations
+0xb023 ElvenBookshelfDeed decorations
+0xb024 OrnateElvenChestDeed decorations
+0xb025 ElvenWashBasinDeed decorations
+0xb026 ElvenDresserDeed decorations
+0xb027 AlchemistTableDeed decorations
+0xb028 HardwoodTableDeed decorations
+0xb029 OrnateTableDeed decorations
+0xb02a ElvenLoveseatDeed decorations
+0xb02b GargishDresserDeed decorations
+0xb02c GargishCouchDeed decorations
+0xb02d GargishLongTableDeed decorations
+0xb02e GargishShortTableDeed decorations
+# 0xb02f - 0xbe33 unused
 0xbe34 evidence drocket
 0xbe35 christmaspresent drocket
 # 0xbe36 - 0xbf00 unused
@@ -2582,7 +2772,15 @@
 0x1147b foundation18x18 housing
 # 0x1147c - 0x15014 unused
 0x15015 wristwatch tinkering
-# 0x15016 - 0x16000 unused
+# 0x15016 - 0x1501f unused
+0x15020 oaklog lumberjacking
+0x15021 ashlog lumberjacking
+0x15022 yewlog lumberjacking
+0x15023 heartwoodlog lumberjacking
+0x15024 bloodwoodlog lumberjacking
+0x15025 frostwoodlog lumberjacking
+0x15026 sunwoodlog lumberjacking
+# 0x15027 - 0x16000 unused
 0x16001 blankmap cartography
 0x16002 permmoongate moongates
 0x16003 level1map treasuremap
@@ -2633,13 +2831,17 @@
 0x16030 britannianshipdeed boat
 # 0x16031 - 0x1604f unused
 0x16050 Firebow weapons
-0x16051 firearrow carpentry
-0x16052 frostarrow carpentry
-0x16053 firebolt carpentry
-0x16054 frostbolt carpentry
-0x16055 firedart blacksmithy
-0x16056 frostdart blacksmithy
-# 0x16057 - 0x160ff unused
+0x16051 firearrow woodworking
+0x16052 frostarrow woodworking
+0x16053 firebolt woodworking
+0x16054 frostbolt woodworking
+0x16055 firedart tinkering
+0x16056 frostdart tinkering
+0x16057 fireshuriken tinkering
+0x16058 frostshuriken tinkering
+0x16059 firethrowingaxe tinkering
+0x1605a frostthrowingaxe tinkering
+# 0x1605b - 0x160ff unused
 0x16100 runebook books
 # 0x16101 - 0x161ff unused
 0x16200 SystemMoonGate moongates
@@ -2657,7 +2859,20 @@
 0x1622f smallbrickhousedeed housing
 0x16230 customthreestoryhousedeed housing
 0x16231 customtwostoryhousedeed housing
-# 0x16232 - 0x17007 unused
+# 0x16232 - 0x162ff unused
+0x16300 granitestone mining
+0x16301 Bronzestone mining
+0x16302 DullCopperstone mining
+0x16303 Copperstone mining
+0x16304 Onyxstone mining
+0x16305 Pyritestone mining
+0x16306 Malachitestone mining
+0x16307 Azuritestone mining
+0x16308 BlueSteelstone mining
+0x16309 rubysteelstone mining
+0x1630a sandstone mining
+0x1630b marblestone mining
+# 0x1630c - 0x17007 unused
 0x17008 employmentcontract player_merchants
 0x17009 publicmallsign merchants
 # 0x1700a - 0x1701f unused
@@ -2726,7 +2941,7 @@
 0x1708d druidcloak magiceffects
 0x1708e lettuceplant farming
 0x1708f cabbageplant farming
-0x17090 FurnitureDyeTub carpentry
+0x17090 FurnitureDyeTub woodworking
 0x17091 IronShovel mining
 0x17092 BronzeShovel mining
 0x17093 DullCopperShovel mining

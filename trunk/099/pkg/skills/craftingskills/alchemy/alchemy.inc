@@ -141,7 +141,7 @@ function RenamePotion (byref potion)
 	if (temp_string)
 		potion.name := temp_string;
 	else
-		potion.name := "and unknown potion";
+		potion.name := "an unknown potion";
 	endif
 endfunction
 

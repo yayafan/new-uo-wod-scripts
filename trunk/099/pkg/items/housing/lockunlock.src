@@ -216,11 +216,14 @@ function HouseSecureReleaseContainer (sign, character, item)
 		item.movable := 0;
 		setobjproperty (item, "secured", sign.serial);
 		PrinttextAbovePrivate (item , "Secured!", character );
-	else
-		if (!getobjproperty( item, "secured"))
-			sendsysmessage( character, "That is not secured.");
-			return;
-		elseif ( getobjproperty( item, "secured") != sign.serial )
+	elseif (GetObjProperty (item, "secured"))
+		if ( getobjproperty( item, "secured") == sign.serial )
+			if (!IsADeedItem(character, item))
+				item.movable := 1;
+				PrinttextAbovePrivate (item , "Unsecured!", character);
+				EraseObjProperty( item, "secured");
+			endif
+		else
 			if (systemfindobjectbyserial(getobjproperty(item,"secured")))
 				SendSysMessage(character, "You cannot unsecure that.");
 				return;
@@ -231,9 +234,9 @@ function HouseSecureReleaseContainer (sign, character, item)
 				return;
 			endif
 		endif
-		item.movable := 1;
-		PrinttextAbovePrivate (item , "Unsecured!", character);
-		EraseObjProperty( item, "secured");
+	else
+		sendsysmessage( character, "That is not secured.");
+		return;
 	endif
 endfunction
 
@@ -470,9 +473,19 @@ function IsADeedItem (me, it)
 
 		foreach serial in GetObjProperty (it, "otheritems")
 			var item := SystemFindObjectBySerial (serial);
+			if (item.isa(POLCLASS_CONTAINER))
+				foreach anitem in ListRootItemsInContainer (item)
+					MoveObjectToLocation( anitem, item.x, item.y, item.z, item.realm, flags := MOVEOBJECT_FORCELOCATION );
+				endforeach				
+			endif
 			DestroyItem (item);
 		endforeach
 		if (it)
+			if (it.isa(POLCLASS_CONTAINER))
+				foreach anitem in ListRootItemsInContainer (it)
+					MoveObjectToLocation( anitem, it.x, it.y, it.z, it.realm, flags := MOVEOBJECT_FORCELOCATION );
+				endforeach								
+			endif
 			DestroyItem (it);
 		endif
 		return 1;
@@ -631,19 +644,19 @@ function IsADeedItem (me, it)
 
 		0x0c83:	//
 		0x0c87:	//
-          0x0c89:	//
-          0x0c84:	//
-          0x0c8a:	//
-          0x0c88:	//Flowers, which just get destroyed and don't return a deed (or seed, in this case)
-          0x0c8e:	//
-          0x0c86:	//
-          0x0cbe:	//
-          0x0cbf:	//
-          0x0c85:	//
-          0x0cc0:	//
-          0x0cc1:	//
-          0x0c8b:	//
-          0x0c8c:	//
+		0x0c89:	//
+		0x0c84:	//
+		0x0c8a:	//
+		0x0c88:	//Flowers, which just get destroyed and don't return a deed (or seed, in this case)
+		0x0c8e:	//
+		0x0c86:	//
+		0x0cbe:	//
+		0x0cbf:	//
+		0x0c85:	//
+		0x0cc0:	//
+		0x0cc1:	//
+		0x0c8b:	//
+		0x0c8c:	//
 		0x0c8d:	//
 		0x0c9f:	//
 		0x0c9f:
@@ -656,8 +669,8 @@ function IsADeedItem (me, it)
 		0x12db:	// curtains
 			DestroyItem (it);
 			CreateItemInBackpack (me, 0xB017, 1);
-	default:
-		return 0;
+		default:
+			return 0;
 	endcase
 	return 1;
 endfunction

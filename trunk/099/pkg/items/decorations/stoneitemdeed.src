@@ -74,9 +74,9 @@ program Place_Deed (character, deed)
 				2962:
 					config_file := "decoration_mediummarbletable_";
 					color := 0;
-				0:
-					config_file := "decoration_mediumstonetable_";
-					color := 1895;
+//				0:
+//					config_file := "decoration_mediumstonetable_";
+//					color := 1895;
 				default:
 					config_file := "decoration_mediumstonetable_";
 			endcase
@@ -112,9 +112,9 @@ program Place_Deed (character, deed)
 				2962:
 					config_file := "decoration_largemarbletable_";
 					color := 0;
-				0:
-					config_file := "decoration_largestonetable_";
-					color := 1895;
+//				0:
+//					config_file := "decoration_largestonetable_";
+//					color := 1895;
 				default:
 					config_file := "decoration_largestonetable_";
 			endcase
@@ -153,8 +153,14 @@ program Place_Deed (character, deed)
 				0:
 					config_file := "decoration_mediumstonebench_";
 					color := 1895;
+				1109:
+				2130:
+				1644:
+					config_file := "decoration_mediumstonebench_";
+				
 				default:
 					config_file := "decoration_mediumstonebench_";
+					color := color + 3;
 			endcase
 
 			if (characterx != character.x or charactery != character.y)
@@ -191,8 +197,13 @@ program Place_Deed (character, deed)
 				0:
 					config_file := "decoration_largestonebench_";
 					color := 1895;
+				1109:
+				2130:
+				1644:
+					config_file := "decoration_largestonebench_";
 				default:
 					config_file := "decoration_largestonebench_";
+					color := color + 3;
 			endcase
 
 			if (characterx != character.x or charactery != character.y)
@@ -207,6 +218,45 @@ program Place_Deed (character, deed)
 					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, color, config_file+"ew");
 					MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 			endcase
+			return;
+		0xB01E:	// Small Gargish Bed
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+			case (selected_item.index)
+				1:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, deed.color, "decoration_smallgargishbed_ns");
+					MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				2:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, deed.color, "decoration_smallgargishbed_ew");
+					MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
+			return;
+		0xB01F:	// Large Gargish Bed
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+			case (selected_item.index)
+				1:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, deed.color, "decoration_largegargishbed_ns");
+					MoveObjectToLocation (character, character.x, character.y+3, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+				2:
+					CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, deed.color, "decoration_largegargishbed_ew");
+					MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endcase
+			return;
+		default:
+			SendSysMessage (character, "That deed appears to be broken.");
 			return;
 	endcase
 
