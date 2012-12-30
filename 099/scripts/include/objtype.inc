@@ -294,13 +294,14 @@ Const UOBJ_TAMBORINE		:= 0x0e9d;
 Const UOBJ_TAMBORINE2		:= 0x0e9e;
 Const UOBJ_LUTE				:= 0x0eb3;
 Const UOBJ_LUTE2			:= 0x0eb4;
-Const UOBJ_DRUM				:= 0x0e9c;
-Const UOBJ_HARP				:= 0x0eb2;
-Const UOBJ_STANDING_HARP	:= 0x0eb1;
-Const UOBJ_BAMBOO_FLUTE	:= 0x2805;
-Const UOBJ_BAMBOO_FLUTE2	:= 0x2807;
-Const UOBJ_AUDCHAR	:= 0x403b;
-Const UOBJ_AUDCHAR2	:= 0x403c;
+Const UOBJ_DRUM			:= 0x0e9c;
+Const UOBJ_HARP			:= 0x0eb2;
+Const UOBJ_STANDING_HARP		:= 0x0eb1;
+Const UOBJ_BAMBOO_FLUTE		:= 0x2805;
+Const UOBJ_BAMBOO_FLUTE2		:= 0x2807;
+Const UOBJ_AUDCHAR			:= 0x403b;
+Const UOBJ_AUDCHAR2			:= 0x403c;
+Const UOBJ_FIDDLE			:= 0x420c;
 
 
 

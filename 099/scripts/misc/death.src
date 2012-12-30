@@ -159,8 +159,8 @@ program npcdeath (corpse)
 	endif
 
 	if (nocorpse)
-		foreach item in ListRootItemsInContainer (corpse);
-		MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, flags := MOVEOBJECT_FORCELOCATION );
+		foreach item in ListRootItemsInContainer (corpse)
+			MoveObjectToLocation( item, corpse.x, corpse.y, corpse.z, corpse.realm, flags := MOVEOBJECT_FORCELOCATION );
 		endforeach
 		DestroyItem (corpse);
 	endif

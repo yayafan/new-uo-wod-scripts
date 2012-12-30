@@ -46,6 +46,7 @@ function UseCharge(item, character)
 	if (charges > 1)
 		charges := charges - 1;
 		SetObjProperty (item, "charges", charges);
+		item.name := item.desc;
 		return 1;
 	else
 		EraseObjProperty (item, "charges");

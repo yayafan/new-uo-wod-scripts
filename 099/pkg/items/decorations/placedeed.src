@@ -859,20 +859,20 @@ program Place_Deed (character, deed)
 
 		0xB017:	//	curtains
 			var select_menu := CreateMenu ("Select Type:");
-			AddMenuItem (select_menu, 4827, "curtains");
-			AddMenuItem (select_menu, 4831, "curtains");
-			AddMenuItem (select_menu, 4834, "curtains");
+			AddMenuItem (select_menu, 0, "left east-facing curtains");
+			AddMenuItem (select_menu, 0, "right east-facing curtains");
+			AddMenuItem (select_menu, 0, "east-facing top curtain sash");
 
-			AddMenuItem (select_menu, 4838, "curtains");
-			AddMenuItem (select_menu, 4842, "curtains");
-			AddMenuItem (select_menu, 4845, "curtains");
+			AddMenuItem (select_menu, 0, "right south-facing curtains");
+			AddMenuItem (select_menu, 0, "left south-facing curtains");
+			AddMenuItem (select_menu, 0, "south-facing top curtain sash");
 
-			AddMenuItem (select_menu, 5645, "curtains");
-			AddMenuItem (select_menu, 5646, "curtains");
-			AddMenuItem (select_menu, 41064, "curtains");
-			AddMenuItem (select_menu, 41066, "curtains");
-			AddMenuItem (select_menu, 41068, "curtains");
-			AddMenuItem (select_menu, 41070, "curtains");
+			AddMenuItem (select_menu, 0, "east-facing red curtains");
+			AddMenuItem (select_menu, 0, "south-facing red curtains");
+			AddMenuItem (select_menu, 0, "east-facing door curtains");
+			AddMenuItem (select_menu, 0, "south-facing door curtains");
+			AddMenuItem (select_menu, 0, "east facing window curtains");
+			AddMenuItem (select_menu, 0, "south facing window curtains");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)
@@ -887,14 +887,27 @@ program Place_Deed (character, deed)
 
 			item := CreateItemAtLocation (character.x, character.y, character.z, 0x12db, 1, character.realm);
 			if (item)
-				item.graphic := selected_item.objtype;
+				case (selected_item.index)
+					1: item.graphic := 4827;
+					2: item.graphic := 4831;
+					3: item.graphic := 4834;
+					4: item.graphic := 4838;
+					5: item.graphic := 4842;
+					6: item.graphic := 4845;
+					7: item.graphic := 5645;
+					8: item.graphic := 5646;
+					9: item.graphic := 41064;
+					10: item.graphic := 41066;
+					11: item.graphic := 41068;
+					12: item.graphic := 41070;
+				endcase
 				item.movable := 0;
 				if (sign)
 					SetObjProperty (item, "lockeddown", sign.serial);
 				endif
 				SetObjProperty (item, "deedobjtype", 0xB017);
 				SetObjProperty (item, "otheritems", array{item.serial});
-			SubtractAmount (deed, 1);
+				SubtractAmount (deed, 1);
 			else
 				SendSysMessage (character, "Can't place it here.");
 			endif
@@ -902,8 +915,8 @@ program Place_Deed (character, deed)
 
 		0xB019:	//	large stone dragon statue
 			var select_menu := CreateMenu ("Select direction:");
-			AddMenuItem (select_menu, 41117, "NS");
-			AddMenuItem (select_menu, 41136, "EW");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)
@@ -925,8 +938,8 @@ program Place_Deed (character, deed)
 
 		0xB020:	//	large marble horse statue
 			var select_menu := CreateMenu ("Select direction:");
-			AddMenuItem (select_menu, 41072, "NS");
-			AddMenuItem (select_menu, 41075, "EW");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
 
 			var selected_item := SelectMenuItem2 (character, select_menu);
 			if (!selected_item.index)
@@ -945,7 +958,300 @@ program Place_Deed (character, deed)
 				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_marble_horse_ew");
 			endif
 			return;
+		0xB021:
+			SendSysMessage (character, "That deed is not implemented yet.");
+			return;		
+		0xB022:	//	dresser
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
 
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_dresser_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_dresser_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB023:	//	elven bookshelf
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_bookshelf_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_bookshelf_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB024:	//	ornate elven chest
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_ornate_elven_chest_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_ornate_elven_chest_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB025:	//	elven wash basin
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_washbasin_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_washbasin_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB026:	//	elven dresser
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_dresser_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_dresser_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;			
+		0xB027:	//	alchemist table
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_alchemist_table_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_alchemist_table_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB028:	//	hardwood table
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_hardwood_table_ns");
+				MoveObjectToLocation (character, character.x, character.y+3, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_hardwood_table_ew");
+				MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB029:	//	ornate table
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_ornate_table_ns");
+				MoveObjectToLocation (character, character.x, character.y+3, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_ornate_table_ew");
+				MoveObjectToLocation (character, character.x+3, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;
+		0xB02a:	//	elven loveseat
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_loveseat_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_elven_loveseat_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;		
+		0xB02b:	//	gargish dresser
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_dresser_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_dresser_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;			
+		0xB02c:	//	gargish couch
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_couch_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_couch_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;		
+		0xB02d:	//	gargish long table
+			var select_menu := CreateMenu ("Select direction:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item.index)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+
+			if (selected_item.index == 1)
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_longtable_ns");
+				MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			else
+				CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_longtable_ew");
+				MoveObjectToLocation (character, character.x+2, character.y, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
+			endif
+			return;		
+		0xB02e:	//	gargish short table
+			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_gargish_shorttable");
+			MoveObjectToLocation (character, character.x, character.y+2, character.z, character.realm, flags := MOVEOBJECT_FORCELOCATION);
 		default:
 			SendSysMessage (character, "That deed appears to be broken.");
 			return;
@@ -1089,14 +1395,21 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 		SendSysMessage (character, "This seems to be broken...");
 		return;
 	endif
+	var numcontainers := GetNumContainers (cfgfile, cfgfile_keys);
 
 	if (sign)
 		//make sure they have enough lockdowns for this
 		var maxlockdowns := GetMaxLockdowns (sign);
 		var lockdowns := GetLockdowns (sign);
+		var maxsecures := GetMaxSecures (sign);
+		var secures := GetSecures (sign);
+		
 	
-		if (lockdowns + num_keys > maxlockdowns)
+		if (lockdowns + (num_keys - numcontainers) > maxlockdowns)
 			SendSysMessage (character, "You don't have enough lockdowns left.");
+			return;
+		elseif ((secures + numcontainers) > maxsecures)
+			SendSysMessage (character, "You don't have enough secures left.");
 			return;
 		endif
 	endif
@@ -1115,12 +1428,19 @@ function CreateMultipartItemFromConfig (character, deed, sign, x, y, z, cfgfilen
 		endif
 		item.movable := 0;
 		if (sign)
-			SetObjProperty (item, "lockeddown", sign.serial);
+			if (elem.container == 1)
+				SetObjProperty (item, "secured", sign.serial);
+			else
+				SetObjProperty (item, "lockeddown", sign.serial);
+			endif
 		endif
 		SetObjProperty (item, "deedobjtype", deed.objtype);
+		SetObjProperty (item, "deedcolor", deed.color);
 		itemserials.append (item.serial);
 
-		if (elem.color)
+		if (deed.color)
+			item.color := deed.color;
+		else
 			item.color := elem.color;
 		endif
 		if (elem.name)
@@ -1163,4 +1483,15 @@ function CreateSinglePartDeededItem (character, deed, sign, x, y, z, objtype)
 	endif
 	SetObjProperty (item, "deedobjtype", deed.objtype);
 	DestroyItem (deed);
+endfunction
+
+function GetNumContainers (byref cfgfile, cfgfile_keys)
+	var containers := 0;
+	foreach cfgkey in cfgfile_keys
+		var elem := FindConfigElem (cfgfile, cfgkey);
+		if (elem.container == 1)
+			containers := containers + 1;
+		endif
+	endforeach
+	return containers;
 endfunction

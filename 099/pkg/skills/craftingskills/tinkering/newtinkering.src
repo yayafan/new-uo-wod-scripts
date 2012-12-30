@@ -180,7 +180,7 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 		amax := 10;
 	endif
 	if ((material_type == "clay" or material_type == "glass") and !SearchForOvenInArea (who))
-		SendSysmessage (who, "You must be near an oven to make clay items!");
+		SendSysmessage (who, "You must be near an oven to make " + material_type + " items!");
 		return;
 	endif
 
