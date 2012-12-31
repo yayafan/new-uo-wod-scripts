@@ -114,7 +114,7 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z )
 		return;
 	endif
 
-    var result := array {};
+    var result := struct;
     
     result .+ packkey := packkey;
     result .+ ship := ship;

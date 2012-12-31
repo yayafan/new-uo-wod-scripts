@@ -28,7 +28,7 @@ program cast_darkness (parms)
 
 	var caster_skill := GetAttribute (caster, ATTRIBUTEID_MAGERY) + GetAttribute(caster, ATTRIBUTEID_NECROMANCY);
 
-	var ev := array {};
+	var ev := struct;
 	ev.+ type;
 	ev.type := EVID_PEACEMADE;
 	sendevent (cast_on, ev);

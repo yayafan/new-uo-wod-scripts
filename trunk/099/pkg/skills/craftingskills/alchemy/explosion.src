@@ -45,7 +45,7 @@ program use_explosion (parms)
 	PlayStationaryEffect (x, y, z + 5, EFFECT_EXPLOSION, 7, 0x10, 0, rlm);
 	DestroyItem (lookout);
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_DAMAGED;
 	ev.+source := mob;
 

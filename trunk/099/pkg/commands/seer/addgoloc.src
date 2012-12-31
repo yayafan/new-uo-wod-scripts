@@ -20,7 +20,7 @@ var desc := RequestInput(who, who.backpack, "How would you like to refer to this
 var elemkey := lower(who.acctname) + " " + lower(desc);
 
     var props:= array;
-    var prop:= array {};
+    var prop:= struct;
     prop .+ pname;
     prop .+ pvalue;
 

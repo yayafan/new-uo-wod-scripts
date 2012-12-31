@@ -273,7 +273,7 @@ function CreateHouseAndKeys (character, housetype, x, y, z, rlm)
 		endif
 	endif
 
-	var result := array {};
+	var result := struct;
 	result.+packkey := packkey;
 	result.+bankkey := bankkey;
 	result.+house := house;

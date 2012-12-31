@@ -4,7 +4,7 @@
 ///////////////////
 
 function GetHelpFromAllies (byref opponent)
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := opponent;
 	if (opponent.npctemplate and !GetObjProperty (opponent, "attackable"))
@@ -106,7 +106,7 @@ function ChangeOpponent (byref old_opponent, byref new_opponent)
 			var rank := GetObjProperty (mobile, "rank");
 			if (rank and rank > myrank)
 				if (RandomInt (2) )
-					var ev := array {};
+					var ev := struct;
 					ev.+type := EVID_DAMAGED;
 					ev.+source := new_opponent;
 				endif
@@ -125,7 +125,7 @@ function ChangeOpponent (byref old_opponent, byref new_opponent)
 	endif
 
 	//guess not, so I'm in charge, so issue the attack order
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := new_opponent;
 	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, HALT_THRESHOLD, me.realm)

@@ -453,7 +453,7 @@ endfunction
 ///////////////////
 
 function MerchantTurnToward (merchant, player)
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_MERCHANT_SOLD;
 	ev.+source := player;
 	ev.+amount := 0;

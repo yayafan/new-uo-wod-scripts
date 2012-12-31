@@ -38,7 +38,7 @@ function PissOff (cast_on, caster)
 		return;
 	endif
 
-	var ev := array {};
+	var ev := struct;
 	ev.+source := caster;
 	ev.+type := EVID_DAMAGED;
 	foreach mob in ListHostiles (cast_on, 9)

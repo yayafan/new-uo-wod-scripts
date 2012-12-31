@@ -85,7 +85,7 @@ function Busted (who, victim)
 	PrinttextAbove (victim, "Stop!  Help!  A thief!");
 	who.criminal := 1;
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_DAMAGED;
 	ev.+source := who;
 	SendEvent (victim, ev);

@@ -96,7 +96,7 @@ program bard_discord (character)
 		var mod_amount := CINT ((casterskill/5) - resistance);
 		DoTempMod (thetarg, "discordance", mod_amount, duration, "Discordance");
 	else
-		var ev := array {};
+		var ev := struct;
 		ev.+ type := EVID_DAMAGED;
 		ev.+ source := character;
 		SendEvent (thetarg, ev);

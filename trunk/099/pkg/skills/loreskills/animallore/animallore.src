@@ -27,11 +27,11 @@ program use_animallore (character)
 		EvaluateAnimal (character, targetted);
 
 	//if its ent or reaper wood
-	elseif (targetted.objtype == 0x706e or targetted.objtype == 0x706f)
+	elseif (targetted.objtype == 0x1706e or targetted.objtype == 0x1706f)
 		MakeDruidRune (character, targetted);
 
 	//corruption stuff
-	elseif (targetted.objtype == 0x706d and GetAttribute (character, ATTRIBUTEID_ANIMALLORE) > 80)
+	elseif (targetted.objtype == 0x1706d and GetAttribute (character, ATTRIBUTEID_ANIMALLORE) > 80)
 		SendSysMessage (character, "You sense something wrong with the land...");
 	elseif (targetted.objtype == 0x122d and targetted.graphic != 0x122d and GetAttribute (character, ATTRIBUTEID_ANIMALLORE) > 80)
 		SendSysMessage (character, "You sense something wrong with the land...");

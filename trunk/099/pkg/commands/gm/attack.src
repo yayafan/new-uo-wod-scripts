@@ -27,7 +27,7 @@ program bard_provoke (speaker, text)
 			return;
 		endif
 
-		var ev := array {};
+		var ev := struct;
 		ev.+type := EVID_ALL_ATTACK_CMD;
 		ev.+source := speaker;
 		ev.+target := targetted;
@@ -57,7 +57,7 @@ program bard_provoke (speaker, text)
 		return;
 	endif
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type;
 	ev.+source;
 

@@ -42,7 +42,7 @@ Include "gumputil";
 // Klassendefinitionen
 ////////////////////////
 
-var book:=array {};            // Buch
+var book:=struct;            // Buch
        book.+gump:=0;        //   Nummer des Gumps
        book.+edge_l_gump:=0; //   Ecke links  -> Nummer des Gumps
        book.+edge_r_gump:=0; //   Ecke rechts -> Nummer des Gumps
@@ -62,14 +62,14 @@ var book:=array {};            // Buch
        book.+pgnr:={ };      //   Seitennummern
        book.+sign:={ };      //   Lesezeichen
 
-var wrbl:=array {};            // Button fuer Schreibmodus
+var wrbl:=struct;            // Button fuer Schreibmodus
        wrbl.+writeable:=0;   //   Beschreibar ?
        wrbl.+gump:=0;        //   Nummer des Gumps
        wrbl.+edge_l_x:=0;    //   Ecke links  -> X-Koordinate
        wrbl.+edge_r_x:=0;    //   Ecke rechts -> X-Koordinate
        wrbl.+edge_y:=0;      //   Ecken       -> Y-Koordinate
 
-var pgnr:=array {};            // Seitennummern
+var pgnr:=struct;            // Seitennummern
        pgnr.+enabled:=0;     //   Nummer anzeigen ?
        pgnr.+gumpbase:=0;    //   Nummer des ersten Gumps
        pgnr.+edge_l_x:=0;    //   Ecke links  -> X-Koordinate
@@ -79,13 +79,13 @@ var pgnr:=array {};            // Seitennummern
        pgnr.+texture:=0;     //   Texture zum Uebermalen
        pgnr.+nice:=0;        //   Nummer mit Rand drumrum ?
 
-var sign:=array {};            // Lesezeichen
+var sign:=struct;            // Lesezeichen
        sign.+gump:=0;        //   Nummer des Gumps
        sign.+x:=0;           //   X-Koordinate
        sign.+y:=0;           //   Y-Koordinate
        sign.+page:=0;        //   Seite            (0=wird nicht angezeigt)
 
-var content:=array {};              // Buchinhalt
+var content:=struct;              // Buchinhalt
        content.+titleauthor:={ }; //   Titel und Autor
        content.+story:="";        //   Inhalt
 
@@ -121,7 +121,7 @@ var normal_book:=golden_book;     // Normales Buch
        normal_book.edge_l_gump:=511; //   Ecke links  -> Nummer des Gumps
        normal_book.edge_r_gump:=512; //   Ecke rechts -> Nummer des Gumps
 
-var roll:=array {};                   // Schriftrolle
+var roll:=struct;                   // Schriftrolle
        roll.+gumpbase:=2520;        //   Nummer des ersten Gumps
        roll.+gump_width:=600;       //   Gump -> Breite
        roll.+gump_height:=400;      //   Gump -> Hoehe
@@ -234,7 +234,7 @@ EndFunction
 //////////////////////////////////////
 
 Function Create_BookContent(book, content)
-  var cont:=array {};
+  var cont:=struct;
   var width:=0;
   var index:=1;
 
@@ -440,7 +440,7 @@ EndFunction
 
 Function Create_RollContent(roll, content, newlines, buttons)
   var inputwidth:=CInt(roll.width/1.5);
-  var cont:=array {};
+  var cont:=struct;
   var width:=0;
   var index:=1;
   var i;

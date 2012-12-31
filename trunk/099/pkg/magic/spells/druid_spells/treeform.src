@@ -112,7 +112,7 @@ program treeform (parms)
 	endif
 
 	//create an event and send it to all the mobiles in the area
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := caster;
 

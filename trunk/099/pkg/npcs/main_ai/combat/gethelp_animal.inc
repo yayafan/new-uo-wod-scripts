@@ -7,7 +7,7 @@ function GetHelpFromAllies ( byref opponent )
 	var MyTemplateElem := GetNpcTemplateElem (me.npctemplate);
 	var my_guardians := GetConfigStringArray (MyTemplateElem, "npc_helper");
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := opponent;
 

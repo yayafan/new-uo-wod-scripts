@@ -95,7 +95,7 @@ function LookAroundLocation (character, targetted)
 				foundsomeone := 1;
 				PrintTextAbovePrivate (mobile, "You have been discovered!", mobile);
 				if (mobile.npctemplate)
-					var ev := array {};
+					var ev := struct;
 					ev.+source := character;
 					ev.+type := EVID_ENTEREDAREA;
 					SendEvent (mobile, ev);

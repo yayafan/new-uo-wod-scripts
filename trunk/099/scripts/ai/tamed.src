@@ -1255,7 +1255,7 @@ endfunction
 
 function AllCommand (evtype,what)
 	var mobs := ListMobilesNearLocation( master.x, master.y, master.z, 9, master.realm );
-	var eve := array {};
+	var eve := struct;
 	eve.+type := evtype;
 	eve.+source := me;
 	eve.+target := what;
@@ -1414,7 +1414,7 @@ endfunction
 ///////////////////
 
 function GoToSleep ()
-	foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 10, me.realm );
+	foreach critter in ListMobilesNearLocation (me.x, me.y, me.z, 20, me.realm );
 		if (!critter.npctemplate)
 			return 0;
 		endif

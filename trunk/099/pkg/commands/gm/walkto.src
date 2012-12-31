@@ -25,7 +25,7 @@ program walkto(gm)
         	return;
 	endif
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ALL_FOLLOW_CMD;
 	ev.+source := gm;
 	ev.+x := newtarg.x;

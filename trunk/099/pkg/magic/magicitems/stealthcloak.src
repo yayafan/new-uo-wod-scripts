@@ -95,7 +95,7 @@ endfunction
 
 function SendEnteredAreaEvent( who )
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := who;
 

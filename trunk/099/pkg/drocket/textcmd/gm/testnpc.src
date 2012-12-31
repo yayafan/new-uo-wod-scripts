@@ -12,7 +12,7 @@ program test_createnpc (character, text)
 		return;
 	endif
 	
-	var theparms := array {};
+	var theparms := struct;
 	theparms.+name := "Bob the NPC";
 	
 	var thenpc := CreateNPCFromTemplate (THE_NPCTEMPLATE, targetted.x, targetted.y, targetted.z, theparms, targetted.realm);

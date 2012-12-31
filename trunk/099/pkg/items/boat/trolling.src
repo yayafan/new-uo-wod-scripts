@@ -165,7 +165,7 @@ function SpawnNastyCreature (player, npctemplate)
 
 	var it := createnpcfromtemplate (npctemplate, x, y, z, 0, player.realm);
 	if (it)
-		var ev := array {};
+		var ev := struct;
 		ev.+type := EVID_ENTEREDAREA;
 		ev.+source := player;
 		SendEvent (it, ev);

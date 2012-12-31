@@ -192,7 +192,7 @@ function CreateShipKeysAndBuiltDeed( character, shiptype, x, y, z, rlm )
 		return 0;
 	endif
 
-	var result := array {};
+	var result := struct;
     
 	result.+packkey := packkey;
 	result.+ship := ship;

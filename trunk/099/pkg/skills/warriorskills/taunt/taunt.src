@@ -50,7 +50,7 @@ program taunt (character)
 		range := 2;
 	endif
 
-	var ev := array {};
+	var ev := struct;
 	ev.+source := character;
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	SendEvent (subject, ev);

@@ -6,7 +6,7 @@ include "include/magic";
 
 program use_enchantedbone (character, bone)
 
-	var cast_loc := array {};
+	var cast_loc := struct;
 	cast_loc.+x := character.x;
 	cast_loc.+y := character.y;
 	cast_loc.+z := character.z;
