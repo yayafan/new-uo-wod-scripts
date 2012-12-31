@@ -10,13 +10,23 @@ include "../pkg/items/housing/house";
 
 program onremove_chest (character, container, item, movetype)
 	container.name := container.desc;
-	if (movetype != MOVETYPE_PLAYER)
-		return 1;
+	if (container.item_count == 1)
+		case (container.graphic)
+			0x4141:
+			0x4143:
+				container.graphic := container.graphic + 1;
+			0x1949:
+			0x194a:
+				container.graphic := container.graphic - 2;
+		endcase
 	endif
 
 	item.decayat := ReadGameClock () + 900;
 	if (GetObjProperty (container, "secured"))
 		CheckSecuredItemRemoval (character, container, item);
+	endif
+	if (movetype != MOVETYPE_PLAYER)
+		return 1;
 	endif
 endprogram
 

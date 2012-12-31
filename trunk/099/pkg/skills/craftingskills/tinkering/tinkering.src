@@ -214,7 +214,7 @@ function BasicMakeSomething ( character, use_on, menu, skillsound)
 					SetObjProperty (thekey, "lockid", lockid);
 					SetObjProperty (created_item, "lockid", lockid);
 				endif
-                    SendSysmessage (character, "You create the item and place it in your pack.");
+				SendSysmessage (character, "You create the item and place it in your pack.");
 			else
 				SendSysMessage (character, "You fail, destroying some material.");
 				SubtractAmount (use_on, RandomInt (material_needed) );

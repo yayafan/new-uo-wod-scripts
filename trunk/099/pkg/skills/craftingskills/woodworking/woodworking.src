@@ -79,6 +79,7 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 	var item_skill := cint (selection.skill);
 	var time_delay := cint (selection.time);
 	var item_lockable := selection.lockable;
+	var item_stackable := selection.stackable;
 	var item_name := selection.name;
 	SendSysMessage(who, "(Skill: " + item_skill + ", " + material_type + ": " + material_needed + ")");
 
@@ -146,7 +147,9 @@ function makeCarpentryItem( who, tool, chosen_item, amt )
 			if (selection.retain and logs.color)
 				created_item.color := logs.color;
 			endif
-			SetObjProperty (created_item, "material_objtype", logs.objtype);
+			if (!item_stackable)
+				SetObjProperty (created_item, "material_objtype", logs.objtype);
+			endif
 			SubtractAmount (logs, material_needed);
 			if (selection.mark)
 				created_item.name := item_name + " [crafted by " + who.name + "]";

@@ -7,8 +7,8 @@ include "include/attributes";
 function RepairTailoringItem (character, tool, item, repair_skill)
 	if (!item.maxhp or !item.quality)
 		SendSysmessage (character, "That item cannot be repaired.");
-    if (tool)
-    endif
+		if (tool)
+		endif
 		return;
 	endif
 
@@ -19,10 +19,10 @@ function RepairTailoringItem (character, tool, item, repair_skill)
 			SendSysMessage (character, "That has an owner's mark!");
 			return;
 		endif
-		if (IsLeatherArmor (item))
-			DoSpecialTailoringStuff (character, item, repair_skill);
-		elseif (IsAHat (item) and repair_skill == SKILLID_TAILORING)
+		if (IsAHat (item) and repair_skill == SKILLID_TAILORING)
 			FortifyHat (character, item);
+		elseif (IsArmor (item))
+			DoSpecialTailoringStuff (character, item, repair_skill);
 		else
 			SendSysmessage (character, "That item is in full repair");
 		endif
@@ -125,11 +125,11 @@ function DoSpecialTailoringStuff (character, item, repair_skill)
 
 	//if its a magic item and they're using tailoring, they can change the color of the item, or
 	//if its a tunic, they can change its gender
-	if (IsMagicalItem (item) and repair_skill == SKILLID_TAILORING)
+	if (IsMagicalItem (item) and IsLeatherArmor (item) and repair_skill == SKILLID_TAILORING)
 		if ( item.graphic == UOBJ_LEATHER_FEMALE or item.graphic == UOBJ_LEATHER_TUNIC or
 				item.graphic == UOBJ_STUDDED_FEMALE or item.graphic == UOBJ_STUDDED_TUNIC
 				or item.graphic == UOBJ_LEATHER_TUNIC2 or item.graphic == UOBJ_STUDDED_BUSTIER
-        or item.graphic == 0x2fc5 or item.graphic == 0x2fcb or item.graphic == 0x2b74 or item.graphic == 0x2b79)
+				or item.graphic == 0x2fc5 or item.graphic == 0x2fcb or item.graphic == 0x2b74 or item.graphic == 0x2b79)
 			var menu := CreateMenu ("Options:");
 			AddMenuItem (menu, 0, "Reinforce");
 			AddMenuItem (menu, 0, "Change gender");
@@ -184,8 +184,12 @@ function DoTailoringItemUpgrade (character, item, repair_skill)
 	var leather_cfg_file := ReadConfigFile( ":tailoring:leather_items" );
 	var elem := FindConfigElem (leather_cfg_file, item.graphic);
 	if (!elem)
-		SendSysMessage (character, "That item is in full repair.");
-		return;
+		leather_cfg_file := ReadConfigFile( ":tailoring:cloth_items" );
+//		elem := FindConfigElem (leather_cfg_file, item.graphic);
+//		if (!elem)
+			SendSysMessage (character, "That item is in full repair.");
+			return;
+//		endif
 	endif
 
 	var material_needed := cint (elem.material/2);

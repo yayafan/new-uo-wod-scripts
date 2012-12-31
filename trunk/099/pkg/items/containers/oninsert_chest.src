@@ -23,7 +23,16 @@ program oninsert_chest (character, container, movetype, null_value, item, existi
 		container.name := container.desc;
 		return;
 	endif
-
+	if (container.item_count > 1)
+		case (container.graphic)
+			0x4142:
+			0x4144:
+				container.graphic := container.graphic - 1;
+			0x1947:
+			0x1948:
+				container.graphic := container.graphic + 2;
+		endcase
+	endif
 	//Sound effects
 	if (item.objtype == UOBJ_GOLD_COIN)
 		if(item.amount >= 100)
@@ -88,7 +97,7 @@ endfunction
 
 function AppendLog (who, themessage)
 	var log := Array {};
-	var prop := Array {};
+	var prop := struct;
 	prop.+pname := "";
 	prop.+pvalue := "";
 	foreach line in themessage
