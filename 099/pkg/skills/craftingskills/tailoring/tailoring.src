@@ -92,6 +92,7 @@ function MakeClothItems (character, cloth)
 	endif
 
 	var chosen_item := tailoring_menu_return[1];
+	var autoupgrade_level := tailoring_menu_return[2];
 	var number_to_make := tailoring_menu_return[4];
 	if (!number_to_make or number_to_make < 1)
 		number_to_make := 1;
@@ -126,6 +127,7 @@ function MakeClothItems (character, cloth)
 
 	//Load some assorted information
 	var item_name		:= elem.name;
+	var time_delay := CINT (elem.time);
 	var skill_needed	:= elem.skill;
 	var stackable		:= elem.stackable;
 
@@ -133,6 +135,10 @@ function MakeClothItems (character, cloth)
 	var characterx := character.x;
 	var charactery := character.y;
 	var craftingbag := FindCraftingBag (character);
+	if (!elem.hasquality)
+		autoupgrade_level := 0;
+	endif
+
 
 	var created_item;
 	SendSysMessage (character, "You begin tailoring...");
@@ -155,6 +161,40 @@ function MakeClothItems (character, cloth)
 
 			SendSysMessage (character, "You place the item in your backpack.");
 			SubtractAmount (cloth, material_needed);
+			if (autoupgrade_level)
+				var upgrade_material_needed := CINT (material_needed/2);
+				if (cloth.amount < upgrade_material_needed)
+					SendSysMessage (character, "You don't have enough material to upgrade that item!");
+					return;
+				endif
+				
+				var upgrade_skill := skill_needed + 15;
+				if (upgrade_skill > 110)
+					upgrade_skill := 110;
+				endif
+				if (upgrade_skill > GetAttribute (character, ATTRIBUTEID_TAILORING) + 20)
+					SendSysMessage (character, "Your skill is too low to upgrade that item.");
+					return;
+				endif
+				
+				var upgrade_timedelay := time_delay - 1;
+				if (!upgrade_timedelay or upgrade_timedelay < 0)
+					upgrade_timedelay := 1;
+				endif
+
+				if (characterx != character.x or charactery != character.y)
+					SendSysMessage (character, "You stop sewing.");
+					return;
+				endif
+
+				var upgrade_to_quality := 0;
+				if (autoupgrade_level == 1)
+					upgrade_to_quality := 1;
+				endif
+
+				PerformTailoringItemUpgrade (character, created_item, cloth, cloth,
+						SKILLID_TAILORING, upgrade_skill, upgrade_timedelay, item_name, upgrade_to_quality);
+			endif
 		else
 			SendSysmessage (character, "You failed, ruining some cloth.");
 			var ruined_amount := RandomInt (material_needed) + 1;

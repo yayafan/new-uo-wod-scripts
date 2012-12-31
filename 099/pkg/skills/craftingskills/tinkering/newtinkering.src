@@ -146,6 +146,7 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 	var item_skill := cint (selection.skill);
 	var time_delay := cint (selection.time);
 	var item_lockable := selection.lockable;
+	var item_stackable := selection.stackable;
 	var item_name := selection.name;
 	var crafting_sounds := 0;
 	case (material_type)
@@ -208,63 +209,85 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 		PlaySoundEffect(who, crafting_sounds);
 
 		if (!CheckSkill (who, SKILLID_TINKERING, item_skill, 0))
-			var lossamount := RandomInt (CINT ( material_needed/3) )+1;
+			var lossamount := RandomInt (material_needed);
 			SubtractAmount (logs, lossamount);
 			SendSysmessage (who, "You fail, destroying some " + material_type + ".");
 		else
-			created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
-			if (!created_item)
-				PrintTextAbovePrivate (who, "*Your backpack is full!*", who);
-				break;
-			endif
-
-			created_item.movable := 1;
-			created_item.buyprice := 0;
-			SendSysMessage (who, "You place the item in your backpack.");
-			//set the color
-			if (selection.retain and logs.color)
-				created_item.color := logs.color;
-			endif
-			SetObjProperty (created_item, "material_objtype", logs.objtype);
-			SubtractAmount (logs, material_needed);
-			if (selection.mark)
-				created_item.name := item_name + " [crafted by " + who.name + "]";
-			endif
-			created_item.hp := created_item.maxhp;
-
-			if (item_lockable)
-				if ( CheckSkill (who, SKILLID_TINKERING, 40, 0) )
-					PrintTextAbovePrivate (who, "Lockable!", who);
-					SetObjProperty (created_item, "lockable", "1");
-					var lockid := AllocLockId ();
-					var thekey := CreateItemInContainer (created_item, UOBJ_COPPER_KEY, 1); 
-					SetObjProperty (thekey, "lockid", lockid);
-					SetObjProperty (created_item, "lockid", lockid);
+			if (chosen_item == UOBJ_OBSIDIAN or chosen_item == UOBJ_PORCELAIN or chosen_item == UOBJ_EMPTY_BOTTLE or chosen_item == UOBJ_LOCKPICKS)
+				var amount_to_create := items_to_make;
+				if (amount_to_create > 10)
+					amount_to_create := 10;
 				endif
-			endif
-
-			if (autoupgrade)
-				var upgrade_material := CINT (material_needed/2);
-				if (logs.amount < upgrade_material)
-					SendSysMessage (who, "You don't have enough " + material_type + " to upgrade that item!");
-					break;
+				if (amount_to_create > CINT (logs.amount/material_needed))
+					amount_to_create := CINT (logs.amount/material_needed);
 				endif
 				
-				var upgrade_skill := item_skill + 15;
-				if (upgrade_skill > 110)
-					upgrade_skill := 110;
+				created_item := CreateItemInContainer (craftingbag, chosen_item, amount_to_create);
+				if (!created_item)
+					PrintTextAbovePrivate (who, "*Your backpack is full*", who);
+					return;
 				endif
-				if (upgrade_skill >= GetAttribute (who, ATTRIBUTEID_TINKERING) + 20)
-					SendSysMessage (who, "Your skill is too low to upgrade that item.");
+				SubtractAmount (logs, material_needed*amount_to_create);
+				items_to_make := items_to_make - amount_to_create;
+			else
+				created_item := CreateItemInContainer (craftingbag, chosen_item, 1);
+				if (!created_item)
+					PrintTextAbovePrivate (who, "*Your backpack is full!*", who);
 					break;
 				endif
 
-				if (whox != who.x or whoy != who.y)
-					break;
+				created_item.movable := 1;
+				created_item.buyprice := 0;
+				SendSysMessage (who, "You place the item in your backpack.");
+				//set the color
+				if (selection.retain and logs.color)
+					created_item.color := logs.color;
+				endif
+				if (!item_stackable)
+					SetObjProperty (created_item, "material_objtype", logs.objtype);
+				endif
+				SubtractAmount (logs, material_needed);
+				if (selection.mark)
+					created_item.name := item_name + " [crafted by " + who.name + "]";
+				endif
+				created_item.hp := created_item.maxhp;
+				if (item_lockable)
+					if ( CheckSkill (who, SKILLID_TINKERING, 40, 0) )
+						PrintTextAbovePrivate (who, "Lockable!", who);
+						SetObjProperty (created_item, "lockable", "1");
+						var lockid := AllocLockId ();
+						var thekey := CreateItemInContainer (created_item, UOBJ_COPPER_KEY, 1); 
+						SetObjProperty (thekey, "lockid", lockid);
+						SetObjProperty (created_item, "lockid", lockid);
+					endif
 				endif
 
-				PerformItemUpgrade (who, created_item, logs, upgrade_material,
-						SKILLID_TINKERING, upgrade_skill, item_name, autoupgrade);
+				if (autoupgrade)
+					var upgrade_material := CINT (material_needed/2);
+					if (logs.amount < upgrade_material)
+						SendSysMessage (who, "You don't have enough " + material_type + " to upgrade that item!");
+						break;
+					endif
+				
+					var upgrade_skill := item_skill + 15;
+					if (upgrade_skill > 110)
+						upgrade_skill := 110;
+					endif
+					if (upgrade_skill >= GetAttribute (who, ATTRIBUTEID_TINKERING) + 20)
+						SendSysMessage (who, "Your skill is too low to upgrade that item.");
+						break;
+					endif
+
+					if (whox != who.x or whoy != who.y)
+						break;
+					endif
+
+					PerformItemUpgrade (who, created_item, logs, upgrade_material,
+							SKILLID_TINKERING, upgrade_skill, item_name, autoupgrade);
+				endif
+				if (created_item)
+					items_to_make := items_to_make - 1;
+				endif
 			endif
 		endif
 		
@@ -272,9 +295,6 @@ function makeTinkeringItem( who, tool, chosen_item, amt )
 			break;
 		endif
 		
-		if (created_item)
-			items_to_make := items_to_make - 1;
-		endif
 		sleep (2);
 
 	until (!items_to_make);

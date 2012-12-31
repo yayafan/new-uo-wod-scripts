@@ -90,7 +90,7 @@ function CheckCutOffHead ()
 	endif
 
 	//fixes a very rare bug where players were actually dying
-	var fakesource := Array {};
+	var fakesource := struct;
 	fakesource.+npctemplate := ":drocket:snowninja";
 
 	foreach mobile in ListMobilesNearLocation (me.x, me.y, me.z, 2, me.realm)
@@ -156,7 +156,7 @@ function ThrowNinjaStar (opponent)
 	sleep (1);
 
 	//fixes a very rare bug where players were actually dying
-	var fakesource := Array {};
+	var fakesource := struct;
 	fakesource.+npctemplate := ":drocket:snowninja";
 	DoDamageByType (fakesource, opponent, RandomDiceRoll ("4d6+6"), DAMAGETYPE_PHYSICAL);
 

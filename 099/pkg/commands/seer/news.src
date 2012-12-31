@@ -75,7 +75,7 @@ function SpoutNews (character)
 		return;
 	endif
 	
-	var ev := Array{};
+	var ev := struct;
 	ev.+type := EVID_SPEECH;
 	ev.+text := "news";
 	

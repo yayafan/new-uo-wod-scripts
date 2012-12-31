@@ -33,6 +33,9 @@ program count_benson_potions ()
 		WriteHTML ("<option>2004</option>");
 		WriteHTML ("<option>2005</option>");
 		WriteHTML ("<option>2006</option>");
+		WriteHTML ("<option>2011</option>");
+		WriteHTML ("<option>2012</option>");
+		WriteHTML ("<option>2013</option>");
 		WriteHTML ("</select>");
 		WriteHTML ("<input id=submit1 name=submit1 type=submit value=Search>");
 		WriteHTML ("</form>");
