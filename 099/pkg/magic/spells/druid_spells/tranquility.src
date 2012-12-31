@@ -31,7 +31,7 @@ program tranquility (parms)
 	endif
 
 	//create a peacemaking event
-	var event := array {};
+	var event := struct;
 	event.+type := EVID_PEACEMADE;
 
 	//couple of other variables

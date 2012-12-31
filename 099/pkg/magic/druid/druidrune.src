@@ -14,7 +14,7 @@ program add_druid_rune (character, rune)
 	if (!bag)
 		SendSysMessage (character, "Canceled");
 		return;
-	elseif  (bag.objtype != 0x706b)
+	elseif  (bag.objtype != 0x1706b)
 		SendSysMessage (character, "You can only put the rune in a druidic rune bag.");
 		return;
 	elseif  (!ReserveItem (bag) )

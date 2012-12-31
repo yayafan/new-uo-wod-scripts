@@ -5,7 +5,7 @@
 
 function GetHelpFromAllies (byref opponent)
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ALL_ATTACK_CMD;
 	ev.+source := opponent;
 

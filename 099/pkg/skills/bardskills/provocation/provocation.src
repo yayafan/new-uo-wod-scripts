@@ -78,7 +78,7 @@ program bard_provoke (character)
 		difficulty := 100 - GetDiscordanceMod (thetarg);
 	endif
 
-	var ev := array {};
+	var ev := struct;
 	ev.+ type := EVID_ALL_ATTACK_CMD;
 	ev.+ source;
 	var success := 0;

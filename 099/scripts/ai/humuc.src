@@ -280,7 +280,7 @@ endfunction
 function AllCommand(evtype,what)
 
 	var mobs := ListMobilesNearLocation( master.x, master.y, master.z, 9 );
-	var eve := array {};
+	var eve := struct;
 	eve.+type := evtype;
 	eve.+source := me;
 	eve.+target := what;

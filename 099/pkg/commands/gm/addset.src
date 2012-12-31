@@ -3,7 +3,7 @@ use cfgfile;
 
  
 program makeset( who , range)
-        var prop2 := array;
+        var prop2 := struct;
         var props2 := array {};
         prop2.+ name;
         prop2.+ value;
@@ -11,11 +11,11 @@ program makeset( who , range)
         var numprops2 := 1;
         var numthings := 0;
         var things := array;
-        var theitem:= array {};
+        var theitem:= struct;
         var ttype;
         sendsysmessage(who, "Select the center of the set area (radius " + range + ")");
         var whereleft := targetcoordinates(who);
-var thesetname := Requestinput(who, who.backpack , "What would you like to call this set?");
+	var thesetname := Requestinput(who, who.backpack , "What would you like to call this set?");
         
         
         var stuff := ListItemsNearLocation( whereleft.x,whereleft.y,whereleft.z, cint(range), whereleft.realm);
@@ -53,7 +53,7 @@ var thesetname := Requestinput(who, who.backpack , "What would you like to call 
  
         foreach item in things
         
-        var prop := array {};
+        var prop := struct;
         var props := array;
         prop.+ name;
         prop.+ value;
@@ -128,7 +128,7 @@ var thesetname := Requestinput(who, who.backpack , "What would you like to call 
  
         foreach item in things
         
-        var prop := array {};
+        var prop := struct;
         var props := array;
         prop.+ name;
         prop.+ value;

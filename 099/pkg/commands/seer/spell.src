@@ -271,7 +271,7 @@ function DoTotemSpellEffect (character)
 	targetted.frozen := 0;
 
 	//create an event and send it to all the mobiles in the area
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := targetted;
 

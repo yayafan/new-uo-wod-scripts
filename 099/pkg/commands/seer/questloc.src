@@ -31,7 +31,7 @@ program questloc( character )
     var elemkey := (GetConfigMaxIntKey(quest_cfg)) + 1;
 
     var props := array;
-    var prop := array {};
+    var prop := struct;
     prop .+ pname;
     prop .+ pvalue;
 

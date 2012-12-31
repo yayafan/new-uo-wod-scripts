@@ -31,7 +31,7 @@ program bard_peacemake (character)
 	endif
 
 	var range := CINT (GetAttribute (character, ATTRIBUTEID_PEACEMAKING)/10);
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_PEACEMADE;
 
 	var elem, difficulty;

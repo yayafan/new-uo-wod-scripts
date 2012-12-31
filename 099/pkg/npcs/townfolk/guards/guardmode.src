@@ -577,7 +577,7 @@ function GetHelp (byref opponent)
 		return;
 	endif
 
-	var eve := array {};
+	var eve := struct;
 	eve.+type := EVID_ALL_ATTACK_CMD;
 	eve.+source := opponent;
 	eve.+target := opponent;

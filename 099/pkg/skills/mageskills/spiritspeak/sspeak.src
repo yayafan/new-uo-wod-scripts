@@ -115,7 +115,7 @@ function ContactUndead(me, stonelevel)
 
 	sleep(1);
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_PEACEMADE;
 	ev.+source := me;
 	SendEvent(it, ev);

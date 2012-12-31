@@ -26,7 +26,7 @@ function clone (byref character)
 		return;
 	endif
 
-	var props := array {};
+	var props := struct;
 	props.+facing := character.facing;
 	props.+name := character.name;
 	props.+color := character.color;

@@ -86,7 +86,7 @@ program tame_creature (character)
 	if ( CheckSkill (character, SKILLID_ANIMALLORE, difficulty, 0) )
 		if (thecreature.warmode)
 			PrintTextAbove (thecreature, character.name + " has calmed the beast!");
-			var ev := array {};
+			var ev := struct;
 			ev.+type := EVID_PEACEMADE;
 			ev.+source := character;
 			sendevent (thecreature, ev);
@@ -95,7 +95,7 @@ program tame_creature (character)
 		if ( IsABadAss (thecreature) )
 			if (RandomInt (20) != 1 )
 				PrintTextAbove(thecreature,character.name + " has angered the beast!");
-				var ev := array {};
+				var ev := struct;
 				ev.+type := EVID_DAMAGED;
 				ev.+source := character;
 				sendevent (thecreature, ev);

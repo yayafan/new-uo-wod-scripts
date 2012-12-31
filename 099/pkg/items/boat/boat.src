@@ -513,7 +513,7 @@ function DoEncounter()
 
 	var it := createnpcfromtemplate (getcritter(), x, y, z, 0, boat.realm);
 	if (it)
-		var ev := array {};
+		var ev := struct;
 		ev.+type := EVID_ENTEREDAREA;
 		ev.+source := who;
 		SendEvent(it, ev);

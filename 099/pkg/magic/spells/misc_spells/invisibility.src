@@ -25,7 +25,7 @@ program cast_invis ( parms, spellid )
 	detach();
 
 	var endtime := ReadGameClock()+ duration;
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := cast_on;
 

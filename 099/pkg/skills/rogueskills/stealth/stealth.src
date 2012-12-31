@@ -53,7 +53,7 @@ program skill_stealth (hider)
 
 	detach();
 
-	var ev := array {};
+	var ev := struct;
 	ev.+type := EVID_ENTEREDAREA;
 	ev.+source := hider;
 

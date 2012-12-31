@@ -45,7 +45,7 @@
 // Constants
 //////////////
 
-var length:=array {};
+var length:=struct;
        length.+chars:={
          "",                // Dummy (for Speed...)
          "|",               //  2
