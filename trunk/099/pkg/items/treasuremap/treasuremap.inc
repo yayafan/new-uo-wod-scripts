@@ -1,7 +1,8 @@
 include "include/locations";
 include "../pkg/combat/loot/loot";
 
-Const UOBJECT_TREASURE_CHEST := 0x0E40;
+//Const UOBJECT_TREASURE_CHEST := 0x0E40;
+Const UOBJECT_TREASURE_CHEST := 0x4106;
 
 ///////////////////
 //  called by mining when a map is targetted
