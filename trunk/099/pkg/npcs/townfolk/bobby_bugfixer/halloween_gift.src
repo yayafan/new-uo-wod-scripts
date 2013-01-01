@@ -12,7 +12,7 @@ program give_halloween_gift (parms)
 	endif
 	
 	set_critical (1);
-	if (GetAccountProperty (player.acctname, "halloween_2003"))
+	if (GetAccountProperty (player.acctname, "halloween_2013"))
 		PrintTextAbove (bobby, "I'm sorry, but I can only give you one.");
 		return;
 	endif
@@ -23,7 +23,7 @@ program give_halloween_gift (parms)
 		return;
 	endif
 	gift.color := 43;
-	gift.name := "Happy Halloween 2003!";
+	gift.name := "Happy Halloween 2013!";
 	
 	var subgift := CreateItemInContainer (gift, 0x2882, 1);	//ghost cutout
 	subgift.movable := 1;
@@ -33,12 +33,12 @@ program give_halloween_gift (parms)
 	subgift.name := "a jug of spicy apple cider";
 	
 	for i := 1 to 5
-		subgift := CreateItemInContainer (gift, 0x7059, 1);
+		subgift := CreateItemInContainer (gift, 0x17059, 1);
 		subgift.usescript := ":alchemy:special_potion";
 		subgift.name := "an unusual potion";
 		subgift.graphic := 6212;
 	endfor
-	SetAccountProperty (player.acctname, "halloween_2003", 1);
+	SetAccountProperty (player.acctname, "halloween_2013", 1);
 
 	PrintTextAbove (bobby, "Happy Halloween!");
 	

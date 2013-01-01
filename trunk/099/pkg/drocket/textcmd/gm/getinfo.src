@@ -192,7 +192,7 @@ function CheckBackpackStatus (character)
 		account := FindAccount (accountname);
 		if (account)
 			total_accounts := total_accounts + 1;
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player)
 					total_players := total_players + 1;
@@ -272,7 +272,7 @@ function FindAccountInfo (character, acctname)
 		return;
 	endif
 
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			SendSysMessage (character, "Character: " + player.name);
@@ -314,7 +314,7 @@ function FindSerialInfo (character, serialnumber);
 	foreach acctname in ListAccounts ()
 		account := FindAccount (acctname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player and player.serial == serialnumber)
 					SendSysMessage (character, "Found him!");
@@ -330,7 +330,7 @@ function FindSerialInfo (character, serialnumber);
 	foreach acctname in ListAccounts ()
 		account := FindAccount (acctname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player)
 					foreach item in EnumerateItemsInContainer (player.backpack)
@@ -396,7 +396,7 @@ function FindCharacter (character, player_name)
 	foreach accountname in ListAccounts ()
 		account := FindAccount (accountname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player)
 					var newplayername := lower (player.name);
@@ -435,7 +435,7 @@ function SearchForItemByName (character, itemname)
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
 		if (acct)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := acct.GetCharacter (counter);
 				if (player)
 					foreach item in ListEquippedItems (player)
@@ -549,7 +549,7 @@ function SearchForItemByObjtype (character, itemobjtype)
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
 		if (acct)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := acct.GetCharacter (counter);
 				if (player)
 					foreach item in ListEquippedItems (player)
@@ -659,7 +659,7 @@ function GetAccountLastLogon (acctname)
 	endif
 	
 	var logontime := 0;
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			var templogontime := GetObjProperty (player, "logontime");

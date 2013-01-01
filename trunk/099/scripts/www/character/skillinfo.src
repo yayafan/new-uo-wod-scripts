@@ -20,7 +20,7 @@ var primary_counter := dictionary;
 var secondary_counter := dictionary;
 var tradeskill_counter := dictionary;
 
-for i := 0 to 49
+for i := 0 to 57
 	primary_counter.insert (i, 0);
 	secondary_counter.insert (i, 0);
 	tradeskill_counter.insert (i, 0);
@@ -33,7 +33,7 @@ var total_maxed_players := 0;
 foreach acctname in ListAccounts ()
 	acct := FindAccount (acctname);
 	if (acct)
-		for counter := 1 to 5
+		for counter := 1 to 7
 			player := acct.GetCharacter (counter);
 			if (player)
 				total_players := total_players + 1;

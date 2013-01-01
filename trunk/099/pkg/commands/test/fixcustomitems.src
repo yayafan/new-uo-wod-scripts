@@ -13,7 +13,7 @@ program textcmd_start( character)
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
 		if (acct)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := acct.GetCharacter (counter);
 				if (player)					
 					foreach item in EnumerateItemsInContainer (player.backpack)

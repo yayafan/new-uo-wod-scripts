@@ -98,7 +98,7 @@ function SentenceCharacterToJail (gm)
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
 		if (acct)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := acct.GetCharacter (counter);
 				if (player)
 					playername := Lower (player.name);
@@ -374,7 +374,7 @@ function ReleaseCharacterToJail (gm)
 	foreach acctname in ListAccounts ()
 		acct := FindAccount (acctname);
 		if (acct)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := acct.GetCharacter (counter);
 				if (player)
 					playername := Lower (player.name);

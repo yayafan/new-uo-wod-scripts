@@ -80,7 +80,7 @@ program view_character_Info ()
 			WriteHTML ("<td>" + GetAttribute (character, GetAttributeIDBySkillID (specs[i])) + "</td></tr>");
 		endfor
 		
-		for i := 0 to 48
+		for i := 0 to 57
 			if (GetSkillName (i) != "None")
 				if (!(i in specs))
 					WriteHTML ("<tr><td><li>" + GetAttributeIDBySkillID (i) + "</td>");
@@ -90,7 +90,7 @@ program view_character_Info ()
 		endfor
 	else
 		WriteHTML ("<b>Specs not set</b");
-		for i := 0 to 48
+		for i := 0 to 57
 			if (GetSkillName (i) != "None")
 				WriteHTML ("<tr><td><li>" + GetAttributeIDBySkillID (i) + "</td>");
 				WriteHTML ("<td>" + GetAttribute (character, GetAttributeIDBySkillID (i)) + "</td></tr>");

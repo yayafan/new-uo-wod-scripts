@@ -63,7 +63,7 @@ endprogram
 
 function CheckIfCharacterExists (acctname)
 	var acct := FindAccount (acctname);
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			return 1;
@@ -93,7 +93,7 @@ function GetAccountLastLogon (accountname)
 	endif
 	
 	var logontime := 0;
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := account.GetCharacter (counter);
 		if (player)
 			var templogontime := GetObjProperty (player, "logontime");

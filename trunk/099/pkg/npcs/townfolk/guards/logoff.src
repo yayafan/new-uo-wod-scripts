@@ -61,7 +61,7 @@ function clone (byref character)
 		npc.name := character.name + character.title_suffix;
 	endif
 	if (character.title_prefix)
-		npc.name := character.title_prefix + npc.name;
+		npc.name := character.title_prefix + " " + npc.name;
 	endif
 
 	var newname := "";

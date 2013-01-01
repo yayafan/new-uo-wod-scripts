@@ -57,7 +57,7 @@ program nukeaccount ()
 	endif
 
 	WriteHTML ("<table>");
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			WriteHTML ("<tr><td>" + player.name + "</td></tr>");
@@ -76,7 +76,7 @@ endprogram
 
 function DeleteTheAccount (acctname)
 	var acct := FindAccount (acctname);
-  	for counter := 1 to 5
+  	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			foreach item in ListEquippedItems (player)

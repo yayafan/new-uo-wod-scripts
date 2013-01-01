@@ -12,7 +12,7 @@ foreach acctname in ListAccounts ()
 	WriteHTML ("<p>accountname: <a href=account_info.ecl?acctname=" + acctname + ">" + acctname + "</a>");
 	acct := FindAccount (acctname);
 	if (acct)
-		for counter := 1 to 5
+		for counter := 1 to 7
 			player := acct.GetCharacter (counter);
 			if (player)
 				WriteHTML ("<br>character: <a href=character_info.ecl?serial=" + player.serial + ">" + player.name + "</a>");

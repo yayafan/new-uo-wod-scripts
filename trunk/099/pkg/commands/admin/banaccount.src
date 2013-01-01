@@ -28,7 +28,7 @@ program nukeaccount (character, acctname)
 		return;
 	endif
 	
-	for counter := 1 to 5
+	for counter := 1 to 7
 		var player := acct.GetCharacter (counter);
 		if (player)
 			SendSysMessage (character, "Character: " + player.name);
