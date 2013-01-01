@@ -18,7 +18,7 @@ program list_character_names ()
 	foreach acctname in ListAccounts ()
 		account := FindAccount (acctname);
 		if (account)
-			for counter := 1 to 5
+			for counter := 1 to 7
 				player := account.GetCharacter (counter);
 				if (player)
 					if (charnamedict.exists (player.name))

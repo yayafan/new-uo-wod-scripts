@@ -65,7 +65,7 @@ function DealWithJailedAccount (character)
 			MoveObjectToLocation( character, 1390, 1625, 30, REALM_BRITANNIA, flags := MOVEOBJECT_FORCELOCATION );
 		endif
 		var stillinjail := 0;
-		for counter := 1 to 5
+		for counter := 1 to 7
 			var player := acct.GetCharacter (counter);
 			if (player)
 				if (IsInsideTheJail (player.x, player.y))

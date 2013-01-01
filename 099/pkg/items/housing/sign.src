@@ -595,7 +595,7 @@ function FindOwnerName( sign )
 	if (owneraccount)
 		var acct := FindAccount (owneraccount);
 		if (acct)
-			for i := 1 to 5
+			for i := 1 to 7
 				var char := acct.GetCharacter(i);
 				if (char)
 		            	SetObjProperty (sign, "lastownername", char.name);
