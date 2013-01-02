@@ -75,7 +75,7 @@ program view_character_Info ()
 	WriteHTML ("<table cellpadding=2>");
 	var specs := LoadSpecializations (character);
 	if (len (specs))
-		for i := 1 to 7
+		for i := 1 to 8
 			WriteHTML ("<tr><td><li>" + GetAttributeIDBySkillID (specs[i]) + "</td>");
 			WriteHTML ("<td>" + GetAttribute (character, GetAttributeIDBySkillID (specs[i])) + "</td></tr>");
 		endfor

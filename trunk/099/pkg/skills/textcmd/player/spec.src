@@ -51,7 +51,7 @@ function ListSkills (character)
 		SendSysMessage (character, skillname + " removed, but changes are not saved yet.");
 	elseif (gump_return == 9)						//Save the changes to skills
 		var nochanges := 1;
-		for i := 1 to 7
+		for i := 1 to 8
 			if (!specs[i] and specs[i] != 0)
 				SendSysMessage (character, "You must select all specializations before saving.");
 				return 0;
@@ -72,21 +72,27 @@ function ListSkills (character)
 		SetObjProperty (character, "secondary2", specs[5]);
 		SetObjProperty (character, "secondary3", specs[6]);
 		SetObjProperty (character, "tradeskill", specs[7]);
+		SetObjProperty (character, "compskill", specs[8]);
 		SetMaxStats (character, 1);
 		SendSysMessage (character, "Changes saved!");
 		return 1;
 	else										//specialize in a skill
-		var SkillNum := PickASkill (character);
+		var SkillNum := error;
+		if (gump_return == 7)
+			SkillNum := PickATradeSkill(character);
+		elseif (gump_return == 8)
+			if (specs[1] == error or specs[2] == error or specs[3] == error)
+				SendSysMessage (character, "You must choose your primary skills first!");
+				return 0;
+			endif
+			SkillNum := PickACompSkill(character, specs);
+		else
+			Skillnum := PickASkill (character);
+		endif
 		if (SkillNum or SkillNum == 0)
 			var skillname := GetSkillName (skillnum);
-			if (gump_return == 7) 
- 				if (!IsTradeSkill (skillnum))
- 					SendSysMessage (character, "That is not a tradeskill!");
-					return 0;
-				endif
-			endif
 			
-			for i := 1 to 7
+			for i := 1 to 8
 				if (specs[i] == SkillNum)
 					SendSysMessage (character, "You're already specialized in that!");
 					return 0;
@@ -112,9 +118,12 @@ endfunction
 ///////////////////
 
 function RemoveSkill (character, skillid)
-	for i := 1 to 7
+	for i := 1 to 8
 		if (specs[i] == skillid)
 			specs[i] := error;
+			if (i < 4)
+				specs[8] := error;
+			endif
 			return i;
 		endif
 	endfor
@@ -155,6 +164,23 @@ function SetMaxStats (character, savethem := 0)
 	maxstr := CINT (maxstr/9);
 	maxint := CINT (maxint/9);
 	maxdex := CINT (maxdex/9);
+	
+	var totalstats := (maxstr + maxint + maxdex);
+	if (totalstats < 225)
+		if (maxstr > maxint)
+			if (maxstr > maxdex)
+				maxstr := maxstr + (225 - totalstats);
+			else
+				maxdex := maxdex + (225 - totalstats);
+			endif
+		else
+			if (maxint > maxdex)
+				maxint := maxint + (225 - totalstats);
+			else
+				maxdex := maxdex + (225 - totalstats);
+			endif
+		endif
+	endif
 
 	if (savethem)
 		SetObjProperty (character, "maxstr", maxstr);
@@ -398,7 +424,7 @@ function LoadGumpLayout (character)
 		"text 35 235 0 9",
 
 		"button 250 235 2360 2360 1 0 9",			//save changes
-		"text 270 230 37 13",
+		"text 270 230 37 15",
 
 		"page 2",
 		"gumppic 0 50 500",
@@ -407,7 +433,12 @@ function LoadGumpLayout (character)
 		"text 70 60 1350 10",
 
 		"text 55 100 0 11",
-		"button 40 105 2104 2103 1 0 7"
+		"button 40 105 2104 2103 1 0 7",
+		
+		"text 235 60 1350 12",
+		
+		"text 245 100 0 13",
+		"button 230 105 2104 2103 1 0 8"
 	};
 	
 	gumpdata := array {
@@ -423,6 +454,8 @@ function LoadGumpLayout (character)
 		maxstr + " / " + maxdex + " / " + maxint,
 		"Trade skill",
 		GetSkillName(specs[7])+" "+ GetSkillValDisplay(character, specs[7]),
+		"Complementary skill",
+		GetSkillName(specs[8])+" "+ GetSkillValDisplay(character, specs[8]),
 		"",
 		"Save Changes"
 	};

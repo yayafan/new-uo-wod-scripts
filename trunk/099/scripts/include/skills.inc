@@ -66,6 +66,8 @@ function LoadSpecializations (character)
 	myspecs[5] := GetObjProperty (character, "secondary2");
 	myspecs[6] := GetObjProperty (character, "secondary3");
 	myspecs[7] := GetObjProperty (character, "tradeskill");
+	myspecs[8] := GetObjProperty (character, "compskill");
+  
 
 	return myspecs;
 endfunction
@@ -79,7 +81,7 @@ endfunction
 
 function CheckIfSpecialized (character, skillid)
 	var myspecs := LoadSpecializations (character);
-	for i := 1 to 7
+	for i := 1 to 8
 		if (myspecs[i] == skillid)
 			return i;
 		endif
@@ -351,6 +353,8 @@ function GetBaseSkillCap (byref me, skillid)
 		return 1000;
 	elseif ( skillid == GetObjProperty (me, "primary3") )
 		return 1000;
+	elseif ( skillid == GetObjProperty (me, "compskill") )
+		return 900;
 	elseif ( skillid == GetObjProperty (me, "secondary1") )
 		return 800;
 	elseif ( skillid == GetObjProperty (me, "secondary2") )
