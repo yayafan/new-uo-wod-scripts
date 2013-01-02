@@ -179,17 +179,17 @@ function GetSortValue (byref me, skillid)
 			return 10000;
 		elseif (skillid == specs[2])
 			return 9000;
-		elseif (skillid == specs[2])
-			return 8000;
 		elseif (skillid == specs[3])
-			return 7000;
+			return 8000;
 		elseif (skillid == specs[4])
-			return 6000;
+			return 7000;
 		elseif (skillid == specs[5])
-			return 5000;
+			return 6000;
 		elseif (skillid == specs[6])
-			return 4000;
+			return 5000;
 		elseif (skillid == specs[7])
+			return 4000;
+		elseif (skillid == specs[8])
 			return 3000;
 		endif
 	endif
@@ -208,5 +208,6 @@ function LoadSpecs (byref character)
 	specs[5] := GetObjProperty (character, "secondary2");
 	specs[6] := GetObjProperty (character, "secondary3");
 	specs[7] := GetObjProperty (character, "tradeskill");
+	specs[8] := GetObjProperty (character, "compskill");
 
 endfunction

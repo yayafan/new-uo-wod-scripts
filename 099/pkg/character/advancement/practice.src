@@ -89,7 +89,7 @@ function PracticeSpecs (byref character)
 			AwardRawSkillPoints (character, skillid, 100);
 		endif
 	endfor
-	for i := 4 to 7
+	for i := 4 to 8
 		var skillid := specs[i];
 		if (skillid or skillid == 0)
 			AwardRawSkillPoints (character, skillid, 50);

@@ -27,13 +27,21 @@ program combat_attack_script (parms)
 	if (attacker.z > (defender.z + 20) or attacker.z < (defender.z - 20))
 		return 1;
 	endif
-	if (!CheckLoSAt(attacker, defender.x, defender.y, defender.z) and !CheckLoSAt(attacker, defender.x, defender.y, defender.z + defender.height))
-		return 1;
-	endif
 	if (Distance (attacker, defender) > 20)
 		return 1;
 	endif
+	if (distance (attacker, defender) < 2)
+		if (attacker.npctemplate and attacker.npctemplate != ":guards:warrior")
+			start_script (":npchitscripts:combat_attack_script_npc", array{attacker, defender});
+		else
+			start_script (":weapons:combat_attack_script_wrestling", array{attacker, defender});
+		endif
+		return 1;
+	endif
 
+	if (!CheckLoSAt(attacker, defender.x, defender.y, defender.z) and !CheckLoSAt(attacker, defender.x, defender.y, defender.z + defender.height))
+		return 1;
+	endif
 	//Make sure that these files exist
 	if (!weaponcfgfile or !armorcfgfile)
 		SendSysMessage (attacker, "Unable to load itemdesc.cfg file(s)!");

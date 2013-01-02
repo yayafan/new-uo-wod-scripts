@@ -318,7 +318,17 @@ endfunction
 ///////////////////
 
 function CalculateAttackDamage ()
-	var raw_damage := RandomDiceRoll ("1d8");
+	var wrest := GetAttribute (attacker, ATTRIBUTEID_WRESTLING);
+	var dicestring := "1d8";
+	if (wrest >= 109)
+		dicestring := "3d8+" + CINT(wrest/15);
+	elseif (wrest > 90)
+		dicestring := "2d8+" + CINT(wrest/15);
+	elseif (wrest > 70)
+		dicestring := "1d8+" + CINT(wrest/20);
+	endif
+	
+	var raw_damage := RandomDiceRoll (dicestring);
 	return raw_damage;
 endfunction
 
