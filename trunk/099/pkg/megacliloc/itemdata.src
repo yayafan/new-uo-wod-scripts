@@ -30,6 +30,11 @@ program itemdata(xObject)
 	if (owner)
 		xDesc := xDesc + Html + "Owned by " + owner + "<br>";
 	endif
+	if (IsGargishItem (xObject))
+		xDesc := xDesc + Html + "For Gargoyles Only<br>";
+	elseif (IsForAnyRace (xObject))
+		xDesc := xDesc + Html + "For Any Race<br>";
+	endif
 	if (GetObjProperty(xObject, "unidentified"))
 		xDesc := xDesc + Html + "Unidentified<br>";
 	else
@@ -83,7 +88,7 @@ program itemdata(xObject)
 			xDesc := xDesc + Html + "Damage: " + CINT((weapondesc.MinDamage + xObject.dmg_mod)*damagefactor) + " - " + CINT((weapondesc.MaxDamage + xObject.dmg_mod)*damagefactor) + "<br>";
 			xDesc := xDesc + Html + "Skill: " + xObject.attribute + "<br>";
 			var skillid := GetObjProperty(xObject, "skilladv");
-			if (skillid)
+			if (GetObjProperty (xObject, "skill"+skillid))
 				var skillname := GetSkillName(skillid);
 				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
 			endif

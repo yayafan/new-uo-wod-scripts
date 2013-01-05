@@ -13,6 +13,7 @@ include "include/client";
 include "include/eventid";
 include "include/gumps";
 include "include/locations";
+include ":contextMenus:contextMenus";
 
 include "../pkg/npcs/main_ai/combat/fightmode_normal_default";
 include "../pkg/npcs/main_ai/combat/closedistance_default";
@@ -99,6 +100,23 @@ endprogram
 
 function ProcessEvents (byref ev, byref wanders, byref next_wander)
 	case (ev.type)
+		EVID_CONTEXT_MENU:
+			case (ev.result)
+				eCMR_Quest:
+					var parms := array{ };
+					parms[1] := me;
+					parms[2] := ev.source;
+					start_script (":guards:townguard_quest", parms);
+				eCMR_SummonPet:
+					var parms := array{ };
+					parms[1] := me;
+					parms[2] := ev.source;
+					start_script (":guards:townguard_status", parms);
+				eCMR_Join:
+					JoinGuards (ev.source);
+				eCMR_Resign:
+					QuitGuards (ev.source);
+			endcase
 		EVID_SPEECH:
 			var evtext := lower(ev.text);
 			if (evtext["guards"])
@@ -312,10 +330,6 @@ function DisableMainEvents()
 endfunction
 
 function JoinGuards(byref who)
-	if (Distance (me, who) > 1)
-		return;
-	endif
-
 	var mytype := GetObjProperty (me, "guardtype");
 	if (!mytype)
 		say("Just grab a sword and start thrashing criminals, friend.");
@@ -409,10 +423,6 @@ function JoinGuards(byref who)
 endfunction
 
 function QuitGuards (byref who)
-	if (Distance (me, who) > 1)
-		return;
-	endif
-
 	var mytype := GetObjProperty(me,"guardtype");
 	if (!mytype)
 		return;

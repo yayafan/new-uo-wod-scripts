@@ -19,7 +19,14 @@ enum EContextMenuResult
 	eCMR_OpenBackpack,
 	eCMR_Quest,
 	eCMR_GateTravel,
-	eCMR_CraftItem
+	eCMR_CraftItem,
+	eCMR_Train,
+	eCMR_Clear,
+	eCMR_SummonPet,
+	eCMR_Join,
+	eCMR_Resign,
+	eCMR_Dismiss,
+	eCMR_Status
 endenum
 
 enum EContextMenuText
@@ -41,7 +48,14 @@ enum EContextMenuText
 	eCMT_OpenBackpack	:= 6145,
 	eCMT_Quest		:= 1024,
 	eCMT_GateTravel		:= 2062,
-	eCMT_CraftItem		:= 6138
+	eCMT_CraftItem		:= 6138,
+	eCMT_Train		:= 10069,
+	eCMT_Clear		:= 413,
+	eCMT_SummonPet	:= 6181,
+	eCMT_Join			:= 6116,
+	eCMT_Resign		:= 6115,
+	eCMT_Dismiss		:= 6129,
+	eCMT_Status		:= 2134
 endenum
 
 function CreateNewContextMenu() 

@@ -9,6 +9,7 @@ use util;
 use cfgfile;
 include "../pkg/npcs/townfolk/guards/henchman";
 include "include/itemtypes";
+include ":contextMenus:contextMenus";
 
 const HALT_THRESHOLD			:= 10;
 
@@ -297,6 +298,8 @@ function HasBow ()
 			ammotype := UOBJ_DART;
 		UOBJ_SHURIKEN_THROWER:
 			ammotype := UOBJ_SHURIKEN;
+		UOBJ_AXE_THROWER:
+			ammotype := UOBJ_THROWINGAXE;
 		default:
 			return 0;
 	endcase
@@ -326,6 +329,21 @@ function ProcessEvent (byref ev)
 	endif
 
 	case (ev.type)
+		EVID_CONTEXT_MENU:
+			var mename := me.name;
+			var newev := struct;
+			newev.+type := EVID_SPEECH;
+			newev.+source := ev.source;
+			newev.+text := "";
+			case (ev.result)
+				eCMR_CommKill:		newev.text := mename + " kill";
+				eCMR_CommFollow:	newev.text := mename + " follow";
+				eCMR_CommGuard:	newev.text := mename + " guard";
+				eCMR_CommStop:	newev.text := mename + " stop";
+				eCMR_Status:		newev.text := mename + " status";
+				eCMR_Dismiss:		newev.text := mename + " release";
+			endcase
+			sendevent (me, newev);
 		EVID_SPEECH:
 			if (ev.source == master)
 				if (ev.source.dead)
@@ -1515,8 +1533,13 @@ endfunction
 function DoTraining ()
 	var dummyserial := GetObjProperty (me, "trainingdummy");
 	var dummy := SystemFindObjectBySerial (dummyserial);
-	if (!dummy or !CheckLoSAt (me, dummy.x, dummy.y, dummy.z))
-		Say ("I can't see that!");
+	if (!dummy)
+		Say ("That dummy doesn't exist!");
+		EraseObjProperty (me, "trainingdummy");
+		return;
+	endif
+	if (!CheckLoSBetween (me.x, me.y, me.z, dummy.x, dummy.y, dummy.z))
+		Say ("I can't see that dummy!");
 		EraseObjProperty (me, "trainingdummy");
 		return;
 	endif
@@ -1547,7 +1570,7 @@ function DoTraining ()
 	turntoward (dummy);
 	SetWarMode (1);
 	
-	var skillid := me.weapon.skillid;
+	var skillid := GetSkillIdByAttributeId (me.weapon.Attribute);
 	if (!skillid)
 		//Must be wrestling
 		skillid := SKILLID_WRESTLING;

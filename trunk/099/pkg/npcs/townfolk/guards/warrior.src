@@ -16,6 +16,8 @@ include "../pkg/npcs/main_ai/combat/gethelp_good";
 include "../pkg/npcs/main_ai/combat/changeopponent_default";
 include "../pkg/npcs/speech";
 
+include ":contextMenus:contextMenus";
+
 include "../pkg/npcs/townfolk/guards/henchman";
 
 const HALT_THRESHOLD := 8; // how close before he attacks?
@@ -157,6 +159,14 @@ function main_AI_loop (next_wander := 0)
 		if (ev)
 			repeat
 				case (ev.type)
+					EVID_CONTEXT_MENU:
+						if (ev.result == eCMR_Hire)
+							var newev := struct;
+							newev.+type := EVID_SPEECH;
+							newev.+source := ev.source;
+							newev.text := "join";
+							sendevent (me, newev);
+						endif
 					EVID_SPEECH:
 						wanders := 0;
 						next_wander := ReadGameClock() + 60;
