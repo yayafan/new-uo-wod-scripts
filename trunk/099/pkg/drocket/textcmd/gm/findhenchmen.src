@@ -29,6 +29,7 @@ program restart_AI (character, text)
 				RealmMaxX := 1280;
 				RealmMaxY := 4096;
 		endcase
+		SendSysMessage (character, "Searching realm: " + realm);
 
 		for (xmid := 31; xmid < RealmMaxX; xmid := xmid + 64)
 			for (ymid := 31; ymid < RealmMaxY; ymid := ymid + 64)
@@ -47,6 +48,7 @@ program restart_AI (character, text)
 	// Tokuno's dimensions aren't a multiple of 64
 	RealmMaxX := 1448;
 	RealmMaxY := 1448;
+	SendSysMessage (character, "Searching realm: tokuno");
 	for (xmid := 90; xmid < RealmMaxX; xmid := xmid + 181)
 		for (ymid := 90; ymid < RealmMaxY; ymid := ymid + 181)
 			foreach item in ListObjectsInBox (xmid-90, ymid-90, -128, xmid+90, ymid+90, +127, REALM_TOKUNO)

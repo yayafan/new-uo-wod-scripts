@@ -111,25 +111,6 @@ program townguard_status_command (parms)
 			sleepms (10);
 		endfor
 	endif
-	if (guard.realm == REALM_TOKUNO)
-		// Tokuno's last columns and rows are 40 tiles wide, and dungeons are in Malas!!
-		for (ymid := 90; xmid < 1448; ymid := ymid + 181)
-			foreach item in ListObjectsInBox (1408, 0, -128, 1447, 129, +127, REALM_TOKUNO)
-				if (GetObjProperty (item, "master"))
-					if (GetObjProperty (item, "master") == player.serial)
-						followers_found.append (item);
-					endif
-				endif
-			endforeach
-		endfor
-		foreach item in ListObjectsInBox (0, 0, -128, 129, 129, +127, REALM_MALAS)
-			if (GetObjProperty (item, "master"))
-				if (GetObjProperty (item, "master") == player.serial)
-					followers_found.append (item);
-				endif
-			endif
-		endforeach
-	endif
 	if (!len (followers_found))
 		PrintTextAbovePrivate (guard, "I'm afraid I didn't find anyone.", player);
 		return;
