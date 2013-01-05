@@ -33,11 +33,30 @@ program townguard_status_command (parms)
 	
 	PrintTextAbovePrivate (guard, "One moment, please.", player);
 	var followers_found := array {};
-
+	var RealmMaxX := 0;
+	var RealmMaxY := 0;
+	case (guard.realm)
+		"britannia":
+		"britannia_alt":
+			RealmMaxX := 7168;
+			RealmMaxY := 4096;
+		"ilshenar":
+			RealmMaxX := 2304;
+			RealmMaxY := 1600;
+		"malas":
+			RealmMaxX := 2560;
+			RealmMaxY := 2048;
+		"tokuno":
+			RealmMaxX := 1448;
+			RealmMaxY := 1448;
+		"termur":
+			RealmMaxX := 1280;
+			RealmMaxY := 4096;
+	endcase
 	var xmid, ymid;
-	for (xmid := 31; xmid < 6144; xmid := xmid + 64)
-		for (ymid := 31; ymid < 4096; ymid := ymid + 64)
-			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, REALM_BRITANNIA)
+	for (xmid := 31; xmid < RealmMaxX; xmid := xmid + 64)
+		for (ymid := 31; ymid < RealmMaxY; ymid := ymid + 64)
+			foreach item in ListObjectsInBox (xmid-32, ymid-32, -128, xmid+32, ymid+32, +127, guard.realm)
 				if (GetObjProperty (item, "master"))
 					if (GetObjProperty (item, "master") == player.serial)
 						followers_found.append (item);

@@ -121,6 +121,7 @@ function ProcessEvent (byref ev)
 			case (ev.result)
 				eCMR_Buy:			newev.text := "buy";
 				eCMR_Sell:			newev.text := "sell bag";
+				eCMR_Train:		newev.text := "train";
 				eCMR_CraftItem:		newev.text := "job";
 				eCMR_Quest:		newev.text := "quest";
 				eCMR_GateTravel:	newev.text := "gate";

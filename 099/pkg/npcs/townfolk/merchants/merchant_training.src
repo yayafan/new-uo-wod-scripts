@@ -346,6 +346,7 @@ function DetermineMerchantsSkills (byref merchant)
 			};
 
 		"jeweler":
+		"jewler": // should be "jeweler", stupid typo in npctemplate from original scripter... can't help it unless I do a full NPC wipe and rebuild the world again
 			skills_trained := array {
 				SKILLID_TINKERING,
 				SKILLID_BLACKSMITHY,

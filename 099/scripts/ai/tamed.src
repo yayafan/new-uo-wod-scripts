@@ -909,6 +909,7 @@ function DoDoubleClickEvent ();
 			endif
 			mount.color := me.color;
 			mount.graphic := mounttype;
+			mount.name := me.name;
 
 			foreach property in GetObjPropertyNames (me)
 				if (property != "master")
