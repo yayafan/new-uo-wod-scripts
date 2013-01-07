@@ -171,13 +171,6 @@ function CreateRunebookGump( book )
 endfunction
 
 function SetBookName( book, who, auto:=0 )
-
-	var charge_prop := GetObjProperty( book, "%Charges%" );
-	var charges := charge_prop["charges"];
-	if( !charges )
-		charges := 0;
-	endif
-
 	var name := GetObjProperty( book, "Name" );
 	if( !name )
 		name := "a runebook";
@@ -191,7 +184,7 @@ function SetBookName( book, who, auto:=0 )
 	endif
 
 	SetObjProperty( book, "Name", CStr( name ));
-	SetName( book, name+" [charges: "+charges+"]" );
+	SetName( book, name);
 
 	return 1;
 endfunction

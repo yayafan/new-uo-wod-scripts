@@ -84,6 +84,7 @@ program use_Runebook( who, book )
 			SetObjProperty( rune, "Destination", rune_info );
 			rune.color := rune_info.color;
 			DeleteRune( book, ( result[0]-400 ));
+			SetBookName (book, who, 1);
 			return 1;
 		endif
 	elseif( result[0] >= 501 && result[0] <= 520 )

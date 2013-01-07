@@ -119,7 +119,11 @@ program itemdata(xObject)
 			if (stat_bonus)
 				xDesc := xDesc + Html + "+" + stat_bonus + " Intelligence<br>";
 			endif
-		elseif (xObject.isa(POLCLASS_CONTAINER))
+		elseif (xObject.objtype == UOBJ_RUNEBOOK)
+			var charges := GetObjProperty (xObject, "%Charges%");
+			xDesc := xDesc + Html + CINT ((GetObjProperty (xObject, "%RuneList%")).size()) + " runes<br>";
+			xDesc := xDesc + Html + "Charges: " + charges.charges + " / " + charges.max_charges + "<br>";
+		elseif (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE))
 			xDesc := xDesc + Html + "Contains: " + CINT(xObject.item_count-1) + " items<br>";
 		elseif (xObject.isa(POLCLASS_SPELLBOOK))
 			xDesc := xDesc + Html + xObject.spells().size() + " spells<br>";
