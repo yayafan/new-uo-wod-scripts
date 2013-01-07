@@ -149,7 +149,7 @@ program cast_recall (parms, spellid)
 			endif
 		endif
 
-		if (tox > 5118)
+		if (tor == REALM_BRITANNIA and tox > 5118)
 			sendsysmessage (caster, "Invalid location");
 			return 0;
 		endif

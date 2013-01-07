@@ -17,11 +17,8 @@ program make_a_tele( seer )
 		SendSysmessage(seer, "You can only use this on a rune!");
 		return;
 	endif
-
-	SetObjProperty( rune, "x", seer.x );
-	SetObjProperty( rune, "y", seer.y );
-	SetObjProperty( rune, "z", seer.z );
-	SetObjProperty( rune, "realm", seer.realm);
+	
+	rune.SetDestination (seer.x, seer.y, seer.z, seer.realm);
 	rune.newbie := 1;
 
 	SendSysmessage(seer, "Marked and newbiedied!");

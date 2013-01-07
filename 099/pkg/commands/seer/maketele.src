@@ -18,14 +18,13 @@ program make_a_teleporter (seer, text)
 			SendSysmessage (seer, "You can only use this on a rune!");
 			return;
 		endif
+		
+		var destination := rune.GetDestination();
 
-		var tox := CINT(GetObjProperty (rune, "x"));
-		var toy := CINT(GetObjProperty (rune, "y"));
-		var toz := CINT(GetObjProperty (rune, "z"));
-		var tor := GetObjProperty (rune, "realm");
-		if (!tor)
-			tor := _DEFAULT_REALM;
-		endif
+		var tox := CINT(destination.x);
+		var toy := CINT(destination.y);
+		var toz := CINT(destination.z);
+		var tor := destination.realm;
 
 		gate1 := CreateItemAtLocation( seer.x, seer.y, seer.z, 0x16203, 1, seer.realm );
 		gate1.facing := 29;

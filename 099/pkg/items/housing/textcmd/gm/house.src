@@ -363,20 +363,14 @@ function MakeHouseTeleporters (character)
 		SendSysmessage (character, "You can only use this on a rune!");
 		return;
 	endif
-
-	var tox := CINT(GetObjProperty (rune, "x"));
-	var toy := CINT(GetObjProperty (rune, "y"));
-	var toz := CINT(GetObjProperty (rune, "z"));
-	var tor := GetObjProperty (rune, "realm");
-	if (!tox or !toy)
+	
+	var dest := rune.GetDestination();
+	if (!dest)
 		SendSysmessage (character, "That rune is not marked!");
 		return;
 	endif
-	if (!tor)
-		tor := _DEFAULT_REALM;
-	endif
 
-	var othersign := FindHouseSignAtLocation (tox, toy, tor);
+	var othersign := FindHouseSignAtLocation (dest.x, dest.y, dest.realm);
 	if (!othersign)
 		SendSysMessage (character, "You don't seem to be within a house.");
 		return;
@@ -413,7 +407,7 @@ function MakeHouseTeleporters (character)
 	gate1.facing := 29;
 	gate1.invisible := 0;
 	gate1.graphic := selected_item.graphic;
-	var gate2 := CreateItemAtLocation (tox, toy, toz, 0x16203, 1, tor);
+	var gate2 := CreateItemAtLocation (dest.x, dest.y, dest.z, 0x16203, 1, dest.realm);
 	gate2.facing := 29;
 	gate2.invisible := 0;
 	gate2.graphic := selected_item.objtype;

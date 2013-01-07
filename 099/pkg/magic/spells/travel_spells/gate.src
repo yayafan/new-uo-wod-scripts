@@ -31,20 +31,13 @@ program spell_gate (parms, spellid)
 		return 0;
 	endif
 
-	if (!GetObjProperty (cast_on, "x"))
+	var dest := cast_on.GetDestination();
+	if (!dest)
 		SendSysMessage (caster, "That rune has not been marked!");
 		return 0;
 	endif
-
-	var tox := Cint(GetObjProperty( cast_on, "x" ));
-	var toy := Cint(GetObjProperty( cast_on, "y" ));
-	var toz := Cint(GetObjProperty( cast_on, "z" ));
-	var tor := GetObjProperty( cast_on, "realm" );
-	if (!tor)
-		tor := _DEFAULT_REALM;
-	endif
-
-	var sign := FindHouseSignAtLocation (tox, toy, tor);
+	
+	var sign := FindHouseSignAtLocation (dest.x, dest.y, dest.realm);
 	if (sign)
 		if (!IsAFriend (sign, caster))
 			SendSysMessage (caster, "You can't gate to there!");
@@ -52,7 +45,7 @@ program spell_gate (parms, spellid)
 		endif
 	endif
 
-	DoGateSpellEffect (caster, tox, toy, toz, tor);
+	DoGateSpellEffect (caster, dest.x, dest.y, dest.z, dest.realm);
 	return 1;
 endprogram
 

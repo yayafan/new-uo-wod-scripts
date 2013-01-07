@@ -44,9 +44,16 @@ endprogram
 ///////////////////
 
 function SmeltOre ( character , ore , ingot , difficulty , points )
+	var firebeetle;
 	if (!FindForgeInArea (character))
-		SendSysMessage (character, "You must be near a forge to smelt ore!");
-		return;
+		firebeetle := FindFireBeetle (character);
+		if (firebeetle)
+			PlaySoundEffect (firebeetle, 0x228);
+		else
+			SendSysMessage (character, "You must be near a forge to smelt ore!");
+			return;
+		endif
+			
 	endif
 
 	if ( CheckSkill (character, SKILLID_MINING, difficulty, points ) )
@@ -65,6 +72,16 @@ function SmeltOre ( character , ore , ingot , difficulty , points )
 	endif    
 endfunction
 
+function FindFireBeetle (character)
+	foreach mobile in (ListMobilesNearLocation (character.x, character.y, character.z, 2, character.realm))
+		if (mobile.npctemplate == ":tokuno:firebeetle")
+			if (GetObjProperty (mobile, "master") == character.serial)
+				return mobile;
+			endif
+		endif
+	endforeach
+	return 0;
+endfunction
 
 
 
