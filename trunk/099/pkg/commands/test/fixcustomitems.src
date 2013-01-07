@@ -32,9 +32,9 @@ program textcmd_start( character)
 	endforeach	
 
 	var x, y;
-	for (x := 6144 ; x > 64 ; x := x  - 128)
-		for( y := 64; y < 4096; y := y + 128 )
-			foreach item in ListObjectsInBox (x-64, y-64, -128, x+64, y+64, +127, REALM_BRITANNIA)
+	for (x := 63 ; x < 7168 ; x := x  + 128)
+		for( y := 63; y < 4096; y := y + 128 )
+			foreach item in ListObjectsInBox (x-63, y-63, -128, x+64, y+64, +127, REALM_BRITANNIA)
 				FixCustomItemGraphic(item);
 
 				if (item.isa (POLCLASS_CONTAINER))

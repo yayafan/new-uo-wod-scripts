@@ -14,13 +14,13 @@ program cast_mark (parms, spellid)
 		return 0;
 	endif
 
-	if (caster.x > 5118)
+	if (caster.realm == REALM_BRITANNIA and caster.x > 5118)
 		sendsysmessage (caster, "Blocked!");
 		return 0;
 	endif
 
 	//seal off Buccaneer's Den from outside gates
-	if (caster.x > 2560 and caster.x < 2960 and caster.y > 1940 and caster.y < 2340)
+	if (caster.realm == REALM_BRITANNIA and caster.x > 2560 and caster.x < 2960 and caster.y > 1940 and caster.y < 2340)
 		SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
 		return 0;
 	endif
@@ -47,11 +47,7 @@ program cast_mark (parms, spellid)
 
 	PlayObjectCenteredEffect (caster, FX_MARK_EFFECT, 10, 10);
 	PlaySoundEffect (caster, SFX_SPELL_MARK);
-
-	SetObjProperty (cast_on, "x", caster.x);
-	SetObjProperty (cast_on, "y", caster.y);
-	SetObjProperty (cast_on, "z", caster.z);
-	SetObjProperty (cast_on, "realm", caster.realm);
+	cast_on.SetDestination (caster.x, caster.y, caster.z, caster.realm);
 
 	SetName (cast_on, "a marked recall rune");
 	return 1;
