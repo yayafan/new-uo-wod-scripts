@@ -111,6 +111,7 @@ function addRune( who, book, rune )
 
 	SendSysMessage( who, "You add the rune to the runebook." );
 	DestroyItem( rune );
+	SetBookName( book, who, 1 );
 
 	return 1;
 endfunction
