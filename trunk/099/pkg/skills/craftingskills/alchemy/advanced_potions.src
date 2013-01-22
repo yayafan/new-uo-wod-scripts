@@ -31,6 +31,13 @@ program use_product (character, potion)
 		return;
 	endif
 	
+	var multiply_factor := GetAttribute (character, ATTRIBUTEID_ALCHEMY);
+	if (multiply_factor < 60)
+		multiply_factor := 1;
+	else
+		multiply_factor := (150.0 + multiply_factor) / 200.0;
+	endif
+	
 //	var skillreq := CINT (itemdesc_elem.skillcheck);
 //	if (skillreq)
 //		if (!CheckSkill (character, SKILLID_ALCHEMY, skillreq, 0))
@@ -67,37 +74,37 @@ program use_product (character, potion)
 		0xdc21:	//Phandel's Fine Intellect potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 12 + RandomInt (6);
+			var mod_amount := CINT ((12 + RandomInt (6)) * multiply_factor);
 			var duration := 60 * 45;
 			DoTempMod (character, "int", mod_amount, duration, "Phandel Int. Pot.");
 		0xdc22:	//Phandel's Fantastic Intellect potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 14 + RandomInt (8);
+			var mod_amount := CINT ((14 + RandomInt (8)) * multiply_factor);
 			var duration := 60 * 75;
 			DoTempMod (character, "int", mod_amount, duration, "Phandel Int. Pot.");
 		0xdc23:	//lesser Mego Invulnerability potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 8 + RandomInt (5);
+			var mod_amount := CINT ((8 + RandomInt (5)) * multiply_factor);
 			var duration := 60 * 45;
 			DoTempMod(character, "ar", mod_amount, duration, "Mego Invul. Potion");
 		0xdc24:	//greater Mego Invulnerability potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 9 + RandomInt (7);
+			var mod_amount := CINT ((9 + RandomInt (7)) * multiply_factor);
 			var duration := 60 * 75;
 			DoTempMod(character, "ar", mod_amount, duration, "Mego Invul. Potion");
 		0xdc25:	//Homeric Might potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 12 + RandomInt (6);
+			var mod_amount := CINT ((12 + RandomInt (6)) * multiply_factor);
 			var duration := 60 * 45;
 			DoTempMod(character, "all", mod_amount, duration, "Homeric Might Pot.");
 		0xdc26:	//Greater Homeric Might potion
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
-			var mod_amount := 14 + RandomInt (8);
+			var mod_amount := CINT ((14 + RandomInt (8)) * multiply_factor);
 			var duration := 60 * 75;
 			DoTempMod(character, "all", mod_amount, duration, "Homeric Might Pot.");
 		0xdc27:	//Tamla Heal potion
@@ -108,7 +115,7 @@ program use_product (character, potion)
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
 			var newcolor := 1411 + RandomInt(8);
-			var mod_amount := 10 + RandomInt (6);
+			var mod_amount := CINT ((10 + RandomInt (6)) * multiply_factor);
 			var duration := 60 * 30;
 
 			DoTempMod (character, "poly", mod_amount, duration, "Taint's Trans. Pot.");
@@ -117,7 +124,7 @@ program use_product (character, potion)
 			SubtractAmount (potion, 1);
 			CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
 			var newcolor := 1431 + RandomInt(8);
-			var mod_amount := 14 + RandomInt (6);
+			var mod_amount := CINT ((14 + RandomInt (6)) * multiply_factor);
 			var duration := 60 * 45;
 	
 			DoTempMod (character, "poly", mod_amount, duration, "Taint's Trans. Pot.");

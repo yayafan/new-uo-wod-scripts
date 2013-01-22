@@ -54,7 +54,7 @@ function CanAccessLocation (character, targetted)
 			return 1;
 		endif
 
-		if (CheckLoSAt (character, targetted.item.x, targetted.item.y, targetted.item.z) )
+		if (CheckLoSBetween (character.x, character.y, character.z, targetted.item.x, targetted.item.y, targetted.item.z) )
 			if (Coordist (character.x, character.y, targetted.x, targetted.y) > 5)
 				SendSysMessage (character, "That's too far away!");
 				return 0;
@@ -70,7 +70,7 @@ function CanAccessLocation (character, targetted)
 		return 0;
 	endif
 
-	if (CheckLOSAt (character, targetted.x, targetted.y, targetted.z) )
+	if (CheckLOSBetween (character.x, character.y, character.z, targetted.x, targetted.y, targetted.z) )
 		return 1;
 	else
 		SendSysMessage (character, "You can't see that!");

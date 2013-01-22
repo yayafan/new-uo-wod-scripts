@@ -124,15 +124,15 @@ function IsWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x48ae and weapon.graphic <= 0x48d1)
 		return 1;
-endif
+	endif
 		return 0;
 endfunction
 
 function IsWoodenWeapon (byref weapon)
 
 	if (weapon.graphic == 0x906)
-    return 1;
-  elseif (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF1)
+		return 1;
+	elseif (weapon.graphic >= 0x0DF0 and weapon.graphic <= 0x0DF1)
 		return 1;
 	elseif (weapon.graphic >= 0x0E81 and weapon.graphic <= 0x0E82)
 		return 1;
@@ -185,37 +185,37 @@ function IsWoodenWeapon (byref weapon)
 endfunction
 
 function IsStoneWeapon (byref weapon)
-  if (weapon.graphic == 0x900)
-    return 1;
-  elseif (weapon.graphic == 0x4071)
-    return 1;
-  endif
-  return 0;
+	if (weapon.graphic == 0x900)
+		return 1;
+	elseif (weapon.graphic == 0x4071)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsGlassWeapon (byref weapon)
-  if (weapon.graphic == 0x905)
-    return 1;
-  elseif (weapon.graphic == 0x90c)
-    return 1;
-  elseif (weapon.graphic == 0x4070)
-    return 1;
-  elseif (weapon.graphic == 0x4073)
-    return 1;
-  endif
-  return 0;
+	if (weapon.graphic == 0x905)
+		return 1;
+	elseif (weapon.graphic == 0x90c)
+		return 1;
+	elseif (weapon.graphic == 0x4070)
+		return 1;
+	elseif (weapon.graphic == 0x4073)
+		return 1;
+	endif
+		return 0;
 endfunction
 
 
 function IsMetalWeapon (byref weapon)
 
 	if (weapon.graphic >= 0x08fd and weapon.graphic <= 0x08ff)
-    return 1;
-  elseif (weapon.graphic >= 0x0901 and weapon.graphic <= 0x0904)
 		return 1;
-  elseif (weapon.graphic >= 0x0907 and weapon.graphic <= 0x090b)
+	elseif (weapon.graphic >= 0x0901 and weapon.graphic <= 0x0904)
 		return 1;
-  elseif (weapon.graphic >= 0x0DF2 and weapon.graphic <= 0x0DF5)
+	elseif (weapon.graphic >= 0x0907 and weapon.graphic <= 0x090b)
+		return 1;
+	elseif (weapon.graphic >= 0x0DF2 and weapon.graphic <= 0x0DF5)
 		return 1;
 	elseif (weapon.graphic >= 0x0E85 and weapon.graphic <= 0x0E88)
 		return 1;
@@ -275,15 +275,15 @@ function IsMetalWeapon (byref weapon)
 		return 1;
 	elseif (weapon.graphic >= 0x2d32 and weapon.graphic <= 0x2d35)
 		return 1;
-  elseif (weapon.graphic >= 0x4067 and weapon.graphic <= 0x406e)
+	elseif (weapon.graphic >= 0x4067 and weapon.graphic <= 0x406e)
 		return 1;
-  elseif (weapon.graphic == 0x4072)
+	elseif (weapon.graphic == 0x4072)
 		return 1;
-  elseif (weapon.graphic >= 0x4074 and weapon.graphic <= 0x4076)
+	elseif (weapon.graphic >= 0x4074 and weapon.graphic <= 0x4076)
 		return 1;
-  elseif (weapon.graphic >= 0x48ae and weapon.graphic <= 0x48b7)
+	elseif (weapon.graphic >= 0x48ae and weapon.graphic <= 0x48b7)
 		return 1;
-  elseif (weapon.graphic >= 0x48ba and weapon.graphic <= 0x48d1)
+	elseif (weapon.graphic >= 0x48ba and weapon.graphic <= 0x48d1)
 		return 1;
 	endif
 		return 0;
@@ -321,40 +321,40 @@ function IsBow (byref weapon)
 endfunction
 
 function IsThrowingPouch (byref weapon)
-  if (weapon.graphic == 0x27aa)
-    return 1;
-  elseif (weapon.graphic == 0x27f5)
-    return 1;
-  endif
-  return 0;
+	if (weapon.graphic == 0x27aa)
+		return 1;
+	elseif (weapon.graphic == 0x27f5)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsThrowingWeapon (byref weapon)
-  if (weapon.graphic == 0x8ff)
-    return 1;
-  elseif (weapon.graphic == 0x901)
-    return 1;
-  elseif (weapon.graphic == 0x90a)
-    return 1;
-  elseif (weapon.graphic == 0x4067)
-    return 1;
-  elseif (weapon.graphic >= 0x406b and weapon.graphic <= 0x406c)
-    return 1;
-  endif
-  return 0;
+	if (weapon.graphic == 0x8ff)
+		return 1;
+	elseif (weapon.graphic == 0x901)
+		return 1;
+	elseif (weapon.graphic == 0x90a)
+		return 1;
+	elseif (weapon.graphic == 0x4067)
+		return 1;
+	elseif (weapon.graphic >= 0x406b and weapon.graphic <= 0x406c)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsArmor (byref armor)
 
 	if (armor.graphic >= 0x283 and armor.graphic <= 0x28a)
-    return 1;
+		return 1;
 	elseif (armor.graphic >= 0x301 and armor.graphic <= 0x30e)
 		return 1;
 	elseif (armor.graphic >= 0x310 and armor.graphic <= 0x311)
 		return 1;
 	elseif (armor.graphic >= 0x403 and armor.graphic <= 0x40a)
 		return 1;
-  elseif (armor.graphic == 0x13BB)
+	elseif (armor.graphic == 0x13BB)
 		return 1;
 	elseif (armor.graphic >= 0x13BE and armor.graphic <= 0x13C0)
 		return 1;
@@ -443,10 +443,10 @@ function IsLeatherArmor (byref armor)
 	elseif (armor.graphic == 0x1DB9 or armor.graphic == 0x1DBA)
 		return 1;
 	elseif (armor.graphic == 0x2776)
-    return 1;
-  elseif (armor.graphic == 0x2778)
-    return 1;
-  elseif (armor.graphic >= 0x277a and armor.graphic <= 0x277c)
+		return 1;
+	elseif (armor.graphic == 0x2778)
+		return 1;
+	elseif (armor.graphic >= 0x277a and armor.graphic <= 0x277c)
 		return 1;
 	elseif (armor.graphic >= 0x277e and armor.graphic <= 0x277f)
 		return 1;
@@ -461,12 +461,12 @@ function IsLeatherArmor (byref armor)
 	elseif (armor.graphic >= 0x2790 and armor.graphic <= 0x2793)
 		return 1;
 	elseif (armor.graphic == 0x279d)
-    return 1;
-  elseif (armor.graphic == 0x27c1)
-    return 1;
-  elseif (armor.graphic == 0x27c3)
-    return 1;
-  elseif (armor.graphic >= 0x27c5 and armor.graphic <= 0x27c7)
+		return 1;
+	elseif (armor.graphic == 0x27c1)
+		return 1;
+	elseif (armor.graphic == 0x27c3)
+		return 1;
+	elseif (armor.graphic >= 0x27c5 and armor.graphic <= 0x27c7)
 		return 1;
 	elseif (armor.graphic >= 0x27c9 and armor.graphic <= 0x27ca)
 		return 1;
@@ -480,14 +480,14 @@ function IsLeatherArmor (byref armor)
 		return 1;
 	elseif (armor.graphic >= 0x27db and armor.graphic <= 0x27de)
 		return 1;
-  elseif (armor.graphic == 0x27e8)
-    return 1;
+	elseif (armor.graphic == 0x27e8)
+		return 1;
 	elseif (armor.graphic >= 0x2b74 and armor.graphic <= 0x2b79)
 		return 1;
 	elseif (armor.graphic >= 0x2fc5 and armor.graphic <= 0x2fcb)
 		return 1;
-  elseif (armor.graphic == 0x315f)
-    return 1;
+	elseif (armor.graphic == 0x315f)
+		return 1;
 	elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
 		return 1;
 	elseif (armor.graphic >= 0x317b and armor.graphic <= 0x3181)
@@ -497,13 +497,13 @@ function IsLeatherArmor (byref armor)
 	elseif (armor.graphic >= 0x457e and armor.graphic <= 0x457f)
 		return 1;
 	endif
-		return 0;
+	return 0;
 endfunction
 
 function IsMetalArmor (byref armor)
 	if (armor.graphic >= 0x307 and armor.graphic <= 0x30e)
-    return 1;
-  elseif (armor.graphic == 0x13BB)
+		return 1;
+	elseif (armor.graphic == 0x13BB)
 		return 1;
 	elseif (armor.graphic >= 0x13BE and armor.graphic <= 0x13C0)
 		return 1;
@@ -520,6 +520,8 @@ function IsMetalArmor (byref armor)
 	elseif (armor.graphic >= 0x2641 and armor.graphic <= 0x2648)
 		return 1;
 	elseif (armor.graphic >= 0x2657 and armor.graphic <= 0x2658)
+		return 1;
+	elseif (armor.graphic >= 0x2689 and armor.graphic <= 0x268a)
 		return 1;
 	elseif (armor.graphic >= 0x2774 and armor.graphic <= 0x2775)
 		return 1;
@@ -560,53 +562,53 @@ function IsMetalArmor (byref armor)
 endfunction
 
 function IsHideArmor (byref armor)
-  if (armor.graphic >= 2b74 and armor.graphic <= 0x2b79)
-    return 1;
-  elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
-    return 1;
-  endif
-  return 0;
+	if (armor.graphic >= 2b74 and armor.graphic <= 0x2b79)
+		return 1;
+	elseif (armor.graphic >= 0x316b and armor.graphic <= 0x3170)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsWoodenArmor (byref armor)
-  if (armor.graphic >= 0x2b67 and armor.graphic <= 0x2b6d)
-    return 1;
-  elseif (armor.graphic >= 0x2b71 and armor.graphic <= 0x2b73)
-    return 1;
-  elseif (armor.graphic == 0x315e)
-    return 1;
-  elseif (armor.graphic >= 0x3160 and armor.graphic <= 0x3164)
-    return 1;
-  elseif (armor.graphic >= 0x3168 and armor.graphic <= 0x316a)
-    return 1;
-  endif
-  return 0;
+	if (armor.graphic >= 0x2b67 and armor.graphic <= 0x2b6d)
+		return 1;
+	elseif (armor.graphic >= 0x2b71 and armor.graphic <= 0x2b73)
+		return 1;
+	elseif (armor.graphic == 0x315e)
+		return 1;
+	elseif (armor.graphic >= 0x3160 and armor.graphic <= 0x3164)
+		return 1;
+	elseif (armor.graphic >= 0x3168 and armor.graphic <= 0x316a)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsClothArmor (byref armor)
-  if (armor.graphic >= 0x403 and armor.graphic <= 0x40a)
-    return 1;
-  elseif (armor.graphic >= 0x405f and armor.graphic <= 0x4064)
-    return 1;
-  endif
-  return 0;
+	if (armor.graphic >= 0x403 and armor.graphic <= 0x40a)
+		return 1;
+	elseif (armor.graphic >= 0x405f and armor.graphic <= 0x4064)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsStoneArmor (byref armor)
-  if (armor.graphic >= 0x283 and armor.graphic <= 0x28a)
-    return 1;
-  elseif (armor.graphic >= 0x4057 and armor.graphic <= 0x405e)
-    return 1;
-  endif
-  return 0;
+	if (armor.graphic >= 0x283 and armor.graphic <= 0x28a)
+		return 1;
+	elseif (armor.graphic >= 0x4057 and armor.graphic <= 0x405e)
+		return 1;
+	endif
+	return 0;
 endfunction
 
 function IsMedableArmor (byref armor)
 	var cfg := ReadConfigFile (":*:itemdesc");
 	if ((cfg[armor.objtype].blockcircle) && (cfg[armor.objtype].blockcircle < 6)) 
-    return 0;
-  endif
-  return 1;
+		return 0;
+	endif
+	return 1;
 endfunction
 
 function IsShield (byref shield)
@@ -633,16 +635,16 @@ function IsMetalShield (byref shield)
 		return 1;
 	elseif (shield.graphic >= 0x1BC3 and shield.graphic <= 0x1BC5)
 		return 1;
-  elseif (shield.graphic >= 0x4202 and shield.graphic <= 0x4204)
-    return 1;
-  elseif (shield.graphic >= 0x4208 and shield.graphic <= 0x420a)
-    return 1;
-  elseif (shield.graphic >= 0x4228 and shield.graphic <= 0x422a)
-    return 1;
-  elseif (shield.graphic == 0x422c)
-    return 1;
+	elseif (shield.graphic >= 0x4202 and shield.graphic <= 0x4204)
+		return 1;
+	elseif (shield.graphic >= 0x4208 and shield.graphic <= 0x420a)
+		return 1;
+	elseif (shield.graphic >= 0x4228 and shield.graphic <= 0x422a)
+		return 1;
+	elseif (shield.graphic == 0x422c)
+		return 1;
 	endif
-		return 0;
+	return 0;
 endfunction
 
 function IsWoodenShield (byref shield)
@@ -650,22 +652,22 @@ function IsWoodenShield (byref shield)
 		UOBJ_WOODEN_SHIELD:
 		UOBJ_WOODEN_KITESHIELD:
 		UOBJ_WOODEN_KITESHIELD2:
-    UOBJ_G_WOODEN_SHIELD:
-    UOBJ_G_KITESHIELD:
-    UOBJ_G_KITESHIELD2:
-    UOBJ_G_WOODEN_SHIELD2:
+		UOBJ_G_WOODEN_SHIELD:
+		UOBJ_G_KITESHIELD:
+		UOBJ_G_KITESHIELD2:
+		UOBJ_G_WOODEN_SHIELD2:
 			return 1;
 	endcase;
 	return 0;
 endfunction
 
 function IsStoneShield (byref shield)
-  case shield.graphic)
-    UOBJ_G_LARGE_STONESHIELD:
-    UOBJ_G_LARGE_STONESHIELD2:
-      return 1;
-  endcase
-  return 0;
+	case shield.graphic)
+		UOBJ_G_LARGE_STONESHIELD:
+		UOBJ_G_LARGE_STONESHIELD2:
+			return 1;
+	endcase
+	return 0;
 endfunction
 
 function IsClothing (byref clothes)
@@ -690,80 +692,80 @@ function IsClothing (byref clothes)
 	elseif (clothes.graphic >= 0x2305 and clothes.graphic <= 0x2310)
 		return 1;
 	endif
-  case (clothes.graphic)
-    0x2782:
-    0x2783:
-    0x278f:
-    0x2794:
-    0x2796:
-    0x2797:
-    0x2798:
-    0x2799:
-    0x279a:
-    0x279b:
-    0x279c:
-    0x27a0:
-    0x27a1:
-    0x27cd:
-    0x27ce:
-    0x27da:
-    0x27df:
-    0x27e1:
-    0x27e2:
-    0x27e3:
-    0x27e4:
-    0x27e5:
-    0x27e6:
-    0x27e7:
-    0x27eb:
-    0x27ec:
-    0x2fb9:
-    0x2fba:
-    0x2fc3:
-    0x2fc4:
-    0x3173:
-    0x3174:
-    0x3175:
-    0x3176:
-    0x3177:
-    0x3178:
-    0x3179:
-    0x317a:
-    0x4000:
-    0x4001:
-    0x4002:
-    0x4003:
-    0x405f:
-    0x4060:
-    0x4061:
-    0x4062:
-    0x4063:
-    0x4064:
-    0x4065:
-    0x4066:
-    0x41d8:
-    0x41d9:
-    0x42de:
-    0x42df:
-    0x450d:
-    0x450e:
-    0x457e:
-    0x457f:
-    0x45a4:
-    0x45a5:
-    0x45b1:
-    0x45b3:
-    0x4644:
-    0x4645:
-    0x46aa:
-    0x46ab:
-    0x46b4:
-    0x46b5:
-    0x50d8:
-    0x50d9:
-      return 1;
-    endcase
-		return 0;
+	case (clothes.graphic)
+		0x2782:
+		0x2783:
+		0x278f:
+		0x2794:
+		0x2796:
+		0x2797:
+		0x2798:
+		0x2799:
+		0x279a:
+		0x279b:
+		0x279c:
+		0x27a0:
+		0x27a1:
+		0x27cd:
+		0x27ce:
+		0x27da:
+		0x27df:
+		0x27e1:
+		0x27e2:
+		0x27e3:
+		0x27e4:
+		0x27e5:
+		0x27e6:
+		0x27e7:
+		0x27eb:
+		0x27ec:
+		0x2fb9:
+		0x2fba:
+		0x2fc3:
+		0x2fc4:
+		0x3173:
+		0x3174:
+		0x3175:
+		0x3176:
+		0x3177:
+		0x3178:
+		0x3179:
+		0x317a:
+		0x4000:
+		0x4001:
+		0x4002:
+		0x4003:
+		0x405f:
+		0x4060:
+		0x4061:
+		0x4062:
+		0x4063:
+		0x4064:
+		0x4065:
+		0x4066:
+		0x41d8:
+		0x41d9:
+		0x42de:
+		0x42df:
+		0x450d:
+		0x450e:
+		0x457e:
+		0x457f:
+		0x45a4:
+		0x45a5:
+		0x45b1:
+		0x45b3:
+		0x4644:
+		0x4645:
+		0x46aa:
+		0x46ab:
+		0x46b4:
+		0x46b5:
+		0x50d8:
+		0x50d9:
+			return 1;
+	endcase
+	return 0;
 endfunction
 
 
@@ -797,10 +799,10 @@ function IsAHat (item)
 		UOBJ_TRIBAL_MASK2:
 		UOBJ_TRIBAL_MASK3:
 		UOBJ_TRIBAL_MASK4:
-    0x278f:
-    0x2798:
-    0x27da:
-    0x27e3:
+		0x278f:
+		0x2798:
+		0x27da:
+		0x27e3:
 			return 1;
 	endcase
 
@@ -906,8 +908,9 @@ function IsReagent (byref item)
 		0x0F7D:	//VIAL OF BLOOD
 		0x0F8F:	//VOLCANIC ASH
 		0x0F91:	//WYRMS HEART
-		return 1;
-		default: return 0;
+			return 1;
+		default:
+			return 0;
 	endcase
 endfunction
 
@@ -1005,11 +1008,11 @@ function IsStackableItem (byref item)
 		UOBJ_GREATER_CURE_POTION:
 		UOBJ_NIGHTSIGHT_POTION:
 		UOBJ_EGG:
-          UOBJ_HIDE:
-          UOBJ_BROWN_HIDE:
-          UOBJ_RED_HIDE:
-          UOBJ_BLUE_HIDE:
-          UOBJ_GREEN_HIDE:
+		UOBJ_HIDE:
+		UOBJ_BROWN_HIDE:
+		UOBJ_RED_HIDE:
+		UOBJ_BLUE_HIDE:
+		UOBJ_GREEN_HIDE:
 		UOBJ_SILVER_HIDE:
 		UOBJ_BANDAGE:
 		UOBJ_ARROW:
@@ -1018,30 +1021,30 @@ function IsStackableItem (byref item)
 		UOBJ_REAPER_HEARTWOOD:
 		UOBJ_ENT_HEARTWOOD:
 		UOBJ_ENCHANTED_BONE:
-          UOBJ_RAW_RIB:
-          UOBJ_RAW_FISHSTEAK:
-          UOBJ_RAW_BIRD:
-          UOBJ_RAW_HAM:
-          UOBJ_BACON_SLAB:
-          UOBJ_RAW_SAUSAGE:
-          UOBJ_HONEY:
-          UOBJ_CARROT:
-          UOBJ_APPLE:
-          UOBJ_PEACH:
-          UOBJ_LEMON:
-          UOBJ_LIME:
-          UOBJ_BANANA:
-          UOBJ_PEAR:
-          UOBJ_GRAPES:
-          UOBJ_DATES:
-          UOBJ_PUMPKIN:
-          UOBJ_LETTUCE:
-          UOBJ_CABBAGE:
-          UOBJ_ONION:
-          UOBJ_TURNIP:
-          UOBJ_COCONUT:
-          UOBJ_RAW_CHICKEN_LEG:
-          UOBJ_RAW_LEG_OF_LAMB:
+		UOBJ_RAW_RIB:
+		UOBJ_RAW_FISHSTEAK:
+		UOBJ_RAW_BIRD:
+		UOBJ_RAW_HAM:
+		UOBJ_BACON_SLAB:
+		UOBJ_RAW_SAUSAGE:
+		UOBJ_HONEY:
+		UOBJ_CARROT:
+		UOBJ_APPLE:
+		UOBJ_PEACH:
+		UOBJ_LEMON:
+		UOBJ_LIME:
+		UOBJ_BANANA:
+		UOBJ_PEAR:
+		UOBJ_GRAPES:
+		UOBJ_DATES:
+		UOBJ_PUMPKIN:
+		UOBJ_LETTUCE:
+		UOBJ_CABBAGE:
+		UOBJ_ONION:
+		UOBJ_TURNIP:
+		UOBJ_COCONUT:
+		UOBJ_RAW_CHICKEN_LEG:
+		UOBJ_RAW_LEG_OF_LAMB:
 			return 1;
 	endcase
 	
@@ -1077,10 +1080,10 @@ function IsLeatherBoots (byref item)
 		return 1;
 	elseif (item.graphic >= 0x2307 and item.graphic <= 0x2308)
 		return 1;
-  elseif (item.graphic == 0x2fc4)
-    return 1;
-  elseif (item.graphic == 0x317a)
-    return 1;
+	elseif (item.graphic == 0x2fc4)
+		return 1;
+	elseif (item.graphic == 0x317a)
+		return 1;
 	endif
 	return 0;
 endfunction
@@ -1155,8 +1158,8 @@ function IsGargishItem(byref item)
 	elseif(item.graphic >= 0x45a4 and item.graphic <= 0x45a5)
 		return 1;
 	elseif(item.graphic == 0x45b1)
-    return 1;
-  elseif(item.graphic == 0x45b3)
+		return 1;
+	elseif(item.graphic == 0x45b3)
 		return 1;
 	elseif(item.graphic >= 0x4644 and item.graphic <= 0x4645)
 		return 1;
@@ -1226,27 +1229,27 @@ endfunction
 function IsWand(byref item)
 	if(item.graphic >= 0x0df2 and item.graphic <= 0x0df5)
 		return 1;
-  endif
-  return 0;
+	endif
+	return 0;
 endfunction
 
 function IsLogType(byref item)
-  if (item.objtype == UOBJ_LOG)
-    return 1;
-  elseif (item.objtype == UOBJ_OAKLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_ASHLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_YEWLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_HEARTWOODLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_BLOODWOODLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_FROSTWOODLOG)
-    return 1;
-  elseif (item.objtype == UOBJ_SUNWOODLOG)
-    return 1;
-  endif
-  return 0;
+	if (item.objtype == UOBJ_LOG)
+		return 1;
+	elseif (item.objtype == UOBJ_OAKLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_ASHLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_YEWLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_HEARTWOODLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_BLOODWOODLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_FROSTWOODLOG)
+		return 1;
+	elseif (item.objtype == UOBJ_SUNWOODLOG)
+		return 1;
+	endif
+	return 0;
 endfunction

@@ -72,6 +72,9 @@ function HealPatient (healer, patient, bandages)
 	endif
 
 	difficulty := difficulty + difficulty_mod;
+	if (patient.acctname)
+		difficulty := CINT (difficulty / 2);
+	endif
 	SubtractAmount (bandages, 1);
 
 	var waspoisoned := 0;

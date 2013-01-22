@@ -16,7 +16,7 @@ function RestockInventory (merchanttype, byref inventory)
 
 	foreach item in ListRootItemsInContainer ( inventory )
 		if ( item.quality )
-			item.quality := randomint (50) + 50;
+			item.quality := 1;
 			item.hp := item.maxhp;
 		endif
 	endforeach

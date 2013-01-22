@@ -40,6 +40,9 @@ program itemdata(xObject)
 	else
 		if (xObject.isa(POLCLASS_ARMOR))
 			var armordesc := GetItemDescriptor(xObject.objtype);
+			if (xObject.ar_mod > 0)
+				xDesc := xDesc + Html + "Armor Bonus: +" + xObject.ar_mod + "<br>";
+			endif
 			xDesc := xDesc + Html + "Armor Rating: " + xObject.ar + "<br>";
 			if (armordesc.strrequired)
 				xDesc := xDesc + Html + "Strength Required: " + CINT(armordesc.strrequired/10) + "<br>";
@@ -85,7 +88,10 @@ program itemdata(xObject)
 			endif
 			var weapondesc := GetItemDescriptor(xObject.objtype);
 			var damagefactor := (xObject.hp * xObject.quality)/xObject.maxhp;
-			xDesc := xDesc + Html + "Damage: " + CINT((weapondesc.MinDamage + xObject.dmg_mod)*damagefactor) + " - " + CINT((weapondesc.MaxDamage + xObject.dmg_mod)*damagefactor) + "<br>";
+			if (xObject.dmg_mod > 0)
+				xDesc := xDesc + Html + "Damage Bonus: +" + xObject.dmg_mod + "<br>";
+			endif
+			xDesc := xDesc + Html + "Damage Range: " + CINT((weapondesc.MinDamage + xObject.dmg_mod)*damagefactor) + " - " + CINT((weapondesc.MaxDamage + xObject.dmg_mod)*damagefactor) + "<br>";
 			xDesc := xDesc + Html + "Skill: " + xObject.attribute + "<br>";
 			var skillid := GetObjProperty(xObject, "skilladv");
 			if (GetObjProperty (xObject, "skill"+skillid))
@@ -123,7 +129,7 @@ program itemdata(xObject)
 			var charges := GetObjProperty (xObject, "%Charges%");
 			xDesc := xDesc + Html + CINT ((GetObjProperty (xObject, "%RuneList%")).size()) + " runes<br>";
 			xDesc := xDesc + Html + "Charges: " + charges.charges + " / " + charges.max_charges + "<br>";
-		elseif (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE))
+		elseif (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE) and !(GetObjProperty (xObject, "lockpicking") and xObject.locked))
 			xDesc := xDesc + Html + "Contains: " + CINT(xObject.item_count-1) + " items<br>";
 		elseif (xObject.isa(POLCLASS_SPELLBOOK))
 			xDesc := xDesc + Html + xObject.spells().size() + " spells<br>";

@@ -208,7 +208,7 @@ function Craft_IndexGump( who, skill_name  )
 	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 125 );
  
         //Notice Section
-	GFResizePic( gump, 18, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 490, 50 );
+	GFResizePic( gump, 15, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 494, 50 );
  
 	GFTextLine( gump, 65, 393, 1322, "Exit" );
 	GFAddButton( gump, 30, 392, 4017, 4019, GF_CLOSE_BTN, 1 );
@@ -318,7 +318,7 @@ function GFCraftNewPage( who, byref gump, skill_config, MenuName )
 			GFTextLine( gump, 240, 261, 1322, "Previous Page" );
 		endif
   
-		GFTextLine( gump, ItemX, ItemY-2, 1153, ( ""+ Lower( itemdesc )));
+		GFTextLine( gump, ItemX, ItemY-2, 1153, ( ""+  itemdesc ));
 		GFAddButton( gump, ButtonX, ( ItemY-3 ), 4005, 4007, GF_CLOSE_BTN, objtype );
   
 		if( menu_config["Setup"].Info == 1 )
@@ -367,69 +367,72 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFResizePic( gump, 15, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 197, 280 );
 	GFTextLine( gump, 100, 48, 1322, "ITEM" );
  
-        var graphic := CInt (elem.preview);
+        var graphic := CInt( thisitem.graphic );
 	if( !graphic )
-		graphic := CInt( thisitem.graphic );
-		if( !graphic )
-			graphic := CInt( objtype );
-		endif
+		graphic := CInt( objtype );
 	endif
  
 	GFTilePic( gump, 90, 100, CInt( graphic ), thisitem.color );
+	
+        graphic := CInt (elem.preview);
+	if( graphic )
+		GFTilePic( gump, 90, 140, CInt( graphic ), thisitem.color );
+	endif
 
         //SKILLS Background
-	GFResizePic( gump, 215, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
+	GFResizePic( gump, 215, 45, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 130 );
 	GFTextLine( gump, 342, 48, 1322, "SKILLS" );
  
+        var schance := CStr( Craft_SkillCheck( who, elem ))+"%";
+	GFTextLine( gump, 250, 70, 1153, "Success Chance:" );
+	GFTextLine( gump, 455, 70, 1153, schance );
+	
+	if( elem.Exceptional == 1 )
+		var echance := echance := CStr( Craft_ExpCheck( who, elem ))+"%";
+		if (!echance)
+			echance := 0;
+		endif
+		GFTextLine( gump, 250, 90, 1153, "Exceptional Chance:" );
+		GFTextLine( gump, 455, 90, 1153, echance );
+	endif
+	
  	var skill_req := CDbl( elem.skill ),
             skill2 := elem.Skill2,
             skill2_req := elem.Difficulty2;
  
-	GFTextLine( gump, 250, 130, 1153, ( ""+display_skill+" required:" ));
-	GFTextLine( gump, 460, 130, 1153, ( ""+skill_req ));
+	GFTextLine( gump, 250, 110, 1153, ( ""+display_skill+" required:" ));
+	GFTextLine( gump, 460, 110, 1153, ( ""+skill_req ));
  
 	if( skill2 )
-		GFTextLine( gump, 250, 150, 1153, ( ""+skill2+" required" ));
-		GFTextLine( gump, 460, 150, 1153, ( ""+skill2_req ));
+		GFTextLine( gump, 250, 130, 1153, ( ""+skill2+" required" ));
+		GFTextLine( gump, 460, 130, 1153, ( ""+skill2_req ));
 	endif
 
-        var schance := CStr( Craft_SkillCheck( who, elem ))+"%";
-	GFTextLine( gump, 250, 70, 1153, "Success Chance:" );
-	GFTextLine( gump, 455, 70, 1153, schance );
 
-	var echance := 0;
-	if( elem.Exceptional == 1 )
-		echance := CStr( Craft_ExpCheck( who, elem ))+"%";
-	endif
-
-	if( echance )
-		GFTextLine( gump, 250, 90, 1153, "Exceptional Chance:" );
-		GFTextLine( gump, 455, 90, 1153, echance );
-	endif
 
         //MATERIALS Background
-	GFResizePic( gump, 215, 198, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
-	GFTextLine( gump, 329, 201, 1322, "MATERIALS" );
+	GFResizePic( gump, 215, 178, GFGetCfgConst( "Defaults", "ForeGround" ), 295, 150 );
+	GFTextLine( gump, 329, 181, 1322, "MATERIALS" );
  
 	var mat_parms := GetMaterials( elem ),
 		mat_name := mat_parms[1],
 		material := mat_parms[2];
             
-	GFHTMLArea( gump, 250, 225, 270, 80, ( "<basefont color=#ffffff>"+mat_name ) );
+	GFHTMLArea( gump, 250, 205, 270, 80, ( "<basefont color=#ffffff>"+mat_name ) );
 	if( material )
-		GFHTMLArea( gump, 460, 225, 30, 80, ( "<basefont color=#ffffff>"+material ));
+		GFHTMLArea( gump, 460, 205, 30, 80, ( "<basefont color=#ffffff>"+material ));
 	endif
 
         //Bottom Background
 	GFResizePic( gump, 15, 300, GFGetCfgConst( "Defaults", "ForeGround" ), 495, 125 );
 
         //Notice Section
-	GFResizePic( gump, 18, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 490, 50 );
+	GFResizePic( gump, 15, 288, GFGetCfgConst( "BackGrounds", "GOLDTRIM" ), 494, 50 );
 	GFTextLine( gump, 30, 302, 1322, "Notices:" );
  
         var tooltip := thisitem.tooltip;
 	if( tooltip )
-		GFTextLine( gump, 170, 302, 1153, ( ""+tooltip ));
+		GFTextLine( gump, 170, 302, 1153, ( "- "+tooltip ));
         else
                 var tooltip := craft_config[objtype].tooltip;
         	if( craft_config[objtype].tooltip )
@@ -443,6 +446,23 @@ function GFCraftInfoPage( who, objtype, skill_config )
         	if( craft_config[objtype].mark == 1 )
 			GFTextLine( gump, 170, 312, 1153, "- This item may hold its maker's mark." );
 		endif
+		
+		if (craft_config[objtype].needmortar == 1)
+			if (craft_config[objtype].needburner == 1)
+				GFTextLine( gump, 170, 292, 1153, "- Requires a mortar and a heating stand to make." );
+			else
+				GFTextLine( gump, 170, 292, 1153, "- Requires a mortar to make." );
+			endif
+		else
+			if (craft_config[objtype].needburner == 1)
+				GFTextLine( gump, 170, 292, 1153, "- Requires a heating stand to make." );
+			endif
+		endif
+		
+        	if( craft_config[objtype].make_in_keg == 1 )
+			GFTextLine( gump, 170, 312, 1153, "- This potion may go into a keg." );
+		endif
+		
 	endif
 
 	GFTextLine( gump, 65, 393, 1322, "Back" );

@@ -42,8 +42,6 @@ program chrdeath (corpse, ghost)
 			ghost.RemoveReportable (reportable.serial, reportable.gameclock);
 		endforeach
 		return;
-	elseif (ghost.x >= 4413 and ghost.x <= 4428 and ghost.y >= 1152 and ghost.y <= 1162 and ghost.realm == REALM_BRITANNIA)
-		return;
 	endif
 
 	//possess a humuc

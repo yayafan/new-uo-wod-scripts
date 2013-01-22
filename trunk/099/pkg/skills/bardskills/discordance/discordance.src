@@ -34,6 +34,7 @@ program bard_discord (character)
         	return;
 	endif
 
+	SendSysmessage (character, "Discord what?");
 	var thetarg := Target (character, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
 	if (!thetarg)
 		SendSysMessage (character, "Canceled.");

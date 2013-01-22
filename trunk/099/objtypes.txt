@@ -1364,8 +1364,8 @@
 # 0x1f04 - 0x1f0a unused
 0x1f0b Orchelm armor
 # 0x1f0c - 0x1f13 unused
-0x1f14 recallrune
-0x1f15 recallrune2
+0x1f14 RecallRune runebook
+0x1f15 RecallRune2 runebook
 # 0x1f16 - 0x1f1b unused
 0x1f1c lifecrystal dundee
 # 0x1f1d - 0x1f2a unused
@@ -1535,7 +1535,9 @@
 0x2277 noblesacrificescroll chivalry
 0x2278 removecursescroll chivalry
 0x2279 sacredjourneyscroll chivalry
-# 0x227a - 0x2304 unused
+# 0x227a - 0x22c4 unused
+0x22c5 runebook2 runebook
+# 0x22c6 - 0x2304 unused
 0x2305 FlowerGarland armor
 # 0x2306 unused
 0x2307 FurBoots armor
@@ -1585,7 +1587,11 @@
 0x23a6 backstabscroll ninjitsu
 0x23a7 shadowjumpscroll ninjitsu
 0x23a8 mirrorimagescroll ninjitsu
-# 0x23a9 - 0x241e unused
+# 0x23a9 - 0x2418 unused
+0x2419 towersculpture1 decorations
+0x241a towersculpture2 decorations
+0x241b towersculpture3 decorations
+# 0x241c - 0x241e unused
 0x241f BlackWoodenDoorENE doors
 # 0x2420 unused
 0x2421 BlackWindowedDoorSSE doors
@@ -1828,7 +1834,9 @@
 0x2d46 ElvenWoodenDoorENW doors
 # 0x2d47 unused
 0x2d48 ElvenWoodenDoorESW doors
-# 0x2d49 - 0x2d4f unused
+# 0x2d49 unused
+0x2d4a DecorativeAcorn decorations
+# 0x2d4b - 0x2d4f unused
 0x2d50 spellweavingspellbook spellweaving
 0x2d51 arcanecirclescroll spellweaving
 0x2d52 giftofrenewalscroll spellweaving
@@ -2024,12 +2032,20 @@
 0x402c GargishDresser2 containers
 0x402d GargishDresser3 containers
 0x402e GargishDresser4 containers
-# 0x402f - 0x403a unused
+# 0x402f - 0x4038 unused
+0x4039 gargishcandelabra lighting
+0x403a GargishFloorMirror decorations
 0x403b audchar musicianship
 0x403c audchar2 musicianship
-# 0x403d - 0x4040 unused
+0x403d GargishPainting decorations
+# 0x403e unused
+0x403f GargishSculpture decorations
+# 0x4040 unused
 0x4041 GargishEndtable decorations
-# 0x4042 - 0x4046 unused
+0x4042 GargishVase decorations
+# 0x4043 unused
+0x4044 GargishWallMirror decorations
+# 0x4045 - 0x4046 unused
 0x4047 GargishLeatherArms armor
 0x4048 GargishLeatherArms2 armor
 0x4049 GargishLeatherChest armor
@@ -2458,7 +2474,12 @@
 0xb02c GargishCouchDeed decorations
 0xb02d GargishLongTableDeed decorations
 0xb02e GargishShortTableDeed decorations
-# 0xb02f - 0xbe33 unused
+0xb02f AbbatoirDeed decorations
+0xb030 ArcaneCircleDeed decorations
+0xb031 ArcanistStatueDeed decorations
+0xb032 SquirrelStatueDeed decorations
+0xb033 WarriorStatueDeed decorations
+# 0xb034 - 0xbe33 unused
 0xbe34 evidence drocket
 0xbe35 christmaspresent drocket
 # 0xbe36 - 0xbf00 unused
@@ -2842,7 +2863,7 @@
 0x16059 firethrowingaxe tinkering
 0x1605a frostthrowingaxe tinkering
 # 0x1605b - 0x160ff unused
-0x16100 runebook books
+0x16100 runebook runebook
 # 0x16101 - 0x161ff unused
 0x16200 SystemMoonGate moongates
 # 0x16201 - 0x16202 unused
