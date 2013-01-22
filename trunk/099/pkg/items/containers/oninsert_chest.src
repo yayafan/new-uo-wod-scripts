@@ -98,10 +98,10 @@ endfunction
 function AppendLog (who, themessage)
 	var log := Array {};
 	var prop := struct;
-	prop.+pname := "";
-	prop.+pvalue := "";
+	prop.+name := "";
+	prop.+value := "";
 	foreach line in themessage
-		prop.pvalue := line;
+		prop.value := line;
 		log.append (prop);
 	endforeach
 

@@ -31,12 +31,12 @@ function LogBadMerchantSpawn (npctemplate, x, y, rlm)
 	var log := array { };
 	var prop:= struct {};
 
-    	prop.+pname := "Unable to spawn:";
-    	prop.+pvalue := npctemplate;
+    	prop.+name := "Unable to spawn:";
+    	prop.+value := npctemplate;
 	log[1] := prop;
 
-    	prop.+pname := "Location:";
-    	prop.+pvalue := x + ", " + y + ", " + rlm;
+    	prop.+name := "Location:";
+    	prop.+value := x + ", " + y + ", " + rlm;
 	log[2] := prop;
 
 	AppendConfigFileElem (":merchantspawner:merchantspawner", "Merchant", "spawner", log);

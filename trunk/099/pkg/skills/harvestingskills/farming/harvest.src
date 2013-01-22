@@ -204,7 +204,7 @@ function LogTreeDestruction (character, tree);
 		"IP address: " + character.ip,
 		"Tree name: " + tree.desc,
 		"Tree serial: " + tree.serial,
-		"Position: " + tree.x + ", " + tree.y
+		"Position: " + tree.x + ", " + tree.y + ", " + tree.realm
 	};
 	AppendLog (character, themessage);
 endfunction
@@ -219,10 +219,10 @@ endfunction
 function AppendLog (who, themessage)
 	var log := array {};
 	var prop := struct {};
-	prop.+pname := "";
-	prop.+pvalue := "";
+	prop.+name := "";
+	prop.+value := "";
 	foreach line in themessage
-		prop.pvalue := line;
+		prop.value := line;
 		log.append (prop);
 	endforeach
 

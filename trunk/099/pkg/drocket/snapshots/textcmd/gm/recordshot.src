@@ -69,8 +69,8 @@ endprogram
 function AddPropertyToElem( propname, propvalue )
 
 	if ( (!propvalue) and (propvalue != 0) ) return; endif
-	prop.pname := propname;
-	prop.pvalue := propvalue;
+	prop.name := propname;
+	prop.value := propvalue;
 	entry.append( prop );
 
 endfunction

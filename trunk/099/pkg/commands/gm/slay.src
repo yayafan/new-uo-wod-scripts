@@ -20,8 +20,8 @@ program textcmd_kill (character)
 	if (targetted.acctname)
 		var prop := struct {};
 		var thelog := array{ };
-		prop .+ pname := character.acctname + " " + character.name + " used the kill command!";
-		prop .+ pvalue := "and " + targetted.acctname + " " + targetted.name + " got killed!";
+		prop .+ name := character.acctname + " " + character.name + " used the kill command!";
+		prop .+ value := "and " + targetted.acctname + " " + targetted.name + " got killed!";
 		var elemkey := character.name + "(" + character.acctname + ")";
 		thelog[1] := prop;
 		AppendConfigFileElem ( "helppages", "KILLED BY: ", elemkey, thelog );

@@ -32,28 +32,28 @@ program questloc( character )
 
     var props := array;
     var prop := struct;
-    prop .+ pname;
-    prop .+ pvalue;
+    prop .+ name;
+    prop .+ value;
 
-    prop.pname := "Name";
-    prop.pvalue := loc_descr;
+    prop.name := "Name";
+    prop.value := loc_descr;
     props[1] := prop;
 
-    prop.pname := "x";
-    prop.pvalue := where.x;
+    prop.name := "x";
+    prop.value := where.x;
     props[2] := prop;
 
-    prop.pname := "y";
-    prop.pvalue := where.y;
+    prop.name := "y";
+    prop.value := where.y;
     props[3] := prop;
 
-    prop.pname := "rangex";
-    prop.pvalue := rangex;
+    prop.name := "rangex";
+    prop.value := rangex;
         
     props[4] := prop;
 
-    prop.pname := "rangey";
-    prop.pvalue := rangey;
+    prop.name := "rangey";
+    prop.value := rangey;
         
    
     AppendConfigFileElem( "questlocs", "questloc", elemkey, props );
