@@ -517,8 +517,8 @@ function LogFoundItem (character, message)
 	var log := array{ };
 	var prop:= struct {};
 
-    	prop.+pname := "line:";
-    	prop.+pvalue := message;
+    	prop.+name := "line:";
+    	prop.+value := message;
 	log[1] := prop;
 
 	AppendConfigFileElem (":drocket:inactive_accounts", "Item", "Stuff", log);

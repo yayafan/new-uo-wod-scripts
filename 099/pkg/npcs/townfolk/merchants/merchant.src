@@ -495,14 +495,14 @@ function LogSold (byref who)
 
 	var logfile := array { };
 	var prop:= struct {};
-    	prop .+ pname;
-    	prop .+ pvalue;
+    	prop .+ name;
+    	prop .+ value;
 
 	foreach item in EnumerateItemsInContainer( inv_pb )
 		if ( (GetObjProperty(item, "ownerserial")) and 
 		   (GetObjProperty(item, "ownerserial") != who.serial) )
-			prop.pname := "Owned by: "+ GetObjProperty(item, "ownername");
-			prop.pvalue := "item: " + item.name;
+			prop.name := "Owned by: "+ GetObjProperty(item, "ownername");
+			prop.value := "item: " + item.name;
 			logfile.append( prop );
 		endif
 

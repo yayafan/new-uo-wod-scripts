@@ -264,24 +264,24 @@ function LogThisItem (item, acctname, charactername, ownerserial)
 	var log := array{ };
 	var prop:= struct {};
 
-    	prop.+pname := "Account name:";
- 	prop.+pvalue := acctname;
+    	prop.+name := "Account name:";
+ 	prop.+value := acctname;
 	log[1] := prop;
 
-    	prop.pname := "Character name:";
- 	prop.pvalue := charactername;
+    	prop.name := "Character name:";
+ 	prop.value := charactername;
 	log[2] := prop;
 
-    	prop.pname := "Item";
- 	prop.pvalue := item.desc;
+    	prop.name := "Item";
+ 	prop.value := item.desc;
 	log[3] := prop;
 
- 	prop.pname := "Ownername";
+ 	prop.name := "Ownername";
 	var owner := SystemFindObjectBySerial (ownerserial, SYSFIND_SEARCH_OFFLINE_MOBILES);
 	if (owner)
- 		prop.pvalue := owner.name;
+ 		prop.value := owner.name;
 	else
- 		prop.pvalue := "Unknown";
+ 		prop.value := "Unknown";
 	endif
 	log[4] := prop;
 	
