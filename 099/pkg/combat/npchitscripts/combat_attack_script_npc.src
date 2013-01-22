@@ -140,7 +140,7 @@ program combat_attack_script (parms)
 	
 	if (GetAttribute (attacker, ATTRIBUTEID_POISONING))
 		DoNPCPoisonHit (attacker, defender);
-		QuickAwardRawAttributePoints (defender, ATTRIBUTEID_POISONING, 15);
+		QuickAwardRawAttributePoints (attacker, ATTRIBUTEID_POISONING, 15);
 	endif
 	return 1;
 endprogram

@@ -33,6 +33,7 @@ program bard_provoke (character)
         	return;
 	endif
 
+	SendSysmessage (character, "Provoke what?");
 	var thetarg := Target (character, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
 	if (!thetarg)
 		SendSysMessage (character, "Canceled.");

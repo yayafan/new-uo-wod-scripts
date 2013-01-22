@@ -71,8 +71,17 @@ function SpinYarn (character, raw_material)
 		SendSysMessage (character, "You must be closer to a spinning wheel.");
 		return;
 	endif
+	
+	case (spinning_wheel.graphic)
+		0x2dd9:
+			spinning_wheel.graphic := 0x2e3c;
+		0x2dda:
+			spinning_wheel.graphic := 0x2e3e;
+		default: 
+			spinning_wheel.graphic := spinning_wheel.objtype + 1;
+	endcase
 
-	spinning_wheel.graphic := spinning_wheel.objtype + 1;
+	
 	sleep(2);
 	spinning_wheel.graphic := spinning_wheel.objtype;
 
@@ -104,7 +113,9 @@ function FindASpinningWheelNear (character)
 			return item;
 		elseif (item.objtype == 0x101E)
 			return item;
-		elseif (item.objtype == 0x2E3C)
+		elseif (item.objtype == 0x2dd9)
+			return item;
+		elseif (item.objtype == 0x2dda)
 			return item;
 		endif
 	endforeach

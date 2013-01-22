@@ -106,8 +106,8 @@ function StatIncrease (who)
 
 	if (unmod_str < 30 and RandomInt (2) and unmod_str < maxstr)
 		SetAttributeBaseValue (who, "Strength", unmod_str*10 + 10);
-	elseif ( (unmod_str < maxstr) and (RandomInt(6)==1) )
-		if ( (RandomInt(120)+1 ) > unmod_str)
+	elseif ( (unmod_str < maxstr) and (RandomInt(5)==1) )
+		if ( (RandomInt(180)+1 ) > unmod_str)
 			SetAttributeBaseValue (who, "Strength", unmod_str*10 + 10);
 			RecalcVitals (who);
 		endif
@@ -115,8 +115,8 @@ function StatIncrease (who)
 
 	if (unmod_dex < 30 and RandomInt (2) and unmod_dex < maxdex)
 		SetAttributeBaseValue (who, "Dexterity", unmod_dex*10 + 10);
-	elseif ( (unmod_dex < maxdex) and (RandomInt(6)==1) )
-		if ( (RandomInt(120)+1 ) > unmod_dex)
+	elseif ( (unmod_dex < maxdex) and (RandomInt(5)==1) )
+		if ( (RandomInt(180)+1 ) > unmod_dex)
 			SetAttributeBaseValue (who, "Dexterity", unmod_dex*10 + 10);
 			RecalcVitals (who);
 		endif
@@ -124,8 +124,8 @@ function StatIncrease (who)
 
 	if (unmod_int < 30 and RandomInt (2) and unmod_int < maxint)
 		SetAttributeBaseValue (who, "Intelligence", unmod_int*10 + 10);
-	elseif ( (unmod_int < maxint) and (RandomInt(6)==1) )
-		if ( (RandomInt(120)+1 ) > unmod_int)
+	elseif ( (unmod_int < maxint) and (RandomInt(5)==1) )
+		if ( (RandomInt(180)+1 ) > unmod_int)
 			SetAttributeBaseValue (who, "Intelligence", unmod_int*10 + 10);
 			RecalcVitals (who);
 	  	endif

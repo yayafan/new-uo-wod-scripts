@@ -187,6 +187,12 @@ program torch( character , item )
 				PlaySoundEffect (item, 0x226);
 		0x24c9:	item.graphic := 0x24ca;
 		
+		//gargish candelabra
+		0x4039:	item.graphic := 0x40be;
+				item.facing := 29;
+				PlaySoundEffect (item, 0x226);
+		0x40be:	item.graphic := 0x4039;
+		
 		default:
 			SendSysMessage (character, "You don't know how to use that.");
 			return;

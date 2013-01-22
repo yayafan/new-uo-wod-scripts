@@ -6,7 +6,6 @@ include "include/objtype";
 program trash (parms)
 	var trashcan := parms[1];
 	var who := parms[2];
-	Syslog ("Trash script running!");
 	var trashitems := EnumerateItemsInContainer(trashcan);
 	if (len(trashitems))
 

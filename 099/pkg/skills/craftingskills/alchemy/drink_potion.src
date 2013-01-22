@@ -17,6 +17,13 @@ program drink_potion (character, potion)
 		SendSysMessage (character, "You can't use that potion!");
 		return;
 	endif
+	
+	var multiply_factor := GetAttribute (character, ATTRIBUTEID_ALCHEMY);
+	if (multiply_factor < 60)
+		multiply_factor := 1;
+	else
+		multiply_factor := (100.0 + multiply_factor) / 100.0;
+	endif
 
 	//These potions don't have a time delay
 	case (potion.objtype)
@@ -52,7 +59,7 @@ program drink_potion (character, potion)
 
 		//The Agility Potions
 		0xdc0b:	//a lesser agility potion
-				var mod_amount := RandomInt (5)+6;
+				var mod_amount := CINT (multiply_factor * RandomInt (5)+6);
 				DoMagicStatMod (character, STATMOD_DEX, mod_amount, 600, "L. Agility Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -60,7 +67,7 @@ program drink_potion (character, potion)
 				PlayObjectCenteredEffect( character, EFFECT_BLUE_SPARKLE, 10, 10);
 				return;
 		0xdc0c:	//an agility potion
-				var mod_amount := RandomInt (6)+8;
+				var mod_amount := CINT (multiply_factor * RandomInt (6)+8);
 				DoMagicStatMod (character, STATMOD_DEX, mod_amount, 1200, "Agility Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -68,7 +75,7 @@ program drink_potion (character, potion)
 				PlayObjectCenteredEffect( character, EFFECT_BLUE_SPARKLE, 10, 10);
 				return;
 		0xdc0d:	//a greater agility potion
-				var mod_amount := RandomInt (7)+10;
+				var mod_amount := CINT (multiply_factor * RandomInt (7)+10);
 				DoMagicStatMod (character, STATMOD_DEX, mod_amount, 1800, "Gr. Agility Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -78,7 +85,7 @@ program drink_potion (character, potion)
 
 		//The Strength Potions
 		0xdc10:	//a lesser strength potion
-				var mod_amount := RandomInt (5)+6;
+				var mod_amount := CINT (multiply_factor * RandomInt (5)+6);
 				DoMagicStatMod (character, STATMOD_STR, mod_amount, 600, "L. Strength Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -86,7 +93,7 @@ program drink_potion (character, potion)
 				PlayObjectCenteredEffect( character, EFFECT_BLUE_SPARKLE, 10, 10);
 				return;
 		0xdc11:	//a strength potion
-				var mod_amount := RandomInt (6)+8;
+				var mod_amount := CINT (multiply_factor * RandomInt (6)+8);
 				DoMagicStatMod (character, STATMOD_STR, mod_amount, 1200, "Strength Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -94,7 +101,7 @@ program drink_potion (character, potion)
 				PlayObjectCenteredEffect( character, EFFECT_BLUE_SPARKLE, 10, 10);
 				return;
 		0xdc12:	//a greater strength potion
-				var mod_amount := RandomInt (7)+10;
+				var mod_amount := CINT (multiply_factor * RandomInt (7)+10);
 				DoMagicStatMod (character, STATMOD_STR, mod_amount, 1800, "Gr. Strength Pot.");
 				PlaySoundEffect (character, SFX_DRINK);
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
@@ -149,21 +156,21 @@ program drink_potion (character, potion)
 	case (potion_objtype)
 		//The Heal Potions
 		0xdc01:	//a lesser heal potion
-				var heal_amount := RandomDiceRoll("2d12+3");
+				var heal_amount := CINT (multiply_factor * RandomDiceRoll("2d12+3"));
 				HealDamage (character, heal_amount);
 				PlaySoundEffect ( character,  SFX_HEAL );
 		0xdc02:	//a heal potion
-				var heal_amount := RandomDiceRoll("3d12+3");
+				var heal_amount := CINT (multiply_factor * RandomDiceRoll("3d12+3"));
 				HealDamage (character, heal_amount);
 				PlaySoundEffect ( character,  SFX_HEAL );
 		0xdc03:	//a greater heal potion
-				var heal_amount := RandomDiceRoll("5d12+3");
+				var heal_amount := CINT (multiply_factor * RandomDiceRoll("5d12+3"));
 				HealDamage (character, heal_amount);
 				PlaySoundEffect ( character,  SFX_HEAL );
 
 		//The Refresh Potions
 		0xdc0e:	//a refresh potion
-				var refresh_amount := RandomDiceRoll("5d6+3");
+				var refresh_amount := CINT (multiply_factor * RandomDiceRoll("5d6+3"));
 				var totalstam := GetVital (character, "Stamina") + refresh_amount*100;
 				if (totalstam > GetVitalMaximumValue (character, "Stamina"))
 					totalstam := GetVitalMaximumValue (character, "Stamina");
@@ -178,7 +185,7 @@ program drink_potion (character, potion)
 				var plevel := GetPoisonLevel(character);
 				if (!plevel)
 					return;
-				elseif( (RandomInt(8)+1) > RandomInt(plevel) )
+				elseif( CINT (multiply_factor * RandomInt(8)+1) > RandomInt(plevel) )
 					PlayObjectCenteredEffect (character, EFFECT_RESIST, 10, 10);
 					CurePoison (character, SFX_CURE, "Cured!");
 				endif
@@ -187,7 +194,7 @@ program drink_potion (character, potion)
 				var plevel := GetPoisonLevel(character);
 				if (!plevel)
 					return;
-				elseif( (RandomInt(12)+1) > RandomInt(plevel) )
+				elseif( CINT (multiply_factor * RandomInt(12)+1) > RandomInt(plevel) )
 					PlayObjectCenteredEffect (character, EFFECT_RESIST, 10, 10);
 					CurePoison (character, SFX_CURE, "Cured!");
 				endif
@@ -196,7 +203,7 @@ program drink_potion (character, potion)
 				var plevel := GetPoisonLevel(character);
 				if (!plevel)
 					return;
-				elseif( (RandomInt(20)+1) > RandomInt(plevel) )
+				elseif( CINT (multiply_factor * RandomInt(20)+1) > RandomInt(plevel) )
 					PlayObjectCenteredEffect (character, EFFECT_RESIST, 10, 10);
 					CurePoison (character, SFX_CURE, "Cured!");
 				endif

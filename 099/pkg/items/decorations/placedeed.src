@@ -1269,6 +1269,123 @@ program Place_Deed (character, deed)
 			
 			CreateMultipartItemFromConfig (character, deed, sign, character.x, character.y, character.z, ":decorations:decoration_arcane_circle");
 			return;
+		0xB031:
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+		
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+	
+			case (selected_item.index)
+			1:	
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d0f, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			2:
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d0e, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			endcase
+		0xB032:
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+		
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+	
+			case (selected_item.index)
+			1:	
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d11, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			2:
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d10, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			endcase
+		0xB033:
+			var select_menu := CreateMenu ("Select facing:");
+			AddMenuItem (select_menu, 0, "North-South");
+			AddMenuItem (select_menu, 0, "East-West");
+			var selected_item := SelectMenuItem2 (character, select_menu);
+			if (!selected_item)
+				SendSysMessage (character, "Canceled.");
+				return;
+			endif
+		
+			if (characterx != character.x or charactery != character.y)
+				SendSysMessage (character, "Canceled because of move.");
+				return;
+			endif
+	
+			case (selected_item.index)
+			1:	
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d13, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			2:
+				var item := CreateItemAtLocation (character.x, character.y, character.z, 0x2d12, 1, character.realm);
+				if (item)
+					if (sign)
+						SetObjProperty (item, "lockeddown", sign.serial);
+					endif
+					SetObjProperty (item, "deedobjtype", deed.objtype);
+					DestroyItem (deed);
+				else
+					SendSysMessage (character, "Can't place it here.");
+				endif
+			endcase
 
 		default:
 			SendSysMessage (character, "That deed appears to be broken.");
