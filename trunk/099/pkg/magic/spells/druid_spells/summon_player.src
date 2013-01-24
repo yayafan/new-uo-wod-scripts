@@ -136,6 +136,7 @@ function OpenDruidGate (caster, caston)
 	SetObjProperty (gate, "GateDestY", caster.y);
 	SetObjProperty (gate, "GateDestZ", caster.z);
 	SetObjProperty (gate, "GateDestR", caster.realm);
+	gate.SetDestination (caster.x, caster.y, caster.z, caster.realm);
 
 	SetObjProperty (gate, "summoned_field", 1);
 	SetObjProperty (pregate2, "summoned_field", 1);

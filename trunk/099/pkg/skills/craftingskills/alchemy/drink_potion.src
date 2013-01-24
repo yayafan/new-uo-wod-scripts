@@ -117,6 +117,9 @@ program drink_potion (character, potion)
 				CreateItemInContainer (potion.container, UOBJ_EMPTY_BOTTLE, 1);
 				SubtractAmount (potion, 1);
 				PlayObjectCenteredEffect( character, EFFECT_BLUE_SPARKLE, 10, 10);
+				if (character.race == RACE_ELF)
+					return;
+				endif
 				if (character.x > 5260 and character.x < 5340 and character.y > 1870 and character.y < 1940)
 					character.setlightlevel (20, 0);
 					return;

@@ -37,8 +37,11 @@ function RepairItem( character, repair_skill, item:=0 )
 				if( !craft_config[item.objtype] )
 					craft_config := ReadConfigFile( ":blacksmithy:blacksmithy" );
 					if( !craft_config[item.objtype] )
-						SendSysMessage( character, "You cannot upgrade the item with your tool." );
-						return 0;
+						craft_config := ReadConfigFile( ":stonecrafting:stonecrafting" );
+						if( !craft_config[item.objtype] )
+							SendSysMessage( character, "You cannot upgrade the item with your tool." );
+							return 0;
+						endif
 					endif
 				endif
 			endif
@@ -165,8 +168,11 @@ function UpgradeItem ( character, repair_skill, item:=0 )
 				if( !craft_config[item.objtype] )
 					craft_config := ReadConfigFile( ":blacksmithy:blacksmithy" );
 					if( !craft_config[item.objtype] )
-						SendSysMessage( character, "You cannot upgrade the item with your tool." );
-						return 0;
+						craft_config := ReadConfigFile( ":stonecrafting:stonecrafting" );
+						if( !craft_config[item.objtype] )
+							SendSysMessage( character, "You cannot upgrade the item with your tool." );
+							return 0;
+						endif
 					endif
 				endif
 			endif

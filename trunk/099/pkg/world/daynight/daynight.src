@@ -32,22 +32,22 @@ program DNCycle ()
 		if ( (hour >= 6) and (hour <= 20) )
 			Broadcast ("It is dawn.");
 			DawnTransition ();
-			SetRegionLightLevel ("Background", daylight_brightness);
-			SetRegionLightLevel ("MalasBackground", daylight_brightness);
-			SetRegionLightLevel ("TokunoBackground", daylight_brightness);
-			SetRegionLightLevel ("TerMurBackground", daylight_brightness);
 			repeat
+				SetRegionLightLevel ("Background", daylight_brightness);
+				SetRegionLightLevel ("MalasBackground", daylight_brightness);
+				SetRegionLightLevel ("TokunoBackground", daylight_brightness);
+				SetRegionLightLevel ("TerMurBackground", daylight_brightness);
 				sleep(60);
 				hour := GetHour ();
 			until ((hour < 6) or (hour > 20));
 		else
 			Broadcast ("It is dusk");
 			DuskTransition ();
-			SetRegionLightLevel ("Background", nighttime_brightness);
-			SetRegionLightLevel ("MalasBackground", nighttime_brightness);
-			SetRegionLightLevel ("TokunoBackground", nighttime_brightness);
-			SetRegionLightLevel ("TerMurBackground", nighttime_brightness);
 			repeat
+				SetRegionLightLevel ("Background", nighttime_brightness);
+				SetRegionLightLevel ("MalasBackground", nighttime_brightness);
+				SetRegionLightLevel ("TokunoBackground", nighttime_brightness);
+				SetRegionLightLevel ("TerMurBackground", nighttime_brightness);
 				sleep (60);
 				hour := GetHour ();
 			until ((hour >= 6) and (hour <= 20));

@@ -46,6 +46,12 @@ use polsys;
  //1046: Cunning (cliloc1=0x106a83,cliloc2=0x106a84)
  //1047: Strength (cliloc1=0x106a85,cliloc2=0x106a86)
  //1048: Bless (cliloc1=0x106a87,cliloc2=0x106a88)
+ //1049: Sleep
+ //1050: Stone Form
+ //1051: Spell Plague
+ //1052: Nether Bolt
+ //1053: Fly (cliloc1=1112193,cliloc2=1112567)
+ 
 
 const BUFFICON_NIGHTSIGHT := 0x03E9;
 const BUFFICON_STEALTH := 0x03F4;

@@ -17,15 +17,38 @@ Const MAX_KEG_VOLUME		:= 100;
 var mymortar, myburner;
 
 program MakeAlchemyItems (who, tool)
-	if (tool.graphic == UOBJ_MORTAR)
+	if (tool.objtype == UOBJ_MORTAR)
 		mymortar := tool;
-		myburner := FindObjtypeInContainer (who.backpack, UOBJ_HEATINGSTAND);
-	elseif (tool.graphic == UOBJ_HEATINGSTAND)
+		var items := EnumerateItemsInContainer (who.backpack);
+		foreach item in items
+			if (item.objtype == UOBJ_HEATINGSTAND)
+				myburner := item;
+				break;
+			endif
+		endforeach
+	elseif (tool.objtype == UOBJ_HEATINGSTAND)
 		myburner := tool;
-		mymortar := FindObjtypeInContainer (who.backpack, UOBJ_MORTAR);
+		var items := EnumerateItemsInContainer (who.backpack);
+		foreach item in items
+			if (item.objtype == UOBJ_MORTAR)
+				mymortar := item;
+				break;
+			endif
+		endforeach
 	else
-		SendSysMessage (who, "What the heck is that?!");
-		return;
+		var items := EnumerateItemsInContainer (who.backpack);
+		foreach item in items
+			if (item.objtype == UOBJ_HEATINGSTAND)
+				myburner := item;
+				break;
+			endif
+		endforeach
+		foreach item in items
+			if (!mymortar and item.objtype == UOBJ_MORTAR)
+				mymortar := item;
+				break;
+			endif
+		endforeach
 	endif
 	if (!myburner or !ReserveItem (myburner))
 		myburner := 0;
@@ -34,28 +57,33 @@ program MakeAlchemyItems (who, tool)
 		mymortar := 0;
 	endif
 	
-	if (tool == myburner)
-		SendSysMessage (who, "Select an Alchemy Symbol to charge");
-		var alchemy_symbol := Target(who);
-		if (!alchemy_symbol)
-			SendSysMessage(who, "Cancelled. Opening Potions Menu.");
-		//if they target a alchemical symbol, charge the symbol
-		elseif ( alchemy_symbol.objtype >= 0x181d and alchemy_symbol.objtype <= 0x1828 )
-			ChargeSymbol (who, alchemy_symbol);
-			return 0;
-		endif
-	endif
-
-
 	var rinfo := sendCraftGump( who, ATTRIBUTEID_ALCHEMY );
 	if( rinfo == 0 )
 		return 0;
 	endif
 
 	var the_objtype := rinfo[1],
-	    amt := rinfo[2];
-     
-	MakeAlchemyItem ( who, tool, the_objtype, amt );
+	    amt := rinfo[2],
+	    fortify := rinfo[5];
+	
+	if (fortify)
+		if (!myburner)
+			SendSysMessage (who, "You need a heating stand to do that.");
+			return 0;
+		endif
+		SendSysMessage (who, "Select an Alchemy Symbol to charge");
+		var alchemy_symbol := Target(who);
+		if (!alchemy_symbol)
+			SendSysMessage(who, "Cancelled.");
+		//if they target a alchemical symbol, charge the symbol
+		elseif ( alchemy_symbol.objtype >= 0x181d and alchemy_symbol.objtype <= 0x1828 )
+			ChargeSymbol (who, alchemy_symbol);
+			return 0;
+		endif
+	else
+		MakeAlchemyItem ( who, tool, the_objtype, amt );
+	endif
+	
 
 	return 1;
 endprogram

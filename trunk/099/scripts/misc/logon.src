@@ -14,9 +14,6 @@ include "../pkg/world/weather/weather";
 include "../pkg/character/virtue/virtue";
 
 program logon (character)
-//	if (GetAccountProperty (character.acctname, "lbr_enabled"))
-//		SendPacket (character, "B90003");
-//	endif
 	SendPacket (character, "B9000F97DF");
 	
 //	if (!GetObjProperty (character, "#testlagfix"))
@@ -28,12 +25,13 @@ program logon (character)
 		//Now we have to move them to reset the items around them
 		if (GetObjProperty (character, "sailto"))
 			FinishSailing (character);
-//		else
-//			var oldx := character.x;
-//			var oldy := character.y;
-//			var oldz := character.z;
-//			MoveCharacterToLocation (character, 0, 0, 0, MOVECHAR_FORCELOCATION);
-//			MoveCharacterToLocation (character, oldx, oldy, oldz, MOVECHAR_FORCELOCATION);
+		else
+			var oldx := character.x;
+			var oldy := character.y;
+			var oldz := character.z;
+			var oldr := character.realm;
+			MoveObjectToLocation (character, 0, 0, 0, REALM_BRITANNIA, MOVEOBJECT_FORCELOCATION);
+			MoveObjectToLocation (character, oldx, oldy, oldz, oldr, MOVEOBJECT_FORCELOCATION);
 		endif
 //	else
 //		FinishSailing (character);
@@ -44,6 +42,9 @@ program logon (character)
 		character.carrying_capacity_mod := 100;
 	else
 		character.carrying_capacity_mod := 0;
+	endif
+	if (character.race == RACE_ELF)
+		character.setlightlevel (0, -1);
 	endif
 	if (!character.cmdlevel)
 		character.concealed := 0;
