@@ -18,7 +18,9 @@ program walk_on_moongate( mobile, gate )
 	endif
 
 	if (GetObjProperty (gate, "dark"))
-		mobile.SetLightLevel (20, 0);
+		if (mobile.race != RACE_ELF)
+			mobile.SetLightLevel (20, 0);
+		endif
 	endif
 
 	var x := GetObjProperty (gate, "DestX");
@@ -40,8 +42,10 @@ program walk_on_moongate( mobile, gate )
 	endif
 	
 	if (GetObjProperty (gate, "dark"))
-		mobile.SetLightLevel (20, 0);
-		start_script (":lighting:famine_lighting", mobile);
+		if (mobile.race != RACE_ELF)
+			mobile.SetLightLevel (20, 0);
+			start_script (":lighting:famine_lighting", mobile);
+		endif
 	endif
 
 	//special gates to T2A snow lands for snowball fights

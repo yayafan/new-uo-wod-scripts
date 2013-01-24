@@ -41,5 +41,9 @@ program cast_darkness (parms)
 		sleep (9);
 		sendevent(cast_on, ev);
 	endfor
+	if (cast_on.race == RACE_ELF)
+		sleep (caster_skill);
+		cast_on.setlightlevel ( 0, -1);
+	endif
 	return 1;
 endprogram

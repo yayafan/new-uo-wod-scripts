@@ -87,6 +87,14 @@ function MaterialSelection( who, craft_skill, type )
 		SendSysMessage( who, "That's not the proper material." );
                 return 0;
 	endif
+	
+	if (material.objtype >= UOBJ_BOLT_START and material.objtype <= UOBJ_BOLT_END)
+		material := TurnBoltsIntoCloth (who, material);
+	endif
+	if (!material)
+		return 0;
+	endif
+
 
 //	var ret_val := array{};
 //	    ret_val.Append( material );
@@ -173,3 +181,33 @@ function Craft_ConsumeMaterial( who, elem, use_objtype )
 
         return 1;
 endfunction
+
+///////////////////
+//  Turns bolts of cloth into usable cloth
+///////////////////
+
+function TurnBoltsIntoCloth (character, bolts)
+	PlaySoundEffect (character, SFX_TAILORING);
+	sleep (3);
+	var cloth := 0;
+	if (bolts.amount > 100)
+		cloth := CreateItemInBackpack (character, UOBJ_CLOTH, 5000);
+		if (cloth)
+			SubtractAmount (bolts, 100);
+		else
+			SendSysMessage (character, "Your backpack is full!");
+			return 0;
+		endif
+	else
+		var amount_of_cloth := bolts.amount * 50;
+		cloth := CreateItemInbackPack (character, UOBJ_CLOTH, amount_of_cloth);
+		if (cloth)
+			DestroyItem (bolts);
+		else
+			SendSysMessage (character, "Your backpack is full!");
+			return 0;
+		endif
+	endif
+	return cloth;
+endfunction
+

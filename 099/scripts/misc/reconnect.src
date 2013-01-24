@@ -11,9 +11,6 @@ include "../pkg/world/weather/weather";
 include "../pkg/character/virtue/virtue";
 
 program reconnect (character)
-//	if (GetAccountProperty (character.acctname, "lbr_enabled"))
-//		SendPacket (character, "B90003");
-//	endif
 	SendPacket (character, "B9000F97DF");
 
 //	if (!GetObjProperty (character, "#testlagfix"))
@@ -21,16 +18,20 @@ program reconnect (character)
 //		SendPacket(character, "BF0006000801");
 		SendPacket (character, "BC0101");
 		character.setlightlevel (0, 0);
-//		
-//		//Now we have to move them to reset the items around them
-//		var oldx := character.x;
-//		var oldy := character.y;
-//		var oldz := character.z;
-//		MoveCharacterToLocation (character, 0, 0, 0, MOVECHAR_FORCELOCATION);
-//		MoveCharacterToLocation (character, oldx, oldy, oldz, MOVECHAR_FORCELOCATION);
+		
+		//Now we have to move them to reset the items around them
+		var oldx := character.x;
+		var oldy := character.y;
+		var oldz := character.z;
+		var oldr := character.realm;
+		MoveObjectToLocation (character, 0, 0, 0, REALM_BRITANNIA, MOVEOBJECT_FORCELOCATION);
+		MoveObjectToLocation (character, oldx, oldy, oldz, oldr, MOVEOBJECT_FORCELOCATION);
 //	endif
 
 	unclone (character);
+	if (character.race == RACE_ELF)
+		character.setlightlevel (0, -1);
+	endif
 	SendSysMessage (character, "Welcome back to the World of Dreams!" );
 	if (!character.concealed)
 		PrintTextAbove (character,"[ONLINE]");
@@ -48,7 +49,7 @@ function unclone(who)
 	if ( getobjproperty(who,"clone") )
 		npc := SystemFindObjectBySerial(getobjproperty(who,"clone"));
 		if (npc)
-			KilLNPC (npc);
+			KillNPC (npc);
 		endif
 		EraseObjProperty(who,"clone");
 	endif

@@ -20,11 +20,11 @@ program test_lighting (character)
 	var charz := character.z;
 	var charr := character.realm;
 	
-	var light1 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1, charr);
+	var light1 := CreateItemAtLocation (charx, chary, charz + 1, 0x1706c, 1, charr);
 	light1.graphic := 0x1647;
 	light1.facing := 29;
 	light1.movable := 0;
-	var light2 := CreateItemAtLocation (charx, chary, charz + 1, 0x706c, 1, charr);
+	var light2 := CreateItemAtLocation (charx, chary, charz + 1, 0x1706c, 1, charr);
 	light2.graphic := 0x1647;
 	light2.facing := 36;
 	light2.movable := 0;
@@ -40,11 +40,11 @@ program test_lighting (character)
 			charr := character.realm;
 		
 			light1.movable := 1;
-		MoveObjectToLocation( light1, charx + 2, chary + 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( light1, charx + 2, chary + 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
 			light1.movable := 0;
 
 			light2.movable := 1;
-		MoveObjectToLocation( light2, charx + 2, chary - 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
+			MoveObjectToLocation( light2, charx + 2, chary - 2,charz + 1 , charr, flags := MOVEOBJECT_FORCELOCATION );
 			light2.movable := 0;
 
 			set_critical (0);
@@ -55,12 +55,18 @@ program test_lighting (character)
 			EraseObjProperty (character, "#faminelight");
 			DestroyItem (light1);
 			DestroyItem (light2);
+			if (character.race == RACE_ELF)
+				character.setlightlevel (0, -1);
+			endif
 			return;
 		endif
 		if (!CheckIfInFamine (character))
 			EraseObjProperty (character, "#faminelight");
 			DestroyItem (light1);
 			DestroyItem (light2);
+			if (character.race == RACE_ELF)
+				character.setlightlevel (0, -1);
+			endif
 			return;
 		endif
 	until (!character);
@@ -71,7 +77,9 @@ endprogram
 
 
 function CheckIfInFamine (character)
-	if (character.x > 5260 and character.x < 5340 and character.y > 1870 and character.y < 1940)
+	if (character.realm != REALM_BRITANNIA)
+		return 0;
+	elseif (character.x > 5260 and character.x < 5340 and character.y > 1870 and character.y < 1940)
 		return 1;
 	elseif (character.x > 5670 and character.x < 5870 and character.y > 780 and character.y < 1010)
 		return 1;

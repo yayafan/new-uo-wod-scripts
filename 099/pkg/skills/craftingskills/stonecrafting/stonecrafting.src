@@ -113,10 +113,10 @@ function makeStonecraftingItem( who, tool, chosen_item, amt )
 		endif
 
 		PlaySoundEffect (who, SFX_STONECRAFTING);
-		sleep (3);
+		sleep (2);
 		for i := 1 to time_delay
 			PlaySoundEffect (who, SFX_STONECRAFTING);
-			sleep (3);
+			sleep (2);
 		endfor
 		PlaySoundEffect(who, SFX_HAMMER);
 

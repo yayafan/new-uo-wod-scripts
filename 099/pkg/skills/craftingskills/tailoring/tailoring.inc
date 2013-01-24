@@ -59,16 +59,16 @@ function RepairTailoringItem (character, tool, item, repair_skill)
 	SubtractAmount (found_material, material_needed);
   
 	var durability_loss := GetObjProperty (item, "durability_loss");
-  if (!durability_loss)
-    durability_loss := 0;
-  endif
+	if (!durability_loss)
+		durability_loss := 0;
+	endif
 
-if (!CheckSkill (character, repair_skill, -1, 0) )
+	if (!CheckSkill (character, repair_skill, -1, 0) )
 		var thedamage := RandomInt(10);
-    durability_loss := durability_loss + thedamage;
-    item.maxhp_mod := item.maxhp_mod - thedamage;
-    SetObjProperty (item, "durability_loss", durability_loss);
-    item.name := item.desc;
+		durability_loss := durability_loss + thedamage;
+		item.maxhp_mod := item.maxhp_mod - thedamage;
+		SetObjProperty (item, "durability_loss", durability_loss);
+		item.name := item.desc;
 		if (item.maxhp <= 0)
 			DestroyItem (item);
 			SendSysmessage (character, "The delicate material tears when you handle it.");
@@ -93,17 +93,17 @@ if (!CheckSkill (character, repair_skill, -1, 0) )
 		skill_bonus := skill_bonus + 25;
 	endif
 
-  var damage_chance := item_damaged_amount - CINT(skill_bonus/2);
-  if (damage_chance > 120)
-    damage_chance := 120;
-  endif
-  if (!CheckSkill (character, repair_skill, damage_chance, 0) )
-    durability_loss := durability_loss + 1;
-    item.maxhp_mod := item.maxhp_mod - 1;
-    SetObjProperty (item, "durability_loss", durability_loss);
-  endif
+	var damage_chance := item_damaged_amount - CINT(skill_bonus/2);
+	if (damage_chance > 120)
+		damage_chance := 120;
+	endif
+	if (!CheckSkill (character, repair_skill, damage_chance, 0) )
+		durability_loss := durability_loss + 1;
+		item.maxhp_mod := item.maxhp_mod - 1;
+		SetObjProperty (item, "durability_loss", durability_loss);
+	endif
 	item.hp := item.maxhp;
-  item.name := item.desc;
+	item.name := item.desc;
 	SendSysMessage (character, "You repair the item completely");
 	return;
 endfunction
