@@ -309,7 +309,8 @@ function RenameHouse (character, sign)
 	elseif (len(SplitWords (newname)) > 5)
 		Sendsysmessage (character, "House sign names are limited to 5 words or less.");
 	else
-		sign.name := newname;
+		SetObjProperty (sign, "housename", newname);
+		sign.name := "A House Sign";
 	endif
 endfunction
 

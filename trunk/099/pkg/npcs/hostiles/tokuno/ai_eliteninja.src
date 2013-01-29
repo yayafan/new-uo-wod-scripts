@@ -23,6 +23,9 @@ program KillPlayers ()
 			if (item.objtype != UOBJ_MOUNT)
 				if (item.isa (POLCLASS_WEAPON))
 					item.dmg_mod := 3;
+					item.quality := 1.2;
+					item.hp := item.maxhp;
+					item.newbie := 1;
 				endif
 			endif
 		endforeach

@@ -55,9 +55,7 @@ program bard_peacemake (character)
 					endif
 
 					if (CheckSkillWithItem (character, instrument, SKILLID_PEACEMAKING, difficulty)
-							and CheckSkillWithItem (character, instrument, SKILLID_MUSICIANSHIP, -1)
-							and RandomInt (100) < 80 )
-
+							and CheckSkillWithItem (character, instrument, SKILLID_MUSICIANSHIP, -1))
 						SendEvent (mobile, ev);
 						PrintTextAbove (mobile, "*Dazzled!*");
 						SetObjProperty (mobile, "#peacemade", ReadGameClock() );

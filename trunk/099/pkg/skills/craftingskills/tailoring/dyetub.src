@@ -372,6 +372,7 @@ function IsDyableItem (character, item)
 		UOBJ_SHOES:
 		UOBJ_BOOTS:
 		UOBJ_THIGH_BOOTS:
+		0x3171:	//elven quiver
 		0x2fc4:	//elven boots
 		0x317a:	//elven boots
 		0x1b74:	//kite shield

@@ -85,8 +85,7 @@ program bard_provoke (character)
 	var success := 0;
 
 	if (CheckSkillWithItem (character, instrument, SKILLID_PROVOCATION, difficulty )
-			and (PlayNoise(character, instrument, -1, SNDTYPE_PROVOCATION))
-			 )
+			and (PlayNoise(character, instrument, -1, SNDTYPE_PROVOCATION)))
 
 		SendSysmessage (character, "Provoke onto what?");
 

@@ -404,7 +404,7 @@ function GFCraftInfoPage( who, objtype, skill_config )
 	GFTextLine( gump, 460, 110, 1153, ( ""+skill_req ));
  
 	if( skill2 )
-		GFTextLine( gump, 250, 130, 1153, ( ""+skill2+" required" ));
+		GFTextLine( gump, 250, 130, 1153, ( ""+skill2+" required:" ));
 		GFTextLine( gump, 460, 130, 1153, ( ""+skill2_req ));
 	endif
 

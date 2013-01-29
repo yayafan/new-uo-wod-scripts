@@ -1,8 +1,9 @@
-/* $Id: toolTips.src 104 2006-05-25 22:14:15Z montuz $
- *	Description: AOS Tooltips. Starter script.
- *	This packet takes awhile to get used to.
- *	HEAVILY modified by Agata
- */
+// Item data generator for tooltip packet
+//
+// Created by Agata
+// natalia_buenota@hotmail.com
+// The World of Dreams
+//
 
 use uo;
 use cfgfile;
@@ -12,148 +13,300 @@ include "include/skills";
 include "include/math";
 include "include/itemtypes";
 
-const OFFSET_OBJECT_SERIAL   := 0x05;
-const OFFSET_CLILOC_ID       := 0x0F;
-const OFFSET_LENGTH_ID       := 0x13;
-const OFFSET_UNICODE_TEXT    := 0x14;
-
+// Charges: 1049116
 program itemdata(xObject)
 	// Start of Loop.
+	//var itemdesc := ReadConfigFile (":*:itemdesc");
+	var allprops := array;
+	var prop := struct;
+	prop.+ clilocid := 0;
+	prop.+ values := array;
+	var myvar, myvar2;
 	
-	// This is where you'll be putting all your properties. <br> to break a new line.
-	// You wont need to add anymore cliloc id's because you can just add all the props
-	// into one string.
-	var Html := "<BASEFONT COLOR=#FFFFFF><C>";
-	var xDesc := "";
-	// Examples :)
-	var owner := GetObjProperty(xObject, "ownername");
-	if (owner)
-		xDesc := xDesc + Html + "Owned by " + owner + "<br>";
+	myvar := GetObjProperty(xObject, "ownername");
+	if (myvar)
+		prop.clilocid := 1072304;
+		prop.values := array {myvar};
+		allprops.append(prop);
+	endif
+	myvar := GetObjProperty(xObject, "craftername");
+	if (myvar)
+		prop.clilocid := 1050043;
+		prop.values := array {myvar};
+		allprops.append(prop);
+	endif
+	if ( xObject.newbie )
+		prop.clilocid := 1038021;
+		prop.values := array {};
+		allprops.append (prop);
+	endif
+	if (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE) and !(GetObjProperty (xObject, "lockpicking") and xObject.locked))
+		if (xObject.objtype == UOBJ_RUNEBOOK)
+			// 1049116, 1061837, 1075217, 1076207,
+			// 1112590, 
+			myvar := GetObjProperty (xObject, "%Charges%");
+			prop.clilocid := 1061837;
+			prop.values := array {myvar.charges, myvar.max_charges};
+			allprops.append (prop);
+			prop.clilocid := 1070722;
+			prop.values := array {CINT ((GetObjProperty (xObject, "%RuneList%")).size()) + " runes"};
+			allprops.append(prop);
+		else
+			prop.clilocid := 1073839;
+			prop.values := array {CINT(xObject.item_count-1), xObject.weight};
+			allprops.append (prop);
+		endif
+	elseif (!xObject.isa(POLCLASS_CORPSE) and !IsSign(xObject))
+		prop.clilocid := 1072225;
+		prop.values := array {xObject.weight};
+		allprops.append (prop);
 	endif
 	if (IsGargishItem (xObject))
-		xDesc := xDesc + Html + "For Gargoyles Only<br>";
+		prop.clilocid := 1111709;
+		prop.values := array {};
+		allprops.append(prop);
 	elseif (IsForAnyRace (xObject))
-		xDesc := xDesc + Html + "For Any Race<br>";
+		prop.clilocid := 1070722;
+		prop.values := array {"For Any Race"};
+		allprops.append(prop);
 	endif
 	if (GetObjProperty(xObject, "unidentified"))
-		xDesc := xDesc + Html + "Unidentified<br>";
+		prop.clilocid := 1038000;
+		prop.values := array {};
+		allprops.append(prop);
 	else
-		if (xObject.isa(POLCLASS_ARMOR))
-			var armordesc := GetItemDescriptor(xObject.objtype);
-			if (xObject.ar_mod > 0)
-				xDesc := xDesc + Html + "Armor Bonus: +" + xObject.ar_mod + "<br>";
+		if (xObject.isa (POLCLASS_EQUIPMENT))
+			if (xObject.isa(POLCLASS_ARMOR))
+				if (xObject.ar_mod > 0)
+					prop.clilocid := 1072382;
+					prop.values := array {xObject.ar_mod};
+					allprops.append (prop);
+					prop.clilocid := 1080361;
+					prop.values := array {xObject.ar};
+					allprops.append (prop);
+				else
+					prop.clilocid := 1060448;
+					prop.values := array {xObject.ar};
+					allprops.append (prop);
+				endif
+				myvar := GetItemDescriptor(xObject.objtype);
+				if (myvar.strrequired)
+					prop.clilocid := 1061170;
+					prop.values := array {CINT(myvar.strrequired/10)};
+					allprops.append (prop);
+				endif
+				// Have to work on this yet...
+//				if (armordesc.DexPenalty)
+//					xDesc := xDesc + Html + "-" + CINT(armordesc.DexPenalty/10) + " Dexterity" + "<br>";
+//				endif
+				if (!IsClothing(xObject))
+					if (IsMedableArmor (xObject))
+						prop.clilocid := 1060437;
+						prop.values := array {};
+						allprops.append (prop);
+					endif
+				endif
+			elseif (xObject.isa (POLCLASS_WEAPON))
+				if (GetObjProperty(xObject, "silver"))
+					prop.clilocid := 1060479;
+					prop.values := array {};
+					allprops.append (prop);
+				endif
+				myvar := GetItemDescriptor(xObject.objtype);
+				//Damage
+				myvar2 := (xObject.hp * xObject.quality)/xObject.maxhp;
+				if (xObject.dmg_mod > 0)
+					prop.clilocid := 1074762;
+					prop.values := array {xObject.dmg_mod};
+					allprops.append (prop);
+				endif
+				prop.clilocid := 1061168;
+				prop.values := array {CINT((myvar.MinDamage + xObject.dmg_mod)*myvar2), CINT((myvar.MaxDamage + xObject.dmg_mod)*myvar2)};
+				allprops.append (prop);
+				//Speed
+				prop.clilocid := 1061167;
+				prop.values := array {myvar.Speed};
+				allprops.append (prop);
+				//Handedness
+				if (myvar.TwoHanded)
+					prop.clilocid := 1061171;
+				else
+					prop.clilocid := 1061824;
+				endif
+				prop.values := array {};
+				allprops.append (prop);	
+				//Mage weapon
+				if (myvar.BlocksCastingIfInHand == 0)
+					prop.clilocid := 1062755;
+					prop.values := array {};
+					allprops.append (prop);
+				endif
+				//Skill
+				case (xObject.attribute)
+					"Swordsmanship": prop.clilocid := 1061172;
+					"Macefighting": prop.clilocid := 1061173;
+					"Fencing": prop.clilocid := 1061174;
+					"Archery": prop.clilocid := 1061175;
+					"Throwing": prop.clilocid := 1112075;
+					default: prop.clilocid := 1060400;
+				endcase
+				prop.values := array {};
+				allprops.append(prop);
+			
 			endif
-			xDesc := xDesc + Html + "Armor Rating: " + xObject.ar + "<br>";
-			if (armordesc.strrequired)
-				xDesc := xDesc + Html + "Strength Required: " + CINT(armordesc.strrequired/10) + "<br>";
+			myvar := GetObjProperty(xObject, "skilladv");
+			myvar2 := GetObjProperty (xObject, "skill"+myvar);
+			if (myvar2)
+				myvar2 := GetSkillName(myvar);
+				prop.clilocid := 1060451;
+				prop.values := array {myvar2, GetObjProperty (xObject, "skill"+myvar)};
+				allprops.append (prop);
 			endif
-//			if (armordesc.DexPenalty)
-//				xDesc := xDesc + Html + "-" + CINT(armordesc.DexPenalty/10) + " Dexterity" + "<br>";
-//			endif
 			if (xobject.resist_poison)
-				xDesc := xDesc + Html + "Poison Protection: " + xObject.resist_poison + " charges<br>";
+				prop.clilocid := 1072385;
+				prop.values := array {xObject.resist_poison};
+				allprops.append (prop);
 			endif
-			var charges := GetObjProperty(xObject, "charges");
-			if (charges)
-				var spell := "";
+			myvar := GetObjProperty(xObject, "charges");
+			if (myvar)
+				myvar2 := "";
 				if (xobject.resist_fire)
-					xDesc := xDesc + Html + "Fire Resistance: " + xObject.resist_fire + " charges<br>";
-					spell := "f";
+					prop.clilocid := 1072383;
+					prop.values := array {xObject.resist_fire};
+					allprops.append (prop);
+					myvar2 := "f";
 				endif
 				if (xobject.resist_cold)
-					xDesc := xDesc + Html + "Frost Resistance: " + xObject.resist_cold + " charges<br>";
-					spell := "c";
+					prop.clilocid := 1072384;
+					prop.values := array {xObject.resist_cold};
+					allprops.append (prop);
+					myvar2 := "c";
 				endif
 				if (xobject.resist_energy)
-					xDesc := xDesc + Html + "Electrical Resistance: " + xObject.resist_energy + " charges<br>";
-					spell := "e";
+					prop.clilocid := 1072386;
+					prop.values := array {xObject.resist_energy};
+					allprops.append (prop);
+					myvar2 := "e";
 				endif
-				if (spell == "")
-					spell := GetObjProperty(xObject, "itemspellname");
-					if (!spell)
-						spell := "Spell";
+				if (myvar2 == "")
+					// 1017324-1017371, 1049116, 1060487-1060492, 1061837,
+					// 1062412-1062416, 1072852-1072853, 1075217, 1076207,
+					// 1112590, 
+					myvar2 := GetObjProperty(xObject, "itemspellname");
+					if (!myvar2)
+						prop.clilocid := 1075217;
+						prop.values := array {myvar + " Spell"};
+						allprops.append (prop);
+					else
+						case (lower (myvar2))
+							"clumsiness":
+								prop.clilocid := 1017326;
+							"feeblemindedness":
+								prop.clilocid := 1017327;
+							"weakness":
+								prop.clilocid := 1017328;
+							"harming":
+								prop.clilocid := 1017334;
+							"cursing":
+								prop.clilocid := 1017335;
+							"draining":
+								prop.clilocid := 1017339;
+							"paralyzation":
+								prop.clilocid := 1017340;
+							"dispelling":
+								prop.clilocid := 1060417;
+							"flametongue":
+								prop.clilocid := 1060487;
+							"lightning":
+								prop.clilocid := 1060491;
+							default:
+								prop.clilocid := 1075217;
+						endcase
+						if (prop.clilocid == 1075217)
+							prop.values := array {myvar + " " + myvar2};
+						else
+							prop.values := array {myvar};
+						endif
+						allprops.append (prop);
 					endif
-					xDesc := xDesc + Html + spell + " charges: " + charges + "<br>";
 				endif
 			endif
-			var skillid := GetObjProperty(xObject, "skilladv");
-			if (GetObjProperty (xObject, "skill"+skillid))
-				var skillname := GetSkillName(skillid);
-				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
-			endif
-			xDesc := xDesc + Html + "Durability: " + xObject.hp + " / " + xObject.maxhp + "<br>";
-		elseif (xObject.isa(POLCLASS_WEAPON))
-			if (GetObjProperty(xObject, "silver"))
-				xDesc := xDesc + Html + "Silver Weapon<br>";
-			endif
-			var weapondesc := GetItemDescriptor(xObject.objtype);
-			var damagefactor := (xObject.hp * xObject.quality)/xObject.maxhp;
-			if (xObject.dmg_mod > 0)
-				xDesc := xDesc + Html + "Damage Bonus: +" + xObject.dmg_mod + "<br>";
-			endif
-			xDesc := xDesc + Html + "Damage Range: " + CINT((weapondesc.MinDamage + xObject.dmg_mod)*damagefactor) + " - " + CINT((weapondesc.MaxDamage + xObject.dmg_mod)*damagefactor) + "<br>";
-			xDesc := xDesc + Html + "Skill: " + xObject.attribute + "<br>";
-			var skillid := GetObjProperty(xObject, "skilladv");
-			if (GetObjProperty (xObject, "skill"+skillid))
-				var skillname := GetSkillName(skillid);
-				xDesc := xDesc + Html + "+" + GetObjProperty (xObject, "skill"+skillid) + " " + skillname + "<br>";
-			endif
-			var charges := GetObjProperty(xObject, "charges");
-			if (charges)
-				var spell := GetObjProperty(xObject, "itemspellname");
-				if (!spell)
-					spell := "Spell";
-				endif
-				xDesc := xDesc + Html + spell + " charges: " + charges + "<br>";
-			endif
-			xDesc := xDesc + Html + "Durability: " + xObject.hp + " / " + xObject.maxhp + "<br>";
+			//Durability
+			prop.clilocid := 1060639;
+			prop.values := array {xObject.hp, xObject.maxhp};
+			allprops.append (prop);
 		elseif (IsMusicalInstrument(xObject))
-			var skillbonus := GetObjProperty(xObject, "skillbonus");
-			if (skillbonus)
-				xDesc := xDesc + Html + "+" + skillbonus + " Barding Skill<br>";
+			myvar := GetObjProperty(xObject, "skillbonus");
+			if (myvar)
+				prop.clilocid := 1060451;
+				prop.values := array {"Barding Skills", myvar};
+				allprops.append (prop);
 			endif
 		elseif (IsJewelry(xObject))
-			var stat_bonus := GetObjProperty (xObject, "str");
-			if (stat_bonus)
-				xDesc := xDesc + Html + "+" + stat_bonus + " Strength<br>";
+		//1060485, 1060409, 1060432, 1075846, 1075842, 1075844
+			myvar := GetObjProperty (xObject, "str");
+			if (myvar)
+				prop.clilocid := 1060485;
+				prop.values := array {myvar};
+				allprops.append (prop);
 			endif
-			stat_bonus := GetObjProperty (xObject, "dex");
-			if (stat_bonus)
-				xDesc := xDesc + Html + "+" + stat_bonus + " Dexterity<br>";
+			myvar := GetObjProperty (xObject, "dex");
+			if (myvar)
+				prop.clilocid := 1060409;
+				prop.values := array {myvar};
+				allprops.append (prop);
 			endif
-			stat_bonus := GetObjProperty (xObject, "int");
-			if (stat_bonus)
-				xDesc := xDesc + Html + "+" + stat_bonus + " Intelligence<br>";
+			myvar := GetObjProperty (xObject, "int");
+			if (myvar)
+				prop.clilocid := 1060432;
+				prop.values := array {myvar};
+				allprops.append (prop);
 			endif
-		elseif (xObject.objtype == UOBJ_RUNEBOOK)
-			var charges := GetObjProperty (xObject, "%Charges%");
-			xDesc := xDesc + Html + CINT ((GetObjProperty (xObject, "%RuneList%")).size()) + " runes<br>";
-			xDesc := xDesc + Html + "Charges: " + charges.charges + " / " + charges.max_charges + "<br>";
-		elseif (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE) and !(GetObjProperty (xObject, "lockpicking") and xObject.locked))
-			xDesc := xDesc + Html + "Contains: " + CINT(xObject.item_count-1) + " items<br>";
 		elseif (xObject.isa(POLCLASS_SPELLBOOK))
-			xDesc := xDesc + Html + xObject.spells().size() + " spells<br>";
+			prop.clilocid := 1042886;
+			prop.values := array {xObject.spells().size()};
+			allprops.append (prop);
 		elseif (xObject.objtype == 0xA100)
-			var spellcount := NecroSpellCount(xObject);
-			xDesc := xDesc + Html + spellcount + " spells<br>";
+			prop.clilocid := 1042886;
+			prop.values := array {NecroSpellCount(xObject)};
+			allprops.append (prop);
 		elseif (xObject.objtype == 0x1706b)
-			var spellcount := DruidSpellCount(xObject);
-			xDesc := xDesc + Html + spellcount + " spells<br>";		
+			prop.clilocid := 1042886;
+			prop.values := array {DruidSpellCount(xObject)};
+			allprops.append (prop);
 		elseif (IsSign(xObject))
-			owner := GetObjProperty (xObject, "lastownername");
-			if (owner)
-				xDesc := xDesc + Html + "Owner: " + owner + "<br>";
+			myvar := GetObjProperty (xObject, "housename");
+			if (myvar)
+				prop.clilocid := 1061639;
+				prop.values := array {myvar};
+				allprops.append (prop);
+			endif
+			myvar := GetObjProperty (xObject, "lastownername");
+			if (myvar)
+				prop.clilocid := 1061640;
+				prop.values := array {myvar};
+				allprops.append (prop);
+			endif
+		elseif (IsShipDeed (xObject))
+			myvar := GetObjProperty (xObject, "shipname");
+			if (myvar)
+				prop.clilocid := 1149572;
+				prop.values := array {myvar};
+				allprops.append (prop);
+			else
+				prop.clilocid := 1149573;
+				prop.values := array {};
+				allprops.append (prop);
+			endif
+			myvar := GetShipTypeCliloc (xObject);
+			if (myvar)
+				prop.clilocid := myvar;
+				prop.values := array {};
+				allprops.append (prop);
 			endif
 		endif
 	endif
-	if (!xObject.isa(POLCLASS_CORPSE) and !IsSign(xObject))
-		xDesc := xDesc + Html + "Weight: " + xObject.weight + " stones<br>";
-	endif
-	if ( xObject.newbie )
-		xDesc := xDesc + Html + "Blessed<br>";
-	endif
-	return xDesc;
-
+	return allprops;
 endprogram
 
 function NecroSpellCount(book)
@@ -201,3 +354,39 @@ function IsSign (item)
 	return 0;
 endfunction
 
+function IsShipDeed (item)
+	if (item.objtype >= 0x16027 and item.objtype <= 0x16030)
+		return 1;
+	endif
+	return 0;
+endfunction
+
+function GetShipTypeCliloc (item)
+	var shiptype := GetObjProperty (item, "shiptype");
+	if (shiptype >= 0x4000 and shiptype <= 0x4047)
+		shiptype := shiptype + 0xd000;
+	endif
+	case (shiptype)
+		0x11000:
+			return 1116741;
+		0x11004:
+			return 1116742;
+		0x11008:
+			return 1116743;
+		0x1100c:
+			return 1116744;
+		0x11010:
+			return 1116745;
+		0x11014:
+			return 1116746;
+		0x11018:
+			return 1116747;
+		0x11024:
+			return 1116748;
+		0x11030:
+			return 1116749;
+		0x11040:
+			return 1150100;
+	endcase
+	return 0;
+endfunction

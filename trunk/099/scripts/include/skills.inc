@@ -3,7 +3,7 @@ use attributes;
 include "include/client";
 include "include/attributes";
 
-Const MAX_SKILL_BONUS := 10;
+Const MAX_SKILL_BONUS := 20;
 
 
 
