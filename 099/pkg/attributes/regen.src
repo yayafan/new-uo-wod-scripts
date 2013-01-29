@@ -93,7 +93,7 @@ exported function GetStaminaRegenRate (character)
 	
 	var racialbonus := 0;
 
-	var stamregenbonus := racialbonus + GetAttribute (character, ATTRIBUTEID_FOCUS)*12;
+	var stamregenbonus := racialbonus + GetAttribute (character, ATTRIBUTEID_FOCUS)*24;
 	
 	//If they're hungry, don't regenerate stamina as fast or at all
 	var hunger := CINT (GetObjProperty (character, "hunger"));
@@ -168,7 +168,7 @@ exported function GetManaRegenRate(character)
 		racialbonus := 1200;
 	endif
 	
-	var manaregenbonus := racialbonus + (GetAttribute (character, ATTRIBUTEID_MEDITATION)*12) + (GetAttribute (character, ATTRIBUTEID_FOCUS)*6);
+	var manaregenbonus := racialbonus + (GetAttribute (character, ATTRIBUTEID_MEDITATION)*36) + (GetAttribute (character, ATTRIBUTEID_FOCUS)*18);
 	
 
 	//If they're hungry, don't regenerate mana as fast or at all

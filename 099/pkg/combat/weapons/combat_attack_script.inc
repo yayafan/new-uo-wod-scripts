@@ -52,7 +52,7 @@ function GetDefendersAR (defender)
 				//Do some damage to the armor
 				if (item.hp or item.hp == 0)
 					if (RandomInt (1000) == 1)
-            if (DoDamageToEquipment (defender_armor, 1))
+						if (DoDamageToEquipment (defender_armor, 1))
 							if (defender_armor.desc)
 								SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
 							endif
@@ -73,7 +73,7 @@ function GetDefendersAR (defender)
 	if (defender_armor)
 		if (defender_armor.hp or defender_armor.hp == 0)
 			if (RandomInt (150) == 1)
-        if (DoDamageToEquipment (defender_armor, 1))
+				if (DoDamageToEquipment (defender_armor, 1))
 					if (defender_armor.desc)
 						SendSysMessage (defender, "Your " + defender_armor.desc + " breaks!");
 					endif

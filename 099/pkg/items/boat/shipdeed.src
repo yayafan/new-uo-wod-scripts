@@ -108,13 +108,18 @@ program useshipdeed( character, deed )
 	var deedtype := deed.objtype;
 
 	if (deed.name != "a toy boat" and !deed.name["deed"])
+		var shipname := GetObjProperty (deed, "shipname");
+		if (!shipname)
+			shipname := deed.name;
+		endif
+		
 		if (created.ship.tillerman)
-			created.ship.tillerman.name := deed.name;
+			created.ship.tillerman.name := shipname;
 		else
 			foreach wheel in (created.ship.wheel)
-				wheel.name := deed.name;
+				wheel.name := shipname;
 			endforeach
-			created.packkey.name := "a key for " + deed.name;
+			created.packkey.name := "a key for the " + shipname;
 		endif
 	else
 		created.packkey.name := "a boat key";

@@ -440,6 +440,7 @@ function SpecialArmorSpell (item, magic_quality_chance)
 				SetObjproperty (item, "equipspell", "magicreflect");
 				SetObjproperty (item, "charges", charges);
 				AppendMagicSuffixItem (item, "Magic Reflection", 1);
+				SetObjProperty (item, "itemspellname", "Magic Reflection");
 			1:
 				SetObjproperty (item, "protpoison", charges);
 				AppendMagicSuffixItem (item, "Poison Protection", 1);

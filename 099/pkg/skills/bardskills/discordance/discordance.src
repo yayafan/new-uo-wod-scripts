@@ -87,12 +87,11 @@ program bard_discord (character)
 	endif
 	
 	if (CheckSkillWithItem (character, instrument, SKILLID_DISCORDANCE, difficulty )
-			and (PlayNoise(character, instrument, -1, SNDTYPE_DISCORDANCE))
-			and (RandomInt(100) < 80 ) )
+			and (PlayNoise(character, instrument, -1, SNDTYPE_DISCORDANCE)))
 
 		SendSysmessage (character, "You discord " + thetarg.name + "!");
 		SetObjProperty (thetarg, "#discorded", ReadGameClock());
-		var casterskill := GetAttribute(character, ATTRIBUTEID_DISCORDANCE);
+		var casterskill := GetAttribute(character, ATTRIBUTEID_DISCORDANCE) + CINT (GetObjProperty (instrument, "skillbonus"));
 		var duration := casterskill/2;
 		var mod_amount := CINT ((casterskill/5) - resistance);
 		DoTempMod (thetarg, "discordance", mod_amount, duration, "Discordance");

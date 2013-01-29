@@ -27,10 +27,10 @@ function findinstrument (character)
 			0x0e9c:
 			0x0eb2:
 			0x0eb1:
-      0x2805:
-      0x2807:
-      0x403b:
-      0x403c:
+			0x2805:
+			0x2807:
+			0x403b:
+			0x403c:
 				if (ReserveItem (item))
 					SetObjProperty (character, "instrument", item.serial);
 					return item;
@@ -56,15 +56,15 @@ endfunction
 function PlayNoise (me, instrument, difficulty, soundtype := 0)
 	var cfg := ReadConfigFile (":musicianship:itemdesc");
 	var elem := FindConfigElem (cfg, instrument.objtype);
-  var sound := 0;
-  case (soundtype)
-    SNDTYPE_PROVOCATION: sound := elem.provocation;
-    SNDTYPE_DISCORDANCE: sound := elem.discordance;
-    SNDTYPE_PEACEMAKING: sound := elem.peacemaking;
-  endcase
-  if (!sound)
-    sound := elem.succeed;
-  endif
+	var sound := 0;
+	case (soundtype)
+		SNDTYPE_PROVOCATION: sound := elem.provocation;
+		SNDTYPE_DISCORDANCE: sound := elem.discordance;
+		SNDTYPE_PEACEMAKING: sound := elem.peacemaking;
+	endcase
+	if (!sound)
+		sound := elem.succeed;
+	endif
 
 	if (!difficulty)
 		MakeSound (me, sound);
@@ -98,11 +98,11 @@ function MakeSound (character, soundeffect)
 endfunction
 
 function GetDiscordanceMod (who)
-  var mods := GetObjProperty (who, "#mods");
-  foreach onemod in mods
-    if (onemod[1] == "discordance")
-      return onemod[2];
-    endif
-  endforeach
-  return 0;
+	var mods := GetObjProperty (who, "#mods");
+	foreach onemod in mods
+		if (onemod[1] == "discordance")
+		return onemod[2];
+	endif
+	endforeach
+	return 0;
 endfunction

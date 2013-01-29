@@ -15,6 +15,7 @@ function HealPatient (healer, patient, bandages)
 
 	var healer_healing := GetAttribute (healer, ATTRIBUTEID_HEALING);
 	var healer_anatomy := GetAttribute (healer, ATTRIBUTEID_ANATOMY);
+	var ignore_range := healer_healing/20;
 	var bandaging_time := 20 - CINT(healer_anatomy/15);
 	var heal_dice := DetermineHealDice (healer_healing, healer_anatomy);
 
@@ -33,7 +34,7 @@ function HealPatient (healer, patient, bandages)
 	var difficulty_mod := 0;
 
 	repeat
-		if (GetVital (healer, "Life") < starthp)
+		if (GetVital (healer, "Life") < CINT((starthp*(100-ignore_range))/100))
 			//try to save based on dex
 			if (RandomInt (100) > CINT (healer_dexterity/2) )
 				SendSysMessage (healer, "Your fingers slip!", FONT_NORMAL, MESSAGE_COLOR_WARNING);
@@ -54,7 +55,11 @@ function HealPatient (healer, patient, bandages)
 	until (ReadGameClock() >= DoneHealing);
 
 	if (Distance (healer, patient) > 2)
-		SendSysmessage (healer, "The patient is too far away", FONT_NORMAL, MESSAGE_COLOR_BAD);
+		if (healer.npctemplate[":guards:"])
+			PrintTextAbove (healer, "Argh, "+patient.name+" is too far away to heal!");
+		else
+			SendSysmessage (healer, "The patient is too far away", FONT_NORMAL, MESSAGE_COLOR_BAD);
+		endif
 		EraseObjProperty (healer, "#heal");
 		return;
 	endif
@@ -445,8 +450,8 @@ endfunction
 function DetermineHealDice (healer_healing, healer_anatomy)
 	var heal_dice := "1d5";
 	var skill_level := CINT (healer_healing/10) + CINT(healer_anatomy/20);
-	if (skill_level > 15)
-		skill_level := 15;
+	if (skill_level > 19)
+		skill_level := 19;
 	endif
 
 	case (skill_level)
@@ -480,6 +485,14 @@ function DetermineHealDice (healer_healing, healer_anatomy)
 			heal_dice := "10d10";
 		15:
 			heal_dice := "11d10";
+		16:
+			heal_dice := "11d10+1";
+		17:
+			heal_dice := "11d10+2";
+		18:
+			heal_dice := "11d10+3";
+		19:
+			heal_dice := "11d10+4";
 		default:
 			heal_dice := "1d5";
 	endcase;

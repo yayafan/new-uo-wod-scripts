@@ -15,27 +15,11 @@ include "../pkg/character/virtue/virtue";
 
 program logon (character)
 	SendPacket (character, "B9000F97DF");
-	
-//	if (!GetObjProperty (character, "#testlagfix"))
-//		//some really icky packet stuff - change to yellow cursor, then to summer
-//		SendPacket(character, "BF0006000801");
-		SendPacket (character, "BC0101");
-		character.setlightlevel (0, 0);
-
-		//Now we have to move them to reset the items around them
-		if (GetObjProperty (character, "sailto"))
-			FinishSailing (character);
-		else
-			var oldx := character.x;
-			var oldy := character.y;
-			var oldz := character.z;
-			var oldr := character.realm;
-			MoveObjectToLocation (character, 0, 0, 0, REALM_BRITANNIA, MOVEOBJECT_FORCELOCATION);
-			MoveObjectToLocation (character, oldx, oldy, oldz, oldr, MOVEOBJECT_FORCELOCATION);
-		endif
-//	else
-//		FinishSailing (character);
-//	endif
+	character.setlightlevel (10, 1);
+	//Now we have to move them to reset the items around them
+	if (GetObjProperty (character, "sailto"))
+		FinishSailing (character);
+	endif
 
 	unclone (character);
 	if (character.race == RACE_HUMAN)
@@ -91,11 +75,11 @@ program logon (character)
 		total_time := 0;
 	endif
 
-//	if (total_time < CINT (40*60*60) )
-//		if (!character.cmdlevel)
-//			character.title_guild := "young";
-//		endif
-	if (character.title_guild == "young")
+	if (total_time < CINT (40*60*60) )
+		if (!character.cmdlevel)
+			character.title_guild := "young";
+		endif
+	elseif (character.title_guild == "young")
 		character.title_guild := "";
 		acct.EraseProp ("young");
 	endif

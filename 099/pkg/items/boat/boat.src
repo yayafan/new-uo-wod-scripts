@@ -412,10 +412,11 @@ function DryDock (event)
 
 	newboat.graphic := 0x14f3;
 	newboat.color := boat.color;
+	newboat.name := "A Drydocked Ship";
 	if (tillerman.name)
-		newboat.name := tillerman.name;
-	else
-		newboat.name := "a toy boat";
+		SetObjProperty (newboat, "shipname", tillerman.name);
+	elseif (wheel[1].name)
+		SetObjProperty (newboat, "shipname", wheel[1].name);
 	endif
 
 	var oldmovable;

@@ -827,9 +827,7 @@
 0x1011 keyring
 0x1012 magickey
 0x1013 rustykey
-# 0x1014 - 0x101d unused
-0x101e spinning wheel tailoring
-# 0x101f - 0x1027 unused
+# 0x1014 - 0x1027 unused
 0x1028 Dovetailsaw woodworking
 # 0x1029 unused
 0x102a Hammer woodworking
@@ -1522,7 +1520,10 @@
 # 0x2137 - 0x2251 unused
 0x2252 PaladinSpellbook chivalry
 0x2253 Necromancy Spellbook necromancy
-# 0x2254 - 0x2259 unused
+# 0x2254 - 0x2255 unused
+0x2256 SmallBagball containers
+0x2257 LargeBagball containers
+# 0x2258 - 0x2259 unused
 0x225a BookOfBardMasteries bardmasteries
 # 0x225b - 0x226f unused
 0x2270 cleansebyfirescroll chivalry
@@ -1627,10 +1628,7 @@
 0x24db tokunobasket5 containers
 # 0x24dc unused
 0x24dd tokunobasket6 containers
-# 0x24de - 0x2555 unused
-0x2556 SmallBagball containers
-0x2557 LargeBagball containers
-# 0x2558 - 0x255c unused
+# 0x24de - 0x255c unused
 0x255d throwingaxe tinkering
 # 0x255e - 0x25f7 unused
 0x25f8 adranathtoy
@@ -1884,7 +1882,9 @@
 0x2dab hailstormscroll mysticism
 0x2dac nethercyclonescroll mysticism
 0x2dad risingcolossusscroll mysticism
-# 0x2dae - 0x2dda unused
+# 0x2dae - 0x2dd8 unused
+0x2dd9 elvenspinningwheel tailoring
+0x2dda elvenspinningwheel2 tailoring
 0x2ddb elvenoven cooking
 # 0x2ddc unused
 0x2ddd ElvenPodium decorations
