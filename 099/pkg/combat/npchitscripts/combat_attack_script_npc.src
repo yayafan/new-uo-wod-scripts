@@ -55,9 +55,11 @@ program combat_attack_script (parms)
 	var modified_damage := CINT ((raw_damage * (GetAttribute (attacker, ATTRIBUTEID_TACTICS) + 50 + CINT (GetAttribute (attacker, ATTRIBUTEID_STRENGTH)/5)))/100);
 
 	//Get the defender's AR rating and reduce the damage by 50-100% of that value
-	var defender_ar := CINT (GetDefendersAR (defender)/2);
+//	var defender_ar := CINT (GetDefendersAR (defender)/2);
+	var defender_ar := CINT (GetDefendersAR (defender));
 	if (defender_ar > 0)
-		modified_damage := modified_damage - RandomInt (defender_ar) - defender_ar - 1;
+//		modified_damage := modified_damage - RandomInt (defender_ar) - defender_ar - 1;
+		modified_damage := CINT (modified_damage*(100 - defender_ar)/100);
 	endif
 
 	//Always do at least 1 damage
@@ -69,7 +71,7 @@ program combat_attack_script (parms)
 	var shield := GetEquipmentByLayer (defender, LAYER_HAND2);
 	if (shield and IsShield (shield))
 		var defender_parry_skill := GetAttribute (defender, ATTRIBUTEID_PARRY);
-		if (RandomInt (200) < defender_parry_skill)
+		if (RandomInt (300) < defender_parry_skill)
 			//Successful parry, reduce damage
 			modified_damage := modified_damage - shield.ar;
 			SendSysMessage (defender, "You parry the attack!");
@@ -98,9 +100,9 @@ program combat_attack_script (parms)
 	endif
 
 	//Players take 1/2 damage
-	if (defender.acctname)
-		modified_damage := CINT (modified_damage/2);
-	endif
+//	if (defender.acctname or defender.npctemplate == ":guards:warrior")
+//		modified_damage := CINT (modified_damage/2);
+//	endif
 
 	if (GetObjProperty (defender, "#reactive_armor"))
 		if (Distance (attacker, defender) <= 1)

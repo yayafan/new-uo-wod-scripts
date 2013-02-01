@@ -395,6 +395,12 @@ function IsBuyableItem (player, merchant, item, from_bag)
 		UOBJ_BROWN_HIDE:
 		UOBJ_GREEN_HIDE:
 		UOBJ_SILVER_HIDE:
+		0x26b1:
+		0x26b2:
+		0x26b3:
+		0x26b4:
+		0x26b5:
+		0x26b6:
 			return sell_options[4];
 
 		UOBJ_EGG:

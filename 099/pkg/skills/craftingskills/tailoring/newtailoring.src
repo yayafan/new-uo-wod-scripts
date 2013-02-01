@@ -72,11 +72,28 @@ function makeTailoringItem (who, tool, chosen_item, amt)
 	var time_delay := cint (selection.time);
 	var item_stackable := selection.stackable;
 	var item_name := selection.name;
-	SendSysMessage(who, "(Skill: " + item_skill + ", " + material_type + ": " + material_needed + ")");
+
+	var material2_needed := cint (selection.material2);
+	var material2_type := selection.type2;
+	var message := "(Skill: " + item_skill + ", " + material_type + ": " + material_needed;
+	if (material2_needed and material2_type)
+		message := message + ", " + material2_type + ": " + material2_needed + ")";
+	else
+		message := message + ")";
+	endif
+	SendSysMessage(who, message);
 
 	var chosen_material := MaterialSelection( who, craft_skill, material_type );
 	if (!chosen_material)
 		return 0;
+	endif
+	
+	var chosen_material2;
+	if (material2_needed and material2_type)
+		chosen_material2 := MaterialSelection( who, craft_skill, material2_type );
+		if (!chosen_material2)
+			return 0;
+		endif
 	endif
 
 	var craftingbag := FindCraftingBag (who);
@@ -86,9 +103,15 @@ function makeTailoringItem (who, tool, chosen_item, amt)
 	if (!amax)
 		SendSysMessage (who, "You don't have enough " + material_type + " to make that!");
 		return;
-	elseif (amax > 10)
-		amax := 10;
 	endif
+	if (material2_type)
+		amax := CINT (chosen_material2.amount/material2_needed);
+		if (!amax)
+			SendSysMessage (who, "You don't have enough " + material2_type + " to make that!");
+			return;
+		endif
+	endif
+	
 
 	//save the who's position and ask them if they want to autoloop
 	var autoupgrade := 0;;
@@ -102,6 +125,12 @@ function makeTailoringItem (who, tool, chosen_item, amt)
 		if (chosen_material.amount < material_needed or !chosen_material)
 			SendSysmessage (who, "You don't have enough " + material_type + " to continue!");
 			break;
+		endif
+		if (material2_type)
+			if (chosen_material2.amount < material2_needed or !chosen_material2)
+				SendSysmessage (who, "You don't have enough " + material_type + " to continue!");
+				break;
+			endif
 		endif
 
 		for i := 1 to time_delay
@@ -133,6 +162,9 @@ function makeTailoringItem (who, tool, chosen_item, amt)
 				SetObjProperty (created_item, "material_objtype", chosen_material.objtype);
 			endif
 			SubtractAmount (chosen_material, material_needed);
+			if (material2_type)
+				SubtractAmount (chosen_material2, material2_needed);
+			endif
 			if (selection.mark)
 				created_item.name := item_name + " [crafted by " + who.name + "]";
 			endif

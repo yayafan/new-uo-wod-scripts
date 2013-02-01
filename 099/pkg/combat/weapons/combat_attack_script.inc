@@ -95,41 +95,46 @@ function GetDefendersAR (defender)
 		if (defender.ar_mod)
 			base_ar := base_ar + defender.ar_mod;
 		endif
+		if (base_ar > 90)
+			base_ar := 90;
+		endif
 		if (base_ar > zone_ar_rating)
 			return base_ar;
 		endif
+	elseif (zone_ar_rating > 85)
+		zone_ar_rating := 85;
 	endif
 
 	return zone_ar_rating;
 endfunction
 
 function DoDamageToEquipment (byref item, thedamage)
-  if (item.hp >= thedamage)
-    item.hp := item.hp - thedamage;
-    item.name := item.desc;
-    return 0;
-  else
-    thedamage := thedamage - item.hp;
-    item.hp := 0;
-    var durability_loss := GetObjProperty (item, "durability_loss");
-    if (!durability_loss)
-      durability_loss := 0;
-    endif
-    if (item.maxhp > thedamage)
-      item.maxhp_mod := item.maxhp_mod - thedamage;
-      durability_loss := durability_loss + thedamage;
-      SetObjProperty (item, "durability_loss", durability_loss);
-      item.name := item.desc;
-      return 0;
-    else
-      item.maxhp_mod := item.maxhp_mod - thedamage;
-      durability_loss := durability_loss + thedamage;
-      SetObjProperty (item, "durability_loss", durability_loss);
-      item.name := item.desc;
-      return 1;
-    endif
-  endif
-  return 0;
+	if (item.hp >= thedamage)
+		item.hp := item.hp - thedamage;
+		item.name := item.desc;
+		return 0;
+	else
+		thedamage := thedamage - item.hp;
+		item.hp := 0;
+		var durability_loss := GetObjProperty (item, "durability_loss");
+		if (!durability_loss)
+			durability_loss := 0;
+		endif
+		if (item.maxhp > thedamage)
+			item.maxhp_mod := item.maxhp_mod - thedamage;
+			durability_loss := durability_loss + thedamage;
+			SetObjProperty (item, "durability_loss", durability_loss);
+			item.name := item.desc;
+			return 0;
+		else
+			item.maxhp_mod := item.maxhp_mod - thedamage;
+			durability_loss := durability_loss + thedamage;
+			SetObjProperty (item, "durability_loss", durability_loss);
+			item.name := item.desc;
+			return 1;
+		endif
+	endif
+	return 0;
 endfunction
 
 

@@ -29,6 +29,21 @@ program textcmd_start( character)
 		endforeach
 		sleep (1);
 	endfor
+	var merchantarray := GetGlobalProperty ("#playermerchantlist");
+	foreach merchant in merchantarray
+		var backpack := FindRootItemInStorageArea(storage, merchant + " FS");
+		foreach item in EnumerateItemsInContainer (backpack)
+			FixCustomItemGraphic(item);
+		endforeach
+		backpack := FindRootItemInStorageArea(storage, merchant + " PB");
+		foreach item in EnumerateItemsInContainer (backpack)
+			FixCustomItemGraphic(item);
+		endforeach
+		backpack := FindRootItemInStorageArea(storage, merchant + " 1C");
+		foreach item in EnumerateItemsInContainer (backpack)
+			FixCustomItemGraphic(item);
+		endforeach
+	endforeach
 
 	SendSysMessage (character, "Done! " + matches + " matches");
 endprogram
