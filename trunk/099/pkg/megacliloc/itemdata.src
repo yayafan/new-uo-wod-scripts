@@ -40,7 +40,7 @@ program itemdata(xObject)
 		prop.values := array {};
 		allprops.append (prop);
 	endif
-	if (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE) and !(GetObjProperty (xObject, "lockpicking") and xObject.locked))
+	if (xObject.isa(POLCLASS_CONTAINER) and !xObject.isa(POLCLASS_CORPSE) and xObject.objtype != UOBJ_POTION_KEG and !(GetObjProperty (xObject, "lockpicking") and xObject.locked))
 		if (xObject.objtype == UOBJ_RUNEBOOK)
 			// 1049116, 1061837, 1075217, 1076207,
 			// 1112590, 
@@ -77,19 +77,23 @@ program itemdata(xObject)
 	else
 		if (xObject.isa (POLCLASS_EQUIPMENT))
 			if (xObject.isa(POLCLASS_ARMOR))
+				myvar := GetItemDescriptor(xObject.objtype);
+				prop.clilocid := 1060448;
+				prop.values := array {myvar.ar};
+				allprops.append (prop);
+				if (xObject.quality > 1.0)
+					prop.clilocid := 1149934;
+					prop.values := array {"Armor Increase " + CINT ((xObject.quality*100)-100)};
+					allprops.append (prop);
+				endif
 				if (xObject.ar_mod > 0)
 					prop.clilocid := 1072382;
 					prop.values := array {xObject.ar_mod};
 					allprops.append (prop);
-					prop.clilocid := 1080361;
-					prop.values := array {xObject.ar};
-					allprops.append (prop);
-				else
-					prop.clilocid := 1060448;
-					prop.values := array {xObject.ar};
-					allprops.append (prop);
 				endif
-				myvar := GetItemDescriptor(xObject.objtype);
+				prop.clilocid := 1080361;
+				prop.values := array {xObject.ar};
+				allprops.append (prop);
 				if (myvar.strrequired)
 					prop.clilocid := 1061170;
 					prop.values := array {CINT(myvar.strrequired/10)};
@@ -114,14 +118,24 @@ program itemdata(xObject)
 				endif
 				myvar := GetItemDescriptor(xObject.objtype);
 				//Damage
+				prop.clilocid := 1061168;
+				prop.values := array {myvar.MinDamage, myvar.MaxDamage};
+				allprops.append (prop);
+				//Damage Modifiers
 				myvar2 := (xObject.hp * xObject.quality)/xObject.maxhp;
 				if (xObject.dmg_mod > 0)
-					prop.clilocid := 1074762;
-					prop.values := array {xObject.dmg_mod};
+					prop.clilocid := 1060455;
+					prop.values := array {"Damage", xObject.dmg_mod};
 					allprops.append (prop);
 				endif
-				prop.clilocid := 1061168;
-				prop.values := array {CINT((myvar.MinDamage + xObject.dmg_mod)*myvar2), CINT((myvar.MaxDamage + xObject.dmg_mod)*myvar2)};
+				if (xObject.quality > 1.0)
+					prop.clilocid := 1060401;
+					prop.values := array {CINT ((xObject.quality*100)-100)};
+					allprops.append (prop);
+				endif
+				// Modified Damage
+				prop.clilocid := 1071371;
+				prop.values := array {"Modified Damage", CINT((myvar.MinDamage + xObject.dmg_mod)*myvar2), CINT((myvar.MaxDamage + xObject.dmg_mod)*myvar2)};
 				allprops.append (prop);
 				//Speed
 				prop.clilocid := 1061167;

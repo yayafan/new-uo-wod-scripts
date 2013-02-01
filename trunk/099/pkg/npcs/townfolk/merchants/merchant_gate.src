@@ -105,7 +105,7 @@ program merchant_gate (parms)
 		2:	//Deceit
 			xgateloc := 4107;
 			ygateloc := 446;
-			zgateloc := 0;
+			zgateloc := 5;
 		3:	//Despise
 			xgateloc := 1319;
 			ygateloc := 1048;

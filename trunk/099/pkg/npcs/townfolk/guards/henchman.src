@@ -1755,12 +1755,12 @@ function SetARMod ()
 		endif
 	endforeach
 
-	var mount := GetEquipmentByLayer (me, LAYER_MOUNT);
-	foreach item in ListEquippedItems (me)
-		if (item.ar and item != mount)
-			myar := myar + CINT (item.ar/5);
-		endif
-	endforeach
+//	var mount := GetEquipmentByLayer (me, LAYER_MOUNT);
+//	foreach item in ListEquippedItems (me)
+//		if (item.ar and item != mount)
+//			myar := myar + CINT (item.ar/5);
+//		endif
+//	endforeach
 
 	me.ar_mod := myar;
 endfunction
@@ -1773,7 +1773,7 @@ endfunction
 ///////////////////
 
 function DoHenchmanSkillCap (master)
-	for i := 0 to 48
+	for i := 0 to 57
 		var myskill := GetAttributeBasevalue (me, GetAttributeIDBySkillID(i));
 		var skillcap := GetHenchmanSkillCap (master, i);
 		if (myskill > skillcap)

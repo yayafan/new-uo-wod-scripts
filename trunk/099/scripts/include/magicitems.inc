@@ -41,6 +41,9 @@ function IsMagicalItem (item)
 	if (GetObjProperty (item, "skilladv"))
 		return 1;
 	endif
+	if (GetObjProperty (item, "skillbonus"))
+		return 1;
+	endif
 
 	return 0;
 endfunction
