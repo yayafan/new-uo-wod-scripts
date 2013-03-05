@@ -275,7 +275,7 @@ function IsFurniture (obj_type)
 
 	case (obj_type)
 		0x09b5:
-		0x7057:
+		0x17057:
 		0x11c6:
 		0x11c7:
 		0x0b45:

@@ -483,6 +483,20 @@ function DetermineMerchantsSkills (byref merchant)
 				SKILLID_CAMPING,
 				SKILLID_CARTOGRAPHY
 			};
+		"magic_dealer":
+			skills_trained := array {
+				SKILLID_BLACKSMITHY,
+				SKILLID_MINING,
+				SKILLID_TINKERING,
+				SKILLID_IMBUING,
+				SKILLID_SWORDSMANSHIP,
+				SKILLID_FENCING,
+				SKILLID_MACEFIGHTING,
+				SKILLID_PARRY,
+				SKILLID_THROWING,
+				SKILLID_FOCUS,
+				SKILLID_TACTICS
+			};
 	endcase
 
 	return skills_trained;

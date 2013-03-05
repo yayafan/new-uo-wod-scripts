@@ -307,7 +307,9 @@ endfunction
 function DoNPCPoisonHit (byref attacker, byref defender)
 	if (GetAttribute (attacker, ATTRIBUTEID_POISONING) and Distance (attacker, defender) <= 1)
 		if (RandomInt (4) == 1)
-			if (CheckSkill (attacker, SKILLID_POISONING, 100, 0) and RandomInt (2))
+			if (CheckSkill (attacker, SKILLID_POISONING, 120, 0) and RandomInt (2))
+				SetPoison (defender, 10, "You have been poisoned by " + attacker.name);
+			elseif (CheckSkill (attacker, SKILLID_POISONING, 100, 0) and RandomInt (2))
 				SetPoison (defender, 10, "You have been poisoned by " + attacker.name);
 			elseif (CheckSkill (attacker, SKILLID_POISONING, 80, 0) and RandomInt (2))
 				SetPoison (defender, 8, "You have been poisoned by " + attacker.name);

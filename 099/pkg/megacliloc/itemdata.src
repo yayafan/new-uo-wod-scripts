@@ -141,6 +141,12 @@ program itemdata(xObject)
 				prop.clilocid := 1061167;
 				prop.values := array {myvar.Speed};
 				allprops.append (prop);
+				//Range
+				if (myvar.MaxRange > 1)
+					prop.clilocid := 1061169;
+					prop.values := array {myvar.MaxRange};
+					allprops.append (prop);
+				endif
 				//Handedness
 				if (myvar.TwoHanded)
 					prop.clilocid := 1061171;

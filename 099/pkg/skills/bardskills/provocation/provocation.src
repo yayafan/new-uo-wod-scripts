@@ -34,7 +34,7 @@ program bard_provoke (character)
 	endif
 
 	SendSysmessage (character, "Provoke what?");
-	var thetarg := Target (character, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
+	var thetarg := Target (character, TGTOPT_CHECK_LOS);
 	if (!thetarg)
 		SendSysMessage (character, "Canceled.");
 		EraseObjProperty (character, "#useskill");
@@ -45,6 +45,9 @@ program bard_provoke (character)
 		SendSysMessage (character, "Invalid target.");
 		EraseObjProperty (character, "#useskill");
 		return;
+	endif
+	if (thetarg.alignment == 2)
+		character.criminal := 1;
 	endif
 
 	if (GetObjProperty (thetarg, "noprovoke") )
@@ -89,7 +92,7 @@ program bard_provoke (character)
 
 		SendSysmessage (character, "Provoke onto what?");
 
-		var newtarg := Target (character, TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
+		var newtarg := Target (character, TGTOPT_CHECK_LOS);
 		if (!newtarg)
 			SendSysMessage (character, "Canceled");
 			EraseObjProperty (character, "#useskill");
@@ -113,6 +116,9 @@ program bard_provoke (character)
 			difficulty := (difficulty + elem.provoke - GetDiscordanceMod (newtarg))/2;
 		else
 			difficulty := (difficulty + 100 - GetDiscordanceMod (newtarg))/2;
+		endif
+		if (newtarg.alignment == 2)
+			character.criminal := 1;
 		endif
 		
 		
