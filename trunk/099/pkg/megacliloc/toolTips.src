@@ -65,8 +65,27 @@ exported function MegaCliloc( who, byref packet )
 		// End of loop.
 		packet.SetInt32(packet.GetSize(), 0);
 	elseif (xObject.IsA (POLCLASS_MOBILE))
-		// to be added later
-		//var xDesc := run_script_to_completion ( ":megacliloc:chardata", xObject);		
+/*		packet.SetSize(15);
+		var values := array {};
+		var str := xObject.title_prefix;
+		values.append (str);
+		str := xObject.name;
+		values.append (str);
+		str := xObject.title_suffix;
+		values.append (str);
+		
+		packet.SetInt32(OFFSET_CLILOC_ID, 1050045);
+		
+		str := CStr(values[1]);
+		var i;
+		for (i:=2; i<=values.size(); i:=i+1)
+			str += CChr(0x09) + CStr(values[i]);
+		endfor
+		str := CAscZ (str);
+		
+		var Length_ID := packet.GetSize();
+		packet.SetUnicodeString(packet.GetSize() + 1, str, 1);
+		packet.SetInt16(Length_ID, str.Size() * 2);*/
 	endif
 	return 0;
 endfunction

@@ -147,7 +147,7 @@ endfunction
 function GetHouseValueByDeed (deed)
 	case (deed)
 		0x16023: //tower
-    0x16230: //customthreestoryhousedeed
+		0x16230: //customthreestoryhousedeed
 			return 3;
 		0x16024: //keep
 		0x16025: //castle
@@ -165,9 +165,10 @@ function GetHouseValueByDeed (deed)
 		0x1622C: //twostoryvilladeed
 		0x1622D: //largemarblepatiohousedeed
 		0x1622E: //ranch house
-    0x16231: //customtwostoryhousedeed
+		0x16231: //customtwostoryhousedeed
 			return 2;
-		default: return 1;
+		default:
+			return 1;
 	endcase
 endfunction
 
@@ -204,7 +205,6 @@ endfunction
 ///////////////////
 
 function GetDeedType (house)
-
 	var deed := 0;
 	case (house.objtype)
 		69732:	deed := 0x16019;
@@ -229,19 +229,19 @@ function GetDeedType (house)
 		69773:	deed := 0x1622E;
 		69736:	deed := 0x1622F;
 	endcase
-  if (house.objtype >= 0x113ec and house.objtype <= 0x1140a)
-    deed := 0x16231;
-  elseif (house.objtype >= 0x11410 and house.objtype <= 0x11416)
-    deed := 0x16231;
-  elseif (house.objtype >= 0x1141c and house.objtype <= 0x11422)
-    deed := 0x16231;
-  elseif (house.objtype >= 0x11428 and house.objtype <= 0x1142e)
-    deed := 0x16231;
-  elseif (house.objtype >= 0x11435 and house.objtype <= 0x1143a)
-    deed := 0x16231;
-  elseif (house.objtype >= 0x1140b and house.objtype <= 0x1147b)
-    deed := 0x16230;
-  endif
+	if (house.objtype >= 0x113ec and house.objtype <= 0x1140a)
+		deed := 0x16231;
+	elseif (house.objtype >= 0x11410 and house.objtype <= 0x11416)
+		deed := 0x16231;
+	elseif (house.objtype >= 0x1141c and house.objtype <= 0x11422)
+		deed := 0x16231;
+	elseif (house.objtype >= 0x11428 and house.objtype <= 0x1142e)
+		deed := 0x16231;
+	elseif (house.objtype >= 0x11435 and house.objtype <= 0x1143a)
+		deed := 0x16231;
+	elseif (house.objtype >= 0x1140b and house.objtype <= 0x1147b)
+		deed := 0x16230;
+	endif
 	return deed;
 
 endfunction

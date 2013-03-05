@@ -150,21 +150,23 @@ function ProtectedFromDamage (character, type)
 		if (GetObjProperty (item, "resistance"))
 			resistit := GetObjproperty (item, "resistance");
 			if (resistit == type or resistit == "all")
-				charges := getObjproperty (item, "charges");
+				case (type)
+					DAMAGETYPE_COLD:
+						charges := item.resist_cold_mod;
+					DAMAGETYPE_FIRE:
+						charges := item.resist_fire_mod;
+					DAMAGETYPE_ELECTRICAL:
+						charges := item.resist_energy_mod;
+				endcase
 				if (charges > 0)
 					charges := charges - 1;
 					PrintTextAbove (item, "*" + item.desc + " absorbs the magical energy!*" );
-					SetObjProperty (item, "charges", charges );
-					case (resistit)
+					case (type)
 						DAMAGETYPE_COLD:
 							item.resist_cold_mod := charges;
 						DAMAGETYPE_FIRE:
 							item.resist_fire_mod := charges;
 						DAMAGETYPE_ELECTRICAL:
-							item.resist_energy_mod := charges;
-						"all":
-							item.resist_cold_mod := charges;
-							item.resist_fire_mod := charges;
 							item.resist_energy_mod := charges;
 					endcase
 					return 1;

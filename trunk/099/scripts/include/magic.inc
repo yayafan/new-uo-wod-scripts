@@ -224,8 +224,8 @@ function GetSpellCastOn (byref caster, byref parms, targetting_options := 0)
 			return 0;
 		endif
 
-		if (!CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z))
-      	  	SendSysMessage (caster, "You can't see that.");
+		if (!CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z) and !CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z + cast_on.height))
+			SendSysMessage (caster, "You can't see that.");
 			return 0;
 		endif
 		SubtractAmount (parms[3], 1);
@@ -269,8 +269,8 @@ function GetSpellCastOn (byref caster, byref parms, targetting_options := 0)
 			return 0;
 		endif
 
-		if (!CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z))
-      	  	SendSysMessage (caster, "You can't see that.");
+		if (!CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z) and !CheckLosAt (caster, cast_on.x, cast_on.y, cast_on.z + cast_on.height))
+			SendSysMessage (caster, "You can't see that.");
 			GiveBackMana (caster);
 			return 0;
 		endif

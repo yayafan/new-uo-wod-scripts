@@ -39,11 +39,11 @@ program make_magic_item (parms)
 	if (item.quality)
 		item.quality := 1.2;
 	endif
+	var durability_loss := 0;
 	if (item.hp)
 		if (damage_hp_option)
 			if (RandomInt (4) and item.maxhp > 50)
-				var total_damage := RandomInt (CINT (item.maxhp * 0.75));
-				SetObjProperty (item, "total_damage", total_damage);
+				durability_loss := RandomInt (CINT (item.maxhp * 0.75));
 			endif
 			if (RandomInt (2))
 				item.hp := item.maxhp;
@@ -79,6 +79,10 @@ program make_magic_item (parms)
 			Syslog ("Error:  Cannot make a magic " + item.desc);
 			return 0;
 	endcase
+	if (durability_loss)
+		item.maxhp_mod := item.maxhp_mod - durability_loss;
+		SetObjProperty (item, "durability_loss", durability_loss);
+	endif
 	return 1;
 	
 endprogram
@@ -439,26 +443,14 @@ function SpecialArmorSpell (item, magic_quality_chance)
 			0:	//magic reflect
 				SetObjproperty (item, "equipspell", "magicreflect");
 				SetObjproperty (item, "charges", charges);
-				AppendMagicSuffixItem (item, "Magic Reflection", 1);
 				SetObjProperty (item, "itemspellname", "Magic Reflection");
 			1:
-				SetObjproperty (item, "protpoison", charges);
-				AppendMagicSuffixItem (item, "Poison Protection", 1);
 				item.resist_poison_mod := charges;
 			2:
-				SetObjproperty (item, "resistance", DAMAGETYPE_FIRE);
-				SetObjproperty (item, "charges", charges);
-				AppendMagicSuffixItem (item, "Fire Resistance", 1);
 				item.resist_fire_mod := charges;
 			3:
-				SetObjproperty (item, "resistance", DAMAGETYPE_COLD);
-				SetObjproperty (item, "charges", charges);
 				item.resist_cold_mod := charges;
-				AppendMagicSuffixItem (item, "Frost Resistance", 1);
 			4:
-				SetObjproperty (item, "resistance", DAMAGETYPE_ELECTRICAL);
-				SetObjproperty (item, "charges", charges);
-				AppendMagicSuffixItem (item, "Electrical Resistance", 1);
 				item.resist_energy_mod := charges;
 			default:
 				Syslog ("Error adding magic spell to armor.");

@@ -509,8 +509,10 @@ function MakeTotem (character, selection, amount)
 		amount := amount - 1;
 		SubtractAmount (material, 200);
 		totem.color := 906;
-		totem.usescript := ":dundee:totem";
 		totem.movable := 1;
+		if (selection != 0x170b6)
+			totem.usescript := ":dundee:totem";
+		endif
 		case (selection)
 			0x20d7:
 				totem.name := "an obsidian golem";

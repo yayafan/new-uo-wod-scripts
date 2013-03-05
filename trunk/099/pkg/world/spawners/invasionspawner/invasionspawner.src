@@ -53,5 +53,6 @@ function GetDelayTime()
 	endif		
 
 	//1 to 4 people
-	return 1800;
+	// Originally 1800, modified because of low population
+	return 7200;
 endfunction

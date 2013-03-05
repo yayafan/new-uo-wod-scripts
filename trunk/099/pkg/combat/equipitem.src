@@ -190,9 +190,18 @@ function ChangeArcheryAmmo (character, thebow)
 	if (!theammo.movable)
 		SendSysMessage (character, "You cannot use that ammo!");
 		return;
-	elseif (!InInventory (character.backpack, theammo))
-		SendSysMessage (character, "The ammo needs to be in your backpack to use it!");
-		return;
+	else
+		var quiver := GetEquipmentByLayer (character, LAYER_CAPE);
+		if (quiver and quiver.isa (POLCLASS_CONTAINER))
+			if (!InInventory (quiver, theammo))
+				SendSysMessage (character, "The ammo needs to be in your quiver to use it!");
+			endif
+		else
+			if (!InInventory (character.backpack, theammo))
+				SendSysMessage (character, "The ammo needs to be in your backpack to use it!");
+				return;
+			endif
+		endif
 	endif
 	
 	case (thebow.objtype)

@@ -14,7 +14,7 @@ program namecheckatlogon (character)
 
 	start_script ("logonmessage", character );
 
-	if (!CanMod (character, "name", 1))
+	if (CanMod (character, "name", 1))
 		start_script ("namecheck", character);
 	endif
 

@@ -22,9 +22,9 @@ program poisonhit (parms)
 			"weak":	plvl := plvl + 3;
 		endcase
 	endif
-	//10 is the maximum poison level
-	if (plvl > 10)
-		plvl := 10;
+	//12 is the maximum poison level
+	if (plvl > 12)
+		plvl := 12;
 	endif
 
 	var poisoned := GetObjProperty (who, "#poisoninfo");
@@ -141,8 +141,8 @@ function GetPoisonDamagePerTick (who, plvl)
 	endif
 	if (plvl < 1)
 		plvl := 1;
-	elseif (plvl > 10)
-		plvl := 10;
+	elseif (plvl > 12)
+		plvl := 12;
 	endif
 
 	return (CINT (plvl * 1.5));
