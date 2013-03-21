@@ -703,108 +703,90 @@ endfunction
 ///////////////////
 
 function DoGateSpellEffect (byref caster, destinationx, destinationy, destinationz, destinationrealm)
-	if (destinationx > 5118 and !caster.cmdlevel)
-		sendsysmessage (caster, "Blocked!");
-		return;
-	endif
-
-	//seal off Buccaneer's Den from outside gates
-	if (destinationx > 2560 and destinationx < 2960 and destinationy > 1940 and destinationy < 2340 and destinationrealm == REALM_BRITANNIA)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	endif
-
-	//seal off Hidden Valley from outside gates
-	if (destinationx > 1655 and destinationx < 1695 and destinationy > 2935 and destinationy < 3005 and destinationrealm == REALM_BRITANNIA)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	endif
-
-	//seal off the valleys connecting Covetous from gates...
-	if (destinationx > 2440 and destinationx < 2560 and destinationy > 850 and destinationy < 910 and destinationrealm == REALM_BRITANNIA)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	elseif (destinationx > 2350 and destinationx < 2430 and destinationy > 830 and destinationy < 910 and destinationrealm == REALM_BRITANNIA)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	endif
-
-	//No gating into or out of jail
-	if (caster.x > 5268 and caster.x < 5315 and caster.y > 1154 and caster.y < 1197)
-		SendSysMessage (caster, "Leaving so soon?  I don't think so.");
-		return;
-	endif
-
-	//completely block off Famine (you can't even gate out of famine)
-	if (caster.x > 5260 and caster.x < 5340 and caster.y > 1870 and caster.y < 1940)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	elseif (caster.x > 5670 and caster.x < 5870 and caster.y > 780 and caster.y < 1010)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	elseif (caster.x > 5240 and caster.x < 5280 and caster.y > 1740 and caster.y < 1780)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	elseif (caster.x > 5720 and caster.y > 2250 and caster.y < 2600)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	endif
-
-	//no gating into the snowball fight area
-	if (caster.x > 5260 and caster.x < 5340 and caster.y > 1870 and caster.y < 1940)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-			return;
-		endif
-	endif
+	if (!caster.cmdlevel)
+		if (destinationrealm == REALM_BRITANNIA)
+			if (destinationx > 5118)
+				sendsysmessage (caster, "Blocked!");
+				return 0;
+			//seal off Buccaneer's Den from outside gates
+			elseif (destinationx > 2560 and destinationx < 2960 and destinationy > 1940 and destinationy < 2340)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			//seal off Hidden Valley from outside gates
+			elseif (destinationx > 1655 and destinationx < 1695 and destinationy > 2935 and destinationy < 3005)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			//seal off the valleys connecting Covetous from gates...
+			elseif (destinationx > 2440 and destinationx < 2560 and destinationy > 850 and destinationy < 910)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			elseif (destinationx > 2350 and destinationx < 2430 and destinationy > 830 and destinationy < 910)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			endif
+			
+			//No gating into or out of jail
+			if (caster.x > 5268 and caster.x < 5315 and caster.y > 1154 and caster.y < 1197)
+				SendSysMessage (caster, "Leaving so soon?  I don't think so.");
+				return;
+			endif
+			
+			//completely block off Famine (you can't even gate out of famine)
+			if (caster.x > 5260 and caster.x < 5340 and caster.y > 1870 and caster.y < 1940)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			elseif (caster.x > 5670 and caster.x < 5870 and caster.y > 780 and caster.y < 1010)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			elseif (caster.x > 5240 and caster.x < 5280 and caster.y > 1740 and caster.y < 1780)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			elseif (caster.x > 5720 and caster.y > 2250 and caster.y < 2600)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			//no gating into the snowball fight area
+			elseif (caster.x > 5260 and caster.x < 5340 and caster.y > 1870 and caster.y < 1940)
+				SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
+				return;
+			endif
 
 
-	//Can't gate directly into or out of Britain Bank
-	if (destinationx > 1435 and destinationx < 1475 and destinationy > 1545 and destinationy < 1560)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
-		endif
-	elseif (caster.x > 1435 and caster.x < 1475 and caster.y > 1545 and caster.y < 1560)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
-		endif
-	elseif (destinationx > 1435 and destinationx < 1448 and destinationy > 1545 and destinationy < 1568)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
-		endif
-	elseif (caster.x > 1435 and caster.x < 1448 and caster.y > 1545 and caster.y < 1568)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
-		endif
-	elseif (destinationx > 1462 and destinationx < 1475 and destinationy > 1545 and destinationy < 1568)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
-		endif
-	elseif (caster.x > 1462 and caster.x < 1475 and caster.y > 1545 and caster.y < 1568)
-		if (!caster.cmdlevel)
-			SendSysMessage (caster, "Gating directly into the bank would be tacky");
-			return;
+			//Can't gate directly into or out of Britain Bank
+			if (destinationx > 1435 and destinationx < 1475 and destinationy > 1545 and destinationy < 1560)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			elseif (caster.x > 1435 and caster.x < 1475 and caster.y > 1545 and caster.y < 1560)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			elseif (destinationx > 1435 and destinationx < 1448 and destinationy > 1545 and destinationy < 1568)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			elseif (caster.x > 1435 and caster.x < 1448 and caster.y > 1545 and caster.y < 1568)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			elseif (destinationx > 1462 and destinationx < 1475 and destinationy > 1545 and destinationy < 1568)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			elseif (caster.x > 1462 and caster.x < 1475 and caster.y > 1545 and caster.y < 1568)
+				SendSysMessage (caster, "Gating directly into the bank would be tacky");
+				return;
+			endif
+		elseif (destinationrealm == REALM_BRITANNIA_ALT)
+			sendsysmessage (caster, "Blocked!");
+			return 0;		
+		elseif (destinationrealm == REALM_ILSHENAR)
+			sendsysmessage (caster, "Blocked!");
+			return 0;	
+		elseif (destinationrealm == REALM_MALAS)
+			if (destinationx < 513)
+				sendsysmessage (caster, "Blocked!");
+				return 0;
+			endif
+		elseif (destinationrealm == REALM_TERMUR)
+			if (destinationy < 2840)
+				sendsysmessage (caster, "Blocked!");
+				return 0;
+			endif
 		endif
 	endif
 	
@@ -822,11 +804,9 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	DestroyItem (pregate);
 
 	var gate1 := CreateItemAtLocation (casterx, castery, casterz, UOBJ_BLUE_MOONGATE, 1, casterrlm);
-//	SendSysMessage (caster, "Gate1: " + gate1 + ", " + casterx + ", " + castery + ", " + casterz + ", " + casterrlm);
 	gate1.movable := 0;
 	gate1.facing := 1;
 	var gate2 := CreateItemAtLocation (destinationx, destinationy, destinationz, UOBJ_BLUE_MOONGATE, 1, destinationrealm);
-//	SendSysMessage (caster, "Gate2: " + gate2 + ", " + destinationx + ", " + destinationy + ", " + destinationz + ", " + destinationrealm);
 	gate2.movable := 0;
 	gate2.facing := 1;
 	if (!gate1 or !gate2)
@@ -834,17 +814,7 @@ function DoGateSpellEffect (byref caster, destinationx, destinationy, destinatio
 	endif
 	
 	gate1.SetDestination(gate2.x, gate2.y, gate2.z, gate2.realm);
-
-	SetObjProperty (gate1, "GateDestX", gate2.x);
-	SetObjProperty (gate1, "GateDestY", gate2.y);
-	SetObjProperty (gate1, "GateDestZ", gate2.z);
-	SetObjProperty (gate1, "GateDestR", gate2.realm);
-	
 	gate2.SetDestination(gate1.x, gate1.y, gate1.z, gate1.realm);
-	SetObjProperty (gate2, "GateDestX", gate1.x);
-	SetObjProperty (gate2, "GateDestY", gate1.y);
-	SetObjProperty (gate2, "GateDestZ", gate1.z);
-	SetObjProperty (gate2, "GateDestR", gate1.realm);
 
 	SetObjProperty (gate1, "summoned_field", 1);
 	SetObjProperty (gate2, "summoned_field", 1);

@@ -109,6 +109,9 @@ function GetDefendersAR (defender)
 endfunction
 
 function DoDamageToEquipment (byref item, thedamage)
+	if (item.hp > item.maxhp)
+		item.hp := item.maxhp;
+	endif
 	if (item.hp >= thedamage)
 		item.hp := item.hp - thedamage;
 		item.name := item.desc;

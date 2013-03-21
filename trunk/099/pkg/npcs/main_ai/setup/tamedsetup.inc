@@ -78,7 +78,7 @@ function DoStartupSetup ()
 		SetObjProperty (me, "freetime", freetime);
 	endif
 
-	if (me.npctemplate ["dragon"])
+	if (me.npctemplate ["dragon"] or me.npctemplate ["hiryu"])
 		dragonspeak := 1;
 	endif
 
@@ -107,6 +107,13 @@ function DoStartupSetup ()
 		purecaster := 1;
 		saywords := MyTemplateElem.saywords;
 	endif
+	
+	if (MyTemplateElem.meleecaster)
+		caster := 1;
+		purecaster := 0;
+		saywords := MyTemplateElem.saywords;
+	endif
+	
 
 	if (MyTemplateElem.script["firebreather"])
 		firebreather := 1;

@@ -13,7 +13,8 @@ include "include/skills";
 include "include/math";
 include "include/itemtypes";
 
-// Charges: 1049116
+// Charges: 1049116, 1075217
+// Empty: 1042971 (used for name), 1070722, 1114057, 1114778-9, 1150541
 program itemdata(xObject)
 	// Start of Loop.
 	//var itemdesc := ReadConfigFile (":*:itemdesc");
@@ -116,6 +117,49 @@ program itemdata(xObject)
 					prop.values := array {};
 					allprops.append (prop);
 				endif
+				case (GetObjProperty (xObject, "specialweaponeffect"))
+					"lightning":
+						prop.clilocid := 1060423;
+						prop.values := array { "10"};
+						allprops.append (prop);		
+					"vampire":
+						prop.clilocid := 1079698;
+						prop.values := array {};
+						allprops.append (prop);		
+					"dragonslaying":
+						prop.clilocid := 1060462;
+						prop.values := array {};
+						allprops.append (prop);		
+					"lizardmanslaying":
+						prop.clilocid := 1060467;
+						prop.values := array {};
+						allprops.append (prop);		
+					"ophidianslaying":
+						prop.clilocid := 1060469;
+						prop.values := array {};
+						allprops.append (prop);		
+					"orcslaying":
+						prop.clilocid := 1060470;
+						prop.values := array {};
+						allprops.append (prop);		
+					"ratmanslaying"://uh oh, no cliloc! Vermin Slayer is 1072505
+						prop.clilocid := 1114057;
+						prop.values := array {"Ratman Slayer"};
+						allprops.append (prop);		
+					"terathanslaying":
+						prop.clilocid := 1060478;
+						prop.values := array {};
+						allprops.append (prop);		
+					"trollslaying":
+						prop.clilocid := 1060480;
+						prop.values := array {};
+						allprops.append (prop);		
+					"vampireslaying"://uh oh, no cliloc!
+						prop.clilocid := 1114057;
+						prop.values := array {"Vampire Slayer"};
+						allprops.append (prop);		
+				endcase
+
 				myvar := GetItemDescriptor(xObject.objtype);
 				//Damage
 				prop.clilocid := 1061168;

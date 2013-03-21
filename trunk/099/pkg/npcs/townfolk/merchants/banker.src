@@ -45,7 +45,7 @@ program banker_AI();
     		elseif (ev and ev.type == EVID_SPEECH and !ev.source.npctemplate)
 			var evtext := lower(ev.text);
 			if (evtext["bank"])
-				if(ev.text["vendor"] or ev.text["guard"] or ev.text["buy"] or ev.text["sell"] or ev.text["job"])
+				if(evtext["vendor"] or evtext["guard"] or evtext["buy"] or evtext["sell"] or evtext["job"])
 					SendStupidMessage (ev.source);
 				else
 					OpenBank (ev.source);

@@ -21,7 +21,7 @@ program set_player_guild (character, text)
 			SendSysMessage (character, "Canceled.");
 			return;
 		endif
-		if (book.objtype < 0x7020 or book.objtype > 0x7023)
+		if (book.objtype < 0x17020 or book.objtype > 0x17023)
 			SendSysMessage (character, "That's not a valid book!");
 			return;
 		endif
