@@ -97,7 +97,7 @@ function PutOwnersMarkOnItem (me, it)
 	else
 		it.name := me.name+"'s " + TheName;
 	endif
-	it.name := TheName;
+//	it.name := TheName;
 	it.sellprice := 0;
 	it.buyprice := 0;
 	SetObjProperty (it, "ownerserial", ownerserial);

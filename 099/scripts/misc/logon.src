@@ -92,6 +92,7 @@ program logon (character)
 	
 	//MakeChristmasTreeDeed (character);
 	//MakeChristmasGift (character);
+	//MakeValentineBox (character);
 
 endprogram
 
@@ -306,7 +307,7 @@ endfunction
 
 
 ///////////////////
-//  For easter
+//  For christmas
 ///////////////////
 
 function MakeChristmasTreeDeed (character)
@@ -322,6 +323,83 @@ function MakeChristmasTreeDeed (character)
 	endif
 
 	SetAccountProperty (character.acctname, "christmas_tree_deed_2012", 1);
+endfunction
+
+function MakeValentineBox (character)
+	if (GetAccountProperty (character.acctname, "valentine_present_2013"))
+		return;
+	endif
+	var basket := CreateItemInContainer (character.backpack, 0x49cc, 1);
+	if (!basket)
+		SendSysMessage (character, "Error creating Valentine's Day Present!");
+		return;
+	endif
+		
+	var item;
+
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 34;
+	item.name := "Happy Valentine's Day!";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 34;
+	item.name := "Happy Valentine's Day!";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 34;
+	item.name := "Happy Valentine's Day!";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1154;
+	item.name := "True Love";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1154;
+	item.name := "True Love";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1154;
+	item.name := "True Love";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1202;
+	item.name := "Be my Valentine";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1202;
+	item.name := "Be my Valentine";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1202;
+	item.name := "Be my Valentine";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 34;
+	item.name := "Be mine!";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1154;
+	item.name := "Be mine!";
+	
+	item := CreateItemInContainer (basket, 0xc942, 1);
+	item.graphic := 0x1ea7;
+	item.color := 1202;
+	item.name := "Be mine!";
+
+	item := CreateItemInContainer (basket, 0xb034, 1);
+
+	SetAccountProperty (character.acctname, "valentine_present_2013", 1);
 endfunction
 
 

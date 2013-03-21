@@ -404,6 +404,9 @@ function DryDock (event)
 	if (!shiptype)
 		shiptype := GetObjProperty (tillerman, "shiptype");
 	endif
+	if (shiptype < 0x10000)
+		shiptype := shiptype + 0x10000;
+	endif
 	var newboat := CreateItemInContainer (player.backpack, shiptype, 1);
 	if (!newboat)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);

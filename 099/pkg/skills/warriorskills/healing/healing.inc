@@ -70,16 +70,16 @@ function HealPatient (healer, patient, bandages)
 		return;
 	endif
 
-	var difficulty := GetVitalMaximumValue (patient, "Life") - GetVital (patient, "Life");
-	difficulty := CINT (difficulty/100);
+	var difficulty := CINT (100 - ((GetVital (patient, "Life")*100)/GetVitalMaximumValue (patient, "Life")));
+
+	difficulty := difficulty + difficulty_mod;
 	if (difficulty > 100)
 		difficulty := 100;
 	endif
 
-	difficulty := difficulty + difficulty_mod;
-	if (patient.acctname)
-		difficulty := CINT (difficulty / 2);
-	endif
+//	if (patient.acctname or patient.master)
+//		difficulty := CINT (difficulty / 2);
+//	endif
 	SubtractAmount (bandages, 1);
 
 	var waspoisoned := 0;

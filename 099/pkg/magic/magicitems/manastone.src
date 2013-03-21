@@ -245,7 +245,7 @@ program use_manastone (character, stone)
 		magic_item_desc := magic_item_desc + " [" + new_name_1 + "]";
 		magic_item.name := magic_item_desc;
 		DestroyItem (normal_item);
-		DestroyItem (stone);
+		SubtractAmount(stone, 1);
 		SetObjProperty (magic_item, "manastone", 1);
 		return;
 	endif
@@ -280,7 +280,7 @@ function DoMagicTransfer (character, stone, magic_item, normal_item, new_name_1,
 	endforeach
 
 	DestroyItem (magic_item);
-	DestroyItem (stone);
+	SubtractAmount (stone, 1);
 	SetObjProperty (magic_item, "manastone", 1);
 	SendSysMessage (character, "Done!");
 

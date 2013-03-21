@@ -45,9 +45,7 @@ program make_magic_item (parms)
 			if (RandomInt (4) and item.maxhp > 50)
 				durability_loss := RandomInt (CINT (item.maxhp * 0.75));
 			endif
-			if (RandomInt (2))
-				item.hp := item.maxhp;
-			endif
+			item.hp := item.maxhp;
 		else
 			item.hp := item.maxhp;
 		endif
@@ -81,6 +79,7 @@ program make_magic_item (parms)
 	endcase
 	if (durability_loss)
 		item.maxhp_mod := item.maxhp_mod - durability_loss;
+		item.hp := item.maxhp;
 		SetObjProperty (item, "durability_loss", durability_loss);
 	endif
 	return 1;

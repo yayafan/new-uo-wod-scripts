@@ -124,7 +124,7 @@ function MainAILoop ()
 					ProcessSpeech (ev);
 				EVID_ENGAGED:
 				EVID_DAMAGED:
-					if (nextwatch > ReadGameClock())
+					if (nextwatch < ReadGameClock())
 						if (ev.source)
 							if (dragonspeak)
 								dragontalk ("attacked", ev.source.name);
@@ -1094,16 +1094,16 @@ function Fight (opponent)
 				cast_offensive_spell (me, opponent);
 				nextbreath := ReadGameClock() + RandomInt(5) + 3;
 			endif
-  	     endif
+		endif
 
 		//if we can't get to our opponent by now, forget it
 		if ( loops > 100 )
 			flee (opponent);
 			return;
 		endif
-    endwhile
+	endwhile
 
-    SetWarMode (0);
+	SetWarMode (0);
 
 	foreach mob in ListHostiles (me, 9, 0)
 		Fight (mob);
@@ -1136,7 +1136,7 @@ function CloseDistance (byref opponent)
 	
 	if (purecaster)
 		if (GetVital (me, "Mana") * 5 < GetVitalMaximumValue (me, "Mana"))
-			purecaster := 0;
+//			purecaster := 0;
 		else
 			if (guarding)
 				if (Distance (me, guarding) > 4)
@@ -1401,7 +1401,7 @@ function CastHealingSpells (me, opponent)
 	endforeach
 	
 	if (opponent)
-		if (RandomInt (4) == 1)
+		if (RandomInt (2) == 1)
 			cast_offensive_spell (me, opponent);
 		endif
 	endif

@@ -14,15 +14,31 @@ program cast_mark (parms, spellid)
 		return 0;
 	endif
 
-	if (caster.realm == REALM_BRITANNIA and caster.x > 5118)
+	if (caster.realm == REALM_BRITANNIA)
+		if (caster.x > 5118)
+			sendsysmessage (caster, "Blocked!");
+			return 0;
+		elseif (caster.x > 2560 and caster.x < 2960 and caster.y > 1940 and caster.y < 2340)
+			//seal off Buccaneer's Den from outside gates
+			SendSysMessage (caster, "Your mark spell has somehow been interrupted.");
+			return 0;
+		endif
+	elseif (caster.realm == REALM_BRITANNIA_ALT)
 		sendsysmessage (caster, "Blocked!");
-		return 0;
-	endif
-
-	//seal off Buccaneer's Den from outside gates
-	if (caster.realm == REALM_BRITANNIA and caster.x > 2560 and caster.x < 2960 and caster.y > 1940 and caster.y < 2340)
-		SendSysMessage (caster, "Your gate spell has somehow been interrupted.");
-		return 0;
+		return 0;	
+	elseif (caster.realm == REALM_ILSHENAR)
+		sendsysmessage (caster, "Blocked!");
+		return 0;	
+	elseif (caster.realm == REALM_MALAS)
+		if (caster.x < 513)
+			sendsysmessage (caster, "Blocked!");
+			return 0;
+		endif
+	elseif (caster.realm == REALM_TERMUR)
+		if (caster.y < 2840)
+			sendsysmessage (caster, "Blocked!");
+			return 0;
+		endif
 	endif
 
 	SendSysmessage (caster, "Select a rune to mark.");
