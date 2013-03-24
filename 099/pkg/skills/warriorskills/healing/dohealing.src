@@ -23,7 +23,7 @@ program bandageheal (parms)
 		ResurrectPlayer (healer, patient, bandages);
 	elseif (!patient.npctemplate)
 		HealPatient (healer, patient, bandages);
-	elseif (patient.graphic == 400 or patient.graphic == 401)
+	elseif (patient.graphic == 400 or patient.graphic == 401 or patient.graphic == 605 or patient.graphic == 606 or patient.graphic == 666 or patient.graphic == 667)
 		HealPatient (healer, patient, bandages);
 	else
 		SendSysMessage (healer, "You can't heal that.");

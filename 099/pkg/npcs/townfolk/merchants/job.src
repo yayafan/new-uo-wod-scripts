@@ -540,7 +540,7 @@ function GivePlayerBlacksmithySpecialOrder (merchant, player)
 		endif
 	endif
 	
-	var deed := CreateItemInContainer (player.backpack, 0x70d0, 1);
+	var deed := CreateItemInContainer (player.backpack, 0x170d0, 1);
 	if (!deed)
 		PrintTextAbovePrivate (player, "*Your backpack is full!*", player);
 		return 0;

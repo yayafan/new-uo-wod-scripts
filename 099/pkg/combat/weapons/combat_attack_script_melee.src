@@ -555,7 +555,8 @@ function DoEtherialEffect (attacker, defender, weapon, rawdamage)
 		
 		"dragonslaying":
 			var package := FindNPCPackage (defender.npctemplate);
-			if (package and package == "dragons")
+			var NpcElem := GetNpcTemplateElem (defender.npctemplate);
+			if ((package and package == "dragons") or NpcElem.dragon)
 				PlayObjectCenteredEffect (defender, FX_GLOW, 7, 7);
 				DoDamageByType (attacker, defender, CINT (rawdamage/2), DAMAGETYPE_MAGIC);
 			endif

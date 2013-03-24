@@ -83,7 +83,7 @@ endprogram
 
 function Busted (who, victim)
 	PrinttextAbove (victim, "Stop!  Help!  A thief!");
-	who.criminal := 1;
+	who.SetCriminal (1);
 
 	var ev := struct;
 	ev.+type := EVID_DAMAGED;
@@ -91,7 +91,7 @@ function Busted (who, victim)
 	SendEvent (victim, ev);
 
 	Foreach guard in ListMobilesNearLocation(victim.x, victim.y, victim.z, 20, victim.realm)
-		if (guard.npctemplate["townguard"])
+		if (guard.npctemplate["townguard"] or guard.npctemplate["guardspawner"])
 			SendEvent (guard ,ev);
 		endif
 	endforeach
