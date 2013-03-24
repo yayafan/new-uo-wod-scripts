@@ -47,7 +47,7 @@ program bard_provoke (character)
 		return;
 	endif
 	if (thetarg.alignment == 2)
-		character.criminal := 1;
+		character.SetCriminal (1);
 	endif
 
 	if (GetObjProperty (thetarg, "noprovoke") )
@@ -118,7 +118,7 @@ program bard_provoke (character)
 			difficulty := (difficulty + 100 - GetDiscordanceMod (newtarg))/2;
 		endif
 		if (newtarg.alignment == 2)
-			character.criminal := 1;
+			character.SetCriminal (1);
 		endif
 		
 		

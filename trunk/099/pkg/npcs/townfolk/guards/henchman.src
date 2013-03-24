@@ -138,6 +138,10 @@ program henchman_AI ()
 			elseif (GetObjProperty (me, "#hitlist"))
 				ClearHitList ();
 			endif
+		else
+			if (me.poisoned or GetVital (me, "Life") < CINT (GetVitalMaximumValue (me, "Life") * 0.75))
+				ApplyHenchmanHealing (me);
+			endif
 		endif
 	endwhile
 endprogram
