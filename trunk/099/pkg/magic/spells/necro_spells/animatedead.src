@@ -25,15 +25,19 @@ program cast_raise_dead (parms)
 		return 0;
 	endif
 
-	if (!CheckSkill (caster, SKILLID_SPIRITSPEAK, -80, 0))
+	if (!CheckSkill (caster, SKILLID_SPIRITSPEAK, 80, 0))
 		SendSysMessage (caster, "You fail to contact the nether realm");
 		return 0;
 	endif
 
-	var oldgraphic, oldscript, oldstr, AttackSpeed, AttackDamage, Tactics, Wrestling, AR;
-
+	var oldgraphic, oldscript, oldstr, AttackSpeed, AttackDamage, Tactics, Wrestling, AR, BonusMaxHP;
+	
 	if (GetObjProperty (corpse, "npctemplate"))
 		var oldtemplate := GetObjProperty (corpse, "npctemplate");
+		if (oldtemplate["champspawner"])
+			SendSysMessage (caster, "Such formidable adversary can't be reanimated");
+			return;
+		endif
 		var oldtemplateelem := GetNpcTemplateElem(oldtemplate);
 		oldgraphic := oldtemplateelem.objtype;
 		if (oldgraphic == 400 or oldgraphic == 401)
@@ -45,6 +49,7 @@ program cast_raise_dead (parms)
 		AR := oldtemplateelem.AR;
 		Tactics := oldtemplateelem.Tactics;
 		Wrestling := oldtemplateelem.Wrestling;
+		BonusMaxHP := CINT (GetObjProperty (corpse, "BonusMaxHP"));
 	endif
 
 	set_critical (1);
@@ -58,6 +63,9 @@ program cast_raise_dead (parms)
 	summoned_creature.graphic := oldgraphic;
 	summoned_creature.color := 1805;
 	SetAttributeBaseValue (summoned_creature, "Strength", oldstr * 10);
+	if (BonusMaxHP)
+		SetObjProperty (corpse, "BonusMaxHP", BonusMaxHP);
+	endif
 	RecalcVitals (summoned_creature);
 	
 	SetAttributeBaseValue (summoned_creature, ATTRIBUTEID_TACTICS, tactics * 10);
