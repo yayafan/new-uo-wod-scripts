@@ -21,6 +21,7 @@ const CSSC_NOREAGENTS       := 0x01;
 const CSSC_HANDSFREE         := 0x02;
 const CSSC_NOSKILLCHECK     := 0x04;
 const CSSC_NODELAY            := 0x08;
+const CSSC_NOUNHIDE           := 0x10;
 
 Const STATMOD_STR			:= 1;
 Const STATMOD_DEX			:= 2;
@@ -96,6 +97,9 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 				return 0;
 			endif
 		endif
+		if (!(flags & CSSC_NOUNHIDE))
+			thecaster.hidden := 0;
+		endif
 		return 1;
 
 	elseif (parms[1] == "#SCROLL")
@@ -107,6 +111,9 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 			if (!FreeHands (thecaster))
 				return 0;
 			endif
+		endif
+		if (!(flags & CSSC_NOUNHIDE))
+			thecaster.hidden := 0;
 		endif
 		return 1;
 
@@ -129,6 +136,9 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 				return 0;
 			endif
 		endif
+		if (!(flags & CSSC_NOUNHIDE))
+			thecaster.hidden := 0;
+		endif
 		if (!spellid)
 			if(!ConsumeSpellManaCost (thecaster, spell_circle))
 				return 0;
@@ -143,28 +153,28 @@ function CheckSuccessfulSpellCast (byref parms, spellid := 0, flags := 0)
 					endif
 				endif
 				if (!(flags & CSSC_NODELAY))
-          var orig_hp := GetVital( thecaster, "Hits" ),
-          delay := GetTimeDelayBySpellID (spellid);
-//          var orig_x := thecaster.x, orig_y := thecaster.y;
+					var orig_hp := GetVital( thecaster, "Hits" ),
+					delay := GetTimeDelayBySpellID (spellid);
+//					var orig_x := thecaster.x, orig_y := thecaster.y;
              
-	        // Check for health changes and fail the spell if caster becomes damaged
-	        while( delay > 0 )
-		        if( orig_hp > GetVital( thecaster, "Hits"))
-              Fizzle(thecaster);
-              return 0;
-		        elseif( thecaster.frozen || thecaster.paralyzed )
-			        Fizzle(thecaster);
-			        return 0;
-            endif
+					// Check for health changes and fail the spell if caster becomes damaged
+					while( delay > 0 )
+						if( orig_hp > GetVital( thecaster, "Hits"))
+							Fizzle(thecaster);
+							return 0;
+						elseif( thecaster.frozen || thecaster.paralyzed )
+							Fizzle(thecaster);
+							return 0;
+						endif
 
-            delay -= 100;
-		        SleepMS(100);
-	        endwhile
-          //if( thecaster.x != orig_x || thecaster.y != orig_y )
-          //  SendSysMessage( thecaster, "Your concentration is disturbed while moving." );
-          //  return 0;
-          //endif
-        endif
+						delay -= 100;
+						SleepMS(100);
+					endwhile
+//					if( thecaster.x != orig_x || thecaster.y != orig_y )
+//						SendSysMessage( thecaster, "Your concentration is disturbed while moving." );
+//						return 0;
+//					endif
+				endif
 				if (!(flags & CSSC_NOSKILLCHECK))
 					if (!CheckSkill (thecaster, SKILLID_MAGERY, GetSpellDifficulty(spellid), 0))
 						Fizzle(thecaster);

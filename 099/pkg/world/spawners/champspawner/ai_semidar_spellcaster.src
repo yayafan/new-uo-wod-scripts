@@ -103,7 +103,7 @@ function process_combat_event (byref ev)
 					CastSpell (me, ev.source, ":poison_spells:poison");
 				endif
 				if (!GetObjProperty (me, "mr"))
-					if (RandomInt(5)==1)
+					if (RandomInt(3)==1)
 						CastSpell (me, me, ":misc_spells:reflect");
 					endif
 				endif
@@ -151,6 +151,9 @@ endfunction
 
 function post_combat()
 	if (GetVital (me, "Life") < CINT (GetVitalMaximumValue (me, "Life")*3/4))
+		CastSpell(me,me,":misc_spells:gheal");
+		CastSpell(me,me,":misc_spells:gheal");
+		CastSpell(me,me,":misc_spells:gheal");
 		CastSpell(me,me,":misc_spells:gheal");
 		CastSpell(me,me,":misc_spells:gheal");
 		CastSpell(me,me,":misc_spells:gheal");
