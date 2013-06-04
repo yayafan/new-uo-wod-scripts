@@ -7,7 +7,7 @@ rem copy tiles.cfg config
 rem uoconvert landtiles
 rem copy landtiles.cfg config
 
-uoconvert map     realm=britannia mapid=0 usedif=1 width=7168 height=4096
+uoconvert map     realm=britannia mapid=0 usedif=0 width=7168 height=4096
 uoconvert statics realm=britannia
 uoconvert maptile realm=britannia
 
