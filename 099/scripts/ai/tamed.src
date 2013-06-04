@@ -536,8 +536,16 @@ function AbovePetCount (range := 10)
 	//Do seperate checks for summoned and tamed pets
 	if (GetObjProperty (me, "summoned"))
 		var mymaxpets := 5;
-		if (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 98)
+		if (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 120)
+			mymaxpets := 12;
+		elseif (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 118)
+			mymaxpets := 11;
+		elseif (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 108)
+			mymaxpets := 10;
+		elseif (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 98)
 			mymaxpets := 9;
+		elseif (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 88)
+			mymaxpets := 8;
 		elseif (GetAttribute (master, ATTRIBUTEID_MAGERY) >= 78)
 			mymaxpets := 7;
 		endif
@@ -550,8 +558,16 @@ function AbovePetCount (range := 10)
 		endif
 	else
 		var mymaxpets := 5;
-		if (GetAttribute (master, ATTRIBUTEID_TAMING) >= 98)
+		if (GetAttribute (master, ATTRIBUTEID_TAMING) >= 120)
+			mymaxpets := 12;
+		elseif (GetAttribute (master, ATTRIBUTEID_TAMING) >= 118)
+			mymaxpets := 11;
+		elseif (GetAttribute (master, ATTRIBUTEID_TAMING) >= 108)
+			mymaxpets := 10;
+		elseif (GetAttribute (master, ATTRIBUTEID_TAMING) >= 98)
 			mymaxpets := 9;
+		elseif (GetAttribute (master, ATTRIBUTEID_TAMING) >= 88)
+			mymaxpets := 8;
 		elseif (GetAttribute (master, ATTRIBUTEID_TAMING) >= 78)
 			mymaxpets := 7;
 		endif
@@ -563,7 +579,7 @@ function AbovePetCount (range := 10)
 
 	//There's also a check for the total number of pets, summoned and tamed combined
 	//Summoned pets get released first.  If there's no summoned pets to release, quit
-	if ((normal_pets + summoned_pets) > 12)
+	if ((normal_pets + summoned_pets) > 16)
 		if ((RandomInt(15)+3) < (normal_pets + summoned_pets))
 			if (GetObjProperty (me, "summoned"))
 				Release ();

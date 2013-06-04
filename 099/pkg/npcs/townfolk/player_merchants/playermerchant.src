@@ -888,7 +888,7 @@ endfunction
 function CanSellAtThisLocation ()
 	var sign := FindHouseSignAtLocation (me.x, me.y, me.realm);
 	if (!sign)
-		var sign := ListItemsNearLocationOfType (me.x, me.y, me.z, 10, 0x7009, me.realm);
+		var sign := ListItemsNearLocationOfType (me.x, me.y, me.z, 10, 0x17009, me.realm);
 		if (len (sign))
 			return 2;
 		endif

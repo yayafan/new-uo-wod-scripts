@@ -129,7 +129,7 @@ function GetDestination (player, text)
 		parms[1] := 662;//x
 		parms[2] := 2228;//y
 		parms[3] := -3;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Skara Brae";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -138,7 +138,7 @@ function GetDestination (player, text)
 		parms[1] := 1499;//x
 		parms[2] := 1760;//y
 		parms[3] := -2;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Britain";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -147,7 +147,7 @@ function GetDestination (player, text)
 		parms[1] := 3044;//x
 		parms[2] := 818;//y
 		parms[3] := -3;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Vesper";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -156,7 +156,7 @@ function GetDestination (player, text)
 		parms[1] := 4426;//x
 		parms[2] := 1025;//y
 		parms[3] := -2;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Moonglow";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -165,7 +165,7 @@ function GetDestination (player, text)
 		parms[1] := 3662;//x
 		parms[2] := 2680;//y
 		parms[3] := -2;//z
-		parms[4] := 20;//duration
+		parms[4] := 10;//duration
 		parms[5] := "Ocllo";//destination
 		parms[6] := 300;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -174,7 +174,7 @@ function GetDestination (player, text)
 		parms[1] := 3806;//x
 		parms[2] := 1278;//y
 		parms[3] := 5;//z
-		parms[4] := 20;//duration
+		parms[4] := 10;//duration
 		parms[5] := "Nujel'M";//destination
 		parms[6] := 300;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -183,7 +183,7 @@ function GetDestination (player, text)
 		parms[1] := 2760;//x
 		parms[2] := 2165;//y
 		parms[3] := -2;//z
-		parms[4] := 22;//duration
+		parms[4] := 11;//duration
 		parms[5] := "Buccaneer's Den";//destination
 		parms[6] := 500;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -192,7 +192,7 @@ function GetDestination (player, text)
 		parms[1] := 3693;//x
 		parms[2] := 2297;//y
 		parms[3] := -2;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "New Magincia";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -201,7 +201,7 @@ function GetDestination (player, text)
 		parms[1] := 1512;//x
 		parms[2] := 3707;//y
 		parms[3] := -3;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Jhelom";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -210,7 +210,7 @@ function GetDestination (player, text)
 		parms[1] := 2941;//x
 		parms[2] := 3413;//y
 		parms[3] := 1;//z
-		parms[4] := 20;//duration
+		parms[4] := 10;//duration
 		parms[5] := "Serpent's Hold";//destination
 		parms[6] := 200;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -219,7 +219,7 @@ function GetDestination (player, text)
 		parms[1] := 2085;//x
 		parms[2] := 2849;//y
 		parms[3] := -3;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Trinsic";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -228,7 +228,7 @@ function GetDestination (player, text)
 		parms[1] := 2256;//x
 		parms[2] := 1171;//y
 		parms[3] := -2;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Cove";//destination
 		parms[6] := 250;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm
@@ -237,7 +237,7 @@ function GetDestination (player, text)
 		parms[1] := 4552;//x
 		parms[2] := 2336;//y
 		parms[3] := -2;//z
-		parms[4] := 15;//duration
+		parms[4] := 8;//duration
 		parms[5] := "Sea Market";//destination
 		parms[6] := 100;//cost
 		parms[7] :=  REALM_BRITANNIA;//realm

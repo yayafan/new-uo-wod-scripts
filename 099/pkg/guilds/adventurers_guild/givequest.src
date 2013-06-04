@@ -113,7 +113,7 @@ program givequest (parms)
 	
 	if (quest_chosen.index == 1 or quest_chosen.index == 2)
 		SetObjProperty (questmaster, "#firstgroupcounter", CINT (GetObjProperty (questmaster, "#firstgroupcounter"))+1);
-	elseif (quest_chosen.index == 1 or quest_chosen.index == 2)
+	elseif (quest_chosen.index == 3 or quest_chosen.index == 4)
 		SetObjProperty (questmaster, "#secondgroupcounter", CINT (GetObjProperty (questmaster, "#secondgroupcounter"))+1);
 	endif
 

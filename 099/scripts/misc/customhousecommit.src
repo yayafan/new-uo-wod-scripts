@@ -21,8 +21,9 @@ program customhouse_commit ( who, house, houseelemarray )
 	if (!price)
 		price := GetDefaultHousePrice (housevalue);
 	endif
-	var totalcost := (houseelemarray.size()*500) + 10000 - price;
-	SendSysMessage (who, "The component value is " + (houseelemarray.size()*500) + " gold!");
+	var newprice := ((houseelemarray.size() + house.components.size())*500);
+	var totalcost := newprice + 10000 - price;
+	SendSysMessage (who, "The new house price will be " + newprice + " gold!");
 	SendSysMessage (who, "The current house price is " + price + " gold!");
 	if (totalcost >= 0)
 		SendSysMessage (who, "The cost of building this house is " + totalcost + " gold!");
@@ -58,7 +59,7 @@ program customhouse_commit ( who, house, houseelemarray )
 		endwhile
 		CreateItemInContainer (who.backpack, UOBJ_GOLD_COIN, refund);
 	endif
-	SetObjProperty (sign, "houseprice", (houseelemarray.size()*500));
+	SetObjProperty (sign, "houseprice", newprice);
 	house.acceptcommit(who, 1);
 	var teleporters := array{};
 	foreach item in (house.components)

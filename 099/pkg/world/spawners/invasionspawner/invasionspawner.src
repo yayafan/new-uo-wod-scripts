@@ -29,7 +29,7 @@ function GetDelayTime()
 	var plrs := EnumerateOnlineCharacters();
 	var numplayers := plrs.size();
 	if (!numplayers)
-		return 3600;
+		return 7200;
 	endif
 
 	if ( numplayers > 39 )
@@ -54,5 +54,5 @@ function GetDelayTime()
 
 	//1 to 4 people
 	// Originally 1800, modified because of low population
-	return 7200;
+	return 2400;
 endfunction

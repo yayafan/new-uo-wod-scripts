@@ -25,7 +25,7 @@ program cast_raise_dead (parms)
 		return 0;
 	endif
 
-	if (!CheckSkill (caster, SKILLID_SPIRITSPEAK, 80, 0))
+	if (!CheckSkill (caster, SKILLID_SPIRITSPEAK, -1, 0))
 		SendSysMessage (caster, "You fail to contact the nether realm");
 		return 0;
 	endif

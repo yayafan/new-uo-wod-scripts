@@ -369,6 +369,13 @@ program itemdata(xObject)
 				allprops.append (prop);
 			endif
 		endif
+		myvar := GetObjProperty (xObject, "flavortext");
+		if (myvar)
+			myvar := TidyUpFlavorText (myvar);
+			prop.clilocid := 1150541;
+			prop.values := array {myvar};
+			allprops.append (prop);
+		endif
 	endif
 	return allprops;
 endprogram
@@ -453,4 +460,20 @@ function GetShipTypeCliloc (item)
 			return 1150100;
 	endcase
 	return 0;
+endfunction
+
+
+function TidyUpFlavorText (text)
+	var words := SplitWords (text);
+	var newtext := "";
+	var newline := "Description: ";
+	foreach word in words
+		newline := newline + word + " ";
+		if (Len (newline) > 50)
+			newtext := newtext + newline + "<BR>";
+			newline := "";
+		endif
+	endforeach
+	newtext := newtext + newline;
+	return newtext;
 endfunction
