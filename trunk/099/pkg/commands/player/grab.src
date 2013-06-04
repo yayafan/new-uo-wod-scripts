@@ -176,7 +176,7 @@ Function grabit (byref me, byref it)
 			else
 				PrintTextAbove (me, "*yoink*");
 			endif
-			sleep(1);
+			sleepms(500);
 		else
 			PrintTextAbovePrivate (me, "*That container is full!*", me);
 		endif
@@ -197,7 +197,7 @@ Function grabit (byref me, byref it)
 		if (ownerserial and ownerserial == me.serial)
 			if (MoveItemToContainer (it, targetbag, 1, 1 ))
 				PrintTextAbove (me,"*yoink*");
-				sleep(1);
+				sleepms(500);
 			else
 				PrintTextAbovePrivate (me, "*That container is full!*", me);
 			endif
@@ -222,7 +222,7 @@ Function grabit (byref me, byref it)
 			else
 				PrintTextAbove (me, "*yoink*");
 			endif
-			sleep(1);
+			sleepms(500);
 		else
 			PrintTextAbovePrivate (me, "*That container is full!*", me);
 		endif
@@ -244,7 +244,7 @@ Function grabit (byref me, byref it)
 						endif
 						PrintTextAbove (me, "*yoink*");
 						targetbag.name := targetbag.desc;
-						sleep (1);
+						sleepms(500);
 						return;
 					elseif (CreateItemInContainer (targetbag, it.objtype, it.amount))
 						if (!DestroyItem (it))
@@ -254,7 +254,7 @@ Function grabit (byref me, byref it)
 						endif
 						PrintTextAbove (me, "*yoink*");
 						targetbag.name := targetbag.desc;
-						sleep (1);
+						sleepms(500);
 						return;
 					else
 						PrintTextAbovePrivate (me, "*That container is full!*", me);
@@ -275,7 +275,7 @@ Function grabit (byref me, byref it)
 			return;
 		endif
 		PrintTextAbove (me, "*yoink*");
-		sleep(1);
+		sleepms(500);
 	else
 		PrintTextAbovePrivate (me, "*That container is full!*", me);
 	endif

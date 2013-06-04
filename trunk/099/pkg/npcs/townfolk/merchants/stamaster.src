@@ -142,7 +142,7 @@ function Save_Pet_Data (byref ticket, byref pet)
 	SetObjProperty (ticket, "stats", stats);
 	var myskills := array {};
 	for i := 0 to 57
-		myskills[i] := GetAttribute (pet, GetAttributeIDBySkillID (i));
+		myskills[i] := GetAttributeBaseValue (pet, GetAttributeIDBySkillID (i));
 	endfor
 	SetObjProperty (ticket, "skills", myskills);
 	KillNPC (pet);
@@ -182,8 +182,10 @@ function Load_Ticket_Data (byref player, byref ticket)
 					var skill := skills[i];
 					if (!skill)
 						skill := 0;
+					elseif (skill < GetAttributeBaseValue (newpet, GetAttributeIDBySkillID(i)))
+						skill := GetAttributeBaseValue (newpet, GetAttributeIDBySkillID(i));
 					endif
-					SetAttributeBaseValue (newpet, GetAttributeIDBySkillID(i), skill*10);
+					SetAttributeBaseValue (newpet, GetAttributeIDBySkillID(i), skill);
 				endfor
 				SetObjProperty (newpet, "skills", skills);
 			endif

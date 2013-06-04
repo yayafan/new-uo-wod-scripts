@@ -20,7 +20,8 @@ program setweather ()
 		endif
 		
 		if (RandomInt (10) == 1)
-			DoSnowStorm ();
+//			DoSnowStorm ();
+			DoRainStorm ();
 		endif
 		
 		EraseGlobalProperty ("#weather");

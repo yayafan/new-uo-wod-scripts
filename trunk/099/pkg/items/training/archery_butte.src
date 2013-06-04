@@ -16,7 +16,7 @@ Const GFX_BOLT_FLIGHT := 0x1bfe;
 include "include/client";
 
 program training_archery (character, butte)
-	if (!CheckLoSAt (character, butte.x, butte.y, butte.z))
+	if (!CheckLoSBetween (character.x, character.y, character.z, butte.x, butte.y, butte.z, character.realm))
 		SendSysMessage( character, "You don't have line of sight to that." );
 		return;
 	endif
@@ -69,22 +69,20 @@ program training_archery (character, butte)
 	
 	if (CheckSkill (character, SKILLID_ARCHERY, 10, 0))
 		NewPerformAction (character, NPA_ANIM_ATTACK, panim);
-		sleep (1);
+		sleepms (500);
+		PlaySoundEffect (character, SFX_SHOT);
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,
 				effect, 10, 0, 0, butte.realm );
-		sleep(1);
-		PlaySoundEffect (character, SFX_SHOT);
 		SendSysmessage (character, "A good shot.");
 	
 	else
 		NewPerformAction (character, NPA_ANIM_ATTACK, panim);
-		sleep (1);
+		sleepms (500);
+		PlaySoundEffect (character, SFX_ARROWHIT1 );
 		PlayMovingEffectXYZ (character.x, character.y, character.z+9,
 				butte.x, butte.y, butte.z+5,
 				effect, 10, 0, 0, butte.realm );
-		sleep (1);
-		PlaySoundEffect (character, SFX_ARROWHIT1 );
 		SendSysmessage (character, "You miss." );
 	endif
 

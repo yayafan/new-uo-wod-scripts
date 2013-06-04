@@ -235,7 +235,7 @@ function SwitchTeleporter (character, lever)
 	var destx := GetObjProperty (lever, "teleportx");
 	var desty := GetObjProperty (lever, "teleporty");
 	var destz := GetObjProperty (lever, "teleportz");
-	var destr := GetObjProperty (lever, "teleportz");
+	var destr := GetObjProperty (lever, "teleportr");
 	if (!destr)
 		destr := _DEFAULT_REALM;
 	endif

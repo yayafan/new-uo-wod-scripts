@@ -211,11 +211,11 @@ function NukeThisGroup(regionnum, spawnregion, groupname)
 	SendGMErrorMessage ("Regionspawner:  Resetting : "+SpawnName, 0, 5);
 
 	set_critical(0);
-	var x, y, z;
+	var x, y;//, z;
 	for( x := x2 ; x > x1 ; x := x  - 16)
     	  for( y := y1; y < y2; y := y + 16 )
-	    for( z := -60; z <= 60; z := z + 16 )
-		foreach npc in ListMobilesNearLocationEx( x, y, z, 16,0x02+0x01, rlm)
+//	    for( z := -60; z <= 60; z := z + 16 )
+		foreach npc in ListMobilesNearLocationEx( x, y, LIST_IGNORE_Z, 16,0x02+0x01, rlm)
 			if ( GetObjProperty( npc, "regspawn" ) == SpawnName )
 				set_critical(1);
 				EraseObjProperty(npc,"regspawn");
@@ -224,7 +224,7 @@ function NukeThisGroup(regionnum, spawnregion, groupname)
 				set_critical(0);
 			endif
 		endforeach
-	    endfor
+//	    endfor
 	    sleepms(250);
 	  endfor
 	endfor
