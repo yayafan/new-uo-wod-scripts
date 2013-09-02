@@ -157,7 +157,7 @@ function Systime_GetMonth ()
 			days_in_month := MonthDays[current_month_counter];
 		endif
 		
-		if (days_in_month <= days)
+		if (days_in_month < days)
 			days := days - days_in_month;
 			current_month_counter := current_month_counter + 1;
 			if (current_month_counter > 12)
@@ -307,7 +307,7 @@ function Systime_GetReadableTimeString ()
 			days_in_month := MonthDays[current_month_counter];
 		endif
 		
-		if (days_in_month <= days)
+		if (days_in_month < days)
 			days := days - days_in_month;
 			current_month_counter := current_month_counter + 1;
 			if (current_month_counter > 12)

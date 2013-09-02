@@ -10,11 +10,11 @@ program dblclickself (character)
 	set_critical(1);
 
 	var mount := GetEquipmentByLayer (character, 25);
-	if (!mount)
+	if (!mount or character.warmode)
 		OpenPaperdoll (character, character);
 		return;
+	else
+		Dismount (character, mount);
 	endif
-
-	Dismount (character, mount);
 
 endprogram

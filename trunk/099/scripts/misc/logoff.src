@@ -2,6 +2,7 @@ use os;
 use uo;
 use util;
 
+include "include/client";
 include "include/clock";
 include "include/accounts";
 
@@ -54,6 +55,3 @@ program logoff (who)
 		SetGlobalProperty (total_monthly_string, total_monthly);
 	set_critical (0);
 endprogram
-
-
-

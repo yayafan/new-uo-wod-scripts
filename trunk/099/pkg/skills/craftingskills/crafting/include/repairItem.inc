@@ -181,6 +181,10 @@ function UpgradeItem ( character, repair_skill, item:=0 )
 			return 0;
 		endif
 	endif
+	if (!craft_config[item.objtype].Exceptional)
+		SendSysmessage (character, "That item cannot be upgraded.");
+		return;
+	endif
 	DoSpecialUpgradeStuff (character, item, repair_skill);
 endfunction
 

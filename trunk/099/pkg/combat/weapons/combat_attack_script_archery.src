@@ -173,9 +173,9 @@ program combat_attack_script (parms)
 	endif
 
 	//Players and henchmen take 1/2 damage
-//	if (defender.acctname or defender.npctemplate == ":guards:warrior")
-//		modified_damage := CINT (modified_damage/2);
-//	endif
+	if (defender.acctname or defender.npctemplate == ":guards:warrior")
+		modified_damage := CINT (modified_damage/2);
+	endif
 
 	//Combat advancement for weapon skills
 	var weaponattributeid := attacker_weapon.attribute;

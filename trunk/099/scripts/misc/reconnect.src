@@ -27,6 +27,14 @@ program reconnect (character)
 	SetWeatherForPlayer (character);
 	SetObjProperty (character, "#logon_noskillwin", 1);
 	ResetBuffDebuffIcons(character);
+	if ( character.cmdlevel < 1 )
+		broadcastsound();
+		broadcast(character.name + " has arrived into the World of Dreams!", FONT_NORMAL, 48);
+	else
+		broadcastsound(1);
+		gmbroadcast (character.name + " has arrived into the World of Dreams!", FONT_NORMAL, 48);
+	endif
+	
 endprogram
 
 function unclone(who)
@@ -43,9 +51,19 @@ function unclone(who)
 
 endfunction
 
-function broadcastsound()
+function broadcastsound(mincmdlevel := 0)
 	foreach char in enumerateonlinecharacters()
-		PlaySoundEffectPrivate( char, 0x101, char );
+		if (char.cmdlevel >= mincmdlevel)
+			PlaySoundEffectPrivate( char, 0x1E9, char );
+		endif
+	endforeach
+endfunction
+
+function gmbroadcast (message, font, color)
+	foreach char in enumerateonlinecharacters()
+		if (char.cmdlevel > 0)
+			SendSysMessage (char, message, font, color);
+		endif
 	endforeach
 endfunction
 

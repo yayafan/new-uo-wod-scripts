@@ -94,6 +94,14 @@ program logon (character)
 	//MakeChristmasGift (character);
 	//MakeValentineBox (character);
 
+	if ( character.cmdlevel < 1 )
+		broadcastsound();
+		broadcast(character.name + " has arrived into the World of Dreams!", FONT_NORMAL, 48);
+	else
+		broadcastsound(1);
+		gmbroadcast (character.name + " has arrived into the World of Dreams!", FONT_NORMAL, 48);
+	endif
+	
 endprogram
 
 
@@ -402,7 +410,19 @@ function MakeValentineBox (character)
 	SetAccountProperty (character.acctname, "valentine_present_2013", 1);
 endfunction
 
+function broadcastsound(mincmdlevel := 0)
+	foreach char in enumerateonlinecharacters()
+		if (char.cmdlevel >= mincmdlevel)
+			PlaySoundEffectPrivate( char, 0x1E9, char );
+		endif
+	endforeach
+endfunction
 
-
-
+function gmbroadcast (message, font, color)
+	foreach char in enumerateonlinecharacters()
+		if (char.cmdlevel > 0)
+			SendSysMessage (char, message, font, color);
+		endif
+	endforeach
+endfunction
 
