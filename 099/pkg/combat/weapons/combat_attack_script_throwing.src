@@ -417,14 +417,14 @@ function CalculateAttackDamage ()
 		else
 			SendSysMessage (attacker, "Unable to find itemdesc damage entry for your weapon!");
 //			raw_damage := RandomDiceRoll ("4d6+3");
-			damage_string := "4d6";
+			damage_string := "2d6+12";
 		endif
 		if (melee_range)
 			case (damage_string)
-				"4d6": damage_string := "3d6";
-				"5d6": damage_string := "4d6";
-				"6d6": damage_string := "5d6";
-				default: damage_string := "3d6";
+				"2d6+12": damage_string := "1d6+12";
+				"2d6+18": damage_string := "2d6+12";
+				"3d6+18": damage_string := "3d6+12";
+				default: damage_string := "1d6+12";
 			endcase
 		endif
 		raw_damage := RandomDiceRoll (damage_string);

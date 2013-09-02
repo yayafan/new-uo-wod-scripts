@@ -218,6 +218,7 @@ endfunction
 function IsContainer (byref it)
 	case (it.objtype)
 		UOBJ_SPELLBOOK:
+		UOBJ_RUNEBOOK:
 		UOBJ_TRASHBARREL:
 		UOBJ_POTION_KEG:
 		0x170b0:				//checker board
@@ -226,7 +227,7 @@ function IsContainer (byref it)
 			return 0;
 	endcase
 
-	if (it.isa (POLCLASS_CONTAINER))
+	if (it.isa (POLCLASS_CONTAINER) and !it.isa (POLCLASS_SPELLBOOK) )
 		return 1;
 	endif
 	return 0;

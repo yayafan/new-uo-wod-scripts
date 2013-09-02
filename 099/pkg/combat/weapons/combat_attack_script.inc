@@ -2,6 +2,7 @@ use uo;
 use os;
 use util;
 use cfgfile;
+use cliloc;
 
 include "include/client";
 include "include/objtype";
@@ -295,4 +296,52 @@ function DoHitSpecialDamage (attacker, defender, attacker_weapon);
 	endif
 	set_critical (0);	
 
+endfunction
+
+function WeaponSpecial (ability_index, attacker, defender, byref modified_damage)
+	var parms := array {};
+	case (ability_index)
+		0x0:	// Cancel
+			return 0;
+		0x1:	// Armor Ignore
+			if (ConsumeMana(attacker, 30))
+				SendSysMessageCL (attacker, 1060076);
+				SendSysMessageCL (defender, 1060077);
+				PlaySoundEffect (defender, 0x57);
+				modified_damage := CINT (modified_damage * 0.9);
+				parms[3] := 1;
+				EraseObjProperty (attacker, "#weaponability");
+			endif
+		0x2:	// Bleed Attack
+		0x3:	// Concussion Blow
+		0x4:	// Crushing Blow
+		0x5:	// Disarm
+		0x6:	// Dismount
+		0x7:	// Double Strike
+		0x8:	// Infectious Strike
+		0x9:	// Mortal Strike
+		0xa:	// Moving Shot
+		0xb:	// Paralyzing Blow
+		0xc:	// Shadow Strike
+		0xd:	// Whirlwind Attack
+		0xe:	// Riding Swipe
+		0xf:	// Frenzied Whirlwind
+		0x10:	// Block
+		0x11:	// Defense Mastery
+		0x12:	// Nerve Strike
+		0x13:	// Talon Strike
+		0x14:	// Feint
+		0x15:	// Dual Wield
+		0x16:	// Double Shot
+		0x17:	// Armor Pierce
+		0x18:	// Bladeweave
+		0x19:	// Force Arrow
+		0x1a:	// Lightning Arrow
+		0x1b:	// Psychic Attack
+		0x1c:	// Serpent Arrow
+		0x1d:	// Force of Nature
+		0x1e:	// Infused Throw
+		0x1f:	// Mystic Arc
+	endcase
+	return parms;
 endfunction
