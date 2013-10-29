@@ -16,7 +16,7 @@ include "include/itemtypes";
 include "../pkg/npcs/npcinfo";
 include "../pkg/npcs/npc_util";
 include "../pkg/character/virtue/virtue";
-
+include ":weapons:abilityIcons";
 
 
 
@@ -298,50 +298,101 @@ function DoHitSpecialDamage (attacker, defender, attacker_weapon);
 
 endfunction
 
-function WeaponSpecial (ability_index, attacker, defender, byref modified_damage)
-	var parms := array {};
+function WeaponSpecial (ability_index, attacker, defender, raw_damage)
 	case (ability_index)
 		0x0:	// Cancel
 			return 0;
 		0x1:	// Armor Ignore
-			if (ConsumeMana(attacker, 30))
-				SendSysMessageCL (attacker, 1060076);
-				SendSysMessageCL (defender, 1060077);
-				PlaySoundEffect (defender, 0x57);
-				modified_damage := CINT (modified_damage * 0.9);
-				parms[3] := 1;
-				EraseObjProperty (attacker, "#weaponability");
-			endif
+			return run_script_to_completion ( ":weaponabilities:armorignore", array {attacker, defender, raw_damage});
 		0x2:	// Bleed Attack
+			//return run_script_to_completion ( ":weaponabilities:bleedattack", array {attacker, defender, raw_damage});
+			return 0;
 		0x3:	// Concussion Blow
+			return run_script_to_completion ( ":weaponabilities:concussionblow", array {attacker, defender, raw_damage});
 		0x4:	// Crushing Blow
+			//return run_script_to_completion ( ":weaponabilities:crushingblow", array {attacker, defender, raw_damage});
+			return 0;
 		0x5:	// Disarm
+			//return run_script_to_completion ( ":weaponabilities:disarm", array {attacker, defender, raw_damage});
+			return 0;
 		0x6:	// Dismount
+			//return run_script_to_completion ( ":weaponabilities:dismount", array {attacker, defender, raw_damage});
+			return 0;
 		0x7:	// Double Strike
+			//return run_script_to_completion ( ":weaponabilities:doublestrike", array {attacker, defender, raw_damage});
+			return 0;
 		0x8:	// Infectious Strike
+			//return run_script_to_completion ( ":weaponabilities:infectiousstrike", array {attacker, defender, raw_damage});
+			return 0;
 		0x9:	// Mortal Strike
+			//return run_script_to_completion ( ":weaponabilities:mortalstrike", array {attacker, defender, raw_damage});
+			return 0;
 		0xa:	// Moving Shot
+			//return run_script_to_completion ( ":weaponabilities:movingshot", array {attacker, defender, raw_damage});
+			return 0;
 		0xb:	// Paralyzing Blow
+			//return run_script_to_completion ( ":weaponabilities:paralyzingblow", array {attacker, defender, raw_damage});
+			return 0;
 		0xc:	// Shadow Strike
+			//return run_script_to_completion ( ":weaponabilities:shadowstrike", array {attacker, defender, raw_damage});
+			return 0;
 		0xd:	// Whirlwind Attack
+			//return run_script_to_completion ( ":weaponabilities:whirlwindattack", array {attacker, defender, raw_damage});
+			return 0;
 		0xe:	// Riding Swipe
+			//return run_script_to_completion ( ":weaponabilities:ridingswipe", array {attacker, defender, raw_damage});
+			return 0;
 		0xf:	// Frenzied Whirlwind
+			//return run_script_to_completion ( ":weaponabilities:frenziedwhirlwind", array {attacker, defender, raw_damage});
+			return 0;
 		0x10:	// Block
+			//return run_script_to_completion ( ":weaponabilities:block", array {attacker, defender, raw_damage});
+			return 0;
 		0x11:	// Defense Mastery
+			//return run_script_to_completion ( ":weaponabilities:defensemastery", array {attacker, defender, raw_damage});
+			return 0;
 		0x12:	// Nerve Strike
+			//return run_script_to_completion ( ":weaponabilities:nervestrike", array {attacker, defender, raw_damage});
+			return 0;
 		0x13:	// Talon Strike
+			//return run_script_to_completion ( ":weaponabilities:talonstrike", array {attacker, defender, raw_damage});
+			return 0;
 		0x14:	// Feint
+			//return run_script_to_completion ( ":weaponabilities:feint", array {attacker, defender, raw_damage});
+			return 0;
 		0x15:	// Dual Wield
+			//return run_script_to_completion ( ":weaponabilities:dualwield", array {attacker, defender, raw_damage});
+			return 0;
 		0x16:	// Double Shot
+			//return run_script_to_completion ( ":weaponabilities:doubleshot", array {attacker, defender, raw_damage});
+			return 0;
 		0x17:	// Armor Pierce
+			//return run_script_to_completion ( ":weaponabilities:armorpierce", array {attacker, defender, raw_damage});
+			return 0;
 		0x18:	// Bladeweave
+			//return run_script_to_completion ( ":weaponabilities:bladeweave", array {attacker, defender, raw_damage});
+			return 0;
 		0x19:	// Force Arrow
+			//return run_script_to_completion ( ":weaponabilities:forcearrow", array {attacker, defender, raw_damage});
+			return 0;
 		0x1a:	// Lightning Arrow
+			//return run_script_to_completion ( ":weaponabilities:lightningarrow", array {attacker, defender, raw_damage});
+			return 0;
 		0x1b:	// Psychic Attack
+			//return run_script_to_completion ( ":weaponabilities:psychicattack", array {attacker, defender, raw_damage});
+			return 0;
 		0x1c:	// Serpent Arrow
+			//return run_script_to_completion ( ":weaponabilities:serpentarrow", array {attacker, defender, raw_damage});
+			return 0;
 		0x1d:	// Force of Nature
+			//return run_script_to_completion ( ":weaponabilities:forceofnature", array {attacker, defender, raw_damage});
+			return 0;
 		0x1e:	// Infused Throw
+			//return run_script_to_completion ( ":weaponabilities:infusedthrow", array {attacker, defender, raw_damage});
+			return 0;
 		0x1f:	// Mystic Arc
+			//return run_script_to_completion ( ":weaponabilities:mysticarc", array {attacker, defender, raw_damage});
+			return 0;
 	endcase
-	return parms;
+	return 0;
 endfunction
