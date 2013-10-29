@@ -27,6 +27,7 @@ const FP_IGNORE_DOORS           := 0x02;    // ignore Doors (you've to open door
 
 // Send*Window flags
 const VENDOR_SEND_AOS_TOOLTIP   := 0x01;    // send Item Description using AoS Tooltips
+const VENDOR_BUYABLE_CONTAINER_FILTER := 0x02; // filter items in the SendSellWindow() by what is in the buyable container
 
 const SENDDIALOGMENU_FORCE_OLD  := 0x01;    // send UnCompressed Gump
 
@@ -47,6 +48,8 @@ const LISTEX_FLAG_NORMAL := 0x01;
 const LISTEX_FLAG_HIDDEN := 0x02;
 const LISTEX_FLAG_GHOST := 0x04;
 const LISTEX_FLAG_CONCEALED := 0x08;
+const LISTEX_FLAG_PLAYERS_ONLY := 0x10;
+const LISTEX_FLAG_NPC_ONLY := 0x20;
 
 // ListItemsNearLocationWithFlag( x,y,z, range, flags ); tiledata flags
 // Thanks to Alazane: http://dkbush.cablenet-va.com/alazane/file_formats.html#3.17
@@ -192,13 +195,13 @@ const _DEFAULT_TEXT_FONT     := 3;
 const _DEFAULT_TEXT_COLOR    := 1000;
 
 // Realms
-const _DEFAULT_REALM  := "britannia";
-const REALM_BRITANNIA := _DEFAULT_REALM;
-const REALM_BRITANNIA_ALT := "britannia_alt";
-const REALM_ILSHENAR  := "ilshenar";
-const REALM_MALAS     := "malas";
-const REALM_TOKUNO    := "tokuno";
-const REALM_TERMUR    := "termur";
+const _DEFAULT_REALM  		:= "britannia";
+const REALM_BRITANNIA 		:= _DEFAULT_REALM;
+const REALM_BRITANNIA_ALT	:= "britannia_alt";
+const REALM_ILSHENAR  		:= "ilshenar";
+const REALM_MALAS     		:= "malas";
+const REALM_TOKUNO    		:= "tokuno";
+const REALM_TERMUR    		:= "termur";
 
 //PerformAction
 const ACTION_DIR_FORWARD  := 0;
@@ -381,7 +384,7 @@ SubtractAmount( item, amount );
 SystemFindObjectBySerial( serial, sysfind_flags := 0 );
 Target( by_character, options := TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
 TargetCoordinates( by_character );
-TargetMultiPlacement( character, objtype, flags := 0, xoffset := 0, yoffset := 0 );
+TargetMultiPlacement( character, objtype, flags := 0, xoffset := 0, yoffset := 0, hue := 0 );
 UpdateItem( item );
 UpdateMobile( mobile, recreate := UPDATEMOBILE_UPDATE );
 UseItem(item, character);

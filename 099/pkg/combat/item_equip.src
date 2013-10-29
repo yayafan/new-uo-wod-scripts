@@ -6,6 +6,7 @@ include "include/client";
 include "include/skills";
 include "include/magicitems";
 include "../pkg/character/virtue/virtue";
+include ":weapons:abilityIcons";
 
 var itemdesc := ReadConfigFile (":*:itemdesc");
 
@@ -43,6 +44,8 @@ program equip_item (who, item )
 	endif
 
 	if (item.isa (POLCLASS_WEAPON))
+		EraseObjProperty (who, "#weaponability");
+		ResetWeaponAbilities (who);
 		if (!item.hitscript)
 			item.hitscript := ":weapons:mainhit";
 		endif

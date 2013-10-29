@@ -83,6 +83,10 @@ program use_manastone (character, stone)
 			UOBJ_BONE_LEGS:
 			UOBJ_ORCHELM:
 			UOBJ_ORCHELM2:
+			UOBJ_G_CHAOS_SHIELD:
+			UOBJ_G_CHAOS_SHIELD2:
+			UOBJ_G_ORDER_SHIELD:
+			UOBJ_G_ORDER_SHIELD2:
 				if (character.cmdlevel)
 					SendSysMessage (character, "Bypassing strength requirements");
 				endif
@@ -141,7 +145,7 @@ program use_manastone (character, stone)
 	endif
 
 	//Chaos and order shields can have magic transfered to them from any type of magic shield
-	if (normal_item.objtype == UOBJ_CHAOS_SHIELD or normal_item.objtype == UOBJ_ORDER_SHIELD or normal_item.objtype == UOBJ_ORDER_SHIELD2)
+	if (normal_item.objtype == UOBJ_CHAOS_SHIELD or normal_item.objtype == UOBJ_ORDER_SHIELD or normal_item.objtype == UOBJ_ORDER_SHIELD2 or normal_item.objtype == UOBJ_G_ORDER_SHIELD or normal_item.objtype == UOBJ_G_ORDER_SHIELD2 or normal_item.objtype == UOBJ_G_CHAOS_SHIELD or normal_item.objtype == UOBJ_G_CHAOS_SHIELD2)
 		case (magic_item.objtype)
 			UOBJ_BUCKLER:
 			UOBJ_BRONZESHIELD:
@@ -156,6 +160,10 @@ program use_manastone (character, stone)
 			UOBJ_CHAOS_SHIELD:
 			UOBJ_ORDER_SHIELD:
 			UOBJ_ORDER_SHIELD2:
+			UOBJ_G_CHAOS_SHIELD:
+			UOBJ_G_CHAOS_SHIELD2:
+			UOBJ_G_ORDER_SHIELD:
+			UOBJ_G_ORDER_SHIELD2:
 				DoMagicTransfer (character, stone, magic_item, normal_item, new_name_1, new_name_2);
 			default:
 				SendSysMessage (character, "Can't transfer magic between those two items!");

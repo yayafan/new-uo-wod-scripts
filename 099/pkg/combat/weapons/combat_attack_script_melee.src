@@ -89,14 +89,17 @@ program combat_attack_script (parms)
 	endif
 	//Hit! Figure out how much raw damage the attack did, then modify it be tactics and strength
 	var raw_damage := CalculateAttackDamage ();
-	var modified_damage := CINT ((raw_damage * (GetAttribute (attacker, ATTRIBUTEID_TACTICS) + 50 + CINT (GetAttribute (attacker, ATTRIBUTEID_STRENGTH)/5)))/100);
-	var specialparms := WeaponSpecial (GetObjProperty (attacker, "#weaponability"), attacker, defender, modified_damage);
-		
+	var specialparms := WeaponSpecial (GetObjProperty (attacker, "#weaponability"), attacker, defender, raw_damage);
 	// specialparms[1] = bypasses parry?
 	// specialparms[2] = bypasses reactive armor?
 	// specialparms[3] = bypasses armor?
 	// specialparms[4] = bypasses critical hit?
-	// specialparms[5] = bypasses damage dealing?
+	// specialparms[5] = overrides damage dealing? If -1, no damage, if 0, normal damage, if higher than 1, overrides damage
+	if (specialparms[5] > 0)
+		raw_damage := specialparms[5];
+	endif
+	var modified_damage := CINT ((raw_damage * (GetAttribute (attacker, ATTRIBUTEID_TACTICS) + 50 + CINT (GetAttribute (attacker, ATTRIBUTEID_STRENGTH)/5)))/100);
+		
 
 	//Now check parry, if the defender has a shield
 	var shield := GetEquipmentByLayer (defender, LAYER_HAND2);
@@ -166,10 +169,8 @@ program combat_attack_script (parms)
 	endif
 
 	//Get the defender's AR rating and reduce the damage
-//	var defender_ar := CINT (GetDefendersAR (defender)/2);
 	var defender_ar := CINT (GetDefendersAR (defender));
 	if (!specialparms[3] and defender_ar > 0)
-//		modified_damage := modified_damage - RandomInt (defender_ar) - defender_ar - 1;
 		modified_damage := CINT (modified_damage*(100 - defender_ar)/100);
 	endif
 
@@ -178,7 +179,7 @@ program combat_attack_script (parms)
 		modified_damage := 1;
 	endif
 	//Do the damage
-	if (!specialparms[5])
+	if (specialparms[5] >= 0)
 		DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
 	endif
 
