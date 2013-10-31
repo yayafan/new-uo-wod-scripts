@@ -44,6 +44,10 @@ program equip_item (who, item )
 	endif
 
 	if (item.isa (POLCLASS_WEAPON))
+		if (GetObjProperty (who, "#arm") and GetObjProperty (who, "#arm") > ReadGameClock())
+			SendSysMessage (who, "Too soon!");
+			return 0;
+		endif
 		EraseObjProperty (who, "#weaponability");
 		ResetWeaponAbilities (who);
 		if (!item.hitscript)

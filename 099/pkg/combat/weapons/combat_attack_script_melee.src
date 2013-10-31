@@ -181,6 +181,8 @@ program combat_attack_script (parms)
 	//Do the damage
 	if (specialparms[5] >= 0)
 		DoDamageByType (attacker, defender, modified_damage, DAMAGETYPE_PHYSICAL);
+	else
+		return 1;
 	endif
 
 	//Check for critical hit
