@@ -25,7 +25,6 @@ program ability(parms)
 		var hitspercent := 100 * GetVital (parms[2], "Life") / GetVitalMaximumValue (parms[2], "Life");
 		var manapercent := 100 *  GetVital (parms[2], "Mana") / GetVitalMaximumValue (parms[2], "Mana");
 		result[5] := 10 + min (abs (hitspercent - manapercent), 20);
-		EraseObjProperty (parms[1], "#weaponability");
 		ResetWeaponAbilities (parms[1]);
 	endif
 	return result;

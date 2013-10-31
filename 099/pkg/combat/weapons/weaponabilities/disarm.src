@@ -21,7 +21,6 @@ program ability(parms)
 	endif
 	if (!weapon or !weapon.isa (POLCLASS_WEAPON))
 		SendSysMessageCL (parms[1], 1060849);
-		EraseObjProperty (parms[1], "#weaponability");
 		ResetWeaponAbilities (parms[1]);
 	elseif (ConsumeVital(parms[1], "Mana", GetFocusManaReduction (parms[1], 2000)))
 		SendSysMessageCL (parms[1], 1060092);
@@ -32,10 +31,9 @@ program ability(parms)
 		if (!MoveItemToContainer (weapon, parms[2].backpack))
 			MoveObjectToLocation (weapon, parms[2].x, parms[2].y, parms[2].z, parms[2].realm, MOVEOBJECT_FORCELOCATION);
 		endif
-		SetObjProperty (parms[2], "#arm", ReadGameClock() + 6);
+		SetObjProperty (parms[2], "#disarmed", ReadGameClock() + 5);
 		set_critical(0);
 		result[5] := -1;
-		EraseObjProperty (parms[1], "#weaponability");
 		ResetWeaponAbilities (parms[1]);
 	endif
 	return result;

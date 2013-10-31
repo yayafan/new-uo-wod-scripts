@@ -44,7 +44,7 @@ program equip_item (who, item )
 	endif
 
 	if (item.isa (POLCLASS_WEAPON))
-		if (GetObjProperty (who, "#arm") and GetObjProperty (who, "#arm") > ReadGameClock())
+		if (GetObjProperty (who, "#disarmed") and GetObjProperty (who, "#disarmed") > ReadGameClock())
 			SendSysMessage (who, "Too soon!");
 			return 0;
 		endif

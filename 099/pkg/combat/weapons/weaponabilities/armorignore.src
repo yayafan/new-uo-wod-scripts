@@ -21,7 +21,6 @@ program ability(parms)
 		PlayObjectCenteredEffectEx (parms[2], 0x3728, 200, 25, 0, 0, 3, 9942);
 		result[3] := 1;
 		result[5] := CINT (parms[3] * 0.9);
-		EraseObjProperty (parms[1], "#weaponability");
 		ResetWeaponAbilities (parms[1]);
 	endif
 	return result;
