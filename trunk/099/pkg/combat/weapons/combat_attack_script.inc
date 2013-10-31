@@ -299,9 +299,22 @@ function DoHitSpecialDamage (attacker, defender, attacker_weapon);
 endfunction
 
 function WeaponSpecial (ability_index, attacker, defender, raw_damage)
+	if (!ability_index)
+		return 0;
+	endif
+	var attacker_weaponskill := 0;
+	if (attacker_weapon.attribute)
+		attacker_weaponskill := GetAttribute (attacker, (attacker_weapon.attribute));
+	else
+		attacker_weaponskill := GetAttribute (attacker, ATTRIBUTEID_WRESTLING);
+	endif
+	if (attacker_weaponskill < 80)
+		SendSysMessageCL (attacker, 1060182, CAscZ("80"));
+		ResetWeaponAbilities (attacker);
+		EraseObjProperty (attacker, "#weaponability");
+		return 0;
+	endif
 	case (ability_index)
-		0x0:	// Cancel
-			return 0;
 		0x1:	// Armor Ignore
 			return run_script_to_completion ( ":weaponabilities:armorignore", array {attacker, defender, raw_damage});
 		0x2:	// Bleed Attack
@@ -310,11 +323,9 @@ function WeaponSpecial (ability_index, attacker, defender, raw_damage)
 		0x3:	// Concussion Blow
 			return run_script_to_completion ( ":weaponabilities:concussionblow", array {attacker, defender, raw_damage});
 		0x4:	// Crushing Blow
-			//return run_script_to_completion ( ":weaponabilities:crushingblow", array {attacker, defender, raw_damage});
-			return 0;
+			return run_script_to_completion ( ":weaponabilities:crushingblow", array {attacker, defender, raw_damage});
 		0x5:	// Disarm
-			//return run_script_to_completion ( ":weaponabilities:disarm", array {attacker, defender, raw_damage});
-			return 0;
+			return run_script_to_completion ( ":weaponabilities:disarm", array {attacker, defender, raw_damage});
 		0x6:	// Dismount
 			//return run_script_to_completion ( ":weaponabilities:dismount", array {attacker, defender, raw_damage});
 			return 0;
