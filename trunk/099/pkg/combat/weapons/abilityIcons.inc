@@ -3,7 +3,6 @@ function SetWeaponAbility (byref who, ability)
 	if (GetObjProperty (who, "#disabledabilities") > ReadGameClock())
 		//cant use abilities
 		ResetWeaponAbilities (who);
-		EraseObjProperty (who, "#weaponability");
 		SendSysMessage (who, "You can't use weapon abilities right now.");
 		return 0;
 	else
@@ -13,6 +12,7 @@ function SetWeaponAbility (byref who, ability)
 endfunction
 
 function ResetWeaponAbilities (byref who)
+	EraseObjProperty (who, "#weaponability");
 	var packet := CreatePacket(0xBF, MSGLEN_VARIABLE);
 	packet.SetSize(5);
 	packet.SetInt8(4, 0x21);
