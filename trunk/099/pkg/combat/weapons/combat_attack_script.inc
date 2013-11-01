@@ -311,7 +311,6 @@ function WeaponSpecial (ability_index, attacker, defender, raw_damage)
 	if (attacker_weaponskill < 80)
 		SendSysMessageCL (attacker, 1060182, CAscZ("80"));
 		ResetWeaponAbilities (attacker);
-		EraseObjProperty (attacker, "#weaponability");
 		return 0;
 	endif
 	case (ability_index)
@@ -403,6 +402,35 @@ function WeaponSpecial (ability_index, attacker, defender, raw_damage)
 			return 0;
 		0x1f:	// Mystic Arc
 			//return run_script_to_completion ( ":weaponabilities:mysticarc", array {attacker, defender, raw_damage});
+			return 0;
+	endcase
+	return 0;
+endfunction
+
+function ThrowingSpecial (ability_index, attacker, defender, raw_damage, weapon_type)
+	if (weapon_type)
+	endif
+	ResetWeaponAbilities (attacker);
+	return 0;
+	if (!ability_index)
+		return 0;
+	endif
+	var attacker_weaponskill := 0;
+	if (attacker_weapon.attribute)
+		attacker_weaponskill := GetAttribute (attacker, (attacker_weapon.attribute));
+	else
+		attacker_weaponskill := GetAttribute (attacker, ATTRIBUTEID_WRESTLING);
+	endif
+	if (attacker_weaponskill < 80)
+		SendSysMessageCL (attacker, 1060182, CAscZ("80"));
+		ResetWeaponAbilities (attacker);
+		return 0;
+	endif
+	case (ability_index)
+		0x5:	// Disarm
+			return run_script_to_completion ( ":weaponabilities:disarm", array {attacker, defender, raw_damage});
+		0xb:	// Paralyzing Blow
+			//return run_script_to_completion ( ":weaponabilities:paralyzingblow", array {attacker, defender, raw_damage});
 			return 0;
 	endcase
 	return 0;

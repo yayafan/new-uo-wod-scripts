@@ -66,7 +66,12 @@ program combat_attack_script (parms)
 		
 	//Hit! Figure out how much raw damage the attack did, then modify it be tactics and strength
 	var raw_damage := CalculateAttackDamage ();
-	var specialparms := WeaponSpecial (GetObjProperty (attacker, "#weaponability"), attacker, defender, raw_damage);
+	var specialparms;
+	if (attacker_weapon.attribute == ATTRIBUTEID_ARCHERY or attacker_weapon.attribute == ATTRIBUTEID_THROWING)
+		specialparms := 0;
+	else
+		specialparms := WeaponSpecial (GetObjProperty (attacker, "#weaponability"), attacker, defender, raw_damage);
+	endif
 	// specialparms[1] = bypasses parry?
 	// specialparms[2] = bypasses reactive armor?
 	// specialparms[3] = bypasses armor?
