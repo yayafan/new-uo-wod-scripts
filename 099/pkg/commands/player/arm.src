@@ -23,7 +23,10 @@ program textcmd_arm (character, textline)
 		return;
 	endif
 
-	if (GetObjProperty (character, "#arm") and GetObjProperty (character, "#arm") > ReadGameClock() );
+	if (GetObjProperty (character, "#disarmed") and GetObjProperty (character, "#disarmed") > ReadGameClock() );
+		SendSysMessage (character, "Too soon!");
+		return;
+	elseif (GetObjProperty (character, "#arm") and GetObjProperty (character, "#arm") > ReadGameClock() );
 		SendSysMessage (character, "Too soon!");
 		return;
 	else
