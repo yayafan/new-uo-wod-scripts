@@ -181,10 +181,6 @@ function UpgradeItem ( character, repair_skill, item:=0 )
 			return 0;
 		endif
 	endif
-	if (!craft_config[item.objtype].Exceptional)
-		SendSysmessage (character, "That item cannot be upgraded.");
-		return;
-	endif
 	DoSpecialUpgradeStuff (character, item, repair_skill);
 endfunction
 
@@ -193,6 +189,10 @@ endfunction
 ///////////////////
 
 function DoItemUpgrade (character, item, repair_skill)
+	if (!craft_config[item.objtype].Exceptional)
+		SendSysmessage (character, "That item cannot be upgraded.");
+		return;
+	endif
 	//make sure its an item that can be upgraded
 	if (item.desc["xceptional"])
 		SendSysMessage (character, "That item can't be upgraded further.");
