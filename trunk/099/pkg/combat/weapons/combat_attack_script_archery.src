@@ -190,7 +190,7 @@ program combat_attack_script (parms)
 	
 	//Get the defender's AR rating and reduce the damage by 50-100% of that value
 	var defender_ar := CINT (GetDefendersAR (defender));
-	if (defender_ar > 0)
+	if (!specialparms[3] and defender_ar > 0)
 		modified_damage := CINT (modified_damage*(100 - defender_ar)/100);
 	endif
 
