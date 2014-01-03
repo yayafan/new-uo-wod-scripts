@@ -618,7 +618,13 @@ endfunction
 ///////////////////
 
 function FortifyHat (character, hat)
-
+	var ownerserial := GetObjProperty (hat, "ownerserial");
+	var ownername := GetObjProperty (hat, "ownername");
+	if (ownerserial)
+		PrintTextAbovePrivate (hat,"That hat is owned by "+ownername, character );
+		return;
+	endif
+	
 	SendSysMessage (character, "Fortify this hat with what?");
 	var helm := Target (character);
 	if (!helm)
@@ -631,6 +637,13 @@ function FortifyHat (character, hat)
 		return;
 	endif
 
+	ownerserial := GetObjProperty (helm, "ownerserial");
+	ownername := GetObjProperty (helm, "ownername");
+	if (ownerserial)
+		PrintTextAbovePrivate (helm,"That helm is owned by "+ownername, character );
+		return;
+	endif
+	
 	if (!ReserveItem (helm))
 		SendSysMessage (character, "That helm is not available right now.");
 		return;
@@ -652,6 +665,7 @@ function FortifyHat (character, hat)
 	PlaySoundEffect(character, SFX_TAILORING);
 	sleep (3);
 
+	
 	var tempstring := TruncateArticle (helm.desc);
 	helm.graphic := hat.graphic;
 	helm.color := hat.color;
