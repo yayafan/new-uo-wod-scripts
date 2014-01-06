@@ -337,6 +337,13 @@ endfunction
 //  they can select what spell they wish to inscribe onto the scroll
 ///////////////////
 
+function DetermineScroll (spellid)
+	if (spellid < 8)
+		spellid := mod(spellid,7) + 1;
+	endif
+	return spellid + 7980;
+endfunction		
+
 Function SelectSpellToInscribe (character)
 	var scrolls := dictionary;
 	var circles := array {};
@@ -352,9 +359,10 @@ Function SelectSpellToInscribe (character)
 		if (item.objtype == UOBJ_SPELLBOOK)
 			var containedspells := item.spells();
 			foreach spell in containedspells
-				if (!scrolls.exists (spell + 7980))
-					scrolls.insert (spell + 7980, 1);
-					var elem := FindConfigElem (config_file, spell + 7980);
+				var scroll := DetermineScroll(spell);
+				if (!scrolls.exists (scroll))
+					scrolls.insert (scroll, 1);
+					var elem := FindConfigElem (config_file, scroll);
 					var thecircle := GetConfigInt (elem, "circle");
 					circles[thecircle] := 1;
 				endif
