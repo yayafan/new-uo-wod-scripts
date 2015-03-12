@@ -55,19 +55,16 @@ program npc_setup (npc)
 		if (MyTemplateElem.colorrange == "human")
 			if (npc.race == RACE_ELF)
 				npc.color := RandomElfSkinHue();
-				SetObjProperty (npc, "color", npc.color);
 			elseif (npc.race == RACE_GARGOYLE)
 				npc.color := 1755 + RandomInt (25);
-				SetObjProperty (npc, "color", npc.color);
 			else
 				if (RandomInt (2))
 					npc.color := 1002 + RandomInt (57);
-					SetObjProperty (npc, "color", npc.color);
 				else
 					npc.color := 33784;
-					SetObjProperty (npc, "color", npc.color);
 				endif
 			endif
+			SetObjProperty (npc, "color", npc.color);
 		elseif (MyTemplateElem.colorrange == "elf")
 			npc.color := RandomElfSkinHue();
 			SetObjProperty (npc, "color", npc.color);
@@ -107,7 +104,7 @@ program npc_setup (npc)
 	if (npc.name ["<random>"])
 		//for some reason, we have to go through a temporary string.  It doesn't work, otherwise
 		var tempstring := npc.name;
-		tempstring ["<random>"] := RandomName (npc);
+		tempstring ["<random>"] := RandomName (npc, 1);
 		npc.name := tempstring;
 	endif
 
@@ -115,9 +112,17 @@ program npc_setup (npc)
 	if (MyTemplateElem.title)
 		if (MyTemplateElem.title == "<random>")
 			if(npc.race == RACE_ELF)
-				npc.title_suffix := "the elf";
+				if (MyTemplateElem.dress["rich"])
+					npc.title_suffix := "the elven noble";
+				else
+					npc.title_suffix := "the elf";
+				endif
 			elseif (npc.race == RACE_GARGOYLE)
-				npc.title_suffix := "the gargoyle";
+				if (MyTemplateElem.dress["rich"])
+					npc.title_suffix := "the gargish noble";
+				else
+					npc.title_suffix := "the gargoyle";
+				endif
 			else
 				case (RandomInt (20) ) 
 					0:	npc.title_suffix := "the townsperson";

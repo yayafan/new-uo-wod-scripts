@@ -16,8 +16,15 @@ program cast_mark (parms, spellid)
 
 	if (caster.realm == REALM_BRITANNIA)
 		if (caster.x > 5118)
-			sendsysmessage (caster, "Blocked!");
-			return 0;
+			if (caster.x < 6143 and caster.y > 2303)
+				// T2A
+			elseif (caster.x > 6913 and caster.x < 7160 and caster.y > 255 and caster.y < 512)
+				//Heartwood
+			else
+				//Dungeons
+				sendsysmessage (caster, "Blocked!");
+				return 0;
+			endif
 		elseif (caster.x > 2560 and caster.x < 2960 and caster.y > 1940 and caster.y < 2340)
 			//seal off Buccaneer's Den from outside gates
 			SendSysMessage (caster, "Your mark spell has somehow been interrupted.");
