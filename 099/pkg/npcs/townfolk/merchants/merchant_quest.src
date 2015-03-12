@@ -45,7 +45,7 @@ program merchant_training (parms)
 	var mytown := FindMyTown (merchant);
 	var chosentown := mytown;
 	if (!chosentown or RandomInt (4) == 1)
-		chosentown := RandomInt (15) + 1;
+		chosentown := RandomInt (TOWN_END) + 1;
 	endif
 
 	var townmerchantarray := GetGlobalProperty ("#merchants_of_town_" + chosentown);

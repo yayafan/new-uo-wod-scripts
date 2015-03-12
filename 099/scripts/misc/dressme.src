@@ -78,19 +78,19 @@ program Dress (parms)
 		DressMageElf(me,gender);
 		return;
 	elseif (text=="poorgarg")
-		DressPoor(me,gender);
+		DressPoorGarg(me,gender);
 		return;
 	elseif (text=="richgarg")
-		DressRich(me,gender);
+		DressRichGarg(me,gender);
 		return;
 	elseif (text=="warriorgarg")
-		DressWar(me,gender);
+		DressWarGarg(me,gender);
 		return;
 	elseif (text=="weakwarriorgarg")
-		DressLeather(me,gender);
+		DressClothGarg(me,gender);
 		return;
 	elseif (text=="magegarg")
-		DressMage(me,gender);
+		DressMageGarg(me,gender);
 		return;
 	endif
 
@@ -664,7 +664,7 @@ function DressMage(me,gender)
 	endcase
 	CreateAndEquip(me,item,makeclothcolor());
 
-	//cloak
+	//robe
 	CreateAndEquip(me,0x1F03,makeclothcolor());
 
 	//wiz hat
@@ -1079,7 +1079,7 @@ function DressPoorTok(me,gender)
 		case (RandomInt(3))
 		0:
 		1:
-			CreateAndEquip(me,0x27e7,makeclothcolor()); //Hakama
+			CreateAndEquip(me,0x27e7,makeclothcolor()); //Hakama-shita
 			if (RandomInt(4)==0)
 				CreateAndEquip(me,0x27e3,0);//Kasa
 			endif
@@ -1354,7 +1354,7 @@ function DressWarTok(me,gender)
 		else
 			case (randomint(2))
 			0:
-				item := 0x27d3;		//StuddedSuneate
+				item := 0x27d3;		//PlateSuneate
 				CreateAndEquip(me,item,0);
 				item := 0x27e1;		//WarajiAndTabi
 				CreateAndEquip(me,item,0);
@@ -1580,3 +1580,345 @@ function DressPlateTok(me,gender)
 	CreateAndEquip(me,item,0);
 endfunction
 
+function DressWarGarg(me,gender)
+	if (gender)
+	endif
+	var item;
+	var shield := RandomInt(3);
+
+	case (RandomInt(4))
+	0:
+		//cloth
+		if (me.strength < 60)
+			me.setstr(60);
+		endif
+		item := 0x4060;
+		CreateAndEquip(me,item,0);
+		item := 0x4062;
+		CreateAndEquip(me,item,0);
+		item := 0x4064;
+		CreateAndEquip(me,item,0);
+		item := 0x4066;
+		CreateAndEquip(me,item,0);
+		case (randomint(2))
+			0:
+				item := 0x45a4;
+				CreateAndEquip(me,item,makeclothcolor());
+		endcase
+		
+		case (RandomInt(2))
+			0:
+				item := 0x41d8;
+				CreateAndEquip(me,item,0);
+		endcase
+		
+	1:
+		//leather
+		if (me.strength < 80)
+			me.setstr(80);
+		endif
+		item := 0x4048;
+		CreateAndEquip(me,item,0);
+		item := 0x404a;
+		CreateAndEquip(me,item,0);
+		item := 0x404c;
+		CreateAndEquip(me,item,0);
+		item := 0x404e;
+		CreateAndEquip(me,item,0);
+		case (randomint(2))
+			0:
+				item := 0x457e;
+			1:
+				item := 0x45a4;
+		endcase
+		CreateAndEquip(me,item,0);
+		case (RandomInt(2))
+			0:
+				item := 0x41d8;
+				CreateAndEquip(me,item,0);
+		endcase
+		if (shield != 0)
+			case (RandomInt(2))
+				0:	item := 0x4200;
+				1:	item := 0x4202;
+			endcase
+			CreateAndEquip(me,item,0);
+		endif
+	2:
+		if (me.strength < 90)
+			me.setstr(90);
+		endif
+		item := 0x4058;
+		CreateAndEquip(me,item,0);
+		item := 0x405a;
+		CreateAndEquip(me,item,0);
+		item := 0x405c;
+		CreateAndEquip(me,item,0);
+		item := 0x405e;
+		CreateAndEquip(me,item,0);
+		item := 0x457e;
+		CreateAndEquip(me,item,0);
+		item := 0x41d8;
+		CreateAndEquip(me,item,0);
+		if (shield != 0)
+			case (RandomInt(2))
+				0:	item := 0x4201;
+				1:	item := 0x4203;
+			endcase
+			CreateAndEquip(me,item,0);
+		endif
+
+	3:
+		//plate
+		me.setstr(100);
+		item := 0x4050;
+		CreateAndEquip(me,item,0);
+		item := 0x4052;
+		CreateAndEquip(me,item,0);
+		item := 0x4054;
+		CreateAndEquip(me,item,0);
+		item := 0x4056;
+		CreateAndEquip(me,item,0);
+		item := 0x457e;
+		CreateAndEquip(me,item,0);
+		item := 0x42de;
+		CreateAndEquip(me,item,0);
+		if (shield != 0)
+			case (RandomInt(2))
+				0:	item := 0x4204;
+				1:	item := 0x4205;
+			endcase
+			CreateAndEquip(me,item,0);
+		endif
+	endcase
+
+	if (shield == 0)
+		case (RandomInt(12))
+		0:	item := 0x4068;
+		1:	item := 0x48d0;
+		2:	item := 0x4075;
+		3:	item := 0x48b0;
+		4:	item := 0x48b2;
+		5:	item := 0x48b4;
+		6:	item := 0x48c4;
+		7:	item := 0x48ce;
+		8:	item := 0x406d;
+		9:	item := 0x48c8;
+		10:	item := 0x48cc;
+		11:	item := 0x48c0;
+		endcase
+	else
+		case (RandomInt(12))
+		0:	item := 0x4071;
+		1:	item := 0x4073;
+		2:	item := 0x4074;
+		3:	item := 0x48ba;
+		4:	item := 0x48c6;
+		5:	item := 0x4072;
+		6:	item := 0x4076;
+		7:	item := 0x48bc;
+		8:	item := 0x48be;
+		9:	item := 0x48ca;
+		10:	item := 0x406e;
+		11:	item := 0x48c2;
+		12:	item := 0x4067;
+		13:	item := 0x406c;
+		14:	item := 0x406b;
+		endcase
+	endif
+
+	CreateAndEquip(me,item,0);
+
+endfunction
+
+function DressMageGarg(me,gender)
+	if (gender)
+	endif
+	var item := 0;
+	case (RandomInt(3))
+		0:	item := 0x41d8;
+			CreateAndEquip(me,item,makeclothcolor());
+	endcase
+
+	//robe
+	CreateAndEquip(me,0x4000,makeclothcolor());
+
+	//weapon
+	case (randomint(5))
+		0:	item := 0x4064;		//Dagger
+		1:	item := 0x406f;
+		2:	item := 0x4070;
+		3:	item := 0x48b8;
+		4:	item := 0x0EFA;		//spellbook
+		default: item := 0;
+	endcase
+	CreateAndEquip(me,item,0);
+
+
+
+endfunction
+
+function DressClothGarg(me,gender)
+	if (gender)
+	endif
+
+	var item;
+
+	item := 0x4060;
+	CreateAndEquip(me,item,0);
+	item := 0x4062;
+	CreateAndEquip(me,item,0);
+	item := 0x4064;
+	CreateAndEquip(me,item,0);
+	item := 0x4066;
+	CreateAndEquip(me,item,0);
+	case (randomint(2))
+		0:
+			item := 0x45a4;
+			CreateAndEquip(me,item,makeclothcolor());
+	endcase
+	
+	case (RandomInt(2))
+		0:
+			item := 0x41d8;
+			CreateAndEquip(me,item,0);
+	endcase
+
+	case (RandomInt(27))
+		0:	item := 0x4068;
+		1:	item := 0x48d0;
+		2:	item := 0x4075;
+		3:	item := 0x48b0;
+		4:	item := 0x48b2;
+		5:	item := 0x48b4;
+		6:	item := 0x48c4;
+		7:	item := 0x48ce;
+		8:	item := 0x406d;
+		9:	item := 0x48c8;
+		10:	item := 0x48cc;
+		11:	item := 0x48c0;
+		12:	item := 0x4071;
+		13:	item := 0x4073;
+		14:	item := 0x4074;
+		15:	item := 0x48ba;
+		16:	item := 0x48c6;
+		17:	item := 0x4072;
+		18:	item := 0x4076;
+		19:	item := 0x48bc;
+		20:	item := 0x48be;
+		21:	item := 0x48ca;
+		22:	item := 0x406e;
+		23:	item := 0x48c2;
+		24:	item := 0x4067;
+		25:	item := 0x406c;
+		26:	item := 0x406b;
+	endcase
+	CreateAndEquip(me,item,0);
+
+
+endfunction
+
+function DressPoorGarg(me,gender)
+	if (gender)
+	endif
+	var item := 0;
+	
+	case (RandomInt(5))
+	0:	item := 0x0f64;//Torch
+	1:	item := 0x0A0F;//candle
+	endcase
+
+	if (item)
+		var theitem := CreateItemAtLocation(5288 , 1176, 0,item,1, REALM_BRITANNIA);
+		theitem.facing := 1;
+		if( theitem.graphic == 0x0f64 )
+			theitem.graphic := 0xa12;
+		endif
+		EquipItem(me,theitem);
+	endif
+	case (RandomInt(3))
+		0:	item := 0x41d8;
+			CreateAndEquip(me,item,makeclothcolor());
+	endcase
+
+	case (RandomInt(6))
+		0:
+		1:
+			//robe
+			CreateAndEquip(me,0x4000,makeclothcolor());
+		2:
+		3:
+		4:
+		5:
+			item := 0x4060;
+			CreateAndEquip(me,item,makeclothcolor());
+			item := 0x4062;
+			CreateAndEquip(me,item,makeclothcolor());
+			item := 0x4064;
+			CreateAndEquip(me,item,makeclothcolor());
+			item := 0x4066;
+			CreateAndEquip(me,item,makeclothcolor());
+	endcase
+	case (randomint(2))
+		0:
+			item := 0x45a4;
+			CreateAndEquip(me,item,makeclothcolor());
+	endcase
+
+	case (RandomInt(6))
+		0:	item := 0x50d8;//half apron
+		1:	item := 0x450d;//belt
+	endcase
+
+	CreateAndEquip(me,item,makeclothcolor());
+
+endfunction
+
+function DressRichGarg(me,gender)
+	var item := 0;
+	
+	case (RandomInt(5))
+	1:	item := 0x0A0F;//candle
+	2:	item := 0x0A15;//lantern
+	endcase
+	
+	if (item)
+		var theitem := CreateItemAtLocation(5288 , 1176, 0,item,1, REALM_BRITANNIA);
+		theitem.facing := 1;
+		if( theitem.graphic == 0x0f64 )
+			theitem.graphic := 0xa12;
+		endif
+		EquipItem(me,theitem);
+	endif
+	
+	item := 0x41d8;
+	CreateAndEquip(me,item,makeclothcolor());
+
+	case (RandomInt(3))
+		0:
+			//fancy robe
+			CreateAndEquip(me,0x4002,makeclothcolor());
+	endcase
+	item := 0x4060;
+	CreateAndEquip(me,item,makeclothcolor());
+	item := 0x4062;
+	CreateAndEquip(me,item,makeclothcolor());
+	item := 0x4064;
+	CreateAndEquip(me,item,makeclothcolor());
+	item := 0x4066;
+	CreateAndEquip(me,item,makeclothcolor());
+	item := 0x45a4;
+	CreateAndEquip(me,item,makeclothcolor());
+	
+	case (RandomInt(4))
+		0:	CreateAndEquip(me, 0x46aa, makeclothcolor());
+	endcase
+	
+	if (gender)
+		CreateAndEquip(me, 0x45b1, makeclothcolor());
+	else
+		CreateAndEquip(me, 0x4644, makeclothcolor());
+	endif
+
+
+endfunction

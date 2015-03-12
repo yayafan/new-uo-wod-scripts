@@ -71,7 +71,7 @@ function spawnChampion(altar)
 	var loc:= getSpawnLocation(altar);
 	var creature:=CreateNPCFromTemplate(get_champ(altar), loc[1], loc[2], loc[3], 0, altar.realm);
 	if (creature)
-		SetObjProperty(altar, "#champ", creature.serial);
+		SetObjProperty(altar, "champ", creature.serial);
 		var pentagram := GetObjProperty(altar, "pentagram");
 		foreach piece in pentagram
 			piece:=SystemFindObjectBySerial(piece);
@@ -96,8 +96,8 @@ function get_subLevel(altar)
 endfunction
 
 function get_maxMonsters(altar)
-//	return (250-get_subLevel(altar)*12);
-	return (75-get_subLevel(altar)*12);
+	return (250-get_subLevel(altar)*12);
+//	return (75-get_subLevel(altar)*12);
 endfunction
 
 function activateAltar(altar)
@@ -120,7 +120,7 @@ function deactivateAltar(altar)
 	SetObjProperty(Altar, "NextActiv", ReadGameClock()+ACTIVE_EACH);
 	EraseObjProperty(altar, "#completed");
 	EraseObjProperty(altar, "active");
-	EraseObjProperty(altar, "#champ");
+	EraseObjProperty(altar, "champ");
 endfunction
 
 function getRedSkullLocation(altar, index)

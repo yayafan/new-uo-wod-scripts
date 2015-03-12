@@ -10,29 +10,33 @@ include "include/dotempmods";
 //  generates a random name for the NPC based on its graphic
 ///////////////////
 
-function RandomName (byref me)
+function RandomName (byref me, localized := 0)
 
 	//figure out where in the names cfg file this sort of creature's name type would be located
 	var name_index := 0;
 	case ( me.graphic )
 		CID_BIRD:				name_index := 1;
-    0x2b:
+		0x2b:
 		CID_DAEMON:
 		CID_DAEMON_SWORD:		name_index := 2;
 		CID_DRAGON_RED:
 		CID_DRAGON_GREY: 
-    CID_DRAGON_RUST:
-    CID_DRAGON_FIRE:
-    CID_DRAGON_CRIMSON:
-    CID_DRAGON_BLACK: name_index := 3;
+		CID_DRAGON_RUST:
+		CID_DRAGON_FIRE:
+		CID_DRAGON_CRIMSON:
+		CID_DRAGON_BLACK: name_index := 3;
 		CID_HUMAN_MALE: 		name_index := 5;
-                                  if (me.realm == "tokuno")
-                                    name_index := 13;
-                                  endif
+                                  if (localized)
+					case (DetermineLocal(me))
+						1: name_index := 13;
+					endcase
+				endif
 		CID_HUMAN_FEMALE:		name_index := 6;
-                                  if (me.realm == "tokuno")
-                                    name_index := 14;
-                                  endif
+                                  if (localized)
+					case (DetermineLocal(me))
+						1: name_index := 14;
+					endcase
+				endif
 		CID_LIZARDMAN:			name_index := 9;
 		CID_LIZARDMAN_W_MACE:	name_index := 9;
 		CID_LIZARDMAN_W_SPEAR:	name_index := 9;
@@ -43,10 +47,10 @@ function RandomName (byref me)
 		CID_RATMAN:			name_index := 12;
 		CID_RATMAN_W_SWORD:		name_index := 12;
 		CID_RATMAN_W_AXE:		name_index := 12;
-    CID_ELF_MALE:   name_index := 15;
-    CID_ELF_FEMALE:   name_index := 16;
-    CID_GARGOYLE_MALE:   name_index := 17;
-    CID_GARGOYLE_FEMALE:   name_index := 18;
+		CID_ELF_MALE:   name_index := 15;
+		CID_ELF_FEMALE:   name_index := 16;
+		CID_GARGOYLE_MALE:   name_index := 17;
+		CID_GARGOYLE_FEMALE:   name_index := 18;
 		default:				return;
 	endcase
 
@@ -422,7 +426,22 @@ function WalkHome()
 endfunction
 
 
-
+function DetermineLocal (me)
+	if (me.realm == "tokuno")
+		return 1;
+	else
+		if (me.realm == "malas")
+			if ((me.x >= 0 and me.x <= 224) and (me.y >= 0 and me.y <= 720))
+				return 1; //Tokuno
+			elseif ((me.x >= 255 and me.x <= 506) and (me.y >= 619 and me.y <= 1180))
+				return 1; //Tokuno
+			else
+				return 2; //Malas
+			endif
+		endif
+	endif
+	return 0;
+endfunction
 
 
 
